@@ -5,10 +5,10 @@ from tensorflow.keras.models import load_model
 
 # 얼굴 검출기와 랜드마크 검출기 초기화
 detector = dlib.get_frontal_face_detector()
-predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
+predictor = dlib.shape_predictor("C:/Users/SSAFY/Documents/GitHub/S08P31A305/ai/test/shape_predictor_68_face_landmarks.dat")
 
 # 감정 분석 모델 불러오기
-model = load_model("./emotion_recognition_model/fer2013_mini_XCEPTION.102-0.66.h5")
+model = load_model("C:/Users/SSAFY/Documents/GitHub/S08P31A305/ai/test/emotion_recognition_model/fer2013_mini_XCEPTION.102-0.66.h5")
 
 # 감정 레이블 정의하기
 emotions = ["angry", "disgust", "scared", "happy", "sad", "surprised", "neutral"]
