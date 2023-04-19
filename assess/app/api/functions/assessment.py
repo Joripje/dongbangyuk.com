@@ -53,6 +53,6 @@ async def find_road(arr: list):
         if cnt == answer:
             return { "status": True, "msg": "정답입니다."}
         elif cnt > answer:
-            return { "status": True, "msg": "더 잘할 수 있었습니다."}
+            return { "status": False, "msg": "더 잘할 수 있었습니다."}
         else:
             return { "status": True, "msg": "최소 울타리 개수 갱신해야함."}
