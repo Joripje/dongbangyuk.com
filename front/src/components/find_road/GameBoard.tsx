@@ -1,25 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import RoadSingleBox from "./RoadSingleBox";
 import styled from "styled-components";
-import { roadroadya } from "api/test";
+// import { roadroadya } from "api/test";
 
 interface Problem {
   gameType: string;
   id: number;
-  items: number[][];
-  answer: number;
+  answer: number[][];
+  cost: number;
 }
 
 const GameBoard: React.FC = () => {
-  const initialProblem: {
-    gameType: string;
-    id: number;
-    items: number[][];
-    answer: number;
-  } = {
+  const initialProblem: Problem = {
     gameType: "road",
     id: 1,
-    items: [
+    answer: [
       [-1, 1, -1, 3, 2, -1, -1],
       [-1, 0, 0, 0, 0, 0, 1],
       [-1, 0, 0, 0, 0, 0, -1],
@@ -28,7 +23,7 @@ const GameBoard: React.FC = () => {
       [-1, 0, 0, 0, 0, 0, 3],
       [-1, -1, -1, -1, -1, -1, -1],
     ],
-    answer: 3,
+    cost: 3,
   };
   const [boardState, setBoardState] = useState(initialProblem);
   const [answerList, setAnswerList] = useState<Array<Object>>([]);
@@ -81,8 +76,8 @@ const GameBoard: React.FC = () => {
     const newProblem: Problem = {
       gameType: "road",
       id: boardState.id + 1,
-      items: problem,
-      answer: 25,
+      answer: problem,
+      cost: 25,
     };
     setBoardState(newProblem);
   };
@@ -100,15 +95,16 @@ const GameBoard: React.FC = () => {
     rotate: number
   ) => {
     event.preventDefault();
-    const itemValue = boardState.items[yIndex][xIndex];
-    const newBoardState = boardState.items.map((row, rowIndex) =>
+    const itemValue = boardState.answer[yIndex][xIndex];
+    if (itemValue === -1) return;
+    const newBoardState = boardState.answer.map((row, rowIndex) =>
       rowIndex === yIndex
         ? row.map((value, columnIndex) =>
             columnIndex === xIndex ? (itemValue === 0 ? rotate : 0) : value
           )
         : row
     );
-    setBoardState({ ...boardState, items: newBoardState });
+    setBoardState({ ...boardState, answer: newBoardState });
   };
 
   const onNextHandler = (event: React.MouseEvent<HTMLElement>): void => {
@@ -120,13 +116,13 @@ const GameBoard: React.FC = () => {
 
   const onSubmitHandler = (event: React.MouseEvent<HTMLElement>): void => {
     event.preventDefault();
-    const date = new Date(); // YYMMDD
+    // const date = new Date(); // YYMMDD
     const dummyProps = {
       method: "POST",
       url: "/assessment-centre/road",
       data: {
         userId: "ssafy",
-        date: date,
+        date: 230419,
         gameType: "road",
         propblems: answerList,
       },
@@ -138,7 +134,7 @@ const GameBoard: React.FC = () => {
   return (
     <RowFlexBox>
       <div>
-        {boardState.items.map((item, yIndex) => {
+        {boardState.answer.map((item, yIndex) => {
           return (
             <RowFlexBox key={yIndex}>
               {item.map((rowValue, xIndex) => {
