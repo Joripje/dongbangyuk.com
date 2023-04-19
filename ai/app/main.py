@@ -1,9 +1,6 @@
-from fastapi import FastAPI, File, Form, UploadFile
+from fastapi import FastAPI
+from api.api import api_router
 
 app = FastAPI()
 
-@app.post("/emotions")
-async def emotion_classification(image: UploadFile = File(), game_id: int = Form(), user_id: str = Form()):
-    image_data = await image.read()
-
-    return 0
+app.include_router(api_router)
