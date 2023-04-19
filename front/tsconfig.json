@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "es2021",
     "lib": ["dom", "dom.iterable", "esnext"],
     // baseUrl을 ./scr로 변경하여 코드 가독성을 높임
     "baseUrl": "./src",
