@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import RoadSingleBox from "./RoadSingleBox";
 import styled from "styled-components";
-// import { roadroadya } from "api/test";
+import { roadroadya } from "api/test";
 
 interface Problem {
   gameType: string;
@@ -27,6 +27,7 @@ const GameBoard: React.FC = () => {
   };
   const [boardState, setBoardState] = useState(initialProblem);
   const [answerList, setAnswerList] = useState<Array<Object>>([]);
+  const [clickCount, setClickCount] = useState(20);
 
   const getRandomNumber = (): [number, number] => {
     const numbers = [1, 2, 3, 4, 5];
@@ -84,7 +85,10 @@ const GameBoard: React.FC = () => {
 
   const saveAnswer = () => {
     let newAnswerList: Array<Object> = answerList;
-    newAnswerList = [...answerList, boardState];
+    newAnswerList = [
+      ...answerList,
+      { ...boardState, timeStamp: 222222, clicks: clickCount },
+    ];
     setAnswerList(newAnswerList);
   };
 
@@ -105,13 +109,14 @@ const GameBoard: React.FC = () => {
         : row
     );
     setBoardState({ ...boardState, answer: newBoardState });
+    setClickCount((clickCount) => clickCount - 1);
   };
 
   const onNextHandler = (event: React.MouseEvent<HTMLElement>): void => {
     event.preventDefault();
-    console.log(answerList);
     saveAnswer();
     cleanBoard();
+    setClickCount(20);
   };
 
   const onSubmitHandler = (event: React.MouseEvent<HTMLElement>): void => {
@@ -128,7 +133,7 @@ const GameBoard: React.FC = () => {
       },
     };
     console.log(dummyProps);
-    // roadroadya(dummyProps);
+    roadroadya(dummyProps);
   };
 
   return (
@@ -158,6 +163,7 @@ const GameBoard: React.FC = () => {
       <button style={{ height: "3rem" }} onClick={onSubmitHandler}>
         검사가 장난이야?
       </button>
+      <div>{clickCount}</div>
     </RowFlexBox>
   );
 };
