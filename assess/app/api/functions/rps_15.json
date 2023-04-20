@@ -1,0 +1,77 @@
+{
+    "sci": {
+        "idx": 0,
+        "ko": "가위",
+        "en": "scissors"
+    },
+    "fir": {
+        "idx": 1,
+        "ko": "불",
+        "en": "fire"
+    },
+    "roc": {
+        "idx": 2,
+        "ko": "바위",
+        "en": "rock"
+    },
+    "gun": {
+        "idx": 3,
+        "ko": "총",
+        "en": "gun"
+    },
+    "lig": {
+        "idx": 4,
+        "ko": "번개",
+        "en": "lightening"
+    },
+    "dev": {
+        "idx": 5,
+        "ko": "악마",
+        "en": "devil"
+    },
+    "dra": {
+        "idx": 6,
+        "ko": "용",
+        "en": "dragon"
+    },
+    "wat": {
+        "idx": 7,
+        "ko": "물",
+        "en": "water"
+    },
+    "air": {
+        "idx": 8,
+        "ko": "공기",
+        "en": "air"
+    },
+    "pap": {
+        "idx": 9,
+        "ko": "보",
+        "en": "paper"
+    },
+    "spo": {
+        "idx": 10,
+        "ko": "스펀지",
+        "en": "sponge"
+    },
+    "wol": {
+        "idx": 11,
+        "ko": "늑대",
+        "en": "wolf"
+    },
+    "tre": {
+        "idx": 12,
+        "ko": "나무",
+        "en": "tree"
+    },
+    "hum": {
+        "idx": 13,
+        "ko": "사람",
+        "en": "human"
+    },
+    "sna": {
+        "idx": 14,
+        "ko": "뱀",
+        "en": "snake"
+    }
+}

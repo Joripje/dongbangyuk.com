@@ -1,0 +1,17 @@
+{
+    "sci": {
+        "idx": 0,
+        "ko": "가위",
+        "en": "scissors"
+    },
+    "roc": {
+        "idx": 1,
+        "ko": "바위",
+        "en": "rock"
+    },
+    "pap": {
+        "idx": 2,
+        "ko": "보",
+        "en": "paper"
+    }
+}

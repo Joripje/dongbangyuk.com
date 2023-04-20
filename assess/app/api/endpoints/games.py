@@ -2,9 +2,10 @@ from typing import List
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import JSONResponse
 from schemas import common, findroad, rps
+from models import ProblemModels, ResultModels
 from api.functions import assessment
 import pymongo
-import json
+import requests
 
 client = pymongo.MongoClient("mongodb://mongodb_server:27017/")
 db = client["test_database"]
@@ -41,8 +42,8 @@ async def grade_road_game(incoming: findroad.RoadAnswerIncoming):
     for problem in problems:
         arr = problem.answer
         timestamp = problem.timestamp
+
         result = await assessment.find_road(arr)
-        # print(result)
         results.append(result['status'])
         timestamps.append(timestamp)
 
@@ -50,17 +51,21 @@ async def grade_road_game(incoming: findroad.RoadAnswerIncoming):
     
     # MongoDB에 채점 결과 저장
     storing_collection = db["test_road_results"]
-    document = findroad.RoadGameResult(
+    document = ResultModels.RoadGameResult(
         id=incoming.game_id, 
         user_id=incoming.user_id, 
         date=incoming.date, 
-        game_type=incoming.game_type, 
+        game_type="road", 
         results=results, 
         timestamps=timestamps,
         score=score
         )
 
     # storing_collection.insert_one(document.dict())
+
+    # 채점 완료, 저장 후 분석 서버로 채점완료 요청 보내기
+    # url = f'/flag?gameid={incoming.game_id}&type={incoming.game_type}&video={0}'
+    # res = requests.get(url).json()
 
     content = {
         "msg": "Road game result saved to DB.",
@@ -70,39 +75,44 @@ async def grade_road_game(incoming: findroad.RoadAnswerIncoming):
 
 
 @router.post("/assessment-centre/rps")
-async def grade_rps_game(incoming: rps.RpsAnswer):
+async def grade_rps_3(incoming: rps.RpsAnswer):
     problems = incoming.problems
 
-    # 가위 0, 바위 1, 보 2
     results = []
     timestamps = []
     for problem in problems:
         answer = problem.answer
         timestamp = problem.timestamp
         
-        # True: 이김, False: 지거나 비김
-        me, you = answer
-        if (me == 0 and you == 2) or (me == 1 and you == 0) or (me == 2 and you == 1):
-            results.append(True)
-        else:
+        if answer:
+            me, you = answer
+            is_win = await assessment.rps_3(me, you)
+            results.append(is_win)
+            
+        else:  # 입력시간 초과시 빈 리스트 []
             results.append(False)
+        
         timestamps.append(timestamp)
-
+    
     score = [sum(results), len(results)]
 
     # MongoDB에 채점 결과 저장
     storing_collection = db["test_road_results"]
-    document = common.GameResult(
+    document = ResultModels.RpsGameResult(
         id=incoming.game_id, 
         user_id=incoming.user_id, 
         date=incoming.date, 
-        game_type=incoming.game_type, 
+        game_type="rps", 
         results=results, 
         timestamps=timestamps,
         score=score
         )
 
     # storing_collection.insert_one(document.dict())
+
+    # 채점 완료, 저장 후 분석 서버로 채점완료 요청 보내기
+    # url = f'/flag?gameid={incoming.game_id}&type={incoming.game_type}&video={0}'
+    # res = requests.get(url).json()
 
     content = {
         "msg": "RPS game result saved to DB.",
