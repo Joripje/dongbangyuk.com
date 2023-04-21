@@ -1,6 +1,9 @@
-import { Grid } from "@mui/material";
-import styled from "styled-components";
 import DescriptionCarousel from "./DescriptionCarousel";
+import StatusBar from "./StatusBar";
+
+import styled from "styled-components";
+import { Grid } from "@mui/material";
+
 import { rabbit_1, rabbit_2, rabbit_3, rabbit_4 } from "assets/images";
 
 const PreapareTemplate = () => {
@@ -10,7 +13,7 @@ const PreapareTemplate = () => {
 
   return (
     <TestBoardBox>
-      <StatusBarBox />
+      <StatusBar status='explain' gameType='road' />
       <Grid container sx={{ height: `calc(100vh - 13rem)` }}>
         <Grid item xs={8}>
           <ColFlexBox>
@@ -42,14 +45,6 @@ const TestBoardBox = styled.div({
   background: "white",
   borderRadius: 20,
   boxShadow: "10px 5px 5px rgba(0, 0, 0, 0.2)",
-});
-
-const StatusBarBox = styled.div({
-  width: "100%",
-  height: "4rem",
-  background: "white",
-  borderRadius: "20px 20px 0 0 ",
-  borderBottom: "1px solid #e5e5e5",
 });
 
 export default PreapareTemplate;
