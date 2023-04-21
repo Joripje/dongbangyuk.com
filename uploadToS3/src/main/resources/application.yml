@@ -1,0 +1,21 @@
+spring:
+  profiles:
+    include:
+      - aws
+      - credentials
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+cloud:
+  aws:
+    s3:
+      bucket: ${S3_BUCKET}
+    region:
+      static: ${REGION_STATIC}
+    stack:
+      auto: false
+    credentials:
+      instance-profile: true
+      accessKey: ${AWS_ACCESSKEY}
+      secretKey: ${AWS_SECRETKEY}
