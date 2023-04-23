@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import RoadSingleBox from "./RoadSingleBox";
 import styled from "styled-components";
 import { roadroadya } from "api/test";
+import ProblemInfo from "./ProblemInfo";
 
 interface Problem {
   gameType: string;
@@ -100,7 +101,13 @@ const GameBoard: React.FC = () => {
   ) => {
     event.preventDefault();
     const itemValue = boardState.answer[yIndex][xIndex];
-    if (itemValue === -1) return;
+    if (
+      itemValue === -1 ||
+      itemValue === 1 ||
+      itemValue === 2 ||
+      itemValue === 3
+    )
+      return;
     const newBoardState = boardState.answer.map((row, rowIndex) =>
       rowIndex === yIndex
         ? row.map((value, columnIndex) =>
@@ -138,7 +145,8 @@ const GameBoard: React.FC = () => {
 
   return (
     <RowFlexBox>
-      <div>
+      <ProblemInfo clickCount={clickCount} leastWall={5} />
+      <ColFlexBox>
         {boardState.answer.map((item, yIndex) => {
           return (
             <RowFlexBox key={yIndex}>
@@ -156,14 +164,11 @@ const GameBoard: React.FC = () => {
             </RowFlexBox>
           );
         })}
-      </div>
-      <button style={{ height: "3rem" }} onClick={onNextHandler}>
-        새 문제
-      </button>
+        <SubmitButton onClick={onNextHandler}>제출</SubmitButton>
+      </ColFlexBox>
       <button style={{ height: "3rem" }} onClick={onSubmitHandler}>
-        검사가 장난이야?
+        테스트용 최종 제출 버튼
       </button>
-      <div>{clickCount}</div>
     </RowFlexBox>
   );
 };
@@ -172,5 +177,22 @@ const RowFlexBox = styled.div`
   display: flex;
   flex-direction: row;
 `;
+
+const ColFlexBox = styled.div({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+});
+
+const SubmitButton = styled.button({
+  width: "15rem",
+  height: "3rem",
+
+  color: "white",
+  background: "blue",
+
+  border: "none",
+  borderRadius: "20px",
+});
 
 export default GameBoard;
