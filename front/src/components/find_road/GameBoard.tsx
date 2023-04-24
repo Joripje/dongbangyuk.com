@@ -5,14 +5,19 @@ import { roadroadya } from "api/test";
 import ProblemInfo from "./ProblemInfo";
 import { Button } from "@mui/material";
 
-interface Problem {
+type GameBoardProps = {
+  ascProblemNum: () => void;
+};
+
+type Problem = {
   gameType: string;
   id: number;
   answer: number[][];
   cost: number;
-}
+};
 
-const GameBoard: React.FC = () => {
+const GameBoard = (props: GameBoardProps) => {
+  const { ascProblemNum } = props;
   const initialProblem: Problem = {
     gameType: "road",
     id: 1,
@@ -96,6 +101,7 @@ const GameBoard: React.FC = () => {
       },
     ];
     setAnswerList(newAnswerList);
+    ascProblemNum();
   };
 
   const onBoxClickHandler = (
@@ -201,10 +207,10 @@ const SubmitButton = styled(Button)({
   color: "white",
   fontWeight: 1000,
   background: "blue",
-
   border: "none",
   borderRadius: "20px",
 
+  margin: "3rem",
   cursor: "pointer",
 });
 

@@ -9,12 +9,13 @@ import styled from "styled-components";
 function FindRoadPage() {
   const startTime = new Date();
   const [status, setStatus] = useState("explain");
+  const [problemNum, setProblemNum] = useState(1);
 
   return (
     <TemplateBox>
       <BoardBox>
-        <StatusBar status={status} gameType='road' />
-        <GameBoard />
+        <StatusBar status={status} gameType='road' problemNum={problemNum} />
+        <GameBoard ascProblemNum={() => setProblemNum(problemNum + 1)} />
         <Timer startTime={startTime.getTime()} settingTime={300} />
       </BoardBox>
     </TemplateBox>
