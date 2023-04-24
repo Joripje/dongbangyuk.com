@@ -1,14 +1,7 @@
 from fastapi import APIRouter
 import requests
 from api.functions import flag
-from pydantic import BaseModel
-
-
-class Flag(BaseModel):
-    gameid: int
-    type: str
-    video: bool
-
+from schemas.schemas_flag import FlagBase
 
 router = APIRouter()
 
@@ -57,14 +50,14 @@ def get_flag(gameid: int, type: str, video: bool):  # flag 데이터를 확인�
 
 
 @router.post("/create")
-def post_flag(flag_data: Flag):
+def post_flag(flag_data: FlagBase):
     flag.create_flag(flag_data.gameid, flag_data.video)
 
     return 1
 
 
 @router.put("/update")
-def put_flag(flag_data: Flag):
+def put_flag(flag_data: FlagBase):
     flag.update_flag(flag_data.gameid, flag_data.video)
 
     return 1
