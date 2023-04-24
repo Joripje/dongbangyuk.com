@@ -1,4 +1,5 @@
 import React, { ReactNode } from "react";
+import { EnterHandler } from "react-transition-group/Transition";
 import styled from "styled-components";
 
 interface MainProps {
@@ -41,17 +42,21 @@ const RoadSingleBox: React.FC<MainProps> = (props: MainProps) => {
         attribute={rowValue}
         xIndex={xIndex}
         yIndex={yIndex}
-        onClick={(event: MouseEvent) =>
-          onClickHandler(event, xIndex, yIndex, 4)
-        }
+        onClick={(event: MouseEvent) => {
+          if (rowValue == 0 || rowValue > 3) {
+            onClickHandler(event, xIndex, yIndex, 4);
+          }
+        }}
       />
       <RightTopDiagonal
         attribute={rowValue}
         xIndex={xIndex}
         yIndex={yIndex}
-        onClick={(event: MouseEvent) =>
-          onClickHandler(event, xIndex, yIndex, 5)
-        }
+        onClick={(event: MouseEvent) => {
+          if (rowValue == 0 || rowValue > 3) {
+            onClickHandler(event, xIndex, yIndex, 4);
+          }
+        }}
       />
     </EmptyBox>
   );
@@ -59,8 +64,8 @@ const RoadSingleBox: React.FC<MainProps> = (props: MainProps) => {
 
 const EmptyBox: React.ComponentType<EmptyBoxProps> = styled.div<EmptyBoxProps>`
   position: relative;
-  width: 80px;
-  height: 80px;
+  width: 90px;
+  height: 90px;
 
   background: ${(props: EmptyBoxProps) => {
     const { attribute } = props;
@@ -113,6 +118,15 @@ const LeftTopDiagonal: React.ComponentType<DiagonalProps> = styled.div<DiagonalP
     if (attribute === 4) return 1;
     else return 0;
   }};
+
+  &:hover {
+    ${(props: DestinationProps) => {
+      const { attribute } = props;
+      const correctTarget = "cursor: pointer; background: black";
+      if (attribute == 0 || attribute > 3) return correctTarget;
+      else return;
+    }};
+  }
 `;
 
 const RightTopDiagonal: React.ComponentType<DiagonalProps> = styled.div<DiagonalProps>`
@@ -137,6 +151,15 @@ const RightTopDiagonal: React.ComponentType<DiagonalProps> = styled.div<Diagonal
     if (attribute === 5) return 1;
     else return 0;
   }};
+
+  &:hover {
+    ${(props: DestinationProps) => {
+      const { attribute } = props;
+      const correctTarget = "cursor: pointer; background: black";
+      if (attribute == 0 || attribute > 3) return correctTarget;
+      else return;
+    }};
+  }
 `;
 
 export default RoadSingleBox;

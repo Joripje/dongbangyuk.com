@@ -12,34 +12,41 @@ const PreapareTemplate = () => {
   // 두 번째 Grid Item은 게임에 대한 간단한 설명, 목표, 응시 방법이 있어야하며 overflow: scroll
 
   return (
-    <TestBoardBox>
-      <StatusBar status='explain' gameType='road' />
-      <Grid container sx={{ height: `calc(100vh - 13rem)` }}>
+    <TemplateBox>
+      <BoardBox>
+        {/* <Grid container sx={{ height: `calc(100vh - 13rem)` }}>
         <Grid item xs={8}>
-          <ColFlexBox>
-            <DescriptionCarousel images={imagesList} />
-          </ColFlexBox>
+        <ColFlexBox>
+        <DescriptionCarousel images={imagesList} />
+        </ColFlexBox>
         </Grid>
         <Grid
-          item
-          xs={4}
-          sx={{ background: "#e5e5e5", borderRadius: "0 0 20px 0" }}
+        item
+        xs={4}
+        sx={{ background: "#e5e5e5", borderRadius: "0 0 20px 0" }}
         ></Grid>
-      </Grid>
-    </TestBoardBox>
+      </Grid> */}
+      </BoardBox>
+    </TemplateBox>
   );
 };
 
-const ColFlexBox = styled.div({
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  justifyContent: "center",
+// const ColFlexBox = styled.div({
+//   display: "flex",
+//   flexDirection: "column",
+//   alignItems: "center",
+//   justifyContent: "center",
 
+//   height: "100%",
+// });
+
+const TemplateBox = styled.div({
+  width: "100%",
   height: "100%",
+  background: "rgba(237, 252, 242, 1)",
 });
 
-const TestBoardBox = styled.div({
+const BoardBox = styled.div({
   width: "80%",
   minHeight: `calc(100vh - 10rem)`,
   background: "white",
