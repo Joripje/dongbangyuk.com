@@ -100,6 +100,10 @@ const GameBoard: React.FC = () => {
     rotate: number
   ) => {
     event.preventDefault();
+    if (clickCount < 1) {
+      alert("더 이상 클릭할 수 없어요.");
+      return;
+    } else setClickCount((clickCount) => clickCount - 1);
     const itemValue = boardState.answer[yIndex][xIndex];
     if (
       itemValue === -1 ||
@@ -116,7 +120,6 @@ const GameBoard: React.FC = () => {
         : row
     );
     setBoardState({ ...boardState, answer: newBoardState });
-    setClickCount((clickCount) => clickCount - 1);
   };
 
   const onNextHandler = (event: React.MouseEvent<HTMLElement>): void => {
@@ -193,6 +196,8 @@ const SubmitButton = styled.button({
 
   border: "none",
   borderRadius: "20px",
+
+  cursor: "pointer",
 });
 
 export default GameBoard;
