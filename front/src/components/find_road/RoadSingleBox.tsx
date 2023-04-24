@@ -59,8 +59,8 @@ const RoadSingleBox: React.FC<MainProps> = (props: MainProps) => {
 
 const EmptyBox: React.ComponentType<EmptyBoxProps> = styled.div<EmptyBoxProps>`
   position: relative;
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
 
   background: ${(props: EmptyBoxProps) => {
     const { attribute } = props;

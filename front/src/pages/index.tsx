@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 
 import Error404Page from "./Error404Page";
 import FindRoadPage from "./FindRoadPage";
-import FindRoadPreparePage from "./FindRoadPreparePage";
+import TestPage from "./TestPage";
 import RpsGamePage from "./RpsGamePage";
 
 const routes = [
@@ -17,7 +17,7 @@ const routes = [
   },
   {
     path: "/test/prepare/find-road",
-    element: <FindRoadPreparePage />,
+    element: <TestPage />,
   },
   {
     path: "/rpsPage",
