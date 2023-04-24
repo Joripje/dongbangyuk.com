@@ -15,9 +15,9 @@ class GameResult(BaseModel):
 
 # 길만들기 게임 - 채점결과의 속성
 class RoadGameResult(GameResult):
-    pass
+    clicks: List[int]       # [3, 1, 0, ...], 문제별 클릭 횟수
 
 
 # 가위바위보 게임 - 채점결과의 속성
 class RpsGameResult(GameResult):
-    pass
+    round: List[int]        # [1, ..., 2, ... 3, ...], 문제별로 몇라운드인지 기록
