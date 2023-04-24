@@ -6,7 +6,7 @@ from api.functions import assessment
 import pymongo
 import json
 
-client = pymongo.MongoClient("mongodb://localhost:27017/")
+client = pymongo.MongoClient("mongodb://mongodb_server:27017/")
 db = client["test_database"]
 collection = db["test_collection"]
 
