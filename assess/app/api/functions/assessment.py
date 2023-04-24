@@ -1,5 +1,6 @@
 from fastapi import HTTPException, status
 
+
 async def find_road(arr: list):
     points = {1: [], 2: [], 3: []}
     answer = 3  # 문제 DB에서 가져오는 정답 값
@@ -56,3 +57,177 @@ async def find_road(arr: list):
             return { "status": False, "msg": "더 잘할 수 있었습니다."}
         else:
             return { "status": True, "msg": "최소 울타리 개수 갱신해야함."}
+
+
+async def rps_3(me: str, you: str):
+    rps = RPS_3
+    n = len(rps)
+    half = n // 2
+    me_idx = rps[me]['idx']
+    you_idx = rps[you]['idx']
+    
+    diff = abs(me_idx - you_idx)
+    if diff == 0:
+        return False
+    elif diff <= half:
+        return True if me_idx > you_idx else False
+    else:
+        return True if me_idx < you_idx else False
+
+
+async def rps_15(me: str, you: str):
+    rps = RPS_15
+    n = len(rps)
+    half = n // 2
+    me_idx = rps[me]['idx']
+    you_idx = rps[you]['idx']
+    
+    diff = abs(me_idx - you_idx)
+    if diff == 0:
+        return False
+    elif diff <= half:
+        return True if me_idx > you_idx else False
+    else:
+        return True if me_idx < you_idx else False
+
+
+async def rps_5(me: str, you: str):
+    rps = RPS_5
+    n = len(rps)
+    half = n // 2
+    me_idx = rps[me]['idx']
+    you_idx = rps[you]['idx']
+    
+    diff = abs(me_idx - you_idx)
+    if diff == 0:
+        return False
+    elif diff <= half:
+        return True if me_idx > you_idx else False
+    else:
+        return True if me_idx < you_idx else False
+    
+
+RPS_3 = {
+    "sci": {
+        "idx": 0,
+        "ko": "가위",
+        "en": "scissors"
+    },
+    "roc": {
+        "idx": 1,
+        "ko": "바위",
+        "en": "rock"
+    },
+    "pap": {
+        "idx": 2,
+        "ko": "보",
+        "en": "paper"
+    }
+}
+
+RPS_15 = {
+    "sci": {
+        "idx": 0,
+        "ko": "가위",
+        "en": "scissors"
+    },
+    "fir": {
+        "idx": 1,
+        "ko": "불",
+        "en": "fire"
+    },
+    "roc": {
+        "idx": 2,
+        "ko": "바위",
+        "en": "rock"
+    },
+    "gun": {
+        "idx": 3,
+        "ko": "총",
+        "en": "gun"
+    },
+    "lig": {
+        "idx": 4,
+        "ko": "번개",
+        "en": "lightening"
+    },
+    "dev": {
+        "idx": 5,
+        "ko": "악마",
+        "en": "devil"
+    },
+    "dra": {
+        "idx": 6,
+        "ko": "용",
+        "en": "dragon"
+    },
+    "wat": {
+        "idx": 7,
+        "ko": "물",
+        "en": "water"
+    },
+    "air": {
+        "idx": 8,
+        "ko": "공기",
+        "en": "air"
+    },
+    "pap": {
+        "idx": 9,
+        "ko": "보",
+        "en": "paper"
+    },
+    "spo": {
+        "idx": 10,
+        "ko": "스펀지",
+        "en": "sponge"
+    },
+    "wol": {
+        "idx": 11,
+        "ko": "늑대",
+        "en": "wolf"
+    },
+    "tre": {
+        "idx": 12,
+        "ko": "나무",
+        "en": "tree"
+    },
+    "hum": {
+        "idx": 13,
+        "ko": "사람",
+        "en": "human"
+    },
+    "sna": {
+        "idx": 14,
+        "ko": "뱀",
+        "en": "snake"
+    }
+}
+
+# 물 스펀지 나무 가위 불 (수토목금화)
+RPS_5 = {
+    "sci": {
+        "idx": 0,
+        "ko": "가위",
+        "en": "scissors"
+    },
+    "fir": {
+        "idx": 1,
+        "ko": "불",
+        "en": "fire"
+    },
+    "wat": {
+        "idx": 2,
+        "ko": "물",
+        "en": "water"
+    },
+    "spo": {
+        "idx": 3,
+        "ko": "스펀지",
+        "en": "sponge"
+    },
+    "tre": {
+        "idx": 4,
+        "ko": "나무",
+        "en": "tree"
+    }
+}
