@@ -1,10 +1,6 @@
-# import sys
-# sys.path.append('..')
-
 from fastapi import FastAPI
 from api.api import api_router
-# from app.api.api import api_router
-
+from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -25,7 +21,9 @@ app.add_middleware(
 
 @app.get("/")
 def read_root():
-    return {"Main": "Page"}
+    url = "/docs"
+    response = RedirectResponse(url=url)
+    return response
 
 
 app.include_router(api_router)
