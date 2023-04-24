@@ -13,4 +13,5 @@ class RoadProblemIncoming(ProblemBase):
 
 # 길만들기 게임 - 입력응답의 속성
 class RoadAnswerIncoming(AnswerBase):
-    problems: List[RoadProblemIncoming] = []
+    is_initial: bool
+    problems: Optional[List[RoadProblemIncoming]] = None

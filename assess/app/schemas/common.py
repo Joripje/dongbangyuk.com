@@ -1,5 +1,6 @@
 from typing import List
 from pydantic import BaseModel
+from datetime import datetime
 
 
 def to_snake_case(string: str) -> str:
@@ -24,7 +25,7 @@ class ProblemBase(BaseModel):
 class AnswerBase(BaseModel):
     game_id: int
     user_id: int
-    date: int
+    date: datetime
     game_type: str
 
     class Config:
