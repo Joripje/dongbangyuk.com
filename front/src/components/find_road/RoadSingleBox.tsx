@@ -1,4 +1,5 @@
 import React, { ReactNode } from "react";
+import { EnterHandler } from "react-transition-group/Transition";
 import styled from "styled-components";
 
 interface MainProps {
@@ -59,8 +60,8 @@ const RoadSingleBox: React.FC<MainProps> = (props: MainProps) => {
 
 const EmptyBox: React.ComponentType<EmptyBoxProps> = styled.div<EmptyBoxProps>`
   position: relative;
-  width: 80px;
-  height: 80px;
+  width: 90px;
+  height: 90px;
 
   background: ${(props: EmptyBoxProps) => {
     const { attribute } = props;

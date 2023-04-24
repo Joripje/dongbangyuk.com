@@ -20,6 +20,8 @@ const StatusBarBox = styled.div({
   background: "white",
   borderRadius: "20px 20px 0 0 ",
   borderBottom: "1px solid #e5e5e5",
+
+  marginBottom: "5rem",
 });
 
 export default StatusBar;

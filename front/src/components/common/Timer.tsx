@@ -23,12 +23,13 @@ const Timer: React.FC<TimerProps> = (props: TimerProps) => {
       setSpendTime(Math.floor(new Date(realTime - startTime).getTime() / 1000));
       setRemainTime(settingTime - spendTime);
     }, 1000);
+    // console.log(new Date().toISOString());
 
-    if (remainTime < 0) {
-      alert("소코마데다");
-      if (onExitHandler) onExitHandler();
-      navigate("/", { replace: true });
-    }
+    // if (remainTime < 0) {
+    //   alert("소코마데다");
+    //   if (onExitHandler) onExitHandler();
+    //   navigate("/", { replace: true });
+    // }
     return () => clearInterval(intervalId);
   }, [
     realTime,
@@ -55,6 +56,10 @@ const Timer: React.FC<TimerProps> = (props: TimerProps) => {
 };
 
 const TimeBox = styled.div({
+  position: "absolute",
+  right: 15,
+  top: "1.2rem",
+
   width: "4rem",
   height: "1.5rem",
   textAlign: "center",
