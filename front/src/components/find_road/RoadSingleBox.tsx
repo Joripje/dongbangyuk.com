@@ -54,7 +54,7 @@ const RoadSingleBox: React.FC<MainProps> = (props: MainProps) => {
         yIndex={yIndex}
         onClick={(event: MouseEvent) => {
           if (rowValue == 0 || rowValue > 3) {
-            onClickHandler(event, xIndex, yIndex, 4);
+            onClickHandler(event, xIndex, yIndex, 5);
           }
         }}
       />
