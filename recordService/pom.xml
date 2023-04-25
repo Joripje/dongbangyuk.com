@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.kurento.tutorial</groupId>
 		<artifactId>kurento-tutorial</artifactId>
-		<version>7.0.0</version>
+		<version>6.18.0</version>
 	</parent>
 	<artifactId>kurento-hello-world-recording</artifactId>
 	<packaging>jar</packaging>
@@ -67,10 +67,6 @@
 		<dependency>
 			<groupId>org.kurento</groupId>
 			<artifactId>kurento-utils-js</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
 		</dependency>
 	</dependencies>
 
