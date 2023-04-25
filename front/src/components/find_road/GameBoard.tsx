@@ -16,13 +16,13 @@ type Problem = {
   correct: number;
 };
 
-// type Answer = {
-//   gameType: string;
-//   problemId: number;
-//   answer: number[][];
-//   timestamp: string[];
-//   clicks: number;
-// };
+type Answer = {
+  gameType: string;
+  problemId: number;
+  answer: number[][];
+  timestamp: string[];
+  clicks: number;
+};
 
 const GameBoard = (props: GameBoardProps) => {
   const { ascProblemNum } = props;
@@ -56,12 +56,13 @@ const GameBoard = (props: GameBoardProps) => {
       ...answerList,
       {
         ...boardState,
+        answer: boardState.problem,
         timestamp: new Date().toISOString(),
         clicks: clickCount,
       },
     ];
-    setAnswerList(newAnswerList);
     ascProblemNum();
+    setAnswerList(newAnswerList);
   };
 
   const onBoxClickHandler = (
@@ -72,7 +73,7 @@ const GameBoard = (props: GameBoardProps) => {
   ) => {
     event.preventDefault();
     if (clickCount < 1) {
-      alert("더 이상 클릭할 수 없어요.");
+      alert("더 이상 클릭할 수 없어요. 제출해주세요.");
       return;
     } else setClickCount((clickCount) => clickCount - 1);
     const itemValue = boardState.problem[yIndex][xIndex];
@@ -92,8 +93,6 @@ const GameBoard = (props: GameBoardProps) => {
     );
     setBoardState({ ...boardState, problem: newBoardState });
   };
-
-  // const onBoxClickHandler = (
   //   event: MouseEvent,
   //   xIndex: number,
   //   yIndex: number,
@@ -131,19 +130,16 @@ const GameBoard = (props: GameBoardProps) => {
 
   const onSubmitHandler = (event: React.MouseEvent<HTMLElement>): void => {
     event.preventDefault();
-    // const date = new Date(); // YYMMDD
     const dummyProps = {
       method: "POST",
-      url: "/problems",
-      // url: "/assessment-centre/road",
-      data: answerList,
-
-      // data: {
-      //   userId: "ssafy",
-      //   date: 230419,
-      //   gameType: "road",
-      //   propblems: answerList,
-      // },
+      url: "/assessment-centre/road",
+      data: {
+        userId: 0,
+        gameId: 0,
+        date: new Date().toISOString(),
+        gameType: "road",
+        propblems: answerList,
+      },
     };
     console.log(dummyProps);
     roadroadya(dummyProps);

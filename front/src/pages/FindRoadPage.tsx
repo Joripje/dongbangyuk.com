@@ -28,7 +28,7 @@ const TemplateBox = styled.div({
   alignItems: "center",
 
   width: "100%",
-  height: "100%",
+  height: "100vh",
   background: "rgba(237, 252, 242, 1)",
 });
 
