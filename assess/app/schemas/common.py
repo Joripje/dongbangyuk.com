@@ -38,5 +38,5 @@ class GameResult(BaseModel):
     date: int
     game_type: str
     results: List[int]      # [1, 0, 1, 0, 0]
-    timestamps: List[int]   # [2, 10, ... 59]
+    timestamps: List[datetime]
     score: List[int]

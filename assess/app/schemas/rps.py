@@ -1,12 +1,13 @@
 from typing import Optional, List
 from pydantic import validator
 from schemas.common import ProblemBase, AnswerBase
+from datetime import datetime
 
 
 # 가위바위보 게임 - 문제 입력답의 속성
 class RpsProblem(ProblemBase):
     answer: List[str] = []
-    timestamp: int
+    timestamp: List[datetime]
 
     @validator('answer')
     def validate_answer_length(cls, v):

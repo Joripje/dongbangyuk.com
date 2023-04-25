@@ -8,6 +8,7 @@ import pymongo
 import requests
 
 client = pymongo.MongoClient("mongodb://mongodb_server:27017/")
+# client = pymongo.MongoClient("mongodb://localhost:27017/")
 problem_db = client["game_problem"]
 result_db = client["game_result"]
 
@@ -25,7 +26,7 @@ async def get_problems(game_type: str):
 
 
 @router.post("/problems")
-async def store_problem(data: ProblemModels.RoadProblemInDB):
+async def store_problem(data: findroad.RoadProblemStoringDB):
     collection = problem_db[data.game_type]
     collection.insert_one(data.dict())
 
@@ -33,7 +34,8 @@ async def store_problem(data: ProblemModels.RoadProblemInDB):
         "msg": "Road game problem saved to DB.",
         "saved data": data.dict()
     }
-    return JSONResponse(content=content, status_code=200)
+    return data.dict()
+    # return JSONResponse(content=content, status_code=200)
 
 
 @router.get("/problems/{game_type}/{problem_id}")
@@ -53,6 +55,8 @@ async def grade_road_game(incoming: findroad.RoadAnswerIncoming):
     problems = incoming.problems
     results = []
     timestamps = []
+    clicks = []
+    corrects = []
     for problem in problems:
         arr = problem.answer
         timestamp = problem.timestamp
@@ -60,22 +64,27 @@ async def grade_road_game(incoming: findroad.RoadAnswerIncoming):
         result = await assessment.find_road(arr)
         results.append(result['status'])
         timestamps.append(timestamp)
+        clicks.append(problem.clicks)
+
+        # problem.problem_id의 정답 값을 DB에서 검색해서 corrects 리스트에 추가
+        corrects.append(5)
 
     score = [sum(results), len(results)]  # [맞은 문제수, 푼 문제수]
     
     # MongoDB에 채점 결과 저장
     collection = result_db["road"]
     document = ResultModels.RoadGameResult(
-        id=incoming.game_id, 
-        user_id=incoming.user_id, 
+        game_id=incoming.game_id, 
         date=incoming.date, 
-        game_type="road", 
+        type="road", 
         results=results, 
         timestamps=timestamps,
-        score=score
+        score=score,
+        clicks=clicks,
+        corrects=corrects
         )
 
-    # collection.insert_one(document.dict())
+    collection.insert_one(document.dict())
 
     # 채점 완료, 저장 후 분석 서버로 채점완료 요청 보내기
     # url = f'/flag?gameid={incoming.game_id}&type={incoming.game_type}&video={0}'
@@ -85,7 +94,8 @@ async def grade_road_game(incoming: findroad.RoadAnswerIncoming):
         "msg": "Road game result saved to DB.",
         "result": document.dict(),
     }
-    return JSONResponse(content=content, status_code=200)
+    return document.dict()
+    # return JSONResponse(content=content, status_code=200)
 
 
 @router.post("/assessment-centre/rps")
@@ -94,6 +104,7 @@ async def grade_rps_3(incoming: rps.RpsAnswer):
 
     results = []
     timestamps = []
+    rounds = []
     for problem in problems:
         answer = problem.answer
         timestamp = problem.timestamp
@@ -119,7 +130,8 @@ async def grade_rps_3(incoming: rps.RpsAnswer):
         game_type="rps", 
         results=results, 
         timestamps=timestamps,
-        score=score
+        score=score,
+        rounds=rounds
         )
 
     # collection.insert_one(document.dict())
@@ -132,4 +144,5 @@ async def grade_rps_3(incoming: rps.RpsAnswer):
         "msg": "RPS game result saved to DB.",
         "result": document.dict(),
     }
-    return JSONResponse(content=content, status_code=200)
+    return document.dict()
+    # return JSONResponse(content=content, status_code=200)
