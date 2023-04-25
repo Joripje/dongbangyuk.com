@@ -18,7 +18,7 @@
 	<!-- Project configuration -->
 
 	<properties>
-		<demo.port>8443</demo.port>
+		<demo.port>8080</demo.port>
 		<start-class>org.kurento.tutorial.helloworld.HelloWorldRecApp</start-class>
 	</properties>
 
@@ -121,20 +121,6 @@
 							</execution>
 						</executions>
 					</plugin>
-<!--					<plugin>-->
-<!--						<groupId>org.apache.maven.plugins</groupId>-->
-<!--						<artifactId>maven-antrun-plugin</artifactId>-->
-<!--						<executions>-->
-<!--							<execution>-->
-<!--								<phase>package</phase>-->
-<!--								<configuration>-->
-<!--									<tasks>-->
-<!--										<copy file="${project.build.directory}/target/${project.artifactId}-${project.version}-bin.zip" tofile="${project.build.directory}/target/${project.artifactId}-${project.version}.zip"/>-->
-<!--									</tasks>-->
-<!--								</configuration>-->
-<!--							</execution>-->
-<!--						</executions>-->
-<!--					</plugin>-->
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-antrun-plugin</artifactId>
@@ -143,7 +129,7 @@
 								<phase>package</phase>
 								<configuration>
 									<tasks>
-										<jar destfile="${project.build.directory}/${project.artifactId}-${project.version}.jar" basedir="${project.build.directory}/classes"/>
+										<copy file="${project.build.directory}/target/${project.artifactId}-${project.version}-bin.zip" tofile="${project.build.directory}/target/${project.artifactId}-${project.version}.zip"/>
 									</tasks>
 								</configuration>
 							</execution>
@@ -156,4 +142,5 @@
 			<id>no-assembly</id>
 		</profile>
 	</profiles>
+
 </project>
