@@ -6,5 +6,5 @@ RUN mvn package
 
 FROM openjdk:11
 WORKDIR /adevguide
-COPY --from=maven target/kurento-hello-world-recording-7.0.0.jar ./app.jar
+COPY --from=maven target/kurento-hello-world-recording-6.18.0.jar ./app.jar
 CMD ["java", "-jar", "./app.jar"]
