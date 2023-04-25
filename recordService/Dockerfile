@@ -5,6 +5,7 @@ RUN mvn dependency:go-offline -B
 RUN mvn package
 
 FROM openjdk:11
-WORKDIR /adevguide
+WORKDIR /app
 COPY --from=maven target/kurento-hello-world-recording-6.18.0-exec.jar ./app.jar
-CMD ["java", "-jar", "./app.jar"]
+ENV KMS_URL="ws://k8a305.p.ssafy.io/:8888/kurento"
+CMD ["java", "-Dkms.url=${KMS_URL}", "-jar", "./app.jar"]
