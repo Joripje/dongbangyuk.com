@@ -11,3 +11,4 @@ class RoadProblemInDB(BaseModel):
     problem_id: int
     problem: List[List[int]]
     correct: int
+    difficulty: str
