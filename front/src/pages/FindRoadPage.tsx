@@ -15,10 +15,7 @@ function FindRoadPage() {
     <TemplateBox>
       <BoardBox>
         <StatusBar status={status} gameType='road' problemNum={problemNum} />
-        <GameBoard
-          problemNum={problemNum}
-          ascProblemNum={() => setProblemNum(problemNum + 1)}
-        />
+        <GameBoard ascProblemNum={() => setProblemNum(problemNum + 1)} />
         <Timer startTime={startTime.getTime()} settingTime={300} />
       </BoardBox>
     </TemplateBox>

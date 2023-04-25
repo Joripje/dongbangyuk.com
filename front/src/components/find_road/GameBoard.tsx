@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import RoadSingleBox from "./RoadSingleBox";
 import styled from "styled-components";
 import { roadroadya } from "api/test";
@@ -6,31 +6,29 @@ import ProblemInfo from "./ProblemInfo";
 import { Button } from "@mui/material";
 
 type GameBoardProps = {
-  problemNum: number;
   ascProblemNum: () => void;
 };
 
-// type Problem = {
-//   gameType: string;
-//   id: number;
-//   answer: number[][];
-//   cost: number;
-// };
-
-type TempProblem = {
+type Problem = {
   gameType: string;
-  difficulty: string;
   problemId: number;
   problem: number[][];
   correct: number;
 };
 
+// type Answer = {
+//   gameType: string;
+//   problemId: number;
+//   answer: number[][];
+//   timestamp: string[];
+//   clicks: number;
+// };
+
 const GameBoard = (props: GameBoardProps) => {
-  const { ascProblemNum, problemNum } = props;
-  const initialProblem: TempProblem = {
+  const { ascProblemNum } = props;
+  const initialProblem: Problem = {
     gameType: "road",
-    difficulty: "hard",
-    problemId: 1,
+    problemId: 0,
     problem: [
       [-1, 1, -1, 3, 2, -1, -1],
       [-1, 0, 0, 0, 0, 0, 1],
@@ -45,86 +43,21 @@ const GameBoard = (props: GameBoardProps) => {
   const [boardState, setBoardState] = useState(initialProblem);
   const [answerList, setAnswerList] = useState<Array<Object>>([]);
   const [clickCount, setClickCount] = useState(20);
-  const [correct, setCorrect] = useState(0);
-
-  const getRandomNumber = (): [number, number] => {
-    const numbers = [1, 2, 3, 4, 5];
-    const sections = [1, 2, 3, 4];
-    const numIndex = Math.floor(Math.random() * numbers.length);
-    const sectionIndex = Math.floor(Math.random() * sections.length);
-    const selectedNumber = numbers.splice(numIndex, 1)[0];
-    const selectedSection = sections.splice(sectionIndex, 1)[0];
-
-    switch (selectedSection) {
-      case 1:
-        return [selectedNumber, 0];
-      case 2:
-        return [0, selectedNumber];
-      case 3:
-        return [selectedNumber, 6];
-      case 4:
-        return [6, selectedNumber];
-      default:
-        return [0, 0];
-    }
-  };
 
   const cleanBoard = (): void => {
-    const problem: Array<Array<number>> = Array(7)
-      .fill(0)
-      .map((_, i) =>
-        Array(7)
-          .fill(0)
-          .map((_, j) => {
-            if (i === 0 || i === 6 || j === 0 || j === 6) {
-              return -1;
-            }
-            return 0;
-          })
-      );
-
-    const destinations: number[] = [1, 2, 3, 1, 2, 3];
-
-    while (destinations.length > 0) {
-      const [x, y] = getRandomNumber();
-      if (problem[y][x] === -1) {
-        problem[y][x] = destinations.pop()!;
-      }
-    }
-
-    const newProblem: TempProblem = {
-      gameType: "road",
-      difficulty: "hard",
-      problemId: boardState.problemId + 1,
-      problem: problem,
-      correct: 25,
-    };
+    // GET Method를 활용해 받아온 게임 리스트를 하나 씩 pop하면서 problem에 등록
+    const newProblem: Problem = initialProblem;
     setBoardState(newProblem);
   };
 
-  // const saveAnswer = () => {
-  //   let newAnswerList: Array<Object> = answerList;
-  //   newAnswerList = [
-  //     ...answerList,
-  //     {
-  //       ...boardState,
-  //       timestamp: new Date().toISOString(),
-  //       clicks: clickCount,
-  //     },
-  //   ];
-  //   setAnswerList(newAnswerList);
-  //   ascProblemNum();
-  // };
-
-  const tempSaveProblem = () => {
+  const saveAnswer = () => {
     let newAnswerList: Array<Object> = answerList;
     newAnswerList = [
       ...answerList,
       {
         ...boardState,
-        // timestamp: new Date().toISOString(),
-        correct: correct,
-        problemId: problemNum,
+        timestamp: new Date().toISOString(),
+        clicks: clickCount,
       },
     ];
     setAnswerList(newAnswerList);
@@ -191,8 +124,7 @@ const GameBoard = (props: GameBoardProps) => {
 
   const onNextHandler = (event: React.MouseEvent<HTMLElement>): void => {
     event.preventDefault();
-    // saveAnswer();
-    tempSaveProblem();
+    saveAnswer();
     cleanBoard();
     setClickCount(20);
   };
@@ -216,13 +148,6 @@ const GameBoard = (props: GameBoardProps) => {
     console.log(dummyProps);
     roadroadya(dummyProps);
   };
-
-  const onTempButtonHandler = (event: React.MouseEvent<HTMLElement>): void => {
-    event.preventDefault();
-    setCorrect(correct + 1);
-  };
-
-  useEffect(() => {}, [correct]);
 
   return (
     <RowFlexBox>
@@ -252,9 +177,6 @@ const GameBoard = (props: GameBoardProps) => {
       <ColFlexBox style={{ position: "absolute", right: 0, bottom: 0 }}>
         <button style={{ height: "3rem" }} onClick={onSubmitHandler}>
           테스트용 최종 제출 버튼
-        </button>
-        <button style={{ height: "3rem" }} onClick={onTempButtonHandler}>
-          DB 입력용 클릭 증가 : {correct}
         </button>
       </ColFlexBox>
     </RowFlexBox>
