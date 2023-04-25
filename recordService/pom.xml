@@ -18,7 +18,7 @@
 	<!-- Project configuration -->
 
 	<properties>
-		<demo.port>8080</demo.port>
+		<demo.port>8443</demo.port>
 		<start-class>org.kurento.tutorial.helloworld.HelloWorldRecApp</start-class>
 	</properties>
 
@@ -129,12 +129,13 @@
 								<phase>package</phase>
 								<configuration>
 									<tasks>
-										<copy file="${project.build.directory}/target/${project.artifactId}-${project.version}-bin.zip" tofile="${project.build.directory}/target/${project.artifactId}-${project.version}.zip"/>
+										<jar destfile="${project.build.directory}/${project.artifactId}-${project.version}.jar" basedir="${project.build.directory}/classes"/>
 									</tasks>
 								</configuration>
 							</execution>
 						</executions>
 					</plugin>
+
 				</plugins>
 			</build>
 		</profile>
