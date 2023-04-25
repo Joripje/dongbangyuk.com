@@ -121,6 +121,20 @@
 							</execution>
 						</executions>
 					</plugin>
+<!--					<plugin>-->
+<!--						<groupId>org.apache.maven.plugins</groupId>-->
+<!--						<artifactId>maven-antrun-plugin</artifactId>-->
+<!--						<executions>-->
+<!--							<execution>-->
+<!--								<phase>package</phase>-->
+<!--								<configuration>-->
+<!--									<tasks>-->
+<!--										<copy file="${project.build.directory}/target/${project.artifactId}-${project.version}-bin.zip" tofile="${project.build.directory}/target/${project.artifactId}-${project.version}.zip"/>-->
+<!--									</tasks>-->
+<!--								</configuration>-->
+<!--							</execution>-->
+<!--						</executions>-->
+<!--					</plugin>-->
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-antrun-plugin</artifactId>
@@ -129,7 +143,7 @@
 								<phase>package</phase>
 								<configuration>
 									<tasks>
-										<copy file="${project.build.directory}/target/${project.artifactId}-${project.version}-bin.zip" tofile="${project.build.directory}/target/${project.artifactId}-${project.version}.zip"/>
+										<jar destfile="${project.build.directory}/${project.artifactId}-${project.version}.jar" basedir="${project.build.directory}/classes"/>
 									</tasks>
 								</configuration>
 							</execution>
@@ -142,5 +156,4 @@
 			<id>no-assembly</id>
 		</profile>
 	</profiles>
-
 </project>
