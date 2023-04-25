@@ -8,14 +8,17 @@ import styled from "styled-components";
 
 function FindRoadPage() {
   const startTime = new Date();
-  const [status, setStatus] = useState("explain");
+  const [status] = useState("explain");
   const [problemNum, setProblemNum] = useState(1);
 
   return (
     <TemplateBox>
       <BoardBox>
         <StatusBar status={status} gameType='road' problemNum={problemNum} />
-        <GameBoard ascProblemNum={() => setProblemNum(problemNum + 1)} />
+        <GameBoard
+          problemNum={problemNum}
+          ascProblemNum={() => setProblemNum(problemNum + 1)}
+        />
         <Timer startTime={startTime.getTime()} settingTime={300} />
       </BoardBox>
     </TemplateBox>
@@ -38,7 +41,7 @@ const BoardBox = styled.div({
   flexDirection: "column",
   alignItems: "center",
 
-  width: "60%",
+  width: "70%",
   minHeight: `calc(100vh - 10rem)`,
   background: "white",
   borderRadius: 20,

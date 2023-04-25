@@ -31,7 +31,7 @@ const StatusBarBox = styled.div({
   borderRadius: "20px 20px 0 0 ",
   borderBottom: "1px solid #e5e5e5",
 
-  marginBottom: "5rem",
+  marginBottom: "3rem",
 });
 
 const Vr = styled.div`

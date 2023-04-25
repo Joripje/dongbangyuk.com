@@ -7,7 +7,6 @@ interface RequestProps {
 }
 
 const roadroadya = (props: RequestProps) => {
-  //   const { method, url, data } = props;
   request(props);
 };
 

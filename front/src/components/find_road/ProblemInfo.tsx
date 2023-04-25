@@ -24,6 +24,9 @@ const ProblemInfo = (props: ProblemInfoProps) => {
 };
 
 const StyledGridContainer = styled(Grid)({
+  position: "absolute",
+  left: 0,
+
   width: "17rem",
   height: "8rem",
   alignItems: "center",
@@ -32,7 +35,7 @@ const StyledGridContainer = styled(Grid)({
   border: "2px solid #e5e5e5",
   borderRadius: "20px",
 
-  margin: "2rem",
+  margin: "0 4rem",
 });
 
 const TypoForInfo = styled.div({
