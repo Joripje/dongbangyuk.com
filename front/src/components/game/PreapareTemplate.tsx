@@ -2,8 +2,16 @@ import DescriptionCarousel from "./DescriptionCarousel";
 
 import styled from "styled-components";
 import { Grid } from "@mui/material";
+import {
+  ekscp,
+  wpgud,
+  dudgjs,
+  ehdns,
+  tjdwls,
+  dnjsvlf,
+  mmy789,
+} from "assets/images";
 
-import { ekscp, wpgud, dudgjs, ehdns, tjdwls, dnjsvlf } from "assets/images";
 import OverviewDescript from "./OverviewDescript";
 
 const PreapareTemplate = () => {
@@ -11,6 +19,7 @@ const PreapareTemplate = () => {
   // 두 번째 Grid Item은 게임에 대한 간단한 설명, 목표, 응시 방법이 있어야하며 overflow: scroll
   const imagesList: string[] = [ekscp, wpgud, dudgjs, tjdwls, ehdns, dnjsvlf];
   const overviewProps = {
+    image: mmy789,
     name: "가위바위보",
     descript: "'나' 혹은 '상대'의 입장에서 가위바위보를 해주세요.",
     minutes: 3,

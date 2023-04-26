@@ -1,10 +1,11 @@
-import { akalths } from "assets/images";
+import { mmy789 } from "assets/images";
 
 import styled from "@emotion/styled";
 import { Grid } from "@mui/material";
 
 type OverviewDescriptProps = {
   overviewProps: {
+    image: string;
     name: string;
     descript: string;
     minutes: number;
@@ -14,7 +15,8 @@ type OverviewDescriptProps = {
 };
 
 function OverviewDescript(props: OverviewDescriptProps) {
-  const { name, descript, minutes, rounds, problems } = props.overviewProps;
+  const { name, descript, minutes, rounds, problems, image } =
+    props.overviewProps;
   return (
     <OverviewDescriptBox>
       <OverviewImg />
@@ -95,7 +97,7 @@ const OverviewImg = styled.div({
   height: "10rem",
   borderRadius: 20,
   backgroundSize: "cover",
-  backgroundImage: `url(${akalths})`,
+  backgroundImage: `url(${mmy789})`,
 });
 
 export default OverviewDescript;
