@@ -1,18 +1,18 @@
 import DescriptionCarousel from "./DescriptionCarousel";
 
-import styled from "styled-components";
+// import styled from "styled-components";
 import { Grid } from "@mui/material";
 
-import { rabbit_1, rabbit_2, rabbit_3, rabbit_4 } from "assets/images";
+import { ekscp, wpgud, dudgjs, ehdns, tjdwls, dnjsvlf } from "assets/images";
 
 const PreapareTemplate = () => {
-  const imagesList: string[] = [rabbit_1, rabbit_2, rabbit_3, rabbit_4];
+  const imagesList: string[] = [ekscp, wpgud, dudgjs, tjdwls, ehdns, dnjsvlf];
   // ExampleBox, PageButtonBox은 상위 컴포넌트에서 주어진 정보를 사용하면 됨
   // 두 번째 Grid Item은 게임에 대한 간단한 설명, 목표, 응시 방법이 있어야하며 overflow: scroll
 
   return (
     <Grid container sx={{ height: `calc(100vh - 13rem)` }}>
-      <Grid item xs={8}>
+      <Grid sx={{ height: "80%" }} item xs={8}>
         <DescriptionCarousel images={imagesList} />
       </Grid>
       <Grid

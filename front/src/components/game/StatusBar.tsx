@@ -5,7 +5,7 @@ import styled from "styled-components";
 interface StatusBarProps {
   status: string;
   gameType: string;
-  problemNum: number;
+  problemNum: number | string;
 }
 
 function StatusBar(props: StatusBarProps) {

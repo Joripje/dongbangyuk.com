@@ -1,33 +1,22 @@
-import styled from "styled-components";
-import love from "assets/images/love.png";
-import { GameTemplate } from "components/game";
+import { GameTemplate, PrepareTemplate, StatusBar } from "components/game";
 
 function FindRoadPreparePage() {
-  // const gameType = "road";
+  const gameType = "road";
 
   return (
     <GameTemplate>
-      <ColFlexBox>
-        <VoiceCheckImg />
-      </ColFlexBox>
+      <StatusBar gameType={gameType} status='explain' problemNum='길 찾기' />
+      <PrepareTemplate />
     </GameTemplate>
   );
 }
 
-const ColFlexBox = styled.div({
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
+// const ColFlexBox = styled.div({
+//   display: "flex",
+//   flexDirection: "column",
+//   alignItems: "center",
 
-  height: "100%",
-});
-
-const VoiceCheckImg = styled.div({
-  width: "5rem",
-  height: "5rem",
-  margin: "1rem",
-  backgroundImage: `url(${love})`,
-  backgroundSize: "cover",
-});
+//   height: "100%",
+// });
 
 export default FindRoadPreparePage;
