@@ -78,41 +78,37 @@ async def grade_road_game(incoming: findroad.RoadAnswerIncoming):
 
 @router.post("/assessment-centre/rps")
 async def grade_rps_3(incoming: rps.RpsAnswer):
-    problems = incoming.problems
-
+    items = incoming.rounds
     results = []
     timestamps = []
     rounds = []
-    for problem in problems:
-        answer = problem.answer
-        timestamp = problem.timestamp
-        
-        if answer:
-            me, you = answer
-            is_win = await assessment.rps_3(me, you)
-            results.append(is_win)
+    for round, problems in items.items():
+        for problem in problems:
+            answer = problem.answer
+            if answer:
+                me, you = answer
+                is_win = await assessment.rps_3(me, you)
+                results.append(is_win)
+            else:  # 입력시간 초과시 빈 리스트 []
+                results.append(False)
             
-        else:  # 입력시간 초과시 빈 리스트 []
-            results.append(False)
-        
-        timestamps.append(timestamp)
+            timestamps.append(problem.timestamp)
+            rounds.append(round)
     
     score = [sum(results), len(results)]
 
     # MongoDB에 채점 결과 저장
-    collection = result_db["rps"]
     document = ResultModels.RpsGameResult(
-        id=incoming.game_id, 
-        user_id=incoming.user_id, 
+        game_id=incoming.game_id, 
         date=incoming.date, 
-        game_type="rps", 
+        type="rps", 
         results=results, 
         timestamps=timestamps,
         score=score,
         rounds=rounds
         )
 
-    # collection.insert_one(document.dict())
+    result_db["rps"].insert_one(document.dict())
 
     # 채점 완료, 저장 후 분석 서버로 채점완료 요청 보내기
     # url = f'/flag?gameid={incoming.game_id}&type={incoming.game_type}&video={0}'
@@ -120,7 +116,7 @@ async def grade_rps_3(incoming: rps.RpsAnswer):
 
     content = {
         "msg": "RPS game result saved to DB.",
-        "result": document.dict(),
+        "game_id": document.game_id,
+        "user_id": incoming.user_id
     }
-    return document.dict()
-    # return JSONResponse(content=content, status_code=200)
+    return JSONResponse(content=content, status_code=200)

@@ -1,4 +1,4 @@
-from typing import Optional, List
+from typing import Optional, List, Dict
 from pydantic import validator
 from schemas.common import ProblemBase, AnswerBase
 from datetime import datetime
@@ -18,4 +18,4 @@ class RpsProblem(ProblemBase):
 
 # 가위바위보 게임 입력응답의 속성
 class RpsAnswer(AnswerBase):
-    problems: List[RpsProblem]
+    rounds: Dict[int, List[RpsProblem]]
