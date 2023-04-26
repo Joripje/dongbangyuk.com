@@ -15,7 +15,7 @@
  *
  */
 
-var ws = new WebSocket('ws://' + location.host + '/recording');
+var ws = new WebSocket('wss://' + location.host + '/recording');
 var videoInput;
 var videoOutput;
 var webRtcPeer;
