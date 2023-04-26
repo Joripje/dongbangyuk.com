@@ -375,7 +375,8 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 
       // 6. Send video to Spring
       // String videoPath = "kms:///tmp/testRecord_" + sequence + ".webm";
-      String videoPath = "kms:/tmp/testRecord_" + sequence + ".webm";
+      // String videoPath = "kms:/tmp/testRecord_" + sequence + ".webm";
+      String videoPath = "/tmp/testRecord_" + sequence + ".webm";
       System.out.println(videoPath);
       System.out.println(Paths.get(videoPath));
       try {
