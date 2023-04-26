@@ -13,11 +13,16 @@ router = APIRouter()
 @router.get("/assessment-centre/road")
 async def get_road_problems():
     collection = problem_db['road']
-    result = []
-    for document in collection.find():
-        document.pop('_id', None)
-        result.append(document)
-    return result
+    problems = {"easy": [], "hard": []}
+    for document in collection.find({"difficulty": {"$in": ["easy", "hard"]}}):
+        item = {
+            "problem_id": document["problem_id"],
+            "problem": document["problem"],
+            "correct": document["correct"]
+        }
+        problems[document["difficulty"]].append(item)
+
+    return JSONResponse(content=problems, status_code=200)
 
 
 @router.post("/assessment-centre/road")
@@ -28,21 +33,21 @@ async def grade_road_game(incoming: findroad.RoadAnswerIncoming):
     clicks = []
     corrects = []
     for problem in problems:
-        arr = problem.answer
-        timestamp = problem.timestamp
-
-        result = await assessment.find_road(arr)
+        # 채점 함수
+        result = await assessment.find_road(problem.answer)
         results.append(result['status'])
-        timestamps.append(timestamp)
+        
+        # timestamp, clicks
+        timestamps.append(problem.timestamp)
         clicks.append(problem.clicks)
 
         # problem.problem_id의 정답 값을 DB에서 검색해서 corrects 리스트에 추가
-        corrects.append(5)
+        document = problem_db['road'].find_one({'problem_id': problem.problem_id})
+        corrects.append(document["correct"])
 
     score = [sum(results), len(results)]  # [맞은 문제수, 푼 문제수]
     
     # MongoDB에 채점 결과 저장
-    collection = result_db["road"]
     document = ResultModels.RoadGameResult(
         game_id=incoming.game_id, 
         date=incoming.date, 
@@ -53,8 +58,7 @@ async def grade_road_game(incoming: findroad.RoadAnswerIncoming):
         clicks=clicks,
         corrects=corrects
         )
-
-    collection.insert_one(document.dict())
+    result_db["road"].insert_one(document.dict())
 
     # 채점 완료, 저장 후 분석 서버로 채점완료 요청 보내기
     # url = f'/flag?gameid={incoming.game_id}&type={incoming.game_type}&video={0}'
@@ -62,10 +66,10 @@ async def grade_road_game(incoming: findroad.RoadAnswerIncoming):
 
     content = {
         "msg": "Road game result saved to DB.",
-        "result": document.dict(),
+        "game_id": document.game_id,
+        "user_id": incoming.user_id
     }
-    return document.dict()
-    # return JSONResponse(content=content, status_code=200)
+    return JSONResponse(content=content, status_code=200)
 
 
 @router.post("/assessment-centre/rps")
