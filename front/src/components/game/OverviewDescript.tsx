@@ -1,5 +1,3 @@
-import { mmy789 } from "assets/images";
-
 import styled from "@emotion/styled";
 import { Grid } from "@mui/material";
 
@@ -11,38 +9,41 @@ type OverviewDescriptProps = {
     minutes: number;
     rounds: number;
     problems: number;
+    ability: string;
   };
 };
 
 function OverviewDescript(props: OverviewDescriptProps) {
-  const { name, descript, minutes, rounds, problems } = props.overviewProps;
+  const { name, descript, minutes, rounds, problems, image, ability } =
+    props.overviewProps;
+  const overviewInfo = [
+    { name: "응시 시간", value: `총 ${minutes}분` },
+    { name: "라운드 수", value: `${rounds} 개` },
+    { name: "문항 수", value: problems === 0 ? "제한 없음" : `${problems}개` },
+  ];
   return (
     <OverviewDescriptBox>
-      <OverviewImg />
+      <OverviewImg image={image} />
       <RowFlexBox>
         <HighlightTypo>{name}</HighlightTypo>
-        <MeasureBox>인지능력</MeasureBox>
+        <MeasureBox>{ability}</MeasureBox>
       </RowFlexBox>
       <NormalTypo>{descript}</NormalTypo>
       <Grid container>
-        <Grid item xs={4}>
-          <TestStatusTypo>응시 시간</TestStatusTypo>
-          <HighlightTypo>총 {minutes}분</HighlightTypo>
-        </Grid>
-        <Grid item xs={4}>
-          <TestStatusTypo>라운드 수</TestStatusTypo>
-          <HighlightTypo>{rounds}개</HighlightTypo>
-        </Grid>
-        <Grid item xs={4}>
-          <TestStatusTypo>문항 수</TestStatusTypo>
-          <HighlightTypo>
-            {problems === 0 ? "제한 없음" : `${problems}개`}
-          </HighlightTypo>
-        </Grid>
+        {overviewInfo.map((item, index) => {
+          const { name, value } = item;
+          return (
+            <Grid item xs={4} key={index}>
+              <TestStatusTypo>{name}</TestStatusTypo>
+              <HighlightTypo>{value}</HighlightTypo>
+            </Grid>
+          );
+        })}
       </Grid>
     </OverviewDescriptBox>
   );
 }
+
 const RowFlexBox = styled.div({
   display: "flex",
   flexDirection: "row",
@@ -92,11 +93,13 @@ const TestStatusTypo = styled.div({
   color: "#bbbbbb",
 });
 
-const OverviewImg = styled.div({
+const OverviewImg: React.ComponentType<{ image: string }> = styled.div<{
+  image: string;
+}>((props) => ({
   height: "10rem",
   borderRadius: 20,
   backgroundSize: "cover",
-  backgroundImage: `url(${mmy789})`,
-});
+  backgroundImage: `url(${props.image})`,
+}));
 
 export default OverviewDescript;

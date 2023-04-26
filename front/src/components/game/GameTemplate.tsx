@@ -39,6 +39,7 @@ const BoardBox = styled.div({
   width: "70%",
   height: "70%",
   minHeight: `calc(100vh - 10rem)`,
+  maxHeight: `calc(100vh - 10rem)`,
   background: "white",
   borderRadius: 20,
   boxShadow: "10px 5px 5px rgba(0, 0, 0, 0.2)",

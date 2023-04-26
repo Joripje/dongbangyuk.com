@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import Slider, { Settings } from "react-slick";
 
 import "slick-carousel/slick/slick.css";
@@ -8,10 +8,11 @@ import styled from "@emotion/styled";
 
 interface DescriptionCarouselProps {
   images: string[];
+  selectedTypo: number;
 }
 
 const DescriptionCarousel = (props: DescriptionCarouselProps) => {
-  const { images } = props;
+  const { images, selectedTypo } = props;
   const sliderRef = useRef<Slider>(null);
   const [currentSlideIndex, setCurrentSlideIndex] = useState<number>(0);
 
@@ -26,6 +27,15 @@ const DescriptionCarousel = (props: DescriptionCarouselProps) => {
       sliderRef.current.slickNext();
     }
   };
+
+  useEffect(() => {
+    const goTo = (target: number) => {
+      if (sliderRef.current !== null) {
+        sliderRef.current.slickGoTo(target);
+      }
+    };
+    goTo(selectedTypo);
+  }, [selectedTypo]);
 
   const settings: Settings = {
     dots: true,

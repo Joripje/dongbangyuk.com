@@ -9,5 +9,17 @@ import wpgud from "./findRoad/wpgud.png";
 import ekscp from "./findRoad/ekscp.png";
 import mmy789 from "./findRoad/mmy789.png";
 import akalths from "./findRoad/akalths.jpg";
+import whdrn from "./findRoad/whdrn.jpg";
 
-export { love, dudgjs, ehdns, tjdwls, dnjsvlf, wpgud, ekscp, akalths, mmy789 };
+export {
+  love,
+  dudgjs,
+  ehdns,
+  tjdwls,
+  dnjsvlf,
+  wpgud,
+  ekscp,
+  akalths,
+  mmy789,
+  whdrn,
+};
