@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import RoadSingleBox from "./RoadSingleBox";
 import styled from "styled-components";
-import { roadroadya } from "api/test";
+import { getFindRoadProblems, putFindRoadProblems } from "api/test";
 import ProblemInfo from "./ProblemInfo";
 import { Button } from "@mui/material";
 
@@ -10,10 +10,16 @@ type GameBoardProps = {
 };
 
 type Problem = {
-  gameType: string;
-  problemId: number;
+  problem_id: number;
   problem: number[][];
-  correct: number;
+  correct?: number;
+};
+
+type TempProblem = {
+  problemId: number;
+  problem?: number[][];
+  correct?: number;
+  problem_id?: number;
 };
 
 type Answer = {
@@ -27,8 +33,7 @@ type Answer = {
 const GameBoard = (props: GameBoardProps) => {
   const { ascProblemNum } = props;
   const initialProblem: Problem = {
-    gameType: "road",
-    problemId: 0,
+    problem_id: 0,
     problem: [
       [-1, 1, -1, 3, 2, -1, -1],
       [-1, 0, 0, 0, 0, 0, 1],
@@ -41,33 +46,39 @@ const GameBoard = (props: GameBoardProps) => {
     correct: 0,
   };
   const [clickCount, setClickCount] = useState(20);
+  const [easyProblems, setEasyProblems] = useState<Array<Problem>>([]);
+  const [hardProblems, setHardProblems] = useState<Array<Problem>>([]);
   const [boardState, setBoardState] = useState(initialProblem);
-  const [answerList, setAnswerList] = useState<Array<Object>>([]);
-  const [timestamp, setTimestamp] = useState([
-    new Date().toISOString(),
-    undefined,
-  ]);
+  const [answerList, setAnswerList] = useState<Array<Answer>>([]);
+  const [timestamp, setTimestamp] = useState([new Date().toISOString()]);
 
   const cleanBoard = (): void => {
-    // GET Method를 활용해 받아온 게임 리스트를 하나 씩 pop하면서 problem에 등록
-    const newProblem: Problem = initialProblem;
-    setBoardState(newProblem);
+    const newProblem: Problem | undefined = easyProblems.pop();
+    if (newProblem !== undefined) {
+      setBoardState(newProblem);
+    }
   };
 
   const saveAnswer = () => {
-    // timestamp라는 List state의 1번 요소로 현재 시간(thisTime))을 기록하고
-    // 문제가 리스트에 성공적으로 등록되고 나면 thisTime은 다시 0번 요소가 되어 다음 문제가 제출될 때를 대비한다.
-    let newAnswerList: Array<Object> = answerList;
-    newAnswerList = [
-      ...answerList,
-      {
-        ...boardState,
-        answer: boardState.problem,
-        timestamp: new Date().toISOString(),
-        clicks: clickCount,
-      },
-    ];
+    const newBoardState: TempProblem = {
+      ...boardState,
+      problemId: boardState.problem_id,
+    };
+    delete newBoardState.correct;
+    delete newBoardState.problem;
+    delete newBoardState.problem_id;
+
+    const newAnswer: Answer = {
+      ...newBoardState,
+      gameType: "road",
+      answer: boardState.problem,
+      timestamp: [...timestamp, new Date().toISOString()].slice(-2),
+      clicks: clickCount,
+    };
+
+    const newAnswerList: Array<Answer> = [...answerList, newAnswer];
     ascProblemNum();
+    setTimestamp([new Date().toISOString()]);
     setAnswerList(newAnswerList);
   };
 
@@ -136,20 +147,28 @@ const GameBoard = (props: GameBoardProps) => {
 
   const onSubmitHandler = (event: React.MouseEvent<HTMLElement>): void => {
     event.preventDefault();
-    const dummyProps = {
-      method: "POST",
-      url: "/assessment-centre/road",
-      data: {
-        userId: 0,
-        gameId: 0,
-        date: new Date().toISOString(),
-        gameType: "road",
-        propblems: answerList,
-      },
+    const roadProps = {
+      userId: 0,
+      gameId: 0,
+      date: new Date().toISOString(),
+      gameType: "road",
+      problems: answerList,
     };
-    console.log(dummyProps);
-    roadroadya(dummyProps);
+    putFindRoadProblems(roadProps);
   };
+
+  useMemo(async () => {
+    const fetchProblems = async () => {
+      const newProblems: { easy: Problem[]; hard: Problem[] } =
+        await getFindRoadProblems();
+      const tempProblem = newProblems.easy.pop();
+      if (tempProblem !== undefined) setBoardState(tempProblem);
+      setEasyProblems(newProblems["easy"]);
+      setHardProblems(newProblems["hard"]);
+    };
+
+    fetchProblems();
+  }, []);
 
   return (
     <RowFlexBox>

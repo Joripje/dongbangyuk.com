@@ -15,8 +15,7 @@ type OverviewDescriptProps = {
 };
 
 function OverviewDescript(props: OverviewDescriptProps) {
-  const { name, descript, minutes, rounds, problems, image } =
-    props.overviewProps;
+  const { name, descript, minutes, rounds, problems } = props.overviewProps;
   return (
     <OverviewDescriptBox>
       <OverviewImg />
