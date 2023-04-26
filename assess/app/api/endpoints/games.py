@@ -4,50 +4,20 @@ from fastapi.responses import JSONResponse
 from schemas import user, common, findroad, rps
 from models import ProblemModels, ResultModels
 from api.functions import assessment
-import pymongo
+from db.mongodb import problem_db, result_db
 import requests
-
-client = pymongo.MongoClient("mongodb://mongodb_server:27017/")
-# client = pymongo.MongoClient("mongodb://localhost:27017/")
-problem_db = client["game_problem"]
-result_db = client["game_result"]
 
 router = APIRouter()
 
 
-@router.get("/problems/{game_type}")
-async def get_problems(game_type: str):
-    collection = problem_db[game_type]
+@router.get("/assessment-centre/road")
+async def get_road_problems():
+    collection = problem_db['road']
     result = []
     for document in collection.find():
         document.pop('_id', None)
         result.append(document)
     return result
-
-
-@router.post("/problems")
-async def store_problem(data: findroad.RoadProblemStoringDB):
-    collection = problem_db[data.game_type]
-    collection.insert_one(data.dict())
-
-    content = {
-        "msg": "Road game problem saved to DB.",
-        "saved data": data.dict()
-    }
-    return data.dict()
-    # return JSONResponse(content=content, status_code=200)
-
-
-@router.get("/problems/{game_type}/{problem_id}")
-async def get_problem(game_type: str, problem_id: int):
-    collection = problem_db[game_type]
-    document = collection.find_one({'problem_id': problem_id})
-    if document:
-        document.pop('_id', None)
-        return document
-    else:
-        raise HTTPException(
-            status_code=404, detail="Problem not found in database. No such problem_id.")
 
 
 @router.post("/assessment-centre/road")
