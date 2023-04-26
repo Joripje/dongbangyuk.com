@@ -382,7 +382,7 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
         Path videoFilePath = Paths.get(videoPath);
         System.out.println(videoFilePath);
         if(!Files.exists(videoFilePath)) {
-          throw new FileNotFoundException("없어!");
+          throw new FileNotFoundException("없어!" + videoFilePath);
         }
 
         LinkedMultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
