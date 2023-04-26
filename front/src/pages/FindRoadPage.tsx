@@ -1,8 +1,9 @@
 import { useState } from "react";
 
+// 나중에 game으로 옮기자
 import { Timer } from "components/common";
 import { GameBoard } from "../components/find_road";
-import StatusBar from "components/game/StatusBar";
+import { StatusBar, GameTemplate } from "components/game";
 
 import styled from "styled-components";
 
@@ -12,13 +13,11 @@ function FindRoadPage() {
   const [problemNum, setProblemNum] = useState(1);
 
   return (
-    <TemplateBox>
-      <BoardBox>
-        <StatusBar status={status} gameType='road' problemNum={problemNum} />
-        <GameBoard ascProblemNum={() => setProblemNum(problemNum + 1)} />
-        <Timer startTime={startTime.getTime()} settingTime={300} />
-      </BoardBox>
-    </TemplateBox>
+    <GameTemplate>
+      <StatusBar status={status} gameType='road' problemNum={problemNum} />
+      <GameBoard ascProblemNum={() => setProblemNum(problemNum + 1)} />
+      <Timer startTime={startTime.getTime()} settingTime={300} />
+    </GameTemplate>
   );
 }
 

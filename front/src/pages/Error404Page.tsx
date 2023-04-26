@@ -1,5 +1,17 @@
+import React from "react";
+import { useNavigate } from "react-router-dom";
+
 function Error404Page() {
-  return <div>hello, here is your 404</div>;
+  const navigate = useNavigate();
+  const onClickHandler = () => {
+    navigate("/test/");
+  };
+  return (
+    <React.Fragment>
+      <div>hello, here is your 404</div>
+      <button onClick={onClickHandler}>차린건 없지만 여긴 어떠신가요?</button>
+    </React.Fragment>
+  );
 }
 
 export default Error404Page;

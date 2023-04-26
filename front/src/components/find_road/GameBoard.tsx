@@ -40,9 +40,13 @@ const GameBoard = (props: GameBoardProps) => {
     ],
     correct: 0,
   };
+  const [clickCount, setClickCount] = useState(20);
   const [boardState, setBoardState] = useState(initialProblem);
   const [answerList, setAnswerList] = useState<Array<Object>>([]);
-  const [clickCount, setClickCount] = useState(20);
+  const [timestamp, setTimestamp] = useState([
+    new Date().toISOString(),
+    undefined,
+  ]);
 
   const cleanBoard = (): void => {
     // GET Method를 활용해 받아온 게임 리스트를 하나 씩 pop하면서 problem에 등록
@@ -51,6 +55,8 @@ const GameBoard = (props: GameBoardProps) => {
   };
 
   const saveAnswer = () => {
+    // timestamp라는 List state의 1번 요소로 현재 시간(thisTime))을 기록하고
+    // 문제가 리스트에 성공적으로 등록되고 나면 thisTime은 다시 0번 요소가 되어 다음 문제가 제출될 때를 대비한다.
     let newAnswerList: Array<Object> = answerList;
     newAnswerList = [
       ...answerList,
