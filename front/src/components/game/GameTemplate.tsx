@@ -3,7 +3,7 @@ import { ReactElement } from "react";
 import styled from "styled-components";
 
 type GameTemplateProps = {
-  children: ReactElement[];
+  children: ReactElement[] | ReactElement;
 };
 
 const GameTemplate = (props: GameTemplateProps) => {

@@ -1,23 +1,18 @@
 import styled from "styled-components";
 import love from "assets/images/love.png";
+import { GameTemplate } from "components/game";
 
-function TestPage() {
+function FindRoadPreparePage() {
   // const gameType = "road";
 
   return (
-    <TemplateBox>
+    <GameTemplate>
       <ColFlexBox>
         <VoiceCheckImg />
       </ColFlexBox>
-    </TemplateBox>
+    </GameTemplate>
   );
 }
-
-const TemplateBox = styled.div({
-  width: "100%",
-  height: "100%",
-  background: "rgba(237, 252, 242, 1)",
-});
 
 const ColFlexBox = styled.div({
   display: "flex",
@@ -35,4 +30,4 @@ const VoiceCheckImg = styled.div({
   backgroundSize: "cover",
 });
 
-export default TestPage;
+export default FindRoadPreparePage;
