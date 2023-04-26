@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.function.service.UploadService;
+
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -19,12 +21,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UploadController {
 
-	private final UploadService imageService;
+	private final UploadService uploadService;
 
+	@ApiOperation(value = "영상 업로드")
 	@PostMapping("/upload")
-	public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile file) throws IOException {
-		imageService.uploadImage(file);
-		return ResponseEntity.ok("Image upload successful!");
+	public ResponseEntity<?> uploadVideo(@RequestParam("file") MultipartFile file) throws IOException {
+		uploadService.uploadVideo(file);
+		return ResponseEntity.ok("Video upload successful!");
 	}
 
 	@ExceptionHandler(IllegalArgumentException.class)
