@@ -30,7 +30,7 @@ public class UserController {
 		@RequestParam String birthDate,
 		@RequestParam int feature) {
 		String uid = null;
-		
+
 		try {
 			uid = firebaseAuthService.getUid(token);
 		} catch (FirebaseAuthException e) {
