@@ -7,5 +7,6 @@ import tjdwls from "./findRoad/성진.png";
 import dnjsvlf from "./findRoad/원필.png";
 import wpgud from "./findRoad/wpgud.png";
 import ekscp from "./findRoad/ekscp.png";
+import akalths from "./findRoad/akalths.jpg";
 
-export { love, dudgjs, ehdns, tjdwls, dnjsvlf, wpgud, ekscp };
+export { love, dudgjs, ehdns, tjdwls, dnjsvlf, wpgud, ekscp, akalths };

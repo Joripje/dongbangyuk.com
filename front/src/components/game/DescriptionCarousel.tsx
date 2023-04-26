@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Slider, { Settings } from "react-slick";
 
 import "slick-carousel/slick/slick.css";
@@ -15,14 +15,16 @@ const DescriptionCarousel = (props: DescriptionCarouselProps) => {
   const sliderRef = useRef<Slider>(null);
   const [currentSlideIndex, setCurrentSlideIndex] = useState<number>(0);
 
+  const prev = () => {
+    if (sliderRef.current) {
+      sliderRef.current.slickPrev();
+    }
+  };
+
   const next = () => {
     if (sliderRef.current) {
       sliderRef.current.slickNext();
     }
-  };
-
-  const handleBeforChange = (index: number, imagesLength: number) => {
-    if (index === imagesLength) console.log("WOW");
   };
 
   const settings: Settings = {
@@ -33,7 +35,6 @@ const DescriptionCarousel = (props: DescriptionCarouselProps) => {
     draggable: false,
     slidesToShow: 1,
     slidesToScroll: 1,
-    beforeChange: handleBeforChange,
     afterChange: setCurrentSlideIndex,
   };
 
@@ -44,11 +45,12 @@ const DescriptionCarousel = (props: DescriptionCarouselProps) => {
           return <CarouselImg src={image} key={index} alt={"토끼스"} />;
         })}
       </Slider>
-      <WordDesButton variant='contained'>용어 설명</WordDesButton>
-      <NextButton variant='contained' onClick={next}>
-        Next
-      </NextButton>
-      <p>Current slide index: {currentSlideIndex}</p>
+      <WordDesButton variant='contained' onClick={prev}>
+        {currentSlideIndex === 0 ? "용어 설명" : "이전"}
+      </WordDesButton>
+      <ControlButton variant='contained' onClick={next}>
+        {currentSlideIndex === 0 ? "설명 시작" : "다음"}
+      </ControlButton>
     </CarouselWrapper>
   );
 };
@@ -59,7 +61,7 @@ const CarouselWrapper = styled.div({
   margin: "0 5% ",
 });
 
-const NextButton = styled(Button)({ position: "absolute", right: 0 });
+const ControlButton = styled(Button)({ position: "absolute", right: 0 });
 const WordDesButton = styled(Button)({
   position: "absolute",
   left: 0,

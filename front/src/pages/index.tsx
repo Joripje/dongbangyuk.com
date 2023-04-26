@@ -23,6 +23,10 @@ const routes = [
     path: "/rpsPage",
     element: <RpsGamePage />,
   },
+  {
+    path: "/componentTest",
+    element: <RpsGamePage />,
+  },
 ];
 
 const router = createBrowserRouter(routes);

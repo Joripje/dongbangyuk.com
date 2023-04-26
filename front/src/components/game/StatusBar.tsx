@@ -24,7 +24,9 @@ function StatusBar(props: StatusBarProps) {
 
   return (
     <StatusBarBox>
-      <TypoForProblemNum>{problemNum}</TypoForProblemNum>
+      <TypoForProblemNum>
+        {typeof problemNum === "string" ? "길" : problemNum}
+      </TypoForProblemNum>
       <Vr />
       <TypoForText>{shownText}</TypoForText>
     </StatusBarBox>
@@ -41,8 +43,6 @@ const StatusBarBox = styled.div({
   background: "white",
   borderRadius: "20px 20px 0 0 ",
   borderBottom: "1px solid #e5e5e5",
-
-  marginBottom: "3rem",
 });
 
 const Vr = styled.div`

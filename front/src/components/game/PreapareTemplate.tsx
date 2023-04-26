@@ -1,6 +1,6 @@
 import DescriptionCarousel from "./DescriptionCarousel";
 
-// import styled from "styled-components";
+import styled from "styled-components";
 import { Grid } from "@mui/material";
 
 import { ekscp, wpgud, dudgjs, ehdns, tjdwls, dnjsvlf } from "assets/images";
@@ -12,25 +12,28 @@ const PreapareTemplate = () => {
 
   return (
     <Grid container sx={{ height: `calc(100vh - 13rem)` }}>
-      <Grid sx={{ height: "80%" }} item xs={8}>
-        <DescriptionCarousel images={imagesList} />
+      <Grid item xs={8}>
+        <ColFlexBox>
+          <DescriptionCarousel images={imagesList} />
+        </ColFlexBox>
       </Grid>
-      <Grid
-        item
-        xs={4}
-        sx={{ background: "#e5e5e5", borderRadius: "0 0 20px 0" }}
-      ></Grid>
+      <ControllerGrid item xs={4}></ControllerGrid>
     </Grid>
   );
 };
 
-// const ColFlexBox = styled.div({
-//   display: "flex",
-//   flexDirection: "column",
-//   alignItems: "center",
-//   justifyContent: "center",
+const ColFlexBox = styled.div({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
 
-//   height: "100%",
-// });
+  height: "100%",
+});
+
+const ControllerGrid = styled(Grid)({
+  background: "#e5e5e5",
+  borderRadius: "0 0 20px 0",
+});
 
 export default PreapareTemplate;

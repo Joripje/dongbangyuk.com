@@ -37,6 +37,7 @@ const BoardBox = styled.div({
   alignItems: "center",
 
   width: "70%",
+  height: "70%",
   minHeight: `calc(100vh - 10rem)`,
   background: "white",
   borderRadius: 20,
