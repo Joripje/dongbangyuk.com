@@ -3,15 +3,21 @@ import RoadSingleBox from "./RoadSingleBox";
 import styled from "styled-components";
 import { roadroadya } from "api/test";
 import ProblemInfo from "./ProblemInfo";
+import { Button } from "@mui/material";
 
-interface Problem {
+type GameBoardProps = {
+  ascProblemNum: () => void;
+};
+
+type Problem = {
   gameType: string;
   id: number;
   answer: number[][];
   cost: number;
-}
+};
 
-const GameBoard: React.FC = () => {
+const GameBoard = (props: GameBoardProps) => {
+  const { ascProblemNum } = props;
   const initialProblem: Problem = {
     gameType: "road",
     id: 1,
@@ -88,9 +94,14 @@ const GameBoard: React.FC = () => {
     let newAnswerList: Array<Object> = answerList;
     newAnswerList = [
       ...answerList,
-      { ...boardState, timeStamp: 222222, clicks: clickCount },
+      {
+        ...boardState,
+        timestamp: new Date().toISOString(),
+        clicks: clickCount,
+      },
     ];
     setAnswerList(newAnswerList);
+    ascProblemNum();
   };
 
   const onBoxClickHandler = (
@@ -167,7 +178,9 @@ const GameBoard: React.FC = () => {
             </RowFlexBox>
           );
         })}
-        <SubmitButton onClick={onNextHandler}>제출</SubmitButton>
+        <SubmitButton variant='contained' onClick={onNextHandler}>
+          제출
+        </SubmitButton>
       </ColFlexBox>
       <button style={{ height: "3rem" }} onClick={onSubmitHandler}>
         테스트용 최종 제출 버튼
@@ -187,16 +200,17 @@ const ColFlexBox = styled.div({
   alignItems: "center",
 });
 
-const SubmitButton = styled.button({
+const SubmitButton = styled(Button)({
   width: "15rem",
   height: "3rem",
 
   color: "white",
+  fontWeight: 1000,
   background: "blue",
-
   border: "none",
   borderRadius: "20px",
 
+  margin: "3rem",
   cursor: "pointer",
 });
 

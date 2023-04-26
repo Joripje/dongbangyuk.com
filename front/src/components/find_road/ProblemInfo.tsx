@@ -26,12 +26,13 @@ const ProblemInfo = (props: ProblemInfoProps) => {
 const StyledGridContainer = styled(Grid)({
   width: "17rem",
   height: "8rem",
+  alignItems: "center",
+  justifyContent: "space-around",
 
   border: "2px solid #e5e5e5",
   borderRadius: "20px",
 
-  alignItems: "center",
-  justifyContent: "space-around",
+  margin: "2rem",
 });
 
 const TypoForInfo = styled.div({

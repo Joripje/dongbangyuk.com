@@ -59,6 +59,10 @@ const Timer: React.FC<TimerProps> = (props: TimerProps) => {
 };
 
 const TimeBox = styled.div({
+  position: "absolute",
+  right: 15,
+  top: "1.2rem",
+
   width: "4rem",
   height: "1.5rem",
   textAlign: "center",
