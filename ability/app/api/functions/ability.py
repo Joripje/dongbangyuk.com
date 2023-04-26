@@ -238,16 +238,16 @@ def calc_judgement(avg_time, game_type):
         pass
 
     elif game_type == 'road':
-        if avg_time > 40:
+        if avg_time > 44:
             judgement = 1
 
-        elif 35 < avg_time <= 40:
+        elif 36 < avg_time <= 44:
             judgement = 2
 
-        elif 30 < avg_time <= 35:
+        elif 28 < avg_time <= 36:
             judgement = 3
 
-        elif 25 < avg_time <= 30:
+        elif 21 <= avg_time <= 28:
             judgement = 4
 
         else:
