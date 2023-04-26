@@ -6,6 +6,7 @@ from models import ProblemModels, ResultModels
 from api.functions import assessment
 from db.mongodb import problem_db, result_db
 import requests
+import random
 
 router = APIRouter()
 
@@ -21,6 +22,9 @@ async def get_road_problems():
             "correct": document["correct"]
         }
         problems[document["difficulty"]].append(item)
+    
+    random.shuffle(problems["easy"])
+    random.shuffle(problems["hard"])
 
     return JSONResponse(content=problems, status_code=200)
 
