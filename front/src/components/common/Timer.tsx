@@ -5,6 +5,7 @@ import styled from "styled-components";
 interface TimerProps {
   // props의 타입 정의
   // 기준 시간을 정해두고 해당 시간과의 차를 통해 현재 시간을 print
+
   startTime: number;
   settingTime: number;
   onExitHandler?: () => void;
@@ -17,19 +18,21 @@ const Timer: React.FC<TimerProps> = (props: TimerProps) => {
   const [spendTime, setSpendTime] = useState(0);
   const [remainTime, setRemainTime] = useState(settingTime);
 
+
+
   useEffect(() => {
     const intervalId = setInterval(() => {
       setRealTime(new Date().getTime());
       setSpendTime(Math.floor(new Date(realTime - startTime).getTime() / 1000));
       setRemainTime(settingTime - spendTime);
     }, 1000);
-    // console.log(new Date().toISOString());
+    
 
-    // if (remainTime < 0) {
-    //   alert("소코마데다");
-    //   if (onExitHandler) onExitHandler();
-    //   navigate("/", { replace: true });
-    // }
+    if (remainTime < 0) {
+      // alert("8초후 다음라운드가 시작됩니다.");
+      if (onExitHandler) onExitHandler();
+      // navigate("/", { replace: true });
+    }
     return () => clearInterval(intervalId);
   }, [
     realTime,
