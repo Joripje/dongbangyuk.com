@@ -394,7 +394,7 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
         HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = new HttpEntity<>(map, headers);
 
         // String serverUrl = "http://localhost:8080/images/upload";
-        String serverUrl = "http://k8a305.p.ssafy.io:8081/images/upload";
+        String serverUrl = "http://172.17.0.1:8081/images/upload";
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> responseEntity = restTemplate.exchange(serverUrl, HttpMethod.POST, requestEntity, String.class);
 
