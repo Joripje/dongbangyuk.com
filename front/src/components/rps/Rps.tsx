@@ -8,31 +8,53 @@ import { Button, Box } from '@mui/material';
 type Choice = 'rock' | 'paper' | 'scissors';
 
 type Props = {
+  
+  round: number,
+  settingTime: number;
   onGameStart: () => void;
+  onRoundChange: (gameHistory: string[][]) => void;
 }
 
 const choices: Choice[] = ['rock', 'paper', 'scissors'];
 
-function Rps({onGameStart}: Props) {
-  const [userChoice, setUserChoice] = useState('');
-  const [computerChoice, setComputerChoice] = useState('');
-  const [isSubmit, setIsSubmit] = useState(false);
+const Rps: React.FC<Props> = (props: Props) => {
+  const {onGameStart, settingTime, round, onRoundChange} = props;
+  const [userChoice, setUserChoice] = useState<string>('');
+  const [computerChoice, setComputerChoice] = useState<string>('');
+  const [isSubmit, setIsSubmit] = useState<boolean>(false);
   const [gameHistory, setGameHistory] = useState<Array<Array<string>>>([]);
-// string[][]
+  const [timer, setTimer] = useState<number>(-1);
+  const [upperTimer, setUpperTimer] = useState<number>(settingTime);
+  
+  useEffect(() => {
+    let intervalId: NodeJS.Timeout;
+
+    if (upperTimer > 0) {
+      intervalId = setInterval(() => {
+        setUpperTimer((upperTimer) => upperTimer - 1);
+      }, 1000);
+    }
+    if (upperTimer < 1) {
+      // console.log(round, gameHistory);
+      onRoundChange(gameHistory);
+    }
+
+    return () => clearInterval(intervalId);
+  },[round, upperTimer])
+
+
   
   const handleClick = (choice: Choice) => {
     if (!isSubmit) {
       const computer = computerChoice
       const newHistory = [choice, computer]
-      console.log('hsdlkfj', newHistory)
       setUserChoice(choice);
       setGameHistory([...gameHistory, newHistory])
-      console.log(gameHistory)
       setIsSubmit(true);
       setTimeout(handleReset, 1000);
+      setTimer(3);
     }
   };
-
   const handleReset = () => {
     setUserChoice('');
     setComputerChoice('');
@@ -42,8 +64,39 @@ function Rps({onGameStart}: Props) {
   // 타이머 시작
   const handleStart = () => {
     // setIsStart(true);
+    setUserChoice("");
+    setIsSubmit(false);
+    setGameHistory([]);
+    setComputerChoice(getComputerChoice());
+    
+    setTimer(3);
     onGameStart();
   }
+
+  useEffect(() => {
+    let intervalId: NodeJS.Timeout;
+    // settimeout으로 함수 한번만 발동하게
+    if (timer > 0) {
+      intervalId = setInterval(() => {
+        setTimer((timer) => timer - 1);
+      }, 1000);
+    }
+    return () => clearInterval(intervalId);
+  },[timer])
+
+  useEffect(() => {
+    if (timer === 0) {
+      // console.log('시간초과!')
+      setComputerChoice(getComputerChoice());
+      setUserChoice('');
+      setGameHistory([...gameHistory, []])
+      setIsSubmit(false);
+      setTimer(3);
+    }
+    // console.log(round, gameHistory)
+  }, [timer]);
+
+
 
   const getComputerChoice = () => {
     const randomIndex = Math.floor(Math.random() * choices.length);
@@ -70,7 +123,7 @@ function Rps({onGameStart}: Props) {
       ))}
       <h2>나: {userChoice}</h2>
       <h2>상대: {computerChoice}</h2>
-      <StartButton onClick={handleStart}>start</StartButton>
+      {round === 0 ? <StartButton onClick={handleStart}>start</StartButton> : ''}
     </WrapBox>
   )
 }
