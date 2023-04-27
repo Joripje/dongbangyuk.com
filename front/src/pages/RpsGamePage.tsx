@@ -7,7 +7,7 @@ import { Loading } from 'components/rps';
 import styled from 'styled-components';
 import { Button, Box } from '@mui/material';
 
-import { gawigawi } from 'api/rps';
+import { postRpsResults } from 'api/rps';
 
 type RpsGamePageProps = {};
 
@@ -27,7 +27,7 @@ function RpsGamePage(props: RpsGamePageProps) {
     date: string;
     gameType: string;
     rounds: {
-      [key: number]: object[];
+    [key: string]: object[]
     };
   }>({
   gameId: 1,
@@ -76,16 +76,12 @@ function RpsGamePage(props: RpsGamePageProps) {
 
   const handleGameEnd = () => {
      // gawigawi api
-    const Props = {
-      method: 'POST',
-      url: '/assessment-centre/rps',
-      data: {
-        answer
-      }
-    }
+    // const Props = {
+    //   answer
+    // }
     setIsGaming(false);
     console.log('하윙', answer)
-    gawigawi(Props)
+    postRpsResults(answer)
     navigate('/')
   };
 
@@ -96,10 +92,16 @@ function RpsGamePage(props: RpsGamePageProps) {
       handleGameEnd();
     }
   }
-  const handleAnswer = (gameHistory: object[]) => {
+  const handleAnswer = (gameHistory: object) => {
+    // const updatedRounds = answer.rounds;
+    // updatedRounds[round] = [...updatedRounds[round], gameHistory];
+    // setAnswer({
+    //   ...answer,
+    //   rounds: updatedRounds,
+    // });
     const updatedRounds = {
       ...answer.rounds,
-      [round]: [...answer.rounds[round], gameHistory]
+      [round]:  gameHistory
     };
     setAnswer({
       ...answer,

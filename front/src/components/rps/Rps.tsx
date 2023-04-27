@@ -71,6 +71,10 @@ const Rps: React.FC<Props> = (props: Props) => {
 
     }
   };
+
+  useEffect(()=> {
+    console.log(gameHistory)
+  },[gameHistory])
   useEffect(() => {
     if (timer === 0) {
       const endTime = new Date().toISOString();
