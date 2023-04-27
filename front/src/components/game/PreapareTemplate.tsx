@@ -13,6 +13,7 @@ import {
   tjdwls,
   dnjsvlf,
   mmy789,
+  poonghyung,
 } from "assets/images";
 
 import OverviewDescript from "./OverviewDescript";
@@ -24,6 +25,7 @@ const PreapareTemplate = () => {
     ekscp,
     wpgud,
     dudgjs,
+    poonghyung,
     tjdwls,
     ehdns,
     dnjsvlf,

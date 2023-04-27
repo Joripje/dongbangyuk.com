@@ -10,6 +10,7 @@ import ekscp from "./findRoad/ekscp.png";
 import mmy789 from "./findRoad/mmy789.png";
 import akalths from "./findRoad/akalths.jpg";
 import whdrn from "./findRoad/whdrn.jpg";
+import poonghyung from "./findRoad/poonghyung.jpg";
 
 export {
   love,
@@ -22,4 +23,5 @@ export {
   akalths,
   mmy789,
   whdrn,
+  poonghyung,
 };

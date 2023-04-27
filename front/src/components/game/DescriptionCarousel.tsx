@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Slider, { Settings } from "react-slick";
 
 import "slick-carousel/slick/slick.css";
@@ -13,8 +14,19 @@ interface DescriptionCarouselProps {
 
 const DescriptionCarousel = (props: DescriptionCarouselProps) => {
   const { images, selectedTypo } = props;
+  const navigate = useNavigate();
   const sliderRef = useRef<Slider>(null);
   const [currentSlideIndex, setCurrentSlideIndex] = useState<number>(0);
+  const settings: Settings = {
+    dots: true,
+    arrows: false,
+    infinite: false,
+    speed: 500,
+    draggable: false,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    afterChange: setCurrentSlideIndex,
+  };
 
   const prev = () => {
     if (sliderRef.current) {
@@ -31,22 +43,11 @@ const DescriptionCarousel = (props: DescriptionCarouselProps) => {
   useEffect(() => {
     const goTo = (target: number) => {
       if (sliderRef.current !== null) {
-        sliderRef.current.slickGoTo(target);
+        sliderRef.current.slickGoTo(target, false);
       }
     };
     goTo(selectedTypo);
   }, [selectedTypo]);
-
-  const settings: Settings = {
-    dots: true,
-    arrows: false,
-    infinite: false,
-    speed: 500,
-    draggable: false,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    afterChange: setCurrentSlideIndex,
-  };
 
   return (
     <CarouselWrapper>
@@ -58,9 +59,18 @@ const DescriptionCarousel = (props: DescriptionCarouselProps) => {
       <WordDesButton variant='contained' onClick={prev}>
         {currentSlideIndex === 0 ? "용어 설명" : "이전"}
       </WordDesButton>
-      <ControlButton variant='contained' onClick={next}>
-        {currentSlideIndex === 0 ? "설명 시작" : "다음"}
-      </ControlButton>
+      {currentSlideIndex === images.length - 1 ? (
+        <ControlButton
+          variant='contained'
+          onClick={() => navigate("/test/find-road")}
+        >
+          검사 시작
+        </ControlButton>
+      ) : (
+        <ControlButton variant='contained' onClick={next}>
+          {currentSlideIndex === 0 ? "설명 시작" : "다음"}
+        </ControlButton>
+      )}
     </CarouselWrapper>
   );
 };

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 function Error404Page() {
   const navigate = useNavigate();
   const onClickHandler = () => {
-    navigate("/componentTest");
+    navigate("/test/prepare/find-road");
   };
   return (
     <React.Fragment>
