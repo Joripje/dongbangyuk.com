@@ -7,6 +7,6 @@ RUN mvn package
 FROM openjdk:11
 WORKDIR /app
 COPY --from=maven target/kurento-hello-world-recording-6.18.0-exec.jar ./app.jar
-# CMD ["java", "-Dkms.url=ws://k8a305.p.ssafy.io:8888/kurento", "-jar", "./app.jar"]
-CMD ["java", "-Dkms.url=wss://k8a305.p.ssafy.io:8888/kurento", "-jar", "./app.jar"]
+CMD ["java", "-Dkms.url=ws://kms:8888/kurento", "-jar", "./app.jar"]
+# CMD ["java", "-Dkms.url=wss://k8a305.p.ssafy.io:8888/kurento", "-jar", "./app.jar"]
 
