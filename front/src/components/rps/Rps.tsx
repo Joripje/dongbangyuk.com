@@ -5,26 +5,34 @@ import { Timer } from 'components/common';
 import styled from 'styled-components';
 import { Button, Box } from '@mui/material';
 
-type Choice = 'rock' | 'paper' | 'scissors';
+type Choice = 'roc' | 'pap' | 'sci';
 
 type Props = {
-  
   round: number,
   settingTime: number;
   onGameStart: () => void;
-  onRoundChange: (gameHistory: string[][]) => void;
+  onRoundChange: (gameHistory: object[]) => void;
 }
 
-const choices: Choice[] = ['rock', 'paper', 'scissors'];
+type RpsGameData = {
+  gameType: string;
+  answer: [Choice, Choice];
+  timestamp: [string, string];
+}
+
+const choices: Choice[] = ['roc', 'pap', 'sci'];
 
 const Rps: React.FC<Props> = (props: Props) => {
   const {onGameStart, settingTime, round, onRoundChange} = props;
   const [userChoice, setUserChoice] = useState<string>('');
   const [computerChoice, setComputerChoice] = useState<string>('');
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
-  const [gameHistory, setGameHistory] = useState<Array<Array<string>>>([]);
+  const [gameHistory, setGameHistory] = useState<Array<object>>([]);
+  // const [gameHistory, setGameHistory] = useState<Array<RpsGameData>>([]);
+
   const [timer, setTimer] = useState<number>(-1);
   const [upperTimer, setUpperTimer] = useState<number>(settingTime);
+  const [startTime, setStartTime] = useState('');
   
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
@@ -43,18 +51,43 @@ const Rps: React.FC<Props> = (props: Props) => {
   },[round, upperTimer])
 
 
-  
+
   const handleClick = (choice: Choice) => {
     if (!isSubmit) {
       const computer = computerChoice
-      const newHistory = [choice, computer]
+      // const newHistory = [choice, computer]
+      
+      const endTime = new Date().toISOString();
+      const newData = {
+        "gameType": 'rps',
+        "answer": [choice, computer],
+        "timestamp": [startTime, endTime]
+      }
       setUserChoice(choice);
-      setGameHistory([...gameHistory, newHistory])
+      setGameHistory([...gameHistory, newData])
       setIsSubmit(true);
       setTimeout(handleReset, 1000);
       setTimer(3);
+
     }
   };
+  useEffect(() => {
+    if (timer === 0) {
+      const endTime = new Date().toISOString();
+      const newData = {
+        "gameType": 'rps',
+        "answer": [],
+        "timestamp": [startTime, endTime]
+      }
+      setComputerChoice(getComputerChoice());
+      setUserChoice('');
+      setGameHistory([...gameHistory, newData])
+      setIsSubmit(false);
+      setTimer(3);
+    }
+    // console.log(round, gameHistory)
+  }, [timer]);
+
   const handleReset = () => {
     setUserChoice('');
     setComputerChoice('');
@@ -68,7 +101,8 @@ const Rps: React.FC<Props> = (props: Props) => {
     setIsSubmit(false);
     setGameHistory([]);
     setComputerChoice(getComputerChoice());
-    
+
+
     setTimer(3);
     onGameStart();
   }
@@ -84,23 +118,13 @@ const Rps: React.FC<Props> = (props: Props) => {
     return () => clearInterval(intervalId);
   },[timer])
 
-  useEffect(() => {
-    if (timer === 0) {
-      // console.log('시간초과!')
-      setComputerChoice(getComputerChoice());
-      setUserChoice('');
-      setGameHistory([...gameHistory, []])
-      setIsSubmit(false);
-      setTimer(3);
-    }
-    // console.log(round, gameHistory)
-  }, [timer]);
 
 
 
   const getComputerChoice = () => {
     const randomIndex = Math.floor(Math.random() * choices.length);
     return choices[randomIndex];
+    
   };
 
 
@@ -110,6 +134,7 @@ const Rps: React.FC<Props> = (props: Props) => {
       setComputerChoice(computerChoice);
       // console.log(computerChoice)
     }
+    setStartTime(new Date().toISOString())
   }, [userChoice]);
 
 
