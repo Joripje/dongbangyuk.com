@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import RoadSingleBox from "./RoadSingleBox";
 import styled from "styled-components";
-import { roadroadya } from "api/test";
+import { getFindRoadProblems, putFindRoadProblems } from "api/test";
 import ProblemInfo from "./ProblemInfo";
 import { Button } from "@mui/material";
 
@@ -10,18 +10,31 @@ type GameBoardProps = {
 };
 
 type Problem = {
+  problem_id: number;
+  problem: number[][];
+  correct?: number;
+};
+
+type TempProblem = {
+  problemId: number;
+  problem?: number[][];
+  correct?: number;
+  problem_id?: number;
+};
+
+type Answer = {
   gameType: string;
-  id: number;
+  problemId: number;
   answer: number[][];
-  cost: number;
+  timestamp: string[];
+  clicks: number;
 };
 
 const GameBoard = (props: GameBoardProps) => {
   const { ascProblemNum } = props;
   const initialProblem: Problem = {
-    gameType: "road",
-    id: 1,
-    answer: [
+    problem_id: 0,
+    problem: [
       [-1, 1, -1, 3, 2, -1, -1],
       [-1, 0, 0, 0, 0, 0, 1],
       [-1, 0, 0, 0, 0, 0, -1],
@@ -30,78 +43,43 @@ const GameBoard = (props: GameBoardProps) => {
       [-1, 0, 0, 0, 0, 0, 3],
       [-1, -1, -1, -1, -1, -1, -1],
     ],
-    cost: 3,
+    correct: 0,
   };
-  const [boardState, setBoardState] = useState(initialProblem);
-  const [answerList, setAnswerList] = useState<Array<Object>>([]);
   const [clickCount, setClickCount] = useState(20);
-
-  const getRandomNumber = (): [number, number] => {
-    const numbers = [1, 2, 3, 4, 5];
-    const sections = [1, 2, 3, 4];
-    const numIndex = Math.floor(Math.random() * numbers.length);
-    const sectionIndex = Math.floor(Math.random() * sections.length);
-    const selectedNumber = numbers.splice(numIndex, 1)[0];
-    const selectedSection = sections.splice(sectionIndex, 1)[0];
-
-    switch (selectedSection) {
-      case 1:
-        return [selectedNumber, 0];
-      case 2:
-        return [0, selectedNumber];
-      case 3:
-        return [selectedNumber, 6];
-      case 4:
-        return [6, selectedNumber];
-      default:
-        return [0, 0];
-    }
-  };
+  const [easyProblems, setEasyProblems] = useState<Array<Problem>>([]);
+  const [hardProblems, setHardProblems] = useState<Array<Problem>>([]);
+  const [boardState, setBoardState] = useState(initialProblem);
+  const [answerList, setAnswerList] = useState<Array<Answer>>([]);
+  const [timestamp, setTimestamp] = useState([new Date().toISOString()]);
 
   const cleanBoard = (): void => {
-    const problem: Array<Array<number>> = Array(7)
-      .fill(0)
-      .map((_, i) =>
-        Array(7)
-          .fill(0)
-          .map((_, j) => {
-            if (i === 0 || i === 6 || j === 0 || j === 6) {
-              return -1;
-            }
-            return 0;
-          })
-      );
-
-    const destinations: number[] = [1, 2, 3, 1, 2, 3];
-
-    while (destinations.length > 0) {
-      const [x, y] = getRandomNumber();
-      if (problem[y][x] === -1) {
-        problem[y][x] = destinations.pop()!;
-      }
+    const newProblem: Problem | undefined = easyProblems.pop();
+    if (newProblem !== undefined) {
+      setBoardState(newProblem);
     }
-
-    const newProblem: Problem = {
-      gameType: "road",
-      id: boardState.id + 1,
-      answer: problem,
-      cost: 25,
-    };
-    setBoardState(newProblem);
   };
 
   const saveAnswer = () => {
-    let newAnswerList: Array<Object> = answerList;
-    newAnswerList = [
-      ...answerList,
-      {
-        ...boardState,
-        timestamp: new Date().toISOString(),
-        clicks: clickCount,
-      },
-    ];
-    setAnswerList(newAnswerList);
+    const newBoardState: TempProblem = {
+      ...boardState,
+      problemId: boardState.problem_id,
+    };
+    delete newBoardState.correct;
+    delete newBoardState.problem;
+    delete newBoardState.problem_id;
+
+    const newAnswer: Answer = {
+      ...newBoardState,
+      gameType: "road",
+      answer: boardState.problem,
+      timestamp: [...timestamp, new Date().toISOString()].slice(-2),
+      clicks: clickCount,
+    };
+
+    const newAnswerList: Array<Answer> = [...answerList, newAnswer];
     ascProblemNum();
+    setTimestamp([new Date().toISOString()]);
+    setAnswerList(newAnswerList);
   };
 
   const onBoxClickHandler = (
@@ -112,10 +90,10 @@ const GameBoard = (props: GameBoardProps) => {
   ) => {
     event.preventDefault();
     if (clickCount < 1) {
-      alert("더 이상 클릭할 수 없어요.");
+      alert("더 이상 클릭할 수 없어요. 제출해주세요.");
       return;
     } else setClickCount((clickCount) => clickCount - 1);
-    const itemValue = boardState.answer[yIndex][xIndex];
+    const itemValue = boardState.problem[yIndex][xIndex];
     if (
       itemValue === -1 ||
       itemValue === 1 ||
@@ -123,15 +101,42 @@ const GameBoard = (props: GameBoardProps) => {
       itemValue === 3
     )
       return;
-    const newBoardState = boardState.answer.map((row, rowIndex) =>
+    const newBoardState = boardState.problem.map((row, rowIndex) =>
       rowIndex === yIndex
         ? row.map((value, columnIndex) =>
             columnIndex === xIndex ? (itemValue === 0 ? rotate : 0) : value
           )
         : row
     );
-    setBoardState({ ...boardState, answer: newBoardState });
+    setBoardState({ ...boardState, problem: newBoardState });
   };
+  //   event: MouseEvent,
+  //   xIndex: number,
+  //   yIndex: number,
+  //   rotate: number
+  // ) => {
+  //   event.preventDefault();
+  //   if (clickCount < 1) {
+  //     alert("더 이상 클릭할 수 없어요.");
+  //     return;
+  //   } else setClickCount((clickCount) => clickCount - 1);
+  //   const itemValue = boardState.answer[yIndex][xIndex];
+  //   if (
+  //     itemValue === -1 ||
+  //     itemValue === 1 ||
+  //     itemValue === 2 ||
+  //     itemValue === 3
+  //   )
+  //     return;
+  //   const newBoardState = boardState.answer.map((row, rowIndex) =>
+  //     rowIndex === yIndex
+  //       ? row.map((value, columnIndex) =>
+  //           columnIndex === xIndex ? (itemValue === 0 ? rotate : 0) : value
+  //         )
+  //       : row
+  //   );
+  //   setBoardState({ ...boardState, answer: newBoardState });
+  // };
 
   const onNextHandler = (event: React.MouseEvent<HTMLElement>): void => {
     event.preventDefault();
@@ -142,26 +147,34 @@ const GameBoard = (props: GameBoardProps) => {
 
   const onSubmitHandler = (event: React.MouseEvent<HTMLElement>): void => {
     event.preventDefault();
-    // const date = new Date(); // YYMMDD
-    const dummyProps = {
-      method: "POST",
-      url: "/assessment-centre/road",
-      data: {
-        userId: "ssafy",
-        date: 230419,
-        gameType: "road",
-        propblems: answerList,
-      },
+    const roadProps = {
+      userId: 0,
+      gameId: 0,
+      date: new Date().toISOString(),
+      gameType: "road",
+      problems: answerList,
     };
-    console.log(dummyProps);
-    roadroadya(dummyProps);
+    putFindRoadProblems(roadProps);
   };
+
+  useMemo(async () => {
+    const fetchProblems = async () => {
+      const newProblems: { easy: Problem[]; hard: Problem[] } =
+        await getFindRoadProblems();
+      const tempProblem = newProblems.easy.pop();
+      if (tempProblem !== undefined) setBoardState(tempProblem);
+      setEasyProblems(newProblems["easy"]);
+      setHardProblems(newProblems["hard"]);
+    };
+
+    fetchProblems();
+  }, []);
 
   return (
     <RowFlexBox>
       <ProblemInfo clickCount={clickCount} leastWall={5} />
       <ColFlexBox>
-        {boardState.answer.map((item, yIndex) => {
+        {boardState.problem.map((item, yIndex) => {
           return (
             <RowFlexBox key={yIndex}>
               {item.map((rowValue, xIndex) => {
@@ -182,9 +195,11 @@ const GameBoard = (props: GameBoardProps) => {
           제출
         </SubmitButton>
       </ColFlexBox>
-      <button style={{ height: "3rem" }} onClick={onSubmitHandler}>
-        테스트용 최종 제출 버튼
-      </button>
+      <ColFlexBox style={{ position: "absolute", right: 0, bottom: 0 }}>
+        <button style={{ height: "3rem" }} onClick={onSubmitHandler}>
+          테스트용 최종 제출 버튼
+        </button>
+      </ColFlexBox>
     </RowFlexBox>
   );
 };
