@@ -5,13 +5,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.game.domain.user.User;
-import com.game.service.FirebaseAuthService;
+import com.game.dto.UserSaveRequestDto;
 import com.game.service.UserService;
 import com.google.firebase.auth.FirebaseAuthException;
 
@@ -23,21 +22,16 @@ import lombok.RequiredArgsConstructor;
 public class UserController {
 
 	private final UserService userService;
-	private final FirebaseAuthService firebaseAuthService;
 
 	@PostMapping
-	public ResponseEntity<User> createUser(@RequestHeader("Authorization") String token,
-		@RequestParam String birthDate,
-		@RequestParam int feature) {
-		String uid = null;
-		
+	public ResponseEntity<String> createUser(@RequestBody UserSaveRequestDto dto) {
 		try {
-			uid = firebaseAuthService.getUid(token);
+			Long userId = userService.createUser(dto);
+			return ResponseEntity.ok("User created with ID: " + userId);
 		} catch (FirebaseAuthException e) {
-			throw new RuntimeException(e);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating user: " + e.getMessage());
 		}
-		User user = userService.createUser(uid, birthDate, feature);
-		return new ResponseEntity<>(user, HttpStatus.CREATED);
+
 	}
 
 	@GetMapping("/{id}")
@@ -47,21 +41,6 @@ public class UserController {
 			return new ResponseEntity<>(user, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-	}
-
-	@GetMapping
-	public ResponseEntity<User> getUserByUid(@RequestHeader("Authorization") String token) {
-		try {
-			String uid = firebaseAuthService.getUid(token);
-			User user = userService.getUserByUid(uid);
-			if (user != null) {
-				return new ResponseEntity<>(user, HttpStatus.OK);
-			} else {
-				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-			}
-		} catch (FirebaseAuthException e) {
-			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 	}
 

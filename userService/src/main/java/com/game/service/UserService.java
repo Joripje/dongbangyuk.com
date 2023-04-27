@@ -4,28 +4,30 @@ import org.springframework.stereotype.Service;
 
 import com.game.domain.user.User;
 import com.game.domain.user.UserRepository;
-import com.google.firebase.FirebaseApp;
+import com.game.dto.UserSaveRequestDto;
+import com.google.firebase.auth.FirebaseAuthException;
 
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
-	private final FirebaseApp firebaseApp;
 	private final UserRepository userRepository;
+	private final FirebaseAuthService firebaseAuthService;
 
-	public User createUser(String uid, String birthDate, int feature) {
-		User user = new User(uid, birthDate, feature);
-		return userRepository.save(user);
+	public Long createUser(UserSaveRequestDto dto) throws FirebaseAuthException {
+		String uid = firebaseAuthService.getUidAfterCreateUser(dto.getEmail(), dto.getPassword());
+		User user = User.builder()
+			.uid(uid)
+			.birthDate(dto.getBirthDate())
+			.feature(dto.getFeature())
+			.build();
+		return userRepository.save(user).getId();
 	}
 
 	public User getUserById(Long id) {
 		return userRepository.findById(id).orElse(null);
-	}
-
-	public User getUserByUid(String uid) {
-		return userRepository.findByUid(uid).orElse(null);
 	}
 
 }

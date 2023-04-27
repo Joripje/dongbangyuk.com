@@ -4,14 +4,22 @@ import org.springframework.stereotype.Service;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
-import com.google.firebase.auth.FirebaseToken;
+import com.google.firebase.auth.UserRecord;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class FirebaseAuthService {
 
-	public String getUid(String token) throws FirebaseAuthException {
-		FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(token);
-		return decodedToken.getUid();
+	public String getUidAfterCreateUser(String email, String password) throws FirebaseAuthException {
+		UserRecord.CreateRequest request = new UserRecord.CreateRequest()
+			.setEmail(email)
+			.setPassword(password)
+			.setDisabled(false);
+
+		UserRecord userRecord = FirebaseAuth.getInstance().createUser(request);
+		return userRecord.getUid();
 	}
 
 }
