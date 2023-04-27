@@ -3,8 +3,9 @@ const headers = {
 };
 
 // const baseUrl = "http://localhost:8000/";
-const baseUrl = "http://192.168.0.13:8000";
+// const baseUrl = "http://192.168.0.13:8000";
 // const baseUrl = "https://j8a802.p.ssafy.io/api/";
+const baseUrl = "http://k8a305.p.ssafy.io:8010";
 
 interface RequestProps {
   method: string;

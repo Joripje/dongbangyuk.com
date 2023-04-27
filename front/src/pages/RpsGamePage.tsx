@@ -7,6 +7,8 @@ import { Loading } from 'components/rps';
 import styled from 'styled-components';
 import { Button, Box } from '@mui/material';
 
+import { gawigawi } from 'api/rps';
+
 type RpsGamePageProps = {};
 
 
@@ -16,7 +18,30 @@ function RpsGamePage(props: RpsGamePageProps) {
   const [settingTime, setSettingTime] = useState<number>(180);
   const [isGaming, setIsGaming] = useState<boolean>(true);
   const [round, setRound] = useState<number>(0);
-  const [answer, setAnswer] = useState<Array<Array<Array<string>>>>([]);
+  // const [answer, setAnswer] = useState<Array<Array<Array<string>>>>([]);
+  // const [answer, setAnswer] = useState<Array<Array<object>>>([]);
+
+  const [answer, setAnswer] = useState<{
+    gameId: number;
+    userId: number;
+    date: string;
+    gameType: string;
+    rounds: {
+      [key: number]: object[];
+    };
+  }>({
+  gameId: 1,
+  userId: 1,
+  date: new Date().toISOString(),
+  gameType: 'rps',
+  rounds: {
+    1: [],
+    2: [],
+    3: []
+  }
+});
+
+
   const navigate = useNavigate();
 
   // 게임 스타트를 누르면 타이머 세팅
@@ -50,9 +75,18 @@ function RpsGamePage(props: RpsGamePageProps) {
   };
 
   const handleGameEnd = () => {
+     // gawigawi api
+    const Props = {
+      method: 'POST',
+      url: '/assessment-centre/rps',
+      data: {
+        answer
+      }
+    }
     setIsGaming(false);
+    console.log('하윙', answer)
+    gawigawi(Props)
     navigate('/')
-    
   };
 
   const handleTimerExit = () => {
@@ -62,11 +96,22 @@ function RpsGamePage(props: RpsGamePageProps) {
       handleGameEnd();
     }
   }
-  const handleAnswer = (gameHistory: string[][]) => {
-    answer.push(gameHistory)
-    setAnswer(answer)
-    console.log(answer)
+  const handleAnswer = (gameHistory: object[]) => {
+    const updatedRounds = {
+      ...answer.rounds,
+      [round]: [...answer.rounds[round], gameHistory]
+    };
+    setAnswer({
+      ...answer,
+      rounds: updatedRounds
+    });
   }
+
+
+  // useEffect(()=>{
+  //   console.log(answer)
+  // },[answer])
+
 
 
   return (
