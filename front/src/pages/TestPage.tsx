@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import love from "assets/images/love.png";
-import { FindRoad } from "components/game";
 
 function TestPage() {
   // const gameType = "road";
@@ -9,7 +8,6 @@ function TestPage() {
     <TemplateBox>
       <ColFlexBox>
         <VoiceCheckImg />
-        <FindRoad />
       </ColFlexBox>
     </TemplateBox>
   );

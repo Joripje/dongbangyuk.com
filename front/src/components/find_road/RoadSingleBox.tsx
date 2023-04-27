@@ -1,5 +1,4 @@
 import React, { ReactNode } from "react";
-import { EnterHandler } from "react-transition-group/Transition";
 import styled from "styled-components";
 
 interface MainProps {
@@ -43,7 +42,7 @@ const RoadSingleBox: React.FC<MainProps> = (props: MainProps) => {
         xIndex={xIndex}
         yIndex={yIndex}
         onClick={(event: MouseEvent) => {
-          if (rowValue == 0 || rowValue > 3) {
+          if (rowValue === 0 || rowValue > 3) {
             onClickHandler(event, xIndex, yIndex, 4);
           }
         }}
@@ -53,8 +52,8 @@ const RoadSingleBox: React.FC<MainProps> = (props: MainProps) => {
         xIndex={xIndex}
         yIndex={yIndex}
         onClick={(event: MouseEvent) => {
-          if (rowValue == 0 || rowValue > 3) {
-            onClickHandler(event, xIndex, yIndex, 4);
+          if (rowValue === 0 || rowValue > 3) {
+            onClickHandler(event, xIndex, yIndex, 5);
           }
         }}
       />
@@ -123,7 +122,7 @@ const LeftTopDiagonal: React.ComponentType<DiagonalProps> = styled.div<DiagonalP
     ${(props: DestinationProps) => {
       const { attribute } = props;
       const correctTarget = "cursor: pointer; background: black";
-      if (attribute == 0 || attribute > 3) return correctTarget;
+      if (attribute === 0 || attribute > 3) return correctTarget;
       else return;
     }};
   }
@@ -156,7 +155,7 @@ const RightTopDiagonal: React.ComponentType<DiagonalProps> = styled.div<Diagonal
     ${(props: DestinationProps) => {
       const { attribute } = props;
       const correctTarget = "cursor: pointer; background: black";
-      if (attribute == 0 || attribute > 3) return correctTarget;
+      if (attribute === 0 || attribute > 3) return correctTarget;
       else return;
     }};
   }

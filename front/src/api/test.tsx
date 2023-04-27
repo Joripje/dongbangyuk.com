@@ -1,14 +1,23 @@
 import request from "./api";
 
-interface RequestProps {
-  method: string;
-  url: string;
-  data: object;
-}
-
-const roadroadya = (props: RequestProps) => {
-  //   const { method, url, data } = props;
-  request(props);
+const getFindRoadProblems = () => {
+  const requestProps = {
+    method: "GET",
+    url: "/assessment-centre/road",
+    // data: props,
+  };
+  const res = request(requestProps);
+  return res;
 };
 
-export { roadroadya };
+const putFindRoadProblems = (props: object) => {
+  const requestProps = {
+    method: "POST",
+    url: "/assessment-centre/road",
+    data: props,
+  };
+  const res = request(requestProps);
+  return res;
+};
+
+export { getFindRoadProblems, putFindRoadProblems };

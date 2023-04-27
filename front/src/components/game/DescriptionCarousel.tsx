@@ -1,4 +1,5 @@
-import React, { Component, RefObject } from "react";
+import { useRef, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Slider, { Settings } from "react-slick";
 
 import "slick-carousel/slick/slick.css";
@@ -8,70 +9,85 @@ import styled from "@emotion/styled";
 
 interface DescriptionCarouselProps {
   images: string[];
+  selectedTypo: number;
 }
 
-export default class PreviousNextMethods extends Component<DescriptionCarouselProps> {
-  sliderRef: RefObject<Slider>;
+const DescriptionCarousel = (props: DescriptionCarouselProps) => {
+  const { images, selectedTypo } = props;
+  const navigate = useNavigate();
+  const sliderRef = useRef<Slider>(null);
+  const [currentSlideIndex, setCurrentSlideIndex] = useState<number>(0);
+  const settings: Settings = {
+    dots: true,
+    arrows: false,
+    infinite: false,
+    speed: 500,
+    draggable: false,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    afterChange: setCurrentSlideIndex,
+  };
 
-  constructor(props: DescriptionCarouselProps) {
-    super(props);
-    this.sliderRef = React.createRef<Slider>();
-    this.next = this.next.bind(this);
-  }
-
-  next() {
-    if (this.sliderRef.current) {
-      console.log(this.sliderRef.current.innerSlider);
-      this.sliderRef.current.slickNext();
+  const prev = () => {
+    if (sliderRef.current) {
+      sliderRef.current.slickPrev();
     }
-  }
+  };
 
-  handleBeforChange(index: number, imgaesLength: number) {
-    console.log(index);
-    console.log(imgaesLength);
-    if (index === imgaesLength) console.log("WOW");
-  }
+  const next = () => {
+    if (sliderRef.current) {
+      sliderRef.current.slickNext();
+    }
+  };
 
-  render() {
-    const images = this.props.images;
-    const settings: Settings = {
-      dots: true,
-      arrows: false,
-      infinite: false,
-      speed: 500,
-      draggable: false,
-      slidesToShow: 1,
-      slidesToScroll: 1,
-      beforeChange: this.handleBeforChange,
+  useEffect(() => {
+    const goTo = (target: number) => {
+      if (sliderRef.current !== null) {
+        sliderRef.current.slickGoTo(target, false);
+      }
     };
+    goTo(selectedTypo);
+  }, [selectedTypo]);
 
-    return (
-      <CaruoselWrapper>
-        <Slider ref={this.sliderRef} {...settings}>
-          {images.map((image, index) => {
-            return <CaroueseImg src={image} key={index} alt={"토끼스"} />;
-          })}
-        </Slider>
-        <WordDesButton variant='contained'>용어 설명</WordDesButton>
-        <NextButton variant='contained' onClick={this.next}>
-          Next
-        </NextButton>
-      </CaruoselWrapper>
-    );
-  }
-}
+  return (
+    <CarouselWrapper>
+      <Slider ref={sliderRef} {...settings}>
+        {images.map((image, index) => {
+          return <CarouselImg src={image} key={index} alt={"토끼스"} />;
+        })}
+      </Slider>
+      <WordDesButton variant='contained' onClick={prev}>
+        {currentSlideIndex === 0 ? "용어 설명" : "이전"}
+      </WordDesButton>
+      {currentSlideIndex === images.length - 1 ? (
+        <ControlButton
+          variant='contained'
+          onClick={() => navigate("/test/find-road")}
+        >
+          검사 시작
+        </ControlButton>
+      ) : (
+        <ControlButton variant='contained' onClick={next}>
+          {currentSlideIndex === 0 ? "설명 시작" : "다음"}
+        </ControlButton>
+      )}
+    </CarouselWrapper>
+  );
+};
 
-const CaruoselWrapper = styled.div({
+const CarouselWrapper = styled.div({
   position: "relative",
   width: "90%",
-  height: "80%",
+  margin: "0 5% ",
 });
 
-const NextButton = styled(Button)({ position: "absolute", right: 0 });
+const ControlButton = styled(Button)({ position: "absolute", right: 0 });
 const WordDesButton = styled(Button)({
   position: "absolute",
   left: 0,
   background: "gray",
 });
 
-const CaroueseImg = styled.img({ width: "auto", height: "100%" });
+const CarouselImg = styled.img({ width: "auto", height: "100%" });
+
+export default DescriptionCarousel;
