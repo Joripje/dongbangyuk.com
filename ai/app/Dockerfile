@@ -5,7 +5,7 @@ WORKDIR /app
 COPY requirements.txt /app
 
 RUN apt-get update && apt-get install -y libgl1-mesa-glx
-# RUN pip install cmake==3.26.3
+RUN pip install cmake==3.26.3
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
