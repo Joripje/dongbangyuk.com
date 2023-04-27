@@ -7,11 +7,12 @@ from tensorflow.keras.models import load_model
 def video_detection(game_id, video_path):
     # 얼굴 검출기와 랜드마크 검출기 초기화
     detector = dlib.get_frontal_face_detector()
-    predictor = dlib.shape_predictor("C:/Users/SSAFY/Documents/GitHub/S08P31A305/ai/app/api/functions/data/shape_predictor_68_face_landmarks.dat")
-
+    # predictor = dlib.shape_predictor("C:/Users/SSAFY/Documents/GitHub/S08P31A305/ai/app/api/functions/data/shape_predictor_68_face_landmarks.dat")
+    predictor = dlib.shape_predictor("api/functions/data/shape_predictor_68_face_landmarks.dat")
 
     # 감정 분석 모델 불러오기
-    model = load_model("C:/Users/SSAFY/Documents/GitHub/S08P31A305/ai/app/api/functions/data/emotion_classifiction_model.h5")
+    # model = load_model("C:/Users/SSAFY/Documents/GitHub/S08P31A305/ai/app/api/functions/data/emotion_classifiction_model.h5")
+    model = load_model("api/functions/data/emotion_classifiction_model.h5")
 
     # 감정 레이블 정의하기
     # emotions = ["angry", "disgust", "scared", "happy", "sad", "surprised", "neutral"]
