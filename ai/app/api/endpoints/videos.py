@@ -1,22 +1,17 @@
 from fastapi import APIRouter
-from api.functions import video_detection, mongodb_jujang
-from pydantic import BaseModel
-
-
-class Video(BaseModel):
-    gameid: int
-    videopath: str
-
+from api.functions.video import video_detection
+from api.functions.mongodb_cr import mongodb_create, mongodb_read
+from schemas.schemas_videos import VideoBase
 
 router = APIRouter()
 
 
 @router.post("/")
-def video_analysis(video: Video):
+def video_analysis(video: VideoBase):
 
-    data = video_detection.video_detection(video.gameid, video.videopath)
+    data = video_detection(video.gameid, video.videopath)
     print('분석끝')
-    mongodb_jujang.mongodb_jujang(data)
+    mongodb_create(data)
     print('저장끝')
 
     return '완료됨'
@@ -25,4 +20,7 @@ def video_analysis(video: Video):
 
 @router.get("/data")
 def get_video_data(videoid: int):
-    return {f'{videoid}의 영상정보'}
+
+    data = mongodb_read(videoid)
+
+    return data
