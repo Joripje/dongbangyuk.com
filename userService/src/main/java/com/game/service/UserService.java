@@ -1,35 +1,39 @@
 package com.game.service;
 
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.game.domain.user.User;
+import com.game.domain.user.CustomUser;
 import com.game.domain.user.UserRepository;
-import com.game.dto.FirebaseSaveRequestDto;
 import com.game.dto.UserSaveRequestDto;
-import com.google.firebase.auth.FirebaseAuthException;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class UserService {
+public class UserService implements UserDetailsService {
 
 	private final UserRepository userRepository;
-	private final FirebaseAuthService firebaseAuthService;
+	// private final FirebaseAuthService firebaseAuthService;
 
-	public Long createUser(UserSaveRequestDto dto) throws FirebaseAuthException {
-		String uid = firebaseAuthService.getUidAfterCreateUser(FirebaseSaveRequestDto.from(dto));
+	@Override
+	public UserDetails loadUserByUsername(String uid) throws UsernameNotFoundException {
+		return userRepository.findByUid(uid).get();
+	}
 
-		User user = User.builder()
-			.uid(uid)
+	@Transactional
+	public CustomUser createUser(UserSaveRequestDto dto) {
+		CustomUser customUser = CustomUser.builder()
+			.uid(dto.getUid())
 			.birthDate(dto.getBirthDate())
 			.feature(dto.getFeature())
 			.build();
-		return userRepository.save(user).getId();
-	}
 
-	public User getUserById(Long id) {
-		return userRepository.findById(id).orElse(null);
+		userRepository.save(customUser);
+		return customUser;
 	}
 
 }

@@ -1,18 +1,22 @@
 package com.game.api;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
-import com.game.domain.user.User;
+import com.game.domain.user.CustomUser;
 import com.game.dto.UserSaveRequestDto;
+import com.game.message.RegisterInfo;
+import com.game.message.UserInfo;
 import com.game.service.UserService;
+import com.game.utils.RequestUtil;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseToken;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,26 +25,28 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserController {
 
+	private final FirebaseAuth firebaseAuth;
 	private final UserService userService;
 
 	@PostMapping
-	public ResponseEntity<String> createUser(@RequestBody UserSaveRequestDto dto) {
+	public UserInfo register(@RequestHeader("Authorization") String authorization, @RequestBody RegisterInfo registerInfo) {
+		FirebaseToken decodedToken;
 		try {
-			Long userId = userService.createUser(dto);
-			return ResponseEntity.ok("User created with ID: " + userId);
-		} catch (FirebaseAuthException e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating user: " + e.getMessage());
+			String token = RequestUtil.getAuthorizationToken(authorization);
+			decodedToken = firebaseAuth.verifyIdToken(token);
+		} catch (IllegalArgumentException | FirebaseAuthException e) {
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
+				"{\"code\":\"INVALID_TOKEN\", \"message\":\"" + e.getMessage() + "\"}");
 		}
-	}
+		UserSaveRequestDto dto = UserSaveRequestDto.builder()
+			.uid(decodedToken.getUid())
+			.email(decodedToken.getEmail())
+			.nickname(registerInfo.getNickname())
+			.build();
 
-	@GetMapping("/{id}")
-	public ResponseEntity<User> getUserById(@PathVariable Long id) {
-		User user = userService.getUserById(id);
-		if (user != null) {
-			return new ResponseEntity<>(user, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
+		// 사용자를 등록한다.
+		CustomUser registeredUser = userService.createUser(dto);
+		return new UserInfo(registeredUser);
 	}
 
 }
