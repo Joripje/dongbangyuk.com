@@ -24,80 +24,22 @@ def saju(year, month, day):
     for child in root.iter():
         result[child.tag] = child.text
 
-    # 결과 출력
+    prompt = 'There is a '
 
-    prompt = ''
-    # 연주
-    if result['lunSecha'][0] == '갑' or result['lunSecha'][0] == '을':
-        prompt += 'A Blue '
+    if result['lunIljin'][0] == '갑' or result['lunIljin'][0] == '을':
+        prompt += 'blue '
 
-    elif result['lunSecha'][0] == '병' or result['lunSecha'][0] == '정':
-        prompt += 'A Red '
+    elif result['lunIljin'][0] == '병' or result['lunIljin'][0] == '정':
+        prompt += 'red '
 
-    elif result['lunSecha'][0] == '무' or result['lunSecha'][0] == '기':
-        prompt += 'A Yellow '
+    elif result['lunIljin'][0] == '무' or result['lunIljin'][0] == '기':
+        prompt += 'yellow '
 
-    elif result['lunSecha'][0] == '경' or result['lunSecha'][0] == '신':
-        prompt += 'A White '
+    elif result['lunIljin'][0] == '경' or result['lunIljin'][0] == '신':
+        prompt += 'white '
 
     else:
-        prompt += 'A Black '
-
-
-    if result['lunSecha'][1] == '자':
-        prompt += 'rat'
-
-    elif result['lunSecha'][1] == '축':
-        prompt += 'ox'
-
-    elif result['lunSecha'][1] == '인':
-        prompt += 'tiger'
-
-    elif result['lunSecha'][1] == '묘':
-        prompt += 'rabbit'
-
-    elif result['lunSecha'][1] == '진':
-        prompt += 'dragon'
-
-    elif result['lunSecha'][1] == '사':
-        prompt += 'snake'
-
-    elif result['lunSecha'][1] == '오':
-        prompt += 'horse'
-
-    elif result['lunSecha'][1] == '미':
-        prompt += 'lamb'
-
-    elif result['lunSecha'][1] == '신':
-        prompt += 'monkey'
-
-    elif result['lunSecha'][1] == '유':
-        prompt += 'rooster'
-
-    elif result['lunSecha'][1] == '술':
-        prompt += 'dog'
-
-    elif result['lunSecha'][1] == '해':
-        prompt += 'pig'
-
-    prompt += ' with '
-
-    #  일주 보내기
-    if result['lunIljin'][0] == '갑' or  result['lunIljin'][0] == '을':
-        prompt += 'A Blue '
-
-    elif result['lunIljin'][0] == '병' or  result['lunIljin'][0] == '정':
-        prompt += 'A Red '
-
-    elif result['lunIljin'][0] == '무' or  result['lunIljin'][0] == '기':
-        prompt += 'A Yellow '
-
-    elif result['lunIljin'][0] == '경' or  result['lunIljin'][0] == '신':
-        prompt += 'A White '
-
-    else:
-        prompt += 'A Black '
-
+        prompt += 'black '
 
     if result['lunIljin'][1] == '자':
         prompt += 'rat'
@@ -135,7 +77,176 @@ def saju(year, month, day):
     elif result['lunIljin'][1] == '해':
         prompt += 'pig'
 
-    prompt += ' in front of it, digital art, trending on artstation'
+    prompt += ' and behind it is a big'
+
+    #  일주 보내기
+
+    # 연주
+    if result['lunSecha'][0] == '갑' or result['lunSecha'][0] == '을':
+        prompt += ' blue '
+
+    elif result['lunSecha'][0] == '병' or result['lunSecha'][0] == '정':
+        prompt += ' red '
+
+    elif result['lunSecha'][0] == '무' or result['lunSecha'][0] == '기':
+        prompt += ' yellow '
+
+    elif result['lunSecha'][0] == '경' or result['lunSecha'][0] == '신':
+        prompt += ' white '
+
+    else:
+        prompt += ' black '
+
+    if result['lunSecha'][1] == '자':
+        prompt += 'rat'
+
+    elif result['lunSecha'][1] == '축':
+        prompt += 'ox'
+
+    elif result['lunSecha'][1] == '인':
+        prompt += 'tiger'
+
+    elif result['lunSecha'][1] == '묘':
+        prompt += 'rabbit'
+
+    elif result['lunSecha'][1] == '진':
+        prompt += 'dragon'
+
+    elif result['lunSecha'][1] == '사':
+        prompt += 'snake'
+
+    elif result['lunSecha'][1] == '오':
+        prompt += 'horse'
+
+    elif result['lunSecha'][1] == '미':
+        prompt += 'lamb'
+
+    elif result['lunSecha'][1] == '신':
+        prompt += 'monkey'
+
+    elif result['lunSecha'][1] == '유':
+        prompt += 'rooster'
+
+    elif result['lunSecha'][1] == '술':
+        prompt += 'dog'
+
+    elif result['lunSecha'][1] == '해':
+        prompt += 'pig'
+
+    prompt += ' like the background, digital art, trending on artstation'
+
+    # 결과 출력
+
+    # prompt = ''
+    # # 연주
+    # if result['lunSecha'][0] == '갑' or result['lunSecha'][0] == '을':
+    #     prompt += 'A Blue '
+    #
+    # elif result['lunSecha'][0] == '병' or result['lunSecha'][0] == '정':
+    #     prompt += 'A Red '
+    #
+    # elif result['lunSecha'][0] == '무' or result['lunSecha'][0] == '기':
+    #     prompt += 'A Yellow '
+    #
+    # elif result['lunSecha'][0] == '경' or result['lunSecha'][0] == '신':
+    #     prompt += 'A White '
+    #
+    # else:
+    #     prompt += 'A Black '
+    #
+    #
+    # if result['lunSecha'][1] == '자':
+    #     prompt += 'rat'
+    #
+    # elif result['lunSecha'][1] == '축':
+    #     prompt += 'ox'
+    #
+    # elif result['lunSecha'][1] == '인':
+    #     prompt += 'tiger'
+    #
+    # elif result['lunSecha'][1] == '묘':
+    #     prompt += 'rabbit'
+    #
+    # elif result['lunSecha'][1] == '진':
+    #     prompt += 'dragon'
+    #
+    # elif result['lunSecha'][1] == '사':
+    #     prompt += 'snake'
+    #
+    # elif result['lunSecha'][1] == '오':
+    #     prompt += 'horse'
+    #
+    # elif result['lunSecha'][1] == '미':
+    #     prompt += 'lamb'
+    #
+    # elif result['lunSecha'][1] == '신':
+    #     prompt += 'monkey'
+    #
+    # elif result['lunSecha'][1] == '유':
+    #     prompt += 'rooster'
+    #
+    # elif result['lunSecha'][1] == '술':
+    #     prompt += 'dog'
+    #
+    # elif result['lunSecha'][1] == '해':
+    #     prompt += 'pig'
+    #
+    # prompt += ' with '
+    #
+    # #  일주 보내기
+    # if result['lunIljin'][0] == '갑' or  result['lunIljin'][0] == '을':
+    #     prompt += 'A Blue '
+    #
+    # elif result['lunIljin'][0] == '병' or  result['lunIljin'][0] == '정':
+    #     prompt += 'A Red '
+    #
+    # elif result['lunIljin'][0] == '무' or  result['lunIljin'][0] == '기':
+    #     prompt += 'A Yellow '
+    #
+    # elif result['lunIljin'][0] == '경' or  result['lunIljin'][0] == '신':
+    #     prompt += 'A White '
+    #
+    # else:
+    #     prompt += 'A Black '
+    #
+    #
+    # if result['lunIljin'][1] == '자':
+    #     prompt += 'rat'
+    #
+    # elif result['lunIljin'][1] == '축':
+    #     prompt += 'ox'
+    #
+    # elif result['lunIljin'][1] == '인':
+    #     prompt += 'tiger'
+    #
+    # elif result['lunIljin'][1] == '묘':
+    #     prompt += 'rabbit'
+    #
+    # elif result['lunIljin'][1] == '진':
+    #     prompt += 'dragon'
+    #
+    # elif result['lunIljin'][1] == '사':
+    #     prompt += 'snake'
+    #
+    # elif result['lunIljin'][1] == '오':
+    #     prompt += 'horse'
+    #
+    # elif result['lunIljin'][1] == '미':
+    #     prompt += 'lamb'
+    #
+    # elif result['lunIljin'][1] == '신':
+    #     prompt += 'monkey'
+    #
+    # elif result['lunIljin'][1] == '유':
+    #     prompt += 'rooster'
+    #
+    # elif result['lunIljin'][1] == '술':
+    #     prompt += 'dog'
+    #
+    # elif result['lunIljin'][1] == '해':
+    #     prompt += 'pig'
+    #
+    # prompt += ' in front of it, digital art, trending on artstation'
 
     image_url = create_image(prompt)
 
