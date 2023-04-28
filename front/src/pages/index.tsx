@@ -4,7 +4,8 @@ import Error404Page from "./Error404Page";
 import FindRoadPage from "./FindRoadPage";
 import FindRoadPreparePage from "./FindRoadPreparePage";
 import RpsGamePage from "./RpsGamePage";
-import ComponentTest from "./ComponentTest";
+// import ComponentTest from "./ComponentTest";
+import FirebaseTestPage from "./FirebaseTestPage";
 
 const routes = [
   // error pages
@@ -26,7 +27,7 @@ const routes = [
   },
   {
     path: "/componentTest",
-    element: <ComponentTest />,
+    element: <FirebaseTestPage />,
   },
 ];
 
