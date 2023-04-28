@@ -1,5 +1,6 @@
 package com.stat.domain.score;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,7 @@ public class GameScore {
 
 	private String gameId;
 	private List<Double> scores;
+	private LocalDateTime lastModified = LocalDateTime.now();
 
 	@Builder
 	public GameScore(String gameId, List<Double> scores) {
@@ -25,6 +27,10 @@ public class GameScore {
 	public GameScore(GameScoreSaveRequestDto dto) {
 		this.gameId = dto.getGameId();
 		this.scores = dto.getScores() != null ? dto.getScores() : new ArrayList<>();
+	}
+
+	public void updateLastModified() {
+		this.lastModified = LocalDateTime.now();
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.stat.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -57,27 +58,31 @@ public class StatisticsService {
 		List<Statistics> stats = Arrays.asList(game1, game2, game3, game4);
 		statisticsRepository.saveAll(stats);
 	}
-
+	
+	// 스케줄링 적용 필요
 	public void updateStatistics() {
+		LocalDate today = LocalDate.now();
 		List<ScoreAvg> scoreAvgs = scoreAvgRepository.findAll();
-		List<Double> allScores = new ArrayList<>();
 		List<String> gameTypes = Arrays.asList("game1", "game2", "game3", "game4");
-
 		int sequence = 0;
+
 		for (String gameType: gameTypes) {
+			List<Double> allScores = new ArrayList<>();
+
 			for (ScoreAvg scoreAvg : scoreAvgs) {
 				for (GameScore gameScore : scoreAvg.getGameScores()) {
-					if (gameScore.getGameId().equals(gameType)) {
+					if (gameScore.getGameId().equals(gameType) && gameScore.getLastModified().toLocalDate().isEqual(today)) {
 						allScores.addAll(gameScore.getScores());
 					}
 				}
 			}
-			Statistics statistics = statisticsRepository.findByType(gameType)
-				.orElse(Statistics.builder().id(++sequence).type(gameType).build());
-			System.out.println("statistics: " + statistics.toString());
 
-			statistics.updateScores(allScores);
-			statisticsRepository.save(statistics);
+			if (!allScores.isEmpty()) {
+				Statistics statistics = statisticsRepository.findByType(gameType)
+					.orElse(Statistics.builder().id(++sequence).type(gameType).build());
+				statistics.updateScores(allScores);
+				statisticsRepository.save(statistics);
+			}
 		}
 	}
 }
