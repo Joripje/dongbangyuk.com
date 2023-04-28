@@ -5,7 +5,7 @@ const headers = {
 // const baseUrl = "http://localhost:8000/";
 // const baseUrl = "http://70.12.246.183:8000";
 // const baseUrl = "http://k8a305.p.ssafy.io:8010";
-const baseUrl = "https://k8a305.p.ssafy.io/";
+const baseUrl = "https://k8a305.p.ssafy.io";
 
 interface RequestProps {
   method: string;
