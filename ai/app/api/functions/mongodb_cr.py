@@ -17,9 +17,9 @@ def mongodb_read(videoid):
 
     return video
 
-def mongodb_list():
-    data_list = list(collection.find())
-
-    id_list = [str(data['_id']) for data in data_list]
-
-    return id_list
+# def mongodb_list():
+#     data_list = list(collection.find())
+#
+#     id_list = [str(data['_id']) for data in data_list]
+#
+#     return id_list
