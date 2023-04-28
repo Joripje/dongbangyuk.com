@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+import com.google.firebase.auth.FirebaseAuth;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,8 +27,19 @@ public class FirebaseConfig {
 
 		FirebaseOptions options = FirebaseOptions.builder()
 			.setCredentials(GoogleCredentials.fromStream(serviceAccount))
+			.setDatabaseUrl("https://h-337b5.firebaseio.com")
 			.build();
 
 		return FirebaseApp.initializeApp(options);
 	}
+
+	@Bean
+	public FirebaseAuth firebaseAuth() {
+		try {
+			return FirebaseAuth.getInstance(firebaseApp());
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 }

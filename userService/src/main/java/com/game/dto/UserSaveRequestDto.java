@@ -8,7 +8,9 @@ import lombok.Getter;
 public class UserSaveRequestDto {
 
 	private final String email;
+	private final String phoneNumber;
 	private final String password;
+	private final String nickname;
 	private final int feature;
 	private final String birthDate;
 

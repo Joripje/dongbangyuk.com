@@ -31,7 +31,6 @@ public class UserController {
 		} catch (FirebaseAuthException e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating user: " + e.getMessage());
 		}
-
 	}
 
 	@GetMapping("/{id}")
