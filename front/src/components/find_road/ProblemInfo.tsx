@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Grid } from "@mui/material";
 
 interface ProblemInfoProps {
-  leastWall: number;
+  leastWall: number | undefined;
   clickCount: number;
 }
 
