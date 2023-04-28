@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.stat.domain.score.GameScore;
+import com.stat.domain.statistics.StatisticsRepository;
 import com.stat.dto.GameScoreDto;
 import com.stat.service.ScoreAvgService;
 
@@ -20,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class GameScoreController {
 
 	private final ScoreAvgService scoreAvgService;
+	private final StatisticsRepository statisticsRepository;
 
 	@ApiOperation(value = "더미 데이터 생성")
 	@PostMapping("/dummy")

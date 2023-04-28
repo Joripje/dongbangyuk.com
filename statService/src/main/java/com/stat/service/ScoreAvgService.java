@@ -21,60 +21,10 @@ public class ScoreAvgService {
 
 	private final ScoreAvgRepository scoreAvgRepository;
 
-	// public GameScore calculateMovingAverage(GameScore gameScore, int numGames) {
-	// 	GameScore result = new GameScore();
-	// 	result.setUserId(gameScore.getUserId());
-	// 	result.setGameScores(gameScore.getGameScores().stream().map(score -> {
-	// 		Score resultGame = new Score(score.getGameId(), score.getScores(), score.getAvg());
-	//
-	// 		int numScores = score.getScores().size();
-	// 		if (numScores > numGames) {
-	// 			List<Double> movingAvg = calculateMovingAvg(numGames, score.getScores());
-	// 			resultGame.setMovingAvg(movingAvg);
-	// 		} else {
-	// 			resultGame.setMovingAvg(Collections.nCopies(numScores, score.getAvg()));
-	// 		}
-	//
-	// 		return resultGame;
-	// 	}).collect(Collectors.toList()));
-	//
-	// 	return result;
-	// }
-
-	// private List<Double> calculateMovingAvg(int numGames, List<Double> scores) {
-	// 	List<Double> movingAvg = scores.stream()
-	// 		.mapToDouble(Double::doubleValue)
-	// 		.boxed()
-	// 		.collect(Collectors.toList());
-	//
-	// 	for (int i = numGames; i < scores.size(); i++) {
-	// 		double sum = 0.0;
-	// 		for (int j = i - numGames; j < i; j++) {
-	// 			sum += scores.get(j);
-	// 		}
-	// 		movingAvg.set(i, sum / numGames);
-	// 	}
-	//
-	// 	return movingAvg;
-	// }
-
-	// public void calculateScore(String gameId, ScoreAvg scoreAvg) {
-	// 	List<GameScore> gameScores = scoreAvg.getGameScores();
-	// 	double sum = 0.0;
-	//
-	// 	for (int i = 0; i < 3; i++) {
-	// 		sum += gameScores.get(i);
-	// 	}
-	// 	scoreAvgRepository.find
-	// 	return sum;
-	// }
-
 	@Transactional
 	public ScoreAvg addScore(int userId, String gameId, double score) {
 		Optional<ScoreAvg> optionalScoreAvg = scoreAvgRepository.findByUserId(userId);
 
-		// String x = optionalScoreAvg.get().toString();
-		// System.out.println("score: " + x);
 		// userId에 해당하는 데이터가 없으면 새로 생성하여 추가
 		ScoreAvg scoreAvg = optionalScoreAvg.orElseGet(() -> ScoreAvg.builder()
 			.userId(userId)

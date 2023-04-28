@@ -5,14 +5,16 @@ import java.util.List;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Getter
+@NoArgsConstructor
 @ToString
 public class GameScore {
 
-	private final String gameId;
-	private final List<Double> scores;
+	private String gameId;
+	private List<Double> scores;
 
 	@Builder
 	public GameScore(String gameId, List<Double> scores) {
