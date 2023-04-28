@@ -10,7 +10,7 @@ class GameResult(BaseModel):
     type: str               # 게임 종류 (road, rps, rotate, cat)
     results: List[int]      # [1, 0, 1, 0, 0], 시간제한 있는 게임(rps, cat) 미응답의 경우 2
     timestamps: List[List[datetime]]   # [[시작시간, 제출시간], ...]
-    score: List[int]        # [맞은수, 전체문제수]
+    score: int        # 채점한 점수
 
 
 # 길만들기 게임 - 채점결과의 속성
