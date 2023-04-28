@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import { useState, useMemo, MouseEvent } from "react";
 import RoadSingleBox from "./RoadSingleBox";
 import styled from "styled-components";
 import { getFindRoadProblems, putFindRoadProblems } from "api/test";
@@ -56,6 +56,7 @@ const GameBoard = (props: GameBoardProps) => {
     const newProblem: Problem | undefined = easyProblems.pop();
     if (newProblem !== undefined) {
       setBoardState(newProblem);
+      console.log(newProblem);
     }
   };
 
@@ -110,42 +111,15 @@ const GameBoard = (props: GameBoardProps) => {
     );
     setBoardState({ ...boardState, problem: newBoardState });
   };
-  //   event: MouseEvent,
-  //   xIndex: number,
-  //   yIndex: number,
-  //   rotate: number
-  // ) => {
-  //   event.preventDefault();
-  //   if (clickCount < 1) {
-  //     alert("더 이상 클릭할 수 없어요.");
-  //     return;
-  //   } else setClickCount((clickCount) => clickCount - 1);
-  //   const itemValue = boardState.answer[yIndex][xIndex];
-  //   if (
-  //     itemValue === -1 ||
-  //     itemValue === 1 ||
-  //     itemValue === 2 ||
-  //     itemValue === 3
-  //   )
-  //     return;
-  //   const newBoardState = boardState.answer.map((row, rowIndex) =>
-  //     rowIndex === yIndex
-  //       ? row.map((value, columnIndex) =>
-  //           columnIndex === xIndex ? (itemValue === 0 ? rotate : 0) : value
-  //         )
-  //       : row
-  //   );
-  //   setBoardState({ ...boardState, answer: newBoardState });
-  // };
 
-  const onNextHandler = (event: React.MouseEvent<HTMLElement>): void => {
+  const onNextHandler = (event: MouseEvent<HTMLElement>): void => {
     event.preventDefault();
     saveAnswer();
     cleanBoard();
     setClickCount(20);
   };
 
-  const onSubmitHandler = (event: React.MouseEvent<HTMLElement>): void => {
+  const onSubmitHandler = (event: MouseEvent<HTMLElement>): void => {
     event.preventDefault();
     const roadProps = {
       userId: 0,
@@ -172,7 +146,7 @@ const GameBoard = (props: GameBoardProps) => {
 
   return (
     <RowFlexBox>
-      <ProblemInfo clickCount={clickCount} leastWall={5} />
+      <ProblemInfo clickCount={clickCount} leastWall={boardState.correct} />
       <ColFlexBox>
         {boardState.problem.map((item, yIndex) => {
           return (

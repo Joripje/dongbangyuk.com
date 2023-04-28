@@ -11,12 +11,4 @@ function FindRoadPreparePage() {
   );
 }
 
-// const ColFlexBox = styled.div({
-//   display: "flex",
-//   flexDirection: "column",
-//   alignItems: "center",
-
-//   height: "100%",
-// });
-
 export default FindRoadPreparePage;

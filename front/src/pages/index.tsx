@@ -4,13 +4,24 @@ import Error404Page from "./Error404Page";
 import FindRoadPage from "./FindRoadPage";
 import FindRoadPreparePage from "./FindRoadPreparePage";
 import RpsGamePage from "./RpsGamePage";
-import ComponentTest from "./ComponentTest";
+// import ComponentTest from "./ComponentTest";
+import FirebaseTestPage from "./FirebaseTestPage";
+import MemberPage from "./MemberPage";
+import GameSelectPage from "./GameSelectPage";
 
 const routes = [
   // error pages
   {
     path: "*",
     element: <Error404Page />,
+  },
+  {
+    path: "/member/*",
+    element: <MemberPage />,
+  },
+  {
+    path: "/test/prepare",
+    element: <GameSelectPage />,
   },
   {
     path: "/test/find-road",
@@ -26,7 +37,7 @@ const routes = [
   },
   {
     path: "/componentTest",
-    element: <ComponentTest />,
+    element: <FirebaseTestPage />,
   },
 ];
 
