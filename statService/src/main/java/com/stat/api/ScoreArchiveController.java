@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.stat.domain.score.GameScore;
 import com.stat.domain.statistics.StatisticsRepository;
 import com.stat.dto.GameScoreDto;
-import com.stat.service.ScoreAvgService;
+import com.stat.service.ScoreArchiveService;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -18,15 +18,15 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/games")
 @RequiredArgsConstructor
-public class GameScoreController {
+public class ScoreArchiveController {
 
-	private final ScoreAvgService scoreAvgService;
+	private final ScoreArchiveService scoreArchiveService;
 	private final StatisticsRepository statisticsRepository;
 
 	@ApiOperation(value = "더미 데이터 생성")
 	@PostMapping("/dummy")
 	public ResponseEntity<String> addDummyData() {
-		scoreAvgService.addDummyData();
+		scoreArchiveService.addDummyData();
 		return ResponseEntity.ok("Dummy 완성");
 	}
 
@@ -36,7 +36,7 @@ public class GameScoreController {
 		int userId = gameScoreDto.getUserId();
 		String gameId = gameScoreDto.getGameId();
 		double score = gameScoreDto.getScore();
-		scoreAvgService.addScore(userId, gameId, score);
+		scoreArchiveService.addScore(userId, gameId, score);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 

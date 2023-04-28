@@ -10,36 +10,36 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.stat.domain.score.GameScore;
 import com.stat.domain.score.GameScoreSaveRequestDto;
-import com.stat.domain.score.ScoreAvg;
-import com.stat.domain.score.ScoreAvgRepository;
+import com.stat.domain.score.ScoreArchive;
+import com.stat.domain.score.ScoreArchiveRepository;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class ScoreAvgService {
+public class ScoreArchiveService {
 
-	private final ScoreAvgRepository scoreAvgRepository;
+	private final ScoreArchiveRepository scoreArchiveRepository;
 
 	@Transactional
-	public ScoreAvg addScore(int userId, String gameId, double score) {
-		Optional<ScoreAvg> optionalScoreAvg = scoreAvgRepository.findByUserId(userId);
+	public ScoreArchive addScore(int userId, String gameId, double score) {
+		Optional<ScoreArchive> optionalScoreArchive = scoreArchiveRepository.findByUserId(userId);
 
 		// userId에 해당하는 데이터가 없으면 새로 생성하여 추가
-		ScoreAvg scoreAvg = optionalScoreAvg.orElseGet(() -> ScoreAvg.builder()
+		ScoreArchive scoreArchive = optionalScoreArchive.orElseGet(() -> ScoreArchive.builder()
 			.userId(userId)
 			.gameScores(new ArrayList<>())
 			.build());
 
 		// gameId에 해당하는 데이터 찾기
-		Optional<GameScore> optionalScore = scoreAvg.getGameScores().stream()
+		Optional<GameScore> optionalScore = scoreArchive.getGameScores().stream()
 			.filter(s -> s.getGameId().equals(gameId))
 			.findFirst();
 
 		GameScore gameScore = optionalScore.get();
 		gameScore.getScores().add(0, score);
 		gameScore.updateLastModified();
-		return scoreAvgRepository.save(scoreAvg);
+		return scoreArchiveRepository.save(scoreArchive);
 	}
 
 	public void addDummyData() {
@@ -53,7 +53,7 @@ public class ScoreAvgService {
 			new GameScoreSaveRequestDto("game4", Arrays.asList(0.6, 0.5, 0.4, 0.7, 0.8, 0.5)));
 
 		List<GameScore> scores1 = Arrays.asList(score1, score2, score3, score4);
-		ScoreAvg gameScore1 = new ScoreAvg(1, scores1);
+		ScoreArchive gameScore1 = new ScoreArchive(1, scores1);
 
 		GameScore score5 = new GameScore(
 			new GameScoreSaveRequestDto("game1", Arrays.asList(0.9, 0.6, 0.8, 0.7, 0.4, 0.6)));
@@ -65,10 +65,10 @@ public class ScoreAvgService {
 			new GameScoreSaveRequestDto("game4", Arrays.asList(0.7, 0.4, 0.3, 0.6, 0.7, 0.4)));
 
 		List<GameScore> scores2 = Arrays.asList(score5, score6, score7, score8);
-		ScoreAvg gameScore2 = new ScoreAvg(2, scores2);
+		ScoreArchive gameScore2 = new ScoreArchive(2, scores2);
 
-		List<ScoreAvg> gameScores = Arrays.asList(gameScore1, gameScore2);
-		scoreAvgRepository.saveAll(gameScores);
+		List<ScoreArchive> gameScores = Arrays.asList(gameScore1, gameScore2);
+		scoreArchiveRepository.saveAll(gameScores);
 	}
 
 }

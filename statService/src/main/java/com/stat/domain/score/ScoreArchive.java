@@ -17,15 +17,15 @@ import lombok.ToString;
 @Setter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Document(collection = "score_avg")
-public class ScoreAvg {
+@Document(collection = "score_archive")
+public class ScoreArchive {
 
 	@Id
 	private int userId;
 	private List<GameScore> gameScores = new ArrayList<>();
 
 	@Builder
-	public ScoreAvg(int userId, List<GameScore> gameScores) {
+	public ScoreArchive(int userId, List<GameScore> gameScores) {
 		this.userId = userId;
 		this.gameScores = gameScores != null ? gameScores : new ArrayList<>();
 	}
