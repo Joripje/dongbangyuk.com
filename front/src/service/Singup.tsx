@@ -1,7 +1,17 @@
 import { ChangeEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+
 import { auth } from "./firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { Box, Container, Grid, Button, TextField } from "@mui/material";
+
+import { Box, Grid, Button, TextField } from "@mui/material";
+
+type SignUpProps = {
+  isLogin: boolean;
+};
 
 type textFieldOption = {
   id: string;
@@ -12,7 +22,9 @@ type textFieldOption = {
   type: string;
 };
 
-function SignUp() {
+function SignUp(props: SignUpProps) {
+  const navigate = useNavigate();
+  const { isLogin } = props;
   const [inputEmail, setInputEmail] = useState("");
   const [inputPassword, setInputPassword] = useState("");
   const textFieldOptions: Array<textFieldOption> = [
@@ -45,59 +57,53 @@ function SignUp() {
   };
 
   const onClickHandler = () => {
-    createUserWithEmailAndPassword(auth, inputEmail, inputPassword)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log(user);
-        // ...
+    const authFunction = isLogin
+      ? signInWithEmailAndPassword
+      : createUserWithEmailAndPassword;
+
+    authFunction(auth, inputEmail, inputPassword)
+      .then(() => {
+        navigate("/");
       })
       .catch((error) => {
-        //   const errorCode = error.code;
-        //   const errorMessage = error.message;
         console.log(error);
       });
   };
 
   return (
-    <Container fixed>
-      <Box component='form'>
-        <Grid
-          container
-          spacing={2}
-          style={{ padding: "2rem", justifyContent: "center" }}
-        >
-          {textFieldOptions.map((item) => {
-            return (
-              <Grid item xs={12} key={item.id}>
-                <TextField
-                  onChange={onTypingHandler}
-                  //   helperText={params?.helperText}
-                  //   error={params?.error}
-                  //   disabled={params?.disabled}
-                  id={item.id}
-                  autoFocus={item.focus}
-                  label={item?.label}
-                  type={item.type}
-                  fullWidth
-                />
-              </Grid>
-            );
-          })}
-          <Grid item xs={9}>
-            <Button
-              onClick={onClickHandler}
-              variant='contained'
-              className='submit'
-              style={{ height: "3rem", background: "#B8DDFF" }}
-              fullWidth
-            >
-              {/* <b>{params.buttonName}</b> */}
-              회원 가입
-            </Button>
-          </Grid>
+    <Box component='form'>
+      <Grid
+        container
+        spacing={2}
+        style={{ padding: "2rem", justifyContent: "center" }}
+      >
+        {textFieldOptions.map((item) => {
+          return (
+            <Grid item xs={12} key={item.id}>
+              <TextField
+                onChange={onTypingHandler}
+                id={item.id}
+                autoFocus={item.focus}
+                label={item?.label}
+                type={item.type}
+                fullWidth
+              />
+            </Grid>
+          );
+        })}
+        <Grid item xs={9}>
+          <Button
+            onClick={onClickHandler}
+            variant='contained'
+            className='submit'
+            style={{ height: "3rem", background: "#B8DDFF" }}
+            fullWidth
+          >
+            {isLogin ? "로그인" : "회원 가입"}
+          </Button>
         </Grid>
-      </Box>
-    </Container>
+      </Grid>
+    </Box>
   );
 }
 

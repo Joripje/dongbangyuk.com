@@ -1,7 +1,5 @@
-import SignUp from "service/Singup";
-
 function FirebaseTestPage() {
-  return <SignUp />;
+  return <div />;
 }
 
 export default FirebaseTestPage;
