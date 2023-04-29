@@ -13,8 +13,12 @@
     "@testing-library/user-event": "^13.5.0",
     "@types/firebase": "^3.2.1",
     "@types/react-slick": "^0.23.10",
+    "adapter": "^1.0.0-beta.10",
     "firebase": "^9.20.0",
     "firebaseui": "^6.0.2",
+    "jquery": "^3.6.4",
+    "kurento-utils": "^7.0.0",
+    "lib-kurento": "^0.0.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.5",
@@ -22,6 +26,7 @@
     "react-slick": "^0.29.0",
     "serve": "^14.2.0",
     "slick-carousel": "^1.8.1",
+    "socket.io-client": "^4.6.1",
     "styled-components": "^5.3.9",
     "typescript": "^5.0.4",
     "web-vitals": "^2.1.4"
@@ -55,6 +60,8 @@
     ]
   },
   "devDependencies": {
+    "@types/jquery": "^3.5.16",
+    "@types/kurento-utils": "^6.7.1",
     "@types/styled-components": "^5.1.26",
     "react-scripts": "^5.0.1"
   }

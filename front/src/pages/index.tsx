@@ -8,6 +8,7 @@ import RpsGamePage from "./RpsGamePage";
 import FirebaseTestPage from "./FirebaseTestPage";
 import MemberPage from "./MemberPage";
 import GameSelectPage from "./GameSelectPage";
+import RecordTestPage from "./RecordTestPage.js";
 
 const routes = [
   // error pages
@@ -38,6 +39,10 @@ const routes = [
   {
     path: "/componentTest",
     element: <FirebaseTestPage />,
+  },
+  {
+    path: "/recordtest",
+    element: <RecordTestPage />,
   },
 ];
 
