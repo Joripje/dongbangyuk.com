@@ -8,7 +8,7 @@ type StyledCardProps = {
   key: number;
   disabled: boolean | undefined;
   children: ReactNode;
-  onClick: (event: MouseEvent) => void;
+  onClick: () => void;
 };
 
 function GameSelect() {
@@ -48,7 +48,7 @@ function GameSelect() {
               <StyledCard
                 key={index}
                 disabled={disabled}
-                onClick={(event: MouseEvent) => navigate(url)}
+                onClick={() => navigate(url)}
               >
                 <TypoForGameName>{name}</TypoForGameName>
                 <TypoForAbility>

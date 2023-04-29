@@ -19,7 +19,7 @@ function MemberPage() {
       <h1>동 방 역 검 {isLogin ? "로그인" : "회원 가입"}</h1>
       <SignUp isLogin={isLogin} />
       <Button onClick={onPageSelectHandler}>
-        {isLogin ? "로그인" : "회원 가입"}
+        {isLogin ? "회원 가입" : "로그인"}
       </Button>
     </StyledContainer>
   );
