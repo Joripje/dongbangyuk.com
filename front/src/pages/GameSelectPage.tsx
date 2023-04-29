@@ -5,9 +5,11 @@ import { useEffect, useState } from "react";
 function GameSelectPage() {
   const [isEnough, setIsEnough] = useState(true);
 
+  // 이 체크를 계속 render되게 해야함
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 1920) setIsEnough(false);
+      if (window.innerWidth < 1920 || window.innerHeight < 1080)
+        setIsEnough(false);
       else setIsEnough(true);
     };
 
@@ -20,7 +22,7 @@ function GameSelectPage() {
       {isEnough ? (
         <GameSelect />
       ) : (
-        <div>Width가 1920px 이상이어야지 시작할 수 있어요</div>
+        <div>화면이 1920 X 1080 이상이어야지 정상적인 시험을 칠 수 있어요</div>
       )}
     </GameTemplate>
   );
