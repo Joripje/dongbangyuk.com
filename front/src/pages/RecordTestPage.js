@@ -280,13 +280,13 @@ function RecordTestPage() {
             ></video>
           </div>
           <div class="col-md-2">
-            <button id="start" onclick={start}>
+            <button id="start" onClick={start}>
               Start
             </button>
-            <button id="start" onclick={stop}>
+            <button id="start" onClick={stop}>
               stop
             </button>
-            <button id="start" onclick={play}>
+            <button id="start" onClick={play}>
               play
             </button>
           </div>
