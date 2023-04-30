@@ -3,7 +3,16 @@ import $ from "jquery";
 import kurentoUtils from "kurento-utils";
 
 function RecordTestPage() {
-  var ws = new WebSocket("wss://k8a305.p.ssafy.io:8030/recording");
+  var configuration = {
+    iceServers: [
+      {
+        urls: "turn:k8a305.p.ssafy.io:3478",
+        username: "root",
+        credential: "a305"
+      }
+    ]
+  };
+  var ws = new WebSocket("wss://k8a305.p.ssafy.io:8030/recording", configuration);
   var videoInput;
   var videoOutput;
   var webRtcPeer;
@@ -257,13 +266,6 @@ function RecordTestPage() {
       arguments[i].style.background = "";
     }
   }
-  /**
-   * Lightbox utility (to display media pipeline image in a modal dialog)
-   */
-  $(document).delegate('*[data-toggle="lightbox"]', "click", function (event) {
-    event.preventDefault();
-    $(this).ekkoLightbox();
-  });
 
   return (
     <div>
@@ -280,13 +282,13 @@ function RecordTestPage() {
             ></video>
           </div>
           <div class="col-md-2">
-            <button id="start" onclick={start}>
+            <button id="start" onClick={start}>
               Start
             </button>
-            <button id="start" onclick={stop}>
+            <button id="start" onClick={stop}>
               stop
             </button>
-            <button id="start" onclick={play}>
+            <button id="start" onClick={play}>
               play
             </button>
           </div>
