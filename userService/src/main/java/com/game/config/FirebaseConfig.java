@@ -27,14 +27,13 @@ public class FirebaseConfig {
 
 		FirebaseOptions options = FirebaseOptions.builder()
 			.setCredentials(GoogleCredentials.fromStream(serviceAccount))
-			.setDatabaseUrl("https://h-337b5.firebaseio.com")
 			.build();
 
 		return FirebaseApp.initializeApp(options);
 	}
 
 	@Bean
-	public FirebaseAuth firebaseAuth() {
+	public FirebaseAuth getFirebaseAuth() {
 		try {
 			return FirebaseAuth.getInstance(firebaseApp());
 		} catch (IOException e) {

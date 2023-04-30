@@ -1,8 +1,10 @@
 package com.game.message;
 
-import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 public class RegisterInfo {
-	private String nickname;
+
+	private String birthDate;
+
 }

@@ -36,17 +36,16 @@ public class CustomUser implements UserDetails {
 	@Column(name = "birth_date", nullable = false)
 	private String birthDate;
 
-	@Column(name = "is_deleted")
-	private Boolean isDeleted = false;
+	@Column(name = "is_deleted", nullable = false)
+	private Boolean isDeleted;
 
 	@Column(name = "feature")
 	private int feature = 0;
 
 	@Builder
-	public CustomUser(String uid, String birthDate, int feature) {
+	public CustomUser(String uid, String birthDate) {
 		this.uid = uid;
 		this.birthDate = birthDate;
-		this.feature = feature;
 	}
 
 	public void update(int feature) {

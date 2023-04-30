@@ -1,18 +1,16 @@
 package com.game.api;
 
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.game.domain.user.CustomUser;
 import com.game.dto.UserSaveRequestDto;
 import com.game.message.RegisterInfo;
 import com.game.message.UserInfo;
-import com.game.service.UserService;
+import com.game.service.CustomUserService;
 import com.game.utils.RequestUtil;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
@@ -26,27 +24,36 @@ import lombok.RequiredArgsConstructor;
 public class UserController {
 
 	private final FirebaseAuth firebaseAuth;
-	private final UserService userService;
+	private final CustomUserService userService;
 
+	@ApiOperation(value = "토큰 추출해서 사용자 등록")
 	@PostMapping
 	public UserInfo register(@RequestHeader("Authorization") String authorization, @RequestBody RegisterInfo registerInfo) {
 		FirebaseToken decodedToken;
 		try {
+			// Token 추출
 			String token = RequestUtil.getAuthorizationToken(authorization);
 			decodedToken = firebaseAuth.verifyIdToken(token);
 		} catch (IllegalArgumentException | FirebaseAuthException e) {
 			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
 				"{\"code\":\"INVALID_TOKEN\", \"message\":\"" + e.getMessage() + "\"}");
 		}
+
+		// 사용자 등록
 		UserSaveRequestDto dto = UserSaveRequestDto.builder()
 			.uid(decodedToken.getUid())
-			.email(decodedToken.getEmail())
-			.nickname(registerInfo.getNickname())
+			.birthDate(registerInfo.getBirthDate())
 			.build();
 
-		// 사용자를 등록한다.
 		CustomUser registeredUser = userService.createUser(dto);
 		return new UserInfo(registeredUser);
+	}
+
+	@ApiOperation(value = "개인 정보 조회")
+	@GetMapping("/myInfo")
+	public UserInfo getMyInfo(Authentication authentication) {
+		CustomUser customUser = ((CustomUser) authentication.getPrincipal());
+		return new UserInfo(customUser);
 	}
 
 }
