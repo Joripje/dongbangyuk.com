@@ -10,9 +10,11 @@ function RecordTestPage() {
         username: "root",
         credential: "a305"
       }
-    ]
+    ],
+    protocol: ['my-custom-protocol'] // 배열로 변경
   };
-  var ws = new WebSocket("wss://k8a305.p.ssafy.io:8030/recording", configuration);
+  
+  var ws = new WebSocket("wss://k8a305.p.ssafy.io:8030/recording", 'my-custom-protocol');
   var videoInput;
   var videoOutput;
   var webRtcPeer;
