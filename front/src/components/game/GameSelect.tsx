@@ -36,6 +36,7 @@ function GameSelect() {
       disabled: true,
     },
   ];
+
   return (
     <Grid container style={{ height: "100%" }}>
       <UserInfoGrid item xs={3}></UserInfoGrid>

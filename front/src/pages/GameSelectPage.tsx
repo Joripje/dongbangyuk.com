@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 function GameSelectPage() {
   const [isEnough, setIsEnough] = useState(true);
 
-  // 이 체크를 계속 render되게 해야함
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 1920 || window.innerHeight < 1080)

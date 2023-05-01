@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import love from "assets/images/love.png";
+import VoiceImage from "./VoiceImage";
 
 import styled from "styled-components";
 
@@ -11,7 +11,7 @@ const GameTemplate = (props: GameTemplateProps) => {
   const { children } = props;
   return (
     <TemplateBox>
-      <VoiceCheckImg />
+      <VoiceImage />
       <BoardBox>{children}</BoardBox>
     </TemplateBox>
   );
@@ -43,12 +43,4 @@ const BoardBox = styled.div({
   background: "white",
   borderRadius: 20,
   boxShadow: "10px 5px 5px rgba(0, 0, 0, 0.2)",
-});
-
-const VoiceCheckImg = styled.div({
-  width: "5rem",
-  height: "5rem",
-  margin: "1rem",
-  backgroundImage: `url(${love})`,
-  backgroundSize: "cover",
 });

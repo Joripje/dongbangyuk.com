@@ -1,8 +1,10 @@
 import { useState, useMemo, MouseEvent } from "react";
+
 import RoadSingleBox from "./RoadSingleBox";
-import styled from "styled-components";
-import { getFindRoadProblems, putFindRoadProblems } from "api/test";
 import ProblemInfo from "./ProblemInfo";
+import { getFindRoadProblems, putFindRoadProblems } from "api/test";
+
+import styled from "styled-components";
 import { Button } from "@mui/material";
 
 type GameBoardProps = {
