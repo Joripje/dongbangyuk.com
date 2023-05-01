@@ -1,4 +1,5 @@
-import { ReactElement } from "react";
+import { useState, ReactElement } from "react";
+
 import VoiceImage from "./VoiceImage";
 
 import styled from "styled-components";
@@ -9,10 +10,16 @@ type GameTemplateProps = {
 
 const GameTemplate = (props: GameTemplateProps) => {
   const { children } = props;
+  const [isEnough, setIsEnough] = useState(true);
+
   return (
     <TemplateBox>
-      <VoiceImage />
-      <BoardBox>{children}</BoardBox>
+      <VoiceImage setIsEnough={setIsEnough} />
+      {isEnough ? (
+        <BoardBox>{children}</BoardBox>
+      ) : (
+        <div>화면이 1920 X 1080 이상이어야지 정상적인 시험을 칠 수 있어요</div>
+      )}
     </TemplateBox>
   );
 };
