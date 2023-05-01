@@ -1,12 +1,15 @@
 import React, {useState, useEffect, useRef} from 'react'
 import { Timer } from 'components/common';
 import styled from 'styled-components';
-import { Button, Box, Grid } from '@mui/material';
+import { Button, Box, Grid,  } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 
 import { rock, paper, scissor, mudangbug, tiger } from 'assets/images';
 
 // type Choice = string;
-type RpsType = {value: string, label: string, image: string}
+type RpsType = {value: string, label: any, image: string, cmd: string}
 
 type Props = {
   round: number,
@@ -16,7 +19,7 @@ type Props = {
 }
 
 
-const choices: RpsType[] = [ {value : 'sci', label : '가위', image: scissor}, {value : 'roc', label : '바위',  image: rock}, {value : 'pap', label : '보',  image: paper}];
+const choices: RpsType[] = [ {value : 'sci', label : <ArrowBackIcon/>, image: scissor, cmd: '가위'}, {value : 'roc', label : <ArrowUpwardIcon/>,  image: rock, cmd: '바위'}, {value : 'pap', label : <ArrowForwardIcon/>,  image: paper, cmd: '보'}];
 
 const Rps: React.FC<Props> = (props: Props) => {
   const {onGameStart, settingTime, round, onRoundChange} = props;
@@ -28,7 +31,7 @@ const Rps: React.FC<Props> = (props: Props) => {
 
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
   const [gameHistory, setGameHistory] = useState<Array<object>>([]);
-  const [timer, setTimer] = useState<number>(-1);
+  const [timer, setTimer] = useState<number>(5);
   const [upperTimer, setUpperTimer] = useState<number>(settingTime);
   const [startTime, setStartTime] = useState('');
   // const [a, setA] = useState<RpsType>(Object)
@@ -56,7 +59,6 @@ const Rps: React.FC<Props> = (props: Props) => {
   const handleClick = (choice: RpsType) => {
     if (!isSubmit) {
       const computer = computerChoice
-      
       const endTime = new Date().toISOString();
       const newData = {
         "gameType": 'rps',
@@ -73,24 +75,27 @@ const Rps: React.FC<Props> = (props: Props) => {
   };
 
   useEffect(() => {
-    if (timer === 0) {
-      const endTime = new Date().toISOString();
-      const newData = {
-        "gameType": 'rps',
-        "answer": [],
-        "timestamp": [startTime, endTime]
+    if (round !== 0) {
+      if (timer === 0) {
+        const endTime = new Date().toISOString();
+        const newData = {
+          "gameType": 'rps',
+          "answer": [],
+          "timestamp": [startTime, endTime]
+        }
+        setComputerChoice(getComputerChoice());
+        setUserChoice(Object);
+        setGameHistory([...gameHistory, newData])
+        setIsSubmit(false);
+        // handleReset();
+        setTimer(5);
       }
-      setComputerChoice(getComputerChoice());
-      setUserChoice(Object);
-      setGameHistory([...gameHistory, newData])
-      setIsSubmit(false);
-      setTimer(3);
     }
-    // console.log(round, gameHistory)
   }, [timer]);
 
 
   const handleReset = () => {
+    // clearTimeout(timer)
     setUserChoice(null);
     setComputerChoice(null);
     setIsSubmit(false);
@@ -128,12 +133,13 @@ const Rps: React.FC<Props> = (props: Props) => {
 
 
   useEffect(() => {
-    if (userChoice !== null && Object.keys(userChoice).length === 0) {
-      const computerChoice = getComputerChoice();
-      setComputerChoice(computerChoice);
-      // setA(computerChoice)
-      // console.log(computerChoice)
-    }
+    if (userChoice === null || Object.keys(userChoice).length === 0) {
+      setTimeout(() => {
+        const computerChoice = getComputerChoice();
+        setComputerChoice(computerChoice);
+      }, 1000);
+    };
+    setTimer(5)
     setStartTime(new Date().toISOString())
   }, [userChoice]);
 
@@ -155,7 +161,7 @@ const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
         setGameHistory([...gameHistory, newData])
         setIsSubmit(true);
         setTimeout(handleReset, 1000);
-        setTimer(3);
+        // setTimer(3);
       }
       break;
       case 38:
@@ -173,7 +179,7 @@ const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
         setGameHistory([...gameHistory, newData])
         setIsSubmit(true);
         setTimeout(handleReset, 1000);
-        setTimer(3);
+        // setTimer(3);
       }
       break;
       case 39:
@@ -191,7 +197,7 @@ const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
         setGameHistory([...gameHistory, newData])
         setIsSubmit(true);
         setTimeout(handleReset, 1000);
-        setTimer(3);
+        // setTimer(3);
       }
       break;
   }
@@ -206,33 +212,32 @@ useEffect(() => {
   return (
     <WrapBox ref={wrapbox} autoFocus tabIndex={0} onKeyDown={handleKeyDown}>
       <h1>가위 바위 보!</h1>
-      <Grid container spacing={1}>
-        <LeftBox item xs={3}>
-          <Profile>
-            <img style={{width: '15vw'}} src={mudangbug} alt="" />
-          </Profile>
+      <Grid container sx={{display: 'flex', justifyContent: 'space-between'}}>
+        <LeftBox sx={{paddingLeft: 0}} item xs={3}>
+          <img style={{width: '15vw'}} src={mudangbug} alt="" />
           <p>나</p>
         </LeftBox>
         <LeftBox item xs={3}>
           <img src={userChoice?.image} alt="" />
-          {/* <h1>{userChoice?.image}</h1> */}
         </LeftBox>
         <RightBox item xs={3}>
           <img src={computerChoice?.image} alt="" />
-          {/* <h1>{computerChoice?.image}</h1> */}
         </RightBox>
         <RightBox item xs={3}>
-          <Profile>
-            <img style={{width: '15vw', }} src={tiger} alt="" />
-          </Profile>
+          <img style={{width: '15vw' }} src={tiger} alt="" />
           <p>상대</p>
         </RightBox>
       </Grid>
-      {choices.map((choice) => (
-        <ChoiceButton key={choice.value} onClick={() => handleClick(choice)}>
-          {choice.label}
-        </ChoiceButton>
-      ))}
+      <Grid container sx={{display: 'flex', justifyContent: 'center'}}>
+        {choices.map((choice) => (
+          <Grid key={choice.value} item xs={2}>
+            <ChoiceButton disabled onClick={() => handleClick(choice)}>
+              {choice.label}
+            </ChoiceButton>
+            <p>{choice.cmd}</p>
+          </Grid>
+        ))}
+      </Grid>
       {round === 0 ? <StartButton onClick={handleStart}>start</StartButton> : ''}
     </WrapBox>
   )
@@ -247,6 +252,7 @@ const WrapBox = styled(Box) ({
 
 const LeftBox = styled(Grid) ({
   justifyContent: 'center',
+  padding: '0, 0, 0, 0'
   
 })
 
@@ -256,14 +262,6 @@ const RightBox = styled(Grid) ({
 
 })
 
-const Profile = styled(Box) ({
-  // width: '20vw',
-  // height: '20vh',
-  // borderRadius: '50%',
-  // backgroundColor: 'grey',
-  // display: 'flex',
-  // justifyContent: 'center',
-})
 
 
 const ChoiceButton = styled(Button) ({
@@ -284,6 +282,8 @@ const StartButton = styled(Button)`
   border-radius: 1rem;
   background-color : white;
   cursor: pointer;
+  margin: 1rem;
+  bottom: 1rem;
   &:hover{  
     background-color : skyblue;
     color : white

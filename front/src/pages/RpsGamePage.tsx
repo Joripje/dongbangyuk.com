@@ -9,6 +9,7 @@ import { Button, Box } from '@mui/material';
 
 import { postRpsResults } from 'api/rps';
 import { GameTemplate, StatusBar } from 'components/game';
+import { tiger } from 'assets/images';
 
 type RpsGamePageProps = {};
 
@@ -16,7 +17,7 @@ type RpsGamePageProps = {};
 function RpsGamePage(props: RpsGamePageProps) {
 
   const [startTime, setStartTime] = useState<number>(new Date().getTime());
-  const [settingTime, setSettingTime] = useState<number>(18000);
+  const [settingTime, setSettingTime] = useState<number>(3000);
   const [isGaming, setIsGaming] = useState<boolean>(true);
   const [round, setRound] = useState<number>(0);
 
@@ -46,31 +47,28 @@ function RpsGamePage(props: RpsGamePageProps) {
   // 게임 스타트를 누르면 타이머 세팅
   const handleStart = () => {
     setIsGaming(false);
-    if (round <= 3) {
+    if (round === 0) {
       setTimeout(() => {
         setRound(round + 1);
         setStartTime(new Date().getTime());
-        setSettingTime(5);
+        setSettingTime(20);
         setIsGaming(true);
       }, 4000);
-    } else {
-      setIsGaming(false);
     }
   }
 
-const newRound = () => {
-  setTimeout(() => {
 
-    setStartTime(new Date().getTime());
-    setSettingTime(5);
-    setIsGaming(true);
-  }, 4000)
-  }
 
   // 라운드 종료
-  const handleRoundEnd = async () => {
-    if (settingTime === 5) setIsGaming(false);
-    await newRound()
+  const handleRoundEnd = () => {
+    setIsGaming(false);
+    setTimeout(() => {
+      setRound(round + 1)
+      setStartTime(new Date().getTime());
+      setSettingTime(20);
+      setIsGaming(true);
+    }, 4000)
+    
   };
 
 
@@ -83,8 +81,9 @@ const newRound = () => {
   };
 
   const handleTimerExit = () => {
-    if (round <= 3) {
-      handleRoundEnd(); 
+    if (round < 3) {
+      handleRoundEnd();
+      // newRound(); 
     } else {
       handleGameEnd();
     }

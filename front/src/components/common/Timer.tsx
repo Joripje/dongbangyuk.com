@@ -27,8 +27,8 @@ const Timer: React.FC<TimerProps> = (props: TimerProps) => {
       setRemainTime(settingTime - spendTime);
     }, 1000);
     
-
-    if (remainTime < 0) {
+    // 시발 흑흑 뭔데이거 < 0 이랑 뭐가다른데 시발새끼야
+    if (remainTime === 0) {
       // alert("8초후 다음라운드가 시작됩니다.");
       if (onExitHandler) onExitHandler();
       // navigate("/", { replace: true });
