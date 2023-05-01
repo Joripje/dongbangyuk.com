@@ -63,16 +63,16 @@ const TimeBox = styled.div({
   right: 15,
   top: "1.2rem",
 
-  width: "4rem",
+  width: "6rem",
   height: "1.5rem",
   textAlign: "center",
-
-  border: "1px solid gray",
+  padding: '0.3rem',
+  border: "3px solid gray",
   borderRadius: "10%",
 
-  color: "blue",
+  color: "#5C78C5",
   fontWeight: "800",
-  fontSize: "16",
+  fontSize: "20px",
 });
 
 export default Timer;

@@ -4,6 +4,7 @@ import Error404Page from "./Error404Page";
 import FindRoadPage from "./FindRoadPage";
 import FindRoadPreparePage from "./FindRoadPreparePage";
 import RpsGamePage from "./RpsGamePage";
+import RpsPreparePage from "./RpsPreparePage";
 import ComponentTest from "./ComponentTest";
 
 const routes = [
@@ -23,6 +24,10 @@ const routes = [
   {
     path: "/rpsPage",
     element: <RpsGamePage />,
+  },
+  {
+    path: "/prepare/rpsPage",
+    element: <RpsPreparePage />,
   },
   {
     path: "/componentTest",
