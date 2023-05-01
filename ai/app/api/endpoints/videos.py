@@ -27,8 +27,8 @@ def get_video_data(videoid: int):
     return data
 
 
-# @router.get("/list")
-# def get_db_list():
-#     id_list = mongodb_list()
-#
-#     return id_list
+@router.get("/list")
+def get_db_list():
+    id_list = mongodb_list()
+
+    return id_list

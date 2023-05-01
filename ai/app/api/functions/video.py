@@ -105,7 +105,7 @@ def video_detection(game_id, video_path):
     # }
 
     data = {
-        '_id': game_id,
+        'game_id': game_id,
         'angry': emotion_list[0],
         'disgust': emotion_list[1],
         'scared': emotion_list[2],
