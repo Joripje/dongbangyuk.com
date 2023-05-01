@@ -74,12 +74,12 @@ def ability_judgement(result):
     problem_times = timedelta(seconds=0)
 
     for timestamp in result['timestamps']:
-        start_time = datetime.fromisoformat(timestamp[0])
-        end_time = datetime.fromisoformat(timestamp[1])
+        start_time = datetime.fromisoformat(str(timestamp[0]))
+        end_time = datetime.fromisoformat(str(timestamp[1]))
 
         problem_times += end_time - start_time
 
-    avg_time = problem_times.total_seconds() / result['score'][1]
+    avg_time = problem_times.total_seconds() / len(result['results'])
 
     judgement = calc_judgement(avg_time, result['type'])
 
@@ -111,8 +111,8 @@ def ability_endurance(result):
     timestamps_datetime = []
 
     for timestamp in result['timestamps']:
-        start_time = datetime.fromisoformat(timestamp[0])
-        end_time = datetime.fromisoformat(timestamp[1])
+        start_time = datetime.fromisoformat(str(timestamp[0]))
+        end_time = datetime.fromisoformat(str(timestamp[1]))
 
         timestamps_datetime.append([start_time, end_time])
 
@@ -125,16 +125,21 @@ def ability_endurance(result):
     three_third_times = timedelta(seconds=0)
 
     start = timestamps_datetime[0][0]
+    end = timestamps_datetime[-1][1]
+
+    part_time = (end - start) // 3
 
     for i in range(len(timestamps_datetime)):
         problem_start = timestamps_datetime[i][0]  # 문제 시작 시간
         problem_end = timestamps_datetime[i][1]  # 문제 제출 시간
 
-        if problem_start > start + timedelta(seconds=200):
+        # if problem_start > start + timedelta(seconds=200):
+        if problem_start > start + (2 * part_time):
             three_third.append(result['results'][i])
             three_third_times += (problem_end - problem_start)
 
-        elif problem_start > start + timedelta(seconds=100):
+        # elif problem_start > start + timedelta(seconds=100):
+        elif problem_start > start + part_time:
             two_third.append(result['results'][i])
             two_third_times += (problem_end - problem_start)
 
@@ -142,26 +147,47 @@ def ability_endurance(result):
             one_third.append(result['results'][i])
             one_third_times += (problem_end - problem_start)
 
-    one_third_rate = one_third.count(1) / len(one_third)
-    two_third_rate = two_third.count(1) / len(two_third)
-    three_third_rate = three_third.count(1) / len(three_third)
+    if len(one_third):
+        one_third_rate = one_third.count(1) / len(one_third)
+        one_third_accuracy = calc_accuracy(one_third_rate)
+        one_third_avg_time = one_third_times.total_seconds() / len(one_third)
+        one_third_judgement = calc_judgement(one_third_avg_time, game_type)
 
-    one_third_accuracy = calc_accuracy(one_third_rate)
-    two_third_accuracy = calc_accuracy(two_third_rate)
-    three_third_accuracy = calc_accuracy(three_third_rate)
+    else:
+        one_third_accuracy = 0
+        one_third_judgement = 0
 
-    one_third_avg_time = one_third_times.total_seconds() / len(one_third)
-    two_third_avg_time = two_third_times.total_seconds() / len(two_third)
-    three_third_avg_time = three_third_times.total_seconds() / len(three_third)
+    if len(two_third):
+        two_third_rate = two_third.count(1) / len(two_third)
+        two_third_accuracy = calc_accuracy(two_third_rate)
+        two_third_avg_time = two_third_times.total_seconds() / len(two_third)
+        two_third_judgement = calc_judgement(two_third_avg_time, game_type)
 
-    one_third_judgement = calc_judgement(one_third_avg_time, game_type)
-    two_third_judgement = calc_judgement(two_third_avg_time, game_type)
-    three_third_judgement = calc_judgement(three_third_avg_time, game_type)
+    else:
+        two_third_accuracy = 0
+        two_third_judgement = 0
+
+    if len(three_third):
+
+        three_third_rate = three_third.count(1) / len(three_third)
+        three_third_accuracy = calc_accuracy(three_third_rate)
+        three_third_avg_time = three_third_times.total_seconds() / len(three_third)
+        three_third_judgement = calc_judgement(three_third_avg_time, game_type)
+
+    else:
+        three_third_accuracy = 0
+        three_third_judgement = 0
 
     endurance = 5
 
+    if one_third_accuracy == 0:
+        endurance -= 3
+
     # 초중반 변화
-    if one_third_accuracy > two_third_accuracy:
+    if two_third_accuracy == 0:
+        endurance -= 2
+
+    elif one_third_accuracy > two_third_accuracy:
         endurance -= 1
 
     elif one_third_accuracy < two_third_accuracy:
@@ -170,7 +196,10 @@ def ability_endurance(result):
     else:
         pass
 
-    if one_third_judgement > two_third_judgement:
+    if two_third_judgement == 0:
+        endurance -= 2
+
+    elif one_third_judgement > two_third_judgement:
         endurance -= 1
 
     elif one_third_judgement < two_third_judgement:
@@ -180,7 +209,10 @@ def ability_endurance(result):
         pass
 
     # 중후반 변화
-    if two_third_accuracy > three_third_accuracy:
+    if three_third_accuracy == 0:
+        endurance -= 2
+
+    elif two_third_accuracy > three_third_accuracy:
         endurance -= 1
 
     elif two_third_accuracy < three_third_accuracy:
@@ -189,7 +221,10 @@ def ability_endurance(result):
     else:
         pass
 
-    if two_third_judgement > three_third_judgement:
+    if three_third_judgement == 0:
+        endurance -= 2
+
+    elif two_third_judgement > three_third_judgement:
         endurance -= 1
 
     elif two_third_judgement < three_third_judgement:
