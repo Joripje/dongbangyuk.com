@@ -5,8 +5,8 @@ from api.functions.load_data import get_result, get_video
 
 # 몽고디비에 저장하는 코드
 
-# client = MongoClient("mongodb://mongodb_server:27017/")
-client = MongoClient('localhost', 27017)
+client = MongoClient("mongodb://mongodb_server:27017/")
+# client = MongoClient('localhost', 27017)
 
 db = client['ability']
 collection = db['ability']

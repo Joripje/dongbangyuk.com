@@ -12,7 +12,8 @@ def get_flag(gameid: int, type: str, video: bool):  # flag 데이터를 확인�
 
     if data == (True, False):
         if video:
-            url = 'http://127.0.0.1:8000/flag/update'
+            # url = 'http://127.0.0.1:8000/flag/update'
+            url = 'http://k8a305.p.ssafy.io:8040/flag/update'
             payload = {'gameid': gameid, 'type': type, 'video': video}
             # response = requests.put(url, json=payload)
             requests.put(url, json=payload)
@@ -28,7 +29,8 @@ def get_flag(gameid: int, type: str, video: bool):  # flag 데이터를 확인�
             # return '잘못된 요청'
             return 'FT인데 요청이 한 번 더 와서 안됨'
         else:
-            url = 'http://127.0.0.1:8000/flag/update'
+            # url = 'http://127.0.0.1:8000/flag/update'
+            url = 'http://k8a305.p.ssafy.io:8040/flag/update'
             payload = {'gameid': gameid, 'type': type, 'video': video}
             # response = requests.put(url, json=payload)
             requests.put(url, json=payload)
@@ -41,7 +43,8 @@ def get_flag(gameid: int, type: str, video: bool):  # flag 데이터를 확인�
         return '트트'
 
     else:  # data가 존재하지 않으면 flag 새로 기록
-        url = 'http://127.0.0.1:8000/flag/create'
+        # url = 'http://127.0.0.1:8000/flag/create'
+        url = 'http://k8a305.p.ssafy.io:8040/flag/create'
         payload = {'gameid':gameid, 'type':type, 'video':video}
         requests.post(url, json=payload)
 

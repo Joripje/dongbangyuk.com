@@ -2,8 +2,8 @@ from pymongo import MongoClient
 
 # 몽고디비에 저장하는 코드
 
-# client = MongoClient("mongodb://mongodb_server:27017/")
-client = MongoClient('localhost', 27017)
+client = MongoClient("mongodb://mongodb_server:27017/")
+# client = MongoClient('localhost', 27017)
 
 db_result = client['result']
 collection_result = db_result['result']
