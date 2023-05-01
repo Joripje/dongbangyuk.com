@@ -32,7 +32,7 @@ def ability(game_id):
             game_ability = ability_cat()
 
         judgment = ability_judgement(result)
-        accuracy = ability_accuracy(result['score'])
+        accuracy = ability_accuracy(result['results'])
         stability = ability_stability(video['none_face'])
         endurance = ability_endurance(result)
         resilience = ability_resilience()
@@ -86,8 +86,8 @@ def ability_judgement(result):
     return judgement
 
 
-def ability_accuracy(score):
-    score_rate = score[0] / score[1]
+def ability_accuracy(results):
+    score_rate = results.count(1) / len(results)
 
     accuracy = calc_accuracy(score_rate)
 
