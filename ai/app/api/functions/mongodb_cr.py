@@ -15,6 +15,7 @@ def mongodb_create(data):
 def mongodb_read(videoid):
     video = collection.find_one({'game_id': videoid})
 
+    video['_id'] = str(video['_id'])
     return video
 
 def mongodb_list():
