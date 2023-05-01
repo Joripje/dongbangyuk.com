@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from api.functions.video import video_detection
 from api.functions.mongodb_cr import mongodb_create, mongodb_read
-# from api.functions.mongodb_cr import mongodb_list
+from api.functions.mongodb_cr import mongodb_list
 from schemas.schemas_videos import VideoBase
 
 router = APIRouter()
