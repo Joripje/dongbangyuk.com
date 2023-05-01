@@ -34,7 +34,7 @@ const Rps: React.FC<Props> = (props: Props) => {
   const [timer, setTimer] = useState<number>(5);
   const [upperTimer, setUpperTimer] = useState<number>(settingTime);
   const [startTime, setStartTime] = useState('');
-  // const [a, setA] = useState<RpsType>(Object)
+  const [color, setColor] = useState(false);
 
   const wrapbox : any = useRef(null);
   
@@ -149,7 +149,7 @@ const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
   switch (e.keyCode) {
     case 37:
       // console.log('왼쪽')
-      if (!isSubmit) {
+      if (!isSubmit && computerChoice !== null) {
         const computer = computerChoice
         const endTime = new Date().toISOString();
         const newData = {
@@ -166,7 +166,7 @@ const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
       break;
       case 38:
       // console.log('위')
-      if (!isSubmit) {
+      if (!isSubmit && computerChoice !== null) {
         const computer = computerChoice
         
         const endTime = new Date().toISOString();
@@ -184,7 +184,7 @@ const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
       break;
       case 39:
       // console.log('오른쪽')
-      if (!isSubmit) {
+      if (!isSubmit && computerChoice !== null) {
         const computer = computerChoice
         
         const endTime = new Date().toISOString();
@@ -208,6 +208,13 @@ useEffect(() => {
   wrapbox.current?.focus()
 },[])
 
+const colorHnadler = () => {
+  if (round === 1) {
+    setColor(false)
+  } else if (round === 2) {
+    setColor(true)
+  }
+}
 
   return (
     <WrapBox ref={wrapbox} autoFocus tabIndex={0} onKeyDown={handleKeyDown}>
@@ -215,7 +222,7 @@ useEffect(() => {
       <Grid container sx={{display: 'flex', justifyContent: 'space-between'}}>
         <LeftBox sx={{paddingLeft: 0}} item xs={3}>
           <img style={{width: '15vw'}} src={mudangbug} alt="" />
-          <p>나</p>
+          <div style={{backgroundColor: (!color) ? 'green' : 'red'}}>나</div>
         </LeftBox>
         <LeftBox item xs={3}>
           <img src={userChoice?.image} alt="" />
@@ -225,7 +232,7 @@ useEffect(() => {
         </RightBox>
         <RightBox item xs={3}>
           <img style={{width: '15vw' }} src={tiger} alt="" />
-          <p>상대</p>
+          <div style={{backgroundColor: (color) ? 'green' : 'red'}}>상대</div>
         </RightBox>
       </Grid>
       <Grid container sx={{display: 'flex', justifyContent: 'center'}}>
