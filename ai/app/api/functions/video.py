@@ -22,6 +22,9 @@ def video_detection(game_id, video_path):
 
     # 저장할 감정 리스트 초기화
     emotion_list = [[] for _ in range(7)]
+    none_face = 0
+    all_frames = 0
+
     while True:
         # 비디오의 프레임 읽기
         ret, frame = cap.read()
@@ -71,8 +74,10 @@ def video_detection(game_id, video_path):
             for i in range(7):
                 emotion_list[i].append(-1)
 
+            none_face += 1
             print('못했음')
 
+        all_frames += 1
 
     # 비디오 파일 닫기
     cap.release()
@@ -104,16 +109,68 @@ def video_detection(game_id, video_path):
     #     'video_path': video_path,
     # }
 
+    angry = ltd_downsampling(emotion_list[0], 60)
+    disgust = ltd_downsampling(emotion_list[1], 60)
+    scared = ltd_downsampling(emotion_list[2], 60)
+    happy = ltd_downsampling(emotion_list[3], 60)
+    sad = ltd_downsampling(emotion_list[4], 60)
+    surprised = ltd_downsampling(emotion_list[5], 60)
+    neutral = ltd_downsampling(emotion_list[6], 60)
+
+
+
     data = {
         'game_id': game_id,
-        'angry': emotion_list[0],
-        'disgust': emotion_list[1],
-        'scared': emotion_list[2],
-        'happy': emotion_list[3],
-        'sad': emotion_list[4],
-        'surprised': emotion_list[5],
-        'neutral': emotion_list[6],
+        'angry': angry,
+        'disgust': disgust,
+        'scared': scared,
+        'happy': happy,
+        'sad': sad,
+        'surprised': surprised,
+        'neutral': neutral,
         'video_path': video_path,
+        'none_face': none_face / all_frames
     }
 
     return data
+
+
+def ltd_downsampling(data, target_length):
+    if data[0] == -1:
+        data[0] = 0
+
+    for i in range(len(data)):
+        if data[i] == -1:
+            data[i] = data[i - 1]
+
+    # 입력 데이터의 길이
+    length = len(data)
+
+    # 구간별 LTD 다운샘플링
+    downsampled_data = []
+    for i in range(0, length, target_length):
+        segment = data[i:i + target_length]
+        downsampled_segment = apply_ltd(segment)
+        downsampled_data.extend(downsampled_segment)
+
+    return list(downsampled_data)
+
+
+def apply_ltd(segment):
+    n = len(segment)
+    if n <= 2:
+        return segment
+
+    # 삼각형 면적 계산
+    areas = []
+    for i in range(1, n - 1):
+        area = 0.5 * abs(
+            (segment[i - 1] - segment[i + 1]) * (segment[i] - segment[i - 1]) - (segment[i - 1] - segment[i]) * (
+                        segment[i + 1] - segment[i - 1]))
+        areas.append(area)
+
+    # 가장 큰 삼각형 선택
+    max_area_index = np.argmax(areas)
+    downsampled_segment = [segment[0], segment[max_area_index + 1]]
+
+    return downsampled_segment
