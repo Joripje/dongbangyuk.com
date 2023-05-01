@@ -5,6 +5,9 @@ client = MongoClient("mongodb://mongodb_server:27017/")
 db = client['videos']
 collection = db['videos']
 
+db_a = client['ability']
+collection_a = db['ability']
+
 
 def mongodb_create(data):
     collection.insert_one(data)
@@ -22,5 +25,12 @@ def mongodb_list():
     data_list = list(collection.find())
 
     id_list = [str(data['_id']) for data in data_list]
+
+    return id_list
+
+def mongodba_list():
+    data_list = list(collection_a.find())
+
+    id_list = [data for data in data_list]
 
     return id_list
