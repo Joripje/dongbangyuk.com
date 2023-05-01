@@ -33,7 +33,7 @@ def ability(game_id):
 
         judgment = ability_judgement(result)
         accuracy = ability_accuracy(result['score'])
-        stability = ability_stability(video['neutral'])
+        stability = ability_stability(video['none_face'])
         endurance = ability_endurance(result)
         resilience = ability_resilience()
 
@@ -93,15 +93,9 @@ def ability_accuracy(score):
     return accuracy
 
 
-def ability_stability(video):
-    none_face = 0
-    for frame in video:
-        if frame == -1:
-            none_face += 1
+def ability_stability(none_face):
 
-    video_rate = none_face / len(video)
-
-    if 0.25 <= video_rate:
+    if none_face <= 0.25:
         stability = 0
 
     else:
