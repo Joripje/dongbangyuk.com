@@ -33,7 +33,7 @@ def ability(game_id):
 
         judgment = ability_judgement(result)
         accuracy = ability_accuracy(result['score'])
-        # stability = ability_stability(video['none_face'])
+        stability = ability_stability(video['none_face'])
         endurance = ability_endurance(result)
         resilience = ability_resilience()
 
@@ -42,8 +42,8 @@ def ability(game_id):
             'type': result['type'],
             'judgment': judgment,
             'accuracy': accuracy,
-            # 'stability': stability,
-            'stability': 1,
+            'stability': stability,
+            # 'stability': 1,
             'endurance': endurance,
             'resilience': resilience,
             'game_ability': game_ability,
