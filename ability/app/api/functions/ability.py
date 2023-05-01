@@ -96,7 +96,7 @@ def ability_accuracy(results):
 
 def ability_stability(none_face):
 
-    if none_face <= 0.25:
+    if 0.25 <= none_face:
         stability = 0
 
     else:
