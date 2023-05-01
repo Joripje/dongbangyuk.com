@@ -12,6 +12,7 @@ httptools==0.5.0
 idna==3.4
 pydantic==1.10.7
 pymongo==4.3.3
+pymysql
 python-dotenv==1.0.0
 pytz==2023.3
 pytz-deprecation-shim==0.1.0.post0
