@@ -14,7 +14,8 @@ function RecordTestPage() {
     protocol: ['my-custom-protocol'] // 배열로 변경
   };
   
-  var ws = new WebSocket("wss://k8a305.p.ssafy.io:8443/recording");
+  // var ws = new WebSocket("wss://k8a305.p.ssafy.io:8443/recording");
+  var ws = new WebSocket(`wss://k8a305.p.ssafy.io:8443/recording`);
       ws.onerror = function (error) {
       console.log('WebSocket error: ', error);
     };
