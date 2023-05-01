@@ -4,11 +4,16 @@ import Error404Page from "./Error404Page";
 import FindRoadPage from "./FindRoadPage";
 import FindRoadPreparePage from "./FindRoadPreparePage";
 import RpsGamePage from "./RpsGamePage";
+
+import RpsPreparePage from "./RpsPreparePage";
+import ComponentTest from "./ComponentTest";
+
 // import ComponentTest from "./ComponentTest";
 import FirebaseTestPage from "./FirebaseTestPage";
 import MemberPage from "./MemberPage";
 import GameSelectPage from "./GameSelectPage";
 import RecordTestPage from "./RecordTestPage.js";
+
 
 const routes = [
   // error pages
@@ -35,6 +40,10 @@ const routes = [
   {
     path: "/rpsPage",
     element: <RpsGamePage />,
+  },
+  {
+    path: "/prepare/rpsPage",
+    element: <RpsPreparePage />,
   },
   {
     path: "/componentTest",

@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Slider, { Settings } from "react-slick";
 
 import "slick-carousel/slick/slick.css";
@@ -13,6 +13,7 @@ interface DescriptionCarouselProps {
 }
 
 const DescriptionCarousel = (props: DescriptionCarouselProps) => {
+  const location = useLocation();
   const { images, selectedTypo } = props;
   const navigate = useNavigate();
   const sliderRef = useRef<Slider>(null);
@@ -27,7 +28,6 @@ const DescriptionCarousel = (props: DescriptionCarouselProps) => {
     slidesToScroll: 1,
     afterChange: setCurrentSlideIndex,
   };
-
   const prev = () => {
     if (sliderRef.current) {
       sliderRef.current.slickPrev();
@@ -49,6 +49,14 @@ const DescriptionCarousel = (props: DescriptionCarouselProps) => {
     goTo(selectedTypo);
   }, [selectedTypo]);
 
+  const pageMoveHandler = () => {
+    if (location.pathname === '/prepare/rpsPage') {
+      navigate('/rpsPage')
+    } else if (location.pathname === '/test/prepare/find-road') {
+      navigate('/test/find-road')
+    }
+  }
+
   return (
     <CarouselWrapper>
       <Slider ref={sliderRef} {...settings}>
@@ -62,7 +70,7 @@ const DescriptionCarousel = (props: DescriptionCarouselProps) => {
       {currentSlideIndex === images.length - 1 ? (
         <ControlButton
           variant='contained'
-          onClick={() => navigate("/test/find-road")}
+          onClick={() => pageMoveHandler()}
         >
           검사 시작
         </ControlButton>

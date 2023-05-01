@@ -1,13 +1,13 @@
 import request from "./api";
 
-interface RequestProps {
-  method: string;
-  url: string;
-  data: object;
+const postRpsResults = (props: object) => {
+  const requestProps = {
+    method: 'POST',
+    url: '/assessment-centre/rps',
+    data: props,
+  };
+  const res = request(requestProps);
+  return res
 }
 
-const gawigawi = (props: RequestProps) => {
-  request(props);
-};
-
-export { gawigawi };
+export {postRpsResults};

@@ -27,8 +27,8 @@ const Timer: React.FC<TimerProps> = (props: TimerProps) => {
       setRemainTime(settingTime - spendTime);
     }, 1000);
     
-
-    if (remainTime < 0) {
+    // 시발 흑흑 뭔데이거 < 0 이랑 뭐가다른데 시발새끼야
+    if (remainTime === 0) {
       // alert("8초후 다음라운드가 시작됩니다.");
       if (onExitHandler) onExitHandler();
       // navigate("/", { replace: true });
@@ -63,16 +63,16 @@ const TimeBox = styled.div({
   right: 15,
   top: "1.2rem",
 
-  width: "4rem",
+  width: "6rem",
   height: "1.5rem",
   textAlign: "center",
-
-  border: "1px solid gray",
+  padding: '0.3rem',
+  border: "3px solid gray",
   borderRadius: "10%",
 
-  color: "blue",
+  color: "#5C78C5",
   fontWeight: "800",
-  fontSize: "16",
+  fontSize: "20px",
 });
 
 export default Timer;

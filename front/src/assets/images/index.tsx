@@ -12,6 +12,13 @@ import akalths from "./findRoad/akalths.jpg";
 import whdrn from "./findRoad/whdrn.jpg";
 import poonghyung from "./findRoad/poonghyung.jpg";
 
+import paper from './rps/paper.png';
+import rock from './rps/rock.png';
+import scissor from './rps/scissor.png';
+import mudange from './rps/mudange.png';
+import mudangbug from './rps/mudangbug.png';
+import tiger from './rps/tiger.png';
+
 export {
   love,
   dudgjs,
@@ -24,4 +31,10 @@ export {
   mmy789,
   whdrn,
   poonghyung,
+  paper,
+  rock,
+  scissor,
+  mudange,
+  mudangbug,
+  tiger
 };
