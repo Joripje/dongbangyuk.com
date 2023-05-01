@@ -13,4 +13,6 @@ COPY . /app
 
 EXPOSE 8040
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8040"]
+# CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8040"]
+CMD ["sh", "-c", "python main.py & python flag_scheduler.py & uvicorn main:app --host 0.0.0.0 --port 8040"]
+
