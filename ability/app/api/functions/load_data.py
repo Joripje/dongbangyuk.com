@@ -6,7 +6,7 @@ client = MongoClient("mongodb://mongodb_server:27017/")
 # client = MongoClient('localhost', 27017)
 
 db_result = client['game_result']
-collection_result = db_result['game_result']
+collection_result = db_result['rps']
 
 db_video = client['videos']
 collection_video = db_video['videos']
