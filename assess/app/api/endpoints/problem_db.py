@@ -54,13 +54,13 @@ async def store_multiple_problems(game_type: str, data_list: List[findroad.RoadP
     return JSONResponse(content=content, status_code=200)
 
 
-@router.delete("/problems/{game_type}/delete")
-async def delete_all_problems(game_type: str):
-    collection = problem_db[game_type]
-    response = collection.delete_many({})
-    content = {
-        "msg": f"{response.deleted_count} Road game problem(s) deleted from DB."
-    }
-    return JSONResponse(content=content, status_code=200)
+# @router.delete("/problems/{game_type}/delete")
+# async def delete_all_problems(game_type: str):
+#     collection = problem_db[game_type]
+#     response = collection.delete_many({})
+#     content = {
+#         "msg": f"{response.deleted_count} Road game problem(s) deleted from DB."
+#     }
+#     return JSONResponse(content=content, status_code=200)
 
 
