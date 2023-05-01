@@ -5,7 +5,9 @@ from api.functions.load_data import get_result, get_video
 
 # 몽고디비에 저장하는 코드
 
+# client = MongoClient("mongodb://mongodb_server:27017/")
 client = MongoClient('localhost', 27017)
+
 db = client['ability']
 collection = db['ability']
 
@@ -36,7 +38,7 @@ def ability(game_id):
         resilience = ability_resilience()
 
         data = {
-            '_id':  game_id,
+            'game_id':  game_id,
             'type': result['type'],
             'judgment': judgment,
             'accuracy': accuracy,
@@ -46,7 +48,7 @@ def ability(game_id):
             'game_ability': game_ability,
         }
 
-        if not collection.find_one({'_id': game_id}):
+        if not collection.find_one({'game_id': game_id}):
             collection.insert_one(data)
 
 
