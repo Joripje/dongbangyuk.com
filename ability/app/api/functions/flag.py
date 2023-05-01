@@ -55,6 +55,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from models.model_flag import Flag
+from api.functions.ability import ability
 from dotenv import load_dotenv
 import os
 
@@ -121,7 +122,8 @@ def check_flags():
     flags = session.query(Flag).filter(Flag.is_deleted == False).all()
     for flag in flags:
         if flag.assess and flag.video:
+            ability(flag.game_id)
+            # ability(1)
             flag.is_deleted = True
             session.add(flag)
-            print('됐다')
     session.commit()
