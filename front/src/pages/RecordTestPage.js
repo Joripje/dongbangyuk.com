@@ -15,6 +15,17 @@ function RecordTestPage() {
   };
   
   var ws = new WebSocket("wss://k8a305.p.ssafy.io:8030/recording");
+      ws.onerror = function (error) {
+      console.log('WebSocket error: ', error);
+    };
+
+    ws.onclose = function (event) {
+      console.log('WebSocket closed: ', event);
+    };
+
+    ws.onopen = function (event) {
+      console.log('WebSocket opened: ', event);
+    };
   var videoInput;
   var videoOutput;
   var webRtcPeer;
