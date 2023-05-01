@@ -1,5 +1,4 @@
 import { useRef, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import Slider, { Settings } from "react-slick";
 
 import "slick-carousel/slick/slick.css";
@@ -10,11 +9,11 @@ import styled from "@emotion/styled";
 interface DescriptionCarouselProps {
   images: string[];
   selectedTypo: number;
+  setIsPreparing: (isPreparing: boolean) => void;
 }
 
 const DescriptionCarousel = (props: DescriptionCarouselProps) => {
-  const { images, selectedTypo } = props;
-  const navigate = useNavigate();
+  const { images, selectedTypo, setIsPreparing } = props;
   const sliderRef = useRef<Slider>(null);
   const [currentSlideIndex, setCurrentSlideIndex] = useState<number>(0);
   const settings: Settings = {
@@ -62,7 +61,7 @@ const DescriptionCarousel = (props: DescriptionCarouselProps) => {
       {currentSlideIndex === images.length - 1 ? (
         <ControlButton
           variant='contained'
-          onClick={() => navigate("/test/find-road")}
+          onClick={() => setIsPreparing(false)}
         >
           검사 시작
         </ControlButton>

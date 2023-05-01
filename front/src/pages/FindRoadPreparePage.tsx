@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import { GameTemplate, PrepareTemplate, StatusBar } from "components/game";
 import {
   whdrn,
@@ -10,8 +12,11 @@ import {
   mmy789,
   poonghyung,
 } from "assets/images";
+import PrepareExam from "components/game/PrepareExam";
 
 function FindRoadPreparePage() {
+  const [isPreparing, setIsPreparing] = useState(true);
+
   const imagesList: string[] = [
     whdrn,
     ekscp,
@@ -48,13 +53,23 @@ function FindRoadPreparePage() {
 
   return (
     <GameTemplate>
-      <StatusBar gameType={gameType} status='explain' problemNum='길 찾기' />
-      <PrepareTemplate
-        imagesList={imagesList}
-        overviewProps={overviewProps}
-        goal={goal}
-        descriptions={descriptions}
+      <StatusBar
+        gameType={gameType}
+        status='explain'
+        problemNum='길 찾기'
+        setIsPreparing={setIsPreparing}
       />
+      {isPreparing ? (
+        <PrepareTemplate
+          imagesList={imagesList}
+          overviewProps={overviewProps}
+          goal={goal}
+          descriptions={descriptions}
+          setIsPreparing={setIsPreparing}
+        />
+      ) : (
+        <PrepareExam image={imagesList[0]} descriptions={descriptions} />
+      )}
     </GameTemplate>
   );
 }

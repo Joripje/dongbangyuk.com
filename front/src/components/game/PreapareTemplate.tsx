@@ -21,14 +21,13 @@ type PreapareTemplateProps = {
   };
   goal: string[];
   descriptions: string[];
+  setIsPreparing: (isPreparing: boolean) => void;
 };
 
 const PreapareTemplate = (props: PreapareTemplateProps) => {
-  // 상위 컴포넌트에서 내려와야하는 자료
-  // ImageList, overviewProps, goal, descriptions
-
   const [selectedTypo, setSelectedTypo] = useState<number>(-1);
-  const { imagesList, overviewProps, goal, descriptions } = props;
+  const { imagesList, overviewProps, goal, descriptions, setIsPreparing } =
+    props;
 
   return (
     <Grid container sx={{ height: `calc(100vh - 13rem)` }}>
@@ -37,6 +36,7 @@ const PreapareTemplate = (props: PreapareTemplateProps) => {
           <DescriptionCarousel
             images={imagesList}
             selectedTypo={selectedTypo}
+            setIsPreparing={setIsPreparing}
           />
         </ColFlexBox>
       </Grid>
