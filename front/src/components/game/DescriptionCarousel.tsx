@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import Slider, { Settings } from "react-slick";
 
 import "slick-carousel/slick/slick.css";
@@ -36,6 +37,14 @@ const DescriptionCarousel = (props: DescriptionCarouselProps) => {
     };
     goTo(selectedTypo);
   }, [selectedTypo]);
+
+  const pageMoveHandler = () => {
+    if (location.pathname === '/prepare/rpsPage') {
+      navigate('/rpsPage')
+    } else if (location.pathname === '/test/prepare/find-road') {
+      navigate('/test/find-road')
+    }
+  }
 
   return (
     <CarouselWrapper>

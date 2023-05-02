@@ -1,5 +1,8 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+
+import { Box } from "@mui/material";
 
 function Error404Page() {
   const navigate = useNavigate();
@@ -20,5 +23,10 @@ function Error404Page() {
     </React.Fragment>
   );
 }
+
+const WrapBox = styled(Box) ({
+  textAlign: 'center',
+  marginTop: '20vh'
+})
 
 export default Error404Page;
