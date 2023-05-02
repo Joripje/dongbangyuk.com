@@ -83,7 +83,7 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
         break;
       case "stop":
         if (user != null) {
-          stop(user, session, jsonMessage);
+          // stop(user, session, jsonMessage);
           user.stop();
         }
       case "stopPlay":
@@ -405,43 +405,6 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
     System.out.println("진입");
     try {
       System.out.println("flag 1");
-      // 2. Store user session
-      user.setMediaPipeline(kurento.createMediaPipeline());
-      user.setWebRtcEndpoint(new WebRtcEndpoint.Builder(user.getMediaPipeline()).build());
-
-      // 3. SDP negotiation
-      String sdpOffer = jsonMessage.get("sdpOffer").getAsString();
-      String sdpAnswer = user.getWebRtcEndpoint().processOffer(sdpOffer);
-
-      JsonObject response = new JsonObject();
-      response.addProperty("id", "playResponse");
-      response.addProperty("sdpAnswer", sdpAnswer);
-
-      System.out.println("flag 2");
-      // 4. Gather ICE candidates
-      user.getWebRtcEndpoint().addIceCandidateFoundListener(new EventListener<IceCandidateFoundEvent>() {
-        @Override
-        public void onEvent(IceCandidateFoundEvent event) {
-          JsonObject response = new JsonObject();
-          response.addProperty("id", "iceCandidate");
-          response.add("candidate", JsonUtils.toJsonObject(event.getCandidate()));
-          try {
-            synchronized (session) {
-              session.sendMessage(new TextMessage(response.toString()));
-            }
-          } catch (IOException e) {
-            log.error(e.getMessage());
-          }
-        }
-      });
-
-      System.out.println("flag 3");
-      synchronized (session) {
-        session.sendMessage(new TextMessage(response.toString()));
-      }
-      user.getWebRtcEndpoint().gatherCandidates();
-
-      System.out.println("flag 4");
       // 6. Send video to Spring
       String videoPath = "/tmp/testRecord_" + sequence + ".webm";
 
@@ -450,7 +413,7 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
       if (!Files.exists(videoFilePath)) {
         throw new FileNotFoundException("없어!" + videoFilePath);
       }
-
+      System.out.println("flag 2");
       LinkedMultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
       map.add("file", new FileSystemResource(videoFilePath.toFile()));
 
@@ -458,7 +421,7 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
       headers.setContentType(org.springframework.http.MediaType.MULTIPART_FORM_DATA);
 
       HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = new HttpEntity<>(map, headers);
-
+      System.out.println("flag 3");
       // String serverUrl = "http://localhost:8080/images/upload";
       // String serverUrl = "http://13.125.6.24:8081/images/upload";
       // String serverUrl = "http://k8a305.p.ssafy.io:8081/images/upload";
@@ -470,8 +433,6 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
       log.error("Failed to send video to Spring: {}", e.getMessage());
     }
   }
-
-
 
   public void sendPlayEnd(WebSocketSession session, MediaPipeline pipeline) {
     try {
