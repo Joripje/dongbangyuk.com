@@ -71,8 +71,10 @@ function SignUp(props: SignUpProps) {
       : createUserWithEmailAndPassword;
 
     authFunction(auth, inputEmail, inputPassword)
-      .then(() => {
+      .then((userInfo) => {
         navigate("/");
+        if (userInfo.user.email)
+          localStorage.setItem("userEmail", userInfo.user.email);
       })
       .catch((error) => {
         console.log(error);

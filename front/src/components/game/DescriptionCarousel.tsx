@@ -38,13 +38,13 @@ const DescriptionCarousel = (props: DescriptionCarouselProps) => {
     goTo(selectedTypo);
   }, [selectedTypo]);
 
-  const pageMoveHandler = () => {
-    if (location.pathname === '/prepare/rpsPage') {
-      navigate('/rpsPage')
-    } else if (location.pathname === '/test/prepare/find-road') {
-      navigate('/test/find-road')
-    }
-  }
+  // const pageMoveHandler = () => {
+  //   if (location.pathname === '/prepare/rpsPage') {
+  //     navigate('/rpsPage')
+  //   } else if (location.pathname === '/test/prepare/find-road') {
+  //     navigate('/test/find-road')
+  //   }
+  // }
 
   return (
     <CarouselWrapper>
