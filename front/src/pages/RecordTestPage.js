@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
-import RecordVideo from "components/common/RecordVideo";
+import { RecordVideo } from "components/common";
 
 function RecordTestPage() {
-
   return (
     <div>
-      <RecordVideo/>
+      <RecordVideo />
     </div>
   );
 }
