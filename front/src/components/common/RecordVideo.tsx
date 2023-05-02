@@ -23,11 +23,11 @@ function RecordVideo() {
   var myWebRtcPeer: any;
   var state: number | null;
 
-  // const NO_CALL = 0;
+  const NO_CALL = 0;
   const IN_CALL = 1;
-  // const POST_CALL = 2;
-  // const DISABLED = 3;
-  // const IN_PLAY = 4;
+  const POST_CALL = 2;
+  const DISABLED = 3;
+  const IN_PLAY = 4;
 
   window.onload = function () {
     console.log("Page loaded ...");
@@ -40,39 +40,39 @@ function RecordVideo() {
     ws.close();
   };
 
-  // function setState(nextState: number) {
-  //   switch (nextState) {
-  //     case NO_CALL:
-  //       $("#start").attr("disabled", false);
-  //       $("#stop").attr("disabled", true);
-  //       $("#play").attr("disabled", true);
-  //       break;
-  //     case DISABLED:
-  //       $("#start").attr("disabled", true);
-  //       $("#stop").attr("disabled", true);
-  //       $("#play").attr("disabled", true);
-  //       break;
-  //     case IN_CALL:
-  //       $("#start").attr("disabled", true);
-  //       $("#stop").attr("disabled", false);
-  //       $("#play").attr("disabled", true);
-  //       break;
-  //     case POST_CALL:
-  //       $("#start").attr("disabled", false);
-  //       $("#stop").attr("disabled", true);
-  //       $("#play").attr("disabled", false);
-  //       break;
-  //     case IN_PLAY:
-  //       $("#start").attr("disabled", true);
-  //       $("#stop").attr("disabled", false);
-  //       $("#play").attr("disabled", true);
-  //       break;
-  //     default:
-  //       onError("Unknown state " + nextState);
-  //       return;
-  //   }
-  //   state = nextState;
-  // }
+  function setState(nextState: number) {
+    switch (nextState) {
+      case NO_CALL:
+        $("#start").prop("disabled", false);
+        $("#stop").prop("disabled", true);
+        $("#play").prop("disabled", true);
+        break;
+      case DISABLED:
+        $("#start").prop("disabled", true);
+        $("#stop").prop("disabled", true);
+        $("#play").prop("disabled", true);
+        break;
+      case IN_CALL:
+        $("#start").prop("disabled", true);
+        $("#stop").prop("disabled", false);
+        $("#play").prop("disabled", true);
+        break;
+      case POST_CALL:
+        $("#start").prop("disabled", false);
+        $("#stop").prop("disabled", true);
+        $("#play").prop("disabled", false);
+        break;
+      case IN_PLAY:
+        $("#start").prop("disabled", true);
+        $("#stop").prop("disabled", false);
+        $("#play").prop("disabled", true);
+        break;
+      default:
+        onError("Unknown state " + nextState);
+        return;
+    }
+    state = nextState;
+  }
 
   ws.onmessage = function (message) {
     var parsedMessage = JSON.parse(message.data);
@@ -173,7 +173,7 @@ function RecordVideo() {
   function stop() {
     var stopMessageId = state === IN_CALL ? "stop" : "stopPlay";
     console.log("Stopping video while in " + state + "...");
-    // setState(POST_CALL);
+    setState(POST_CALL);
     if (myWebRtcPeer) {
       myWebRtcPeer.dispose();
       myWebRtcPeer = null;
