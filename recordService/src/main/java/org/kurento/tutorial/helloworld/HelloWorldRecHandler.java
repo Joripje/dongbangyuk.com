@@ -68,7 +68,7 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
   public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
     JsonObject jsonMessage = gson.fromJson(message.getPayload(), JsonObject.class);
 
-    log.debug("Incoming message: {}", jsonMessage);
+    log.info("Incoming message: {}", jsonMessage);
 
     UserSession user = registry.getBySession(session);
     if (user != null) {
@@ -83,11 +83,9 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
         break;
       case "stop":
         if (user != null) {
-          stop();
+          play(user, session, jsonMessage);
           user.stop();
-          user.release();
         }
-        break;
       case "stopPlay":
         if (user != null) {
           user.release();
