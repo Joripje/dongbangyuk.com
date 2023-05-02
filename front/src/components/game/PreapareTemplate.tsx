@@ -36,6 +36,7 @@ const PreapareTemplate = (props: PreapareTemplateProps) => {
           <DescriptionCarousel
             images={imagesList}
             selectedTypo={selectedTypo}
+            setSelectedTypo={setSelectedTypo}
             setIsPreparing={setIsPreparing}
           />
         </ColFlexBox>

@@ -9,11 +9,12 @@ import styled from "@emotion/styled";
 interface DescriptionCarouselProps {
   images: string[];
   selectedTypo: number;
+  setSelectedTypo: (selectedTypo: number) => void;
   setIsPreparing: (isPreparing: boolean) => void;
 }
 
 const DescriptionCarousel = (props: DescriptionCarouselProps) => {
-  const { images, selectedTypo, setIsPreparing } = props;
+  const { images, selectedTypo, setIsPreparing, setSelectedTypo } = props;
   const sliderRef = useRef<Slider>(null);
   const [currentSlideIndex, setCurrentSlideIndex] = useState<number>(0);
   const settings: Settings = {
@@ -27,21 +28,9 @@ const DescriptionCarousel = (props: DescriptionCarouselProps) => {
     afterChange: setCurrentSlideIndex,
   };
 
-  const prev = () => {
-    if (sliderRef.current) {
-      sliderRef.current.slickPrev();
-    }
-  };
-
-  const next = () => {
-    if (sliderRef.current) {
-      sliderRef.current.slickNext();
-    }
-  };
-
   useEffect(() => {
     const goTo = (target: number) => {
-      if (sliderRef.current !== null) {
+      if (sliderRef.current) {
         sliderRef.current.slickGoTo(target, false);
       }
     };
@@ -55,7 +44,10 @@ const DescriptionCarousel = (props: DescriptionCarouselProps) => {
           return <CarouselImg src={image} key={index} alt={"토끼스"} />;
         })}
       </Slider>
-      <WordDesButton variant='contained' onClick={prev}>
+      <WordDesButton
+        variant='contained'
+        onClick={() => setSelectedTypo(selectedTypo - 1)}
+      >
         {currentSlideIndex === 0 ? "용어 설명" : "이전"}
       </WordDesButton>
       {currentSlideIndex === images.length - 1 ? (
@@ -66,7 +58,10 @@ const DescriptionCarousel = (props: DescriptionCarouselProps) => {
           검사 시작
         </ControlButton>
       ) : (
-        <ControlButton variant='contained' onClick={next}>
+        <ControlButton
+          variant='contained'
+          onClick={() => setSelectedTypo(selectedTypo + 1)}
+        >
           {currentSlideIndex === 0 ? "설명 시작" : "다음"}
         </ControlButton>
       )}
@@ -80,13 +75,22 @@ const CarouselWrapper = styled.div({
   margin: "0 5% ",
 });
 
-const ControlButton = styled(Button)({ position: "absolute", right: 0 });
+const ControlButton = styled(Button)({
+  position: "absolute",
+  right: 0,
+  width: "8rem",
+  height: "3rem",
+});
+
 const WordDesButton = styled(Button)({
   position: "absolute",
   left: 0,
   background: "gray",
+
+  width: "8rem",
+  height: "3rem",
 });
 
-const CarouselImg = styled.img({ width: "auto", height: "100%" });
+const CarouselImg = styled.img({ width: "3rem", height: "100%" });
 
 export default DescriptionCarousel;

@@ -10,7 +10,7 @@ function MemberPage() {
 
   const onPageSelectHandler = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    console.log(event.target);
+    // console.log(event.target);
     setIsLogin(!isLogin);
   };
 
@@ -19,7 +19,7 @@ function MemberPage() {
       <h1>동 방 역 검 {isLogin ? "로그인" : "회원 가입"}</h1>
       <SignUp isLogin={isLogin} />
       <Button onClick={onPageSelectHandler}>
-        {isLogin ? "회원 가입" : "로그인"}
+        {isLogin ? "회원 가입" : "로그인"} 페이지루~
       </Button>
     </StyledContainer>
   );
