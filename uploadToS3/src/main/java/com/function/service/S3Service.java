@@ -18,7 +18,7 @@ public class S3Service {
 
 	private final AmazonS3 s3Client;
 
-	@Value("${cloud.aws.s3.bucket}")
+	@Value("${S3_BUCKET}")
 	private String bucketName;
 
 	private final Function<MultipartFile, String> generateFileName =

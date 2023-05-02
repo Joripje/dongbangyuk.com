@@ -26,8 +26,8 @@ public class UploadController {
 
 	private final UploadService uploadService;
 	private final PlayService playService;
-
 	@ApiOperation(value = "S3에 영상 업로드")
+
 	@PostMapping("/upload")
 	public ResponseEntity<?> uploadVideo(@RequestParam("file") MultipartFile file) throws IOException {
 		uploadService.uploadVideo(file);
