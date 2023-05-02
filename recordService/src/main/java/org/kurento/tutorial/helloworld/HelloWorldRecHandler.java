@@ -52,7 +52,7 @@ import com.google.gson.JsonObject;
  */
 public class HelloWorldRecHandler extends TextWebSocketHandler {
 
-  private static final String RECORDER_FILE_PATH = "file:///tmp/testRecord_";
+  private static String RECORDER_FILE_NAME;
   private static Long sequence = 0L;
 
   private final Logger log = LoggerFactory.getLogger(HelloWorldRecHandler.class);
@@ -69,6 +69,9 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
     JsonObject jsonMessage = gson.fromJson(message.getPayload(), JsonObject.class);
 
     log.info("Incoming message: {}", jsonMessage);
+
+    // 파일 이름 지정
+    RECORDER_FILE_NAME = jsonMessage.get("userEmail").getAsString() + ".webm";
 
     UserSession user = registry.getBySession(session);
     if (user != null) {
@@ -127,7 +130,7 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 
       MediaProfileSpecType profile = getMediaProfileFromMessage(jsonMessage);
 
-      String filePath = RECORDER_FILE_PATH + ++sequence + ".webm";
+      String filePath = "file:///tmp/" + RECORDER_FILE_NAME;
       System.out.println("filePath: " + filePath);
       RecorderEndpoint recorder = new RecorderEndpoint.Builder(pipeline, filePath)
           .withMediaProfile(profile).build();
@@ -292,7 +295,9 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
       // 1. Media logic
       final MediaPipeline pipeline = kurento.createMediaPipeline();
       WebRtcEndpoint webRtcEndpoint = new WebRtcEndpoint.Builder(pipeline).build();
-      String filePath = RECORDER_FILE_PATH + sequence + ".webm";
+
+
+      String filePath = "file:///tmp/" + RECORDER_FILE_NAME;
       System.out.println("play: " + filePath);
       PlayerEndpoint player = new PlayerEndpoint.Builder(pipeline, filePath).build();
       player.connect(webRtcEndpoint);
@@ -406,7 +411,8 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
     try {
       System.out.println("flag 1");
       // 6. Send video to Spring
-      String videoPath = "/recordvideo/testRecord_" + sequence + ".webm";
+      String videoPath = "/recordvideo/" + RECORDER_FILE_NAME;
+      System.out.println("filePath: " + videoPath);
 
       Path videoFilePath = Paths.get(videoPath);
       System.out.println("videoFilePath = " + videoFilePath);
