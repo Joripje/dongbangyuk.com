@@ -15,9 +15,7 @@ function RecordTestPage() {
   };
   
   // var ws = new WebSocket("wss://k8a305.p.ssafy.io:8443/recording");
-  var ws = new WebSocket('wss://k8a305.p.ssafy.io:8443/recording', ['json'], {
-    origin: 'https://k8a305.p.ssafy.io:8443'
-  });
+  var ws = new WebSocket(`wss://k8a305.p.ssafy.io:8443/recording`);
       ws.onerror = function (error) {
       console.log('WebSocket error: ', error);
     };
