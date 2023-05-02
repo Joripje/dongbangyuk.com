@@ -5,7 +5,7 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 
-import { auth } from "./firebase";
+import { auth } from "service";
 
 import { Box, Grid, Button, TextField } from "@mui/material";
 
@@ -27,6 +27,7 @@ function SignUp(props: SignUpProps) {
   const { isLogin } = props;
   const [inputEmail, setInputEmail] = useState("");
   const [inputPassword, setInputPassword] = useState("");
+  const [inputDisplayName, setInputDisplayName] = useState("");
   const textFieldOptions: Array<textFieldOption> = [
     {
       id: "userId",
@@ -43,6 +44,14 @@ function SignUp(props: SignUpProps) {
       label: "Password",
       focus: false,
       type: "password",
+    },
+    {
+      id: "displayName",
+      target: inputDisplayName,
+      setTarget: (password) => setInputDisplayName(password),
+      label: "닉네임",
+      focus: false,
+      type: "displayName",
     },
   ];
 
@@ -78,6 +87,7 @@ function SignUp(props: SignUpProps) {
         style={{ padding: "2rem", justifyContent: "center" }}
       >
         {textFieldOptions.map((item) => {
+          if (item.id === "displayName" && isLogin) return;
           return (
             <Grid item xs={12} key={item.id}>
               <TextField

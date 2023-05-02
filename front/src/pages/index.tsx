@@ -16,7 +16,6 @@ import RecordTestPage from "./RecordTestPage.js";
 
 
 const routes = [
-  // error pages
   {
     path: "*",
     element: <Error404Page />,
