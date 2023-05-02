@@ -6,13 +6,10 @@ import FindRoadPreparePage from "./FindRoadPreparePage";
 import RpsGamePage from "./RpsGamePage";
 
 import RpsPreparePage from "./RpsPreparePage";
-// import ComponentTest from "./ComponentTest";
-
-// import ComponentTest from "./ComponentTest";
 import FirebaseTestPage from "./FirebaseTestPage";
 import MemberPage from "./MemberPage";
 import GameSelectPage from "./GameSelectPage";
-import RecordTestPage from "./RecordTestPage.js";
+import RecordTestPage from "./RecordTestPage";
 
 const routes = [
   {

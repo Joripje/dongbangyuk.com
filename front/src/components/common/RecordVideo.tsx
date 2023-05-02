@@ -1,5 +1,7 @@
 import $ from "jquery";
 import { WebRtcPeer } from "kurento-utils";
+// import { getIdToken } from "firebase/auth";
+import { auth } from "service";
 
 function RecordVideo() {
   var ws = new WebSocket(`wss://k8a305.p.ssafy.io:8443/recording`);
@@ -20,11 +22,11 @@ function RecordVideo() {
   var myWebRtcPeer: any;
   var state: number | null;
 
-  const NO_CALL = 0;
+  // const NO_CALL = 0;
   const IN_CALL = 1;
-  const POST_CALL = 2;
-  const DISABLED = 3;
-  const IN_PLAY = 4;
+  // const POST_CALL = 2;
+  // const DISABLED = 3;
+  // const IN_PLAY = 4;
 
   window.onload = function () {
     console.log("Page loaded ...");
@@ -128,6 +130,8 @@ function RecordVideo() {
         myWebRtcPeer.generateOffer(onOffer);
       }
     );
+
+    sendMessage(auth.currentUser);
   }
 
   function onOffer(error: string, offerSdp: {}) {
@@ -210,7 +214,7 @@ function RecordVideo() {
   //   // hideSpinner(videoInput, videoOutput);
   // }
 
-  function sendMessage(message: {}) {
+  function sendMessage(message: {} | null) {
     var jsonMessage = JSON.stringify(message);
     console.log("Sending message: " + jsonMessage);
     ws.send(jsonMessage);
