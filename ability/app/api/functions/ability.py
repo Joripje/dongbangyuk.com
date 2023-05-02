@@ -12,8 +12,8 @@ db = client['ability']
 collection = db['ability']
 
 
-def ability(game_id):
-    result = get_result(game_id)
+def ability(game_id, game_type):
+    result = get_result(game_id, game_type)
     video = get_video(game_id)
 
     if result and video:

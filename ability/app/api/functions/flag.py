@@ -122,7 +122,7 @@ def check_flags():
     flags = session.query(Flag).filter(Flag.is_deleted == False).all()
     for flag in flags:
         if flag.assess and flag.video:
-            ability(flag.game_id)
+            ability(flag.game_id, flag.type)
             # ability(1)
             flag.is_deleted = True
             session.add(flag)
