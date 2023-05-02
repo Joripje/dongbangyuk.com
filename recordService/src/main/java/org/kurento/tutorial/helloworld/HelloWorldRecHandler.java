@@ -265,7 +265,7 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
   private MediaProfileSpecType getMediaProfileFromMessage(JsonObject jsonMessage) {
 
     MediaProfileSpecType profile;
-    switch (jsonMessage.get("mode").getAsString("")) {
+    switch (jsonMessage.get("mode").getAsString()) {
       case "audio-only":
         profile = MediaProfileSpecType.WEBM_AUDIO_ONLY;
         break;
