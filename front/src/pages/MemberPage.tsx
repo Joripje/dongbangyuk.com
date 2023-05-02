@@ -1,16 +1,14 @@
 import { useState, MouseEvent } from "react";
-import SignUp from "service/Singup";
+import { SignUp } from "components/member";
 
 import styled from "styled-components";
 import { Container, Button } from "@mui/material";
 
 function MemberPage() {
-  // true일 경우 로그인
   const [isLogin, setIsLogin] = useState<boolean>(true);
 
   const onPageSelectHandler = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    // console.log(event.target);
     setIsLogin(!isLogin);
   };
 
