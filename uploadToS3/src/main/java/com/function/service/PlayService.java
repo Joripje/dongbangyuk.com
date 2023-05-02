@@ -21,11 +21,11 @@ public class PlayService {
 	private final PlayRepository playRepository;
 
 	@Transactional
-	public Long save(Long userId, GameSaveRequestDto requestDto, String filePath) {
+	public Long save(GameSaveRequestDto requestDto) {
 		// var user = userRepository.findById(requestDto.getUserId())
 		// 	.orElseThrow(() -> new IllegalArgumentException("해당 유저가 없습니다."));
 
-		return playRepository.save(new Play(userId, requestDto, filePath)).getId();
+		return playRepository.save(new Play(requestDto)).getId();
 	}
 
 	@Transactional(readOnly = true)

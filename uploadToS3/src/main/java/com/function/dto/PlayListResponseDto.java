@@ -18,7 +18,6 @@ public class PlayListResponseDto {
 	private final Instant startTime;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "Asia/Seoul")
 	private final Instant endTime;
-	private final String videoPath;
 
 	@Builder
 	public PlayListResponseDto(Play entity) {
@@ -27,7 +26,6 @@ public class PlayListResponseDto {
 		this.type = entity.getType();
 		this.startTime = entity.getStartTime();
 		this.endTime = entity.getEndTime();
-		this.videoPath = entity.getVideoPath();
 	}
 
 }

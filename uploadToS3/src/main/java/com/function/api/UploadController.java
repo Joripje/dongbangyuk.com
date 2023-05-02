@@ -3,17 +3,16 @@ package com.function.api;
 import java.io.IOException;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.function.dto.GameSaveRequestDto;
-import com.function.dto.VideoUploadRequestDto;
 import com.function.service.PlayService;
 import com.function.service.UploadService;
 
@@ -28,23 +27,18 @@ public class UploadController {
 	private final UploadService uploadService;
 	private final PlayService playService;
 
-	// @ApiOperation(value = "영상 업로드")
-	// @PostMapping("/upload")
-	// public ResponseEntity<?> uploadVideo(@RequestParam("file") MultipartFile file) throws IOException {
-	// 	uploadService.uploadVideo(file);
-	// 	return ResponseEntity.ok("Video upload successful!");
-	// }
-
-	@ApiOperation(value = "영상 업로드")
-	@PostMapping(value = "/upload"
-		, consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-	public ResponseEntity<?> uploadVideo(
-			@RequestPart("request") GameSaveRequestDto dto, @RequestPart("file") MultipartFile file
-		) throws IOException {
-		String filePath = uploadService.uploadVideo(file, new VideoUploadRequestDto(dto));
-		System.out.println("filePath: " + filePath);
-		playService.save(dto.getUserId(), dto, filePath);
+	@ApiOperation(value = "S3에 영상 업로드")
+	@PostMapping("/upload")
+	public ResponseEntity<?> uploadVideo(@RequestParam("file") MultipartFile file) throws IOException {
+		uploadService.uploadVideo(file);
 		return ResponseEntity.ok("Video upload successful!");
+	}
+
+	@ApiOperation(value = "게임 기록 저장")
+	@PostMapping(value = "/recordPlay")
+	public ResponseEntity<Long> saveGameHistory(@RequestBody GameSaveRequestDto dto) {
+		// 나중에 [userId]_[timestamp] 조합한 파일명 가져오기
+		return ResponseEntity.ok(playService.save(dto));
 	}
 
 	@ExceptionHandler(IllegalArgumentException.class)

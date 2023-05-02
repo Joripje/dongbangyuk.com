@@ -15,14 +15,12 @@ public class PlaySaveRequestDto {
 	private final Instant startTime;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "Asia/Seoul")
 	private final Instant endTime;
-	private final String videoPath;
 
 	@Builder
-	public PlaySaveRequestDto(String type, Instant startTime, Instant endTime, String videoPath) {
+	public PlaySaveRequestDto(String type, Instant startTime, Instant endTime) {
 		this.type = type;
 		this.startTime = startTime;
 		this.endTime = endTime;
-		this.videoPath = videoPath;
 	}
 
 }
