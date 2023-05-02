@@ -169,7 +169,9 @@ function startResponse(message) {
 }
 
 function stop() {
-	var stopMessageId = (state == IN_CALL) ? 'stop' : 'stopPlay';
+	// var stopMessageId = (state == IN_CALL) ? 'stop' : 'stopPlay';
+
+	var stopMessageId = 'stop';
 	console.log('Stopping video while in ' + state + '...');
 	setState(POST_CALL);
 	if (webRtcPeer) {

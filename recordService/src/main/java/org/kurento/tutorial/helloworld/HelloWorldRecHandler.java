@@ -85,7 +85,9 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
         if (user != null) {
           stop();
           user.stop();
+          user.release();
         }
+        break;
       case "stopPlay":
         if (user != null) {
           user.release();
@@ -364,7 +366,7 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
       // 6. Send video to Spring
       // String videoPath = "kms:///tmp/testRecord_" + sequence + ".webm";
       // String videoPath = "kms:/tmp/testRecord_" + sequence + ".webm";
-      String videoPath = "/tmp/testRecord_" + sequence + ".webm";
+      String videoPath = "/recordvideo/testRecord_" + sequence + ".webm";
       System.out.println(videoPath);
       System.out.println(Paths.get(videoPath));
       try {
