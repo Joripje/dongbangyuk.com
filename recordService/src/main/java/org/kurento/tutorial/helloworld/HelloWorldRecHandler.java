@@ -83,6 +83,7 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
         break;
       case "stop":
         if (user != null) {
+          stop(user, session, jsonMessage);
           user.stop();
         }
       case "stopPlay":
@@ -399,6 +400,78 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
       sendError(session, t.getMessage());
     }
   }
+
+  private void stop(UserSession user, final WebSocketSession session, JsonObject jsonMessage) {
+    System.out.println("진입");
+    try {
+      System.out.println("flag 1");
+      // 2. Store user session
+      user.setMediaPipeline(kurento.createMediaPipeline());
+      user.setWebRtcEndpoint(new WebRtcEndpoint.Builder(user.getMediaPipeline()).build());
+
+      // 3. SDP negotiation
+      String sdpOffer = jsonMessage.get("sdpOffer").getAsString();
+      String sdpAnswer = user.getWebRtcEndpoint().processOffer(sdpOffer);
+
+      JsonObject response = new JsonObject();
+      response.addProperty("id", "playResponse");
+      response.addProperty("sdpAnswer", sdpAnswer);
+
+      System.out.println("flag 2");
+      // 4. Gather ICE candidates
+      user.getWebRtcEndpoint().addIceCandidateFoundListener(new EventListener<IceCandidateFoundEvent>() {
+        @Override
+        public void onEvent(IceCandidateFoundEvent event) {
+          JsonObject response = new JsonObject();
+          response.addProperty("id", "iceCandidate");
+          response.add("candidate", JsonUtils.toJsonObject(event.getCandidate()));
+          try {
+            synchronized (session) {
+              session.sendMessage(new TextMessage(response.toString()));
+            }
+          } catch (IOException e) {
+            log.error(e.getMessage());
+          }
+        }
+      });
+
+      System.out.println("flag 3");
+      synchronized (session) {
+        session.sendMessage(new TextMessage(response.toString()));
+      }
+      user.getWebRtcEndpoint().gatherCandidates();
+
+      System.out.println("flag 4");
+      // 6. Send video to Spring
+      String videoPath = "/tmp/testRecord_" + sequence + ".webm";
+
+      Path videoFilePath = Paths.get(videoPath);
+      System.out.println("videoFilePath = " + videoFilePath);
+      if (!Files.exists(videoFilePath)) {
+        throw new FileNotFoundException("없어!" + videoFilePath);
+      }
+
+      LinkedMultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+      map.add("file", new FileSystemResource(videoFilePath.toFile()));
+
+      HttpHeaders headers = new HttpHeaders();
+      headers.setContentType(org.springframework.http.MediaType.MULTIPART_FORM_DATA);
+
+      HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = new HttpEntity<>(map, headers);
+
+      // String serverUrl = "http://localhost:8080/images/upload";
+      // String serverUrl = "http://13.125.6.24:8081/images/upload";
+      // String serverUrl = "http://k8a305.p.ssafy.io:8081/images/upload";
+      String serverUrl = "http://k8a305.p.ssafy.io:8081/images/upload";
+      RestTemplate restTemplate = new RestTemplate();
+      ResponseEntity<String> responseEntity = restTemplate.exchange(serverUrl, HttpMethod.POST, requestEntity, String.class);
+      log.info("Response from server: {}", responseEntity.getBody());
+    } catch (IOException e) {
+      log.error("Failed to send video to Spring: {}", e.getMessage());
+    }
+  }
+
+
 
   public void sendPlayEnd(WebSocketSession session, MediaPipeline pipeline) {
     try {
