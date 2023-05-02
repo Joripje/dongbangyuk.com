@@ -388,7 +388,7 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
         // String serverUrl = "http://localhost:8080/images/upload";
         // String serverUrl = "http://13.125.6.24:8081/images/upload";
         // String serverUrl = "http://k8a305.p.ssafy.io:8081/images/upload";
-        String serverUrl = "http://k8a305.p.ssafy.io:8081/images/upload";
+        String serverUrl = "http://localhost:8081/images/upload";
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> responseEntity = restTemplate.exchange(serverUrl, HttpMethod.POST, requestEntity, String.class);
 
@@ -408,7 +408,7 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
     try {
       System.out.println("flag 1");
       // 6. Send video to Spring
-      String videoPath = "/tmp/testRecord_" + sequence + ".webm";
+      String videoPath = "/recordvideo/testRecord_" + sequence + ".webm";
 
       Path videoFilePath = Paths.get(videoPath);
       System.out.println("videoFilePath = " + videoFilePath);
