@@ -1,14 +1,17 @@
 package com.function.service;
 
 import java.io.IOException;
-import java.util.function.Function;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.function.dto.VideoUploadRequestDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,25 +24,23 @@ public class S3Service {
 	@Value("${cloud.aws.s3.bucket}")
 	private String bucketName;
 
-	private final Function<MultipartFile, String> generateFileName =
-		file -> "videos/" + file.getOriginalFilename();
+	public String uploadFileToS3(MultipartFile file, VideoUploadRequestDto requestDto) throws IOException {
+		// Input validation checks
+		Objects.requireNonNull(file, "File cannot be null");
+		Objects.requireNonNull(requestDto, "VideoUploadRequestDto cannot be null");
 
-	public String uploadFileToS3(MultipartFile file) throws IOException {
-		String fileName = generateFileName.apply(file);
 		ObjectMetadata objectMetadata = new ObjectMetadata();
 		objectMetadata.setContentType("video/webm");
-		s3Client.putObject(bucketName, fileName, file.getInputStream(), objectMetadata);
+
+		String fileName = requestDto.getFileName();
+		try {
+			PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, fileName,
+				file.getInputStream(), objectMetadata);
+			s3Client.putObject(putObjectRequest);
+		} catch (SdkClientException | IOException e) {
+			throw new IOException("Failed to upload file to S3: " + e.getMessage());
+		}
 		return fileName;
 	}
-
-	// public Resource readImageFromS3(String fiQlePath) {
-	// 	try (S3Object s3Object = s3Client.getObject(bucketName, filePath)) {
-	// 		// S3에서 가 져온 객체(파일)를 ByteArrayResource로 변환
-	// 		return new ByteArrayResource(s3Object.getObjectContent().readAllBytes());
-	// 	} catch (IOException e) {
-	// 		e.printStackTrace();
-	// 		return null;
-	// 	}
-	// }
 
 }
