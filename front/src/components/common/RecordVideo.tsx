@@ -171,7 +171,7 @@ function RecordVideo() {
   }
 
   function stop() {
-    var stopMessageId = state === IN_CALL ? "stop" : "stopPlay";
+    // var stopMessageId = state === IN_CALL ? "stop" : "stopPlay";
     console.log("Stopping video while in " + state + "...");
     setState(POST_CALL);
     if (myWebRtcPeer) {
@@ -179,7 +179,7 @@ function RecordVideo() {
       myWebRtcPeer = null;
 
       var message = {
-        id: stopMessageId,
+        id: "stop",
       };
       sendMessage(message);
     }
