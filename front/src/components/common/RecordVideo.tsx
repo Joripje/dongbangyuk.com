@@ -1,6 +1,7 @@
 import $ from "jquery";
+import { useEffect } from "react";
 import { WebRtcPeer } from "kurento-utils";
-// import { getIdToken } from "firebase/auth";
+
 import { auth } from "service";
 
 function RecordVideo() {
@@ -130,8 +131,6 @@ function RecordVideo() {
         myWebRtcPeer.generateOffer(onOffer);
       }
     );
-
-    sendMessage(auth.currentUser);
   }
 
   function onOffer(error: string, offerSdp: {}) {
@@ -143,6 +142,7 @@ function RecordVideo() {
       id: "start",
       sdpOffer: offerSdp,
       mode: $('input[name="mode"]:checked').val(),
+      userEmail: localStorage.getItem("userEmail"),
     };
     sendMessage(message);
   }
