@@ -83,7 +83,7 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
         break;
       case "stop":
         if (user != null) {
-          // stop(user, session, jsonMessage);
+          stop();
           user.stop();
         }
       case "stopPlay":
@@ -401,7 +401,7 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
     }
   }
 
-  private void stop(UserSession user, final WebSocketSession session, JsonObject jsonMessage) {
+  private void stop() {
     System.out.println("진입");
     try {
       System.out.println("flag 1");
