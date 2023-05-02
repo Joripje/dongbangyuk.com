@@ -262,22 +262,22 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
     }
   }
 
-  private MediaProfileSpecType getMediaProfileFromMessage(JsonObject jsonMessage) {
+  //private MediaProfileSpecType getMediaProfileFromMessage(JsonObject jsonMessage) {
 
-    MediaProfileSpecType profile;
-    switch (jsonMessage.get("mode").getAsString()) {
-      case "audio-only":
-        profile = MediaProfileSpecType.WEBM_AUDIO_ONLY;
-        break;
-      case "video-only":
-        profile = MediaProfileSpecType.WEBM_VIDEO_ONLY;
-        break;
-      default:
-        profile = MediaProfileSpecType.WEBM;
-    }
+  //  MediaProfileSpecType profile;
+  //  switch (jsonMessage.get("mode").getAsString()) {
+  //    case "audio-only":
+  //      profile = MediaProfileSpecType.WEBM_AUDIO_ONLY;
+  //      break;
+  //    case "video-only":
+  //      profile = MediaProfileSpecType.WEBM_VIDEO_ONLY;
+  //      break;
+  //    default:
+  //     profile = MediaProfileSpecType.WEBM;
+  //  }
 
-    return profile;
-  }
+  //  return profile;
+  //}
 
   private void connectAccordingToProfile(WebRtcEndpoint webRtcEndpoint, RecorderEndpoint recorder,
       MediaProfileSpecType profile) {
