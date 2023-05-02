@@ -8,6 +8,7 @@ ENV PATH /usr/src/app/node_modules/.bin:$PATH
 
 COPY package.json /usr/src/app/package.json
 
+RUN npm install -g npm@9.6.5
 RUN npm install --silent
 RUN npm install react-scripts@3.4.1 -g --silent
 
