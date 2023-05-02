@@ -19,6 +19,7 @@ repositories {
 }
 
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'com.amazonaws:aws-java-sdk-s3:1.11.1000'
     compileOnly 'org.projectlombok:lombok'
@@ -30,6 +31,11 @@ dependencies {
     // Swagger 2.9.2 버전
     implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
     implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+
+    // mysql 드라이버 버전에 맞게 드라이버 설치
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.30'
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
 }
 

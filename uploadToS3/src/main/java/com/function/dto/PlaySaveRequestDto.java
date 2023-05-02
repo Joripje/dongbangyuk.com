@@ -1,23 +1,28 @@
 package com.function.dto;
 
 import java.time.Instant;
-import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-@AllArgsConstructor
-public class GameSaveRequestDto {
+public class PlaySaveRequestDto {
 
-	private final Long userId;
 	private final String type;
-	private final List<Integer> gameResults;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "Asia/Seoul")
 	private final Instant startTime;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "Asia/Seoul")
 	private final Instant endTime;
+	private final String videoPath;
+
+	@Builder
+	public PlaySaveRequestDto(String type, Instant startTime, Instant endTime, String videoPath) {
+		this.type = type;
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.videoPath = videoPath;
+	}
 
 }

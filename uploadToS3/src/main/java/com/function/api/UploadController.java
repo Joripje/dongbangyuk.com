@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.function.dto.GameSaveRequestDto;
 import com.function.dto.VideoUploadRequestDto;
+import com.function.service.PlayService;
 import com.function.service.UploadService;
 
 import io.swagger.annotations.ApiOperation;
@@ -25,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 public class UploadController {
 
 	private final UploadService uploadService;
+	private final PlayService playService;
 
 	// @ApiOperation(value = "영상 업로드")
 	// @PostMapping("/upload")
@@ -37,11 +39,11 @@ public class UploadController {
 	@PostMapping(value = "/upload"
 		, consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
 	public ResponseEntity<?> uploadVideo(
-		@RequestPart("request") GameSaveRequestDto dto,
-		@RequestPart("file") MultipartFile file
+			@RequestPart("request") GameSaveRequestDto dto, @RequestPart("file") MultipartFile file
 		) throws IOException {
-		String fileName = uploadService.uploadVideo(file, new VideoUploadRequestDto(dto));
-		System.out.println("fileName: " + fileName);
+		String filePath = uploadService.uploadVideo(file, new VideoUploadRequestDto(dto));
+		System.out.println("filePath: " + filePath);
+		playService.save(dto.getUserId(), dto, filePath);
 		return ResponseEntity.ok("Video upload successful!");
 	}
 
