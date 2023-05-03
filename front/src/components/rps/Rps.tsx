@@ -75,7 +75,7 @@ const Rps: React.FC<Props> = (props: Props) => {
   };
 
   useEffect(() => {
-    if (round !== 0) {
+    if (round === 0 || round === 1) {
       if (timer === 0) {
         const endTime = new Date().toISOString();
         const newData = {
@@ -89,7 +89,50 @@ const Rps: React.FC<Props> = (props: Props) => {
         setIsSubmit(false);
         // handleReset();
         setTimer(5);
-      }
+      } 
+    } else if (round === 2) {
+      if (timer === 0) {
+        const endTime = new Date().toISOString();
+        const newData = {
+          "gameType": 'rps',
+          "answer": [],
+          "timestamp": [startTime, endTime]
+        }
+        setUserChoice(getComputerChoice());
+        setComputerChoice(Object);
+        setGameHistory([...gameHistory, newData])
+        setIsSubmit(false);
+        // handleReset();
+        setTimer(5);
+      } 
+    } else if (round === 3) {
+      if (timer === 0 && upperTimer % 2 === 0) {
+        const endTime = new Date().toISOString();
+        const newData = {
+          "gameType": 'rps',
+          "answer": [],
+          "timestamp": [startTime, endTime]
+        }
+        setComputerChoice(getComputerChoice());
+        setUserChoice(Object);
+        setGameHistory([...gameHistory, newData])
+        setIsSubmit(false);
+        // handleReset();
+        setTimer(5);
+      } else if (timer === 0 && upperTimer % 2 === 1) {
+        const endTime = new Date().toISOString();
+        const newData = {
+          "gameType": 'rps',
+          "answer": [],
+          "timestamp": [startTime, endTime]
+        }
+        setUserChoice(getComputerChoice());
+        setComputerChoice(Object);
+        setGameHistory([...gameHistory, newData])
+        setIsSubmit(false);
+        // handleReset();
+        setTimer(5);
+      } 
     }
   }, [timer]);
 
@@ -107,8 +150,18 @@ const Rps: React.FC<Props> = (props: Props) => {
     setUserChoice(Object);
     setIsSubmit(false);
     setGameHistory([]);
-    setComputerChoice(getComputerChoice());
-    setTimer(3);
+    if (round === 1 || round === 0) {
+      setComputerChoice(getComputerChoice());
+    } else if (round === 2) {
+      setUserChoice(getComputerChoice());
+    } else if (round === 3) {
+      if (upperTimer % 2 === 0) {
+        setComputerChoice(getComputerChoice());
+      } else if (upperTimer % 2 === 1) {
+        setUserChoice(getComputerChoice());
+      }
+    }
+    setTimer(5);
     onGameStart();
   }
 
@@ -118,7 +171,7 @@ const Rps: React.FC<Props> = (props: Props) => {
     if (timer > 0) {
       intervalId = setInterval(() => {
         setTimer((timer) => timer - 1);
-        console.log(timer);
+        // console.log(timer);
       }, 1000);
     }
     return () => clearInterval(intervalId);
@@ -128,20 +181,75 @@ const Rps: React.FC<Props> = (props: Props) => {
   const getComputerChoice = () => {
     const randomIndex = Math.floor(Math.random() * choices.length);
     return choices[randomIndex];
-    
   };
 
+  // const userOrComputer = () => {
+  //     const isSelected = Math.floor(Math.random() * 2)
+  //     return isSelected
+  // }
+  
+
+// 게임이 리셋된뒤에 가위바위보 세팅
+  useEffect(() => {
+    if (round === 1 || round === 0) {
+      if (userChoice === null || Object.keys(userChoice).length === 0) {
+        setTimeout(() => {
+          const computerChoice = getComputerChoice();
+          setComputerChoice(computerChoice);
+        }, 1000);
+      };
+      setTimer(5)
+      setStartTime(new Date().toISOString())
+    }
+  }, [userChoice]);
 
   useEffect(() => {
-    if (userChoice === null || Object.keys(userChoice).length === 0) {
-      setTimeout(() => {
-        const computerChoice = getComputerChoice();
-        setComputerChoice(computerChoice);
-      }, 1000);
-    };
-    setTimer(5)
-    setStartTime(new Date().toISOString())
-  }, [userChoice]);
+    if (round === 2) {
+      if (computerChoice === null || Object.keys(computerChoice).length === 0) {
+        setTimeout(() => {
+          const computerChoice = getComputerChoice();
+          setUserChoice(computerChoice);
+        }, 1000);
+      };
+      setTimer(5)
+      setStartTime(new Date().toISOString())
+    }
+  }, [computerChoice]);
+
+  useEffect(() => {
+    if (upperTimer % 2 === 0 && round === 3) {
+      if (userChoice === null || Object.keys(userChoice).length === 0) {
+        setTimeout(() => {
+          const computerChoice = getComputerChoice();
+          setComputerChoice(computerChoice);
+        }, 1000);
+      };
+      setTimer(5)
+      setStartTime(new Date().toISOString())
+    } if (upperTimer % 2 === 1 && round === 3) {
+      if (computerChoice === null || Object.keys(computerChoice).length === 0) {
+        setTimeout(() => {
+          const computerChoice = getComputerChoice();
+          setUserChoice(computerChoice);
+        }, 1000);
+      };
+      setTimer(5)
+      setStartTime(new Date().toISOString())
+  }
+  },[userChoice])
+
+  // useEffect(() => {
+  //   if (upperTimer % 2 === 1 && round === 3) {
+  //       if (computerChoice === null || Object.keys(computerChoice).length === 0) {
+  //         setTimeout(() => {
+  //           const computerChoice = getComputerChoice();
+  //           setUserChoice(computerChoice);
+  //         }, 1000);
+  //       };
+  //       setTimer(5)
+  //       setStartTime(new Date().toISOString())
+  //   }
+  // },[upperTimer])
 
 
   
@@ -149,57 +257,184 @@ const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
   switch (e.keyCode) {
     case 37:
       // console.log('왼쪽')
-      if (!isSubmit && computerChoice !== null) {
-        const computer = computerChoice
-        const endTime = new Date().toISOString();
-        const newData = {
-          "gameType": 'rps',
-          "answer": [choices[0].value, computer?.value],
-          "timestamp": [startTime, endTime]
+      if (round === 1 || round === 0) {
+        if (!isSubmit && computerChoice !== null) {
+          const computer = computerChoice
+          const endTime = new Date().toISOString();
+          const newData = {
+            "gameType": 'rps',
+            "answer": [choices[0].value, computer?.value],
+            "timestamp": [startTime, endTime]
+          }
+          setUserChoice(choices[0]);
+          setGameHistory([...gameHistory, newData])
+          setIsSubmit(true);
+          setTimeout(handleReset, 1000);
+          // setTimer(3);
         }
-        setUserChoice(choices[0]);
-        setGameHistory([...gameHistory, newData])
-        setIsSubmit(true);
-        setTimeout(handleReset, 1000);
-        // setTimer(3);
+      } else if (round === 2) {
+        if (!isSubmit && userChoice !== null) {
+          const user = userChoice
+          const endTime = new Date().toISOString();
+          const newData = {
+            "gameType": 'rps',
+            "answer": [user?.value, choices[0].value],
+            "timestamp": [startTime, endTime]
+          }
+          setComputerChoice(choices[0]);
+          setGameHistory([...gameHistory, newData])
+          setIsSubmit(true);
+          setTimeout(handleReset, 1000);
+          // setTimer(3);
+        }
+      } else if (round === 3) {
+        if (upperTimer % 2 === 0 && !isSubmit && computerChoice !== null) {
+          const computer = computerChoice
+          const endTime = new Date().toISOString();
+          const newData = {
+            "gameType": 'rps',
+            "answer": [choices[0].value, computer?.value],
+            "timestamp": [startTime, endTime]
+          }
+          setUserChoice(choices[0]);
+          setGameHistory([...gameHistory, newData])
+          setIsSubmit(true);
+          setTimeout(handleReset, 1000);
+        } else if (upperTimer % 2 === 1 && !isSubmit && userChoice !== null) {
+          const user = userChoice
+          const endTime = new Date().toISOString();
+          const newData = {
+            "gameType": 'rps',
+            "answer": [user?.value, choices[0].value],
+            "timestamp": [startTime, endTime]
+          }
+          setComputerChoice(choices[0]);
+          setGameHistory([...gameHistory, newData])
+          setIsSubmit(true);
+          setTimeout(handleReset, 1000);
+        }
       }
       break;
       case 38:
       // console.log('위')
-      if (!isSubmit && computerChoice !== null) {
-        const computer = computerChoice
-        
-        const endTime = new Date().toISOString();
-        const newData = {
-          "gameType": 'rps',
-          "answer": [choices[1].value, computer?.value],
-          "timestamp": [startTime, endTime]
+      if (round === 1 || round === 0) {
+        if (!isSubmit && computerChoice !== null) {
+          const computer = computerChoice
+          
+          const endTime = new Date().toISOString();
+          const newData = {
+            "gameType": 'rps',
+            "answer": [choices[1].value, computer?.value],
+            "timestamp": [startTime, endTime]
+          }
+          setUserChoice(choices[1]);
+          setGameHistory([...gameHistory, newData])
+          setIsSubmit(true);
+          setTimeout(handleReset, 1000);
+          // setTimer(3);
         }
-        setUserChoice(choices[1]);
-        setGameHistory([...gameHistory, newData])
-        setIsSubmit(true);
-        setTimeout(handleReset, 1000);
-        // setTimer(3);
-      }
-      break;
+      } else if (round === 2) {
+        if (!isSubmit && userChoice !== null) {
+          const user = userChoice
+          const endTime = new Date().toISOString();
+          const newData = {
+            "gameType": 'rps',
+            "answer": [user?.value, choices[1].value],
+            "timestamp": [startTime, endTime]
+          }
+          setComputerChoice(choices[1]);
+          setGameHistory([...gameHistory, newData])
+          setIsSubmit(true);
+          setTimeout(handleReset, 1000);
+          // setTimer(3);
+        }
+      } else if (round === 3) {
+        if (upperTimer % 2 === 0 && !isSubmit && computerChoice !== null) {
+          const computer = computerChoice
+          const endTime = new Date().toISOString();
+          const newData = {
+            "gameType": 'rps',
+            "answer": [choices[1].value, computer?.value],
+            "timestamp": [startTime, endTime]
+          }
+          setUserChoice(choices[1]);
+          setGameHistory([...gameHistory, newData])
+          setIsSubmit(true);
+          setTimeout(handleReset, 1000);
+        } else if (upperTimer % 2 === 1 && !isSubmit && userChoice !== null) {
+          const user = userChoice
+          const endTime = new Date().toISOString();
+          const newData = {
+            "gameType": 'rps',
+            "answer": [user?.value, choices[1].value],
+            "timestamp": [startTime, endTime]
+          }
+          setComputerChoice(choices[1]);
+          setGameHistory([...gameHistory, newData])
+          setIsSubmit(true);
+          setTimeout(handleReset, 1000);
+        }}
+      break
       case 39:
       // console.log('오른쪽')
-      if (!isSubmit && computerChoice !== null) {
-        const computer = computerChoice
-        
-        const endTime = new Date().toISOString();
-        const newData = {
-          "gameType": 'rps',
-          "answer": [choices[2].value, computer?.value],
-          "timestamp": [startTime, endTime]
+      if (round === 1 || round === 0) {
+        if (!isSubmit && computerChoice !== null) {
+          const computer = computerChoice
+          
+          const endTime = new Date().toISOString();
+          const newData = {
+            "gameType": 'rps',
+            "answer": [choices[2].value, computer?.value],
+            "timestamp": [startTime, endTime]
+          }
+          setUserChoice(choices[2]);
+          setGameHistory([...gameHistory, newData])
+          setIsSubmit(true);
+          setTimeout(handleReset, 1000);
+          // setTimer(3);
         }
-        setUserChoice(choices[2]);
-        setGameHistory([...gameHistory, newData])
-        setIsSubmit(true);
-        setTimeout(handleReset, 1000);
-        // setTimer(3);
-      }
-      break;
+      } else if (round === 2) {
+        if (!isSubmit && userChoice !== null) {
+          const user = userChoice
+          const endTime = new Date().toISOString();
+          const newData = {
+            "gameType": 'rps',
+            "answer": [user?.value, choices[2].value],
+            "timestamp": [startTime, endTime]
+          }
+          setComputerChoice(choices[2]);
+          setGameHistory([...gameHistory, newData])
+          setIsSubmit(true);
+          setTimeout(handleReset, 1000);
+          // setTimer(3);
+        }
+      } else if (round === 3) {
+        if (upperTimer % 2 === 0 && !isSubmit && computerChoice !== null) {
+          const computer = computerChoice
+          const endTime = new Date().toISOString();
+          const newData = {
+            "gameType": 'rps',
+            "answer": [choices[2].value, computer?.value],
+            "timestamp": [startTime, endTime]
+          }
+          setUserChoice(choices[2]);
+          setGameHistory([...gameHistory, newData])
+          setIsSubmit(true);
+          setTimeout(handleReset, 1000);
+        } else if (upperTimer % 2 === 1 && !isSubmit && userChoice !== null) {
+          const user = userChoice
+          const endTime = new Date().toISOString();
+          const newData = {
+            "gameType": 'rps',
+            "answer": [user?.value, choices[2].value],
+            "timestamp": [startTime, endTime]
+          }
+          setComputerChoice(choices[2]);
+          setGameHistory([...gameHistory, newData])
+          setIsSubmit(true);
+          setTimeout(handleReset, 1000);
+        }}
+      break
   }
 }
 
@@ -208,13 +443,6 @@ useEffect(() => {
   wrapbox.current?.focus()
 },[])
 
-const colorHnadler = () => {
-  if (round === 1) {
-    setColor(false)
-  } else if (round === 2) {
-    setColor(true)
-  }
-}
 
   return (
     <WrapBox ref={wrapbox} autoFocus tabIndex={0} onKeyDown={handleKeyDown}>
