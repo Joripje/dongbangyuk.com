@@ -53,7 +53,6 @@ import com.google.gson.JsonObject;
 public class HelloWorldRecHandler extends TextWebSocketHandler {
 
   private static String RECORDER_FILE_NAME;
-  private static Long sequence = 0L;
 
   private final Logger log = LoggerFactory.getLogger(HelloWorldRecHandler.class);
   private static final Gson gson = new GsonBuilder().create();
@@ -369,7 +368,7 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
       // 6. Send video to Spring
       // String videoPath = "kms:///tmp/testRecord_" + sequence + ".webm";
       // String videoPath = "kms:/tmp/testRecord_" + sequence + ".webm";
-      String videoPath = "/recordvideo/testRecord_" + sequence + ".webm";
+      String videoPath = "/recordvideo/" + RECORDER_FILE_NAME;
       System.out.println(videoPath);
       System.out.println(Paths.get(videoPath));
       try {
@@ -391,7 +390,7 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
         // String serverUrl = "http://localhost:8080/images/upload";
         // String serverUrl = "http://13.125.6.24:8081/images/upload";
         // String serverUrl = "http://k8a305.p.ssafy.io:8081/images/upload";
-        String serverUrl = "http://k8a305.p.ssafy.io:8081/images/upload";
+        String serverUrl = "https://k8a305.p.ssafy.io/images/upload";
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> responseEntity = restTemplate.exchange(serverUrl, HttpMethod.POST, requestEntity, String.class);
 
@@ -431,7 +430,7 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
       // String serverUrl = "http://localhost:8080/images/upload";
       // String serverUrl = "http://13.125.6.24:8081/images/upload";
       // String serverUrl = "http://k8a305.p.ssafy.io:8081/images/upload";
-      String serverUrl = "http://k8a305.p.ssafy.io:8081/images/upload";
+      String serverUrl = "https://k8a305.p.ssafy.io/images/upload";
       RestTemplate restTemplate = new RestTemplate();
       ResponseEntity<String> responseEntity = restTemplate.exchange(serverUrl, HttpMethod.POST, requestEntity, String.class);
       log.info("Response from server: {}", responseEntity.getBody());
