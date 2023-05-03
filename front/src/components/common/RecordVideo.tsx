@@ -6,7 +6,7 @@ import { auth } from "service";
 
 function RecordVideo() {
   // var ws = new WebSocket(`wss://k8a305.p.ssafy.io:8443/recording`);
-  var ws = new WebSocket(`wss://k8a305.p.ssafy.io:443/recording`);
+  var ws = new WebSocket(`wss://k8a305.p.ssafy.io/recording`);
   ws.onerror = function (error) {
     console.log("WebSocket error: ", error);
   };
