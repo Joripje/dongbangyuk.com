@@ -16,6 +16,17 @@ producer_config = {
 
 producer = KafkaProducer(**producer_config)
 
+@router.post("/send")
+async def send_message():
+    message = 'testMessage'
+    try:
+        producer.send('test', message.encode('utf-8'))
+        producer.flush()
+        content = "Sending completed."
+        return JSONResponse(content=content, status_code=200)
+    except:
+        raise HTTPException(status_code=500)
+        
 
 @router.get("/assessment-centre/road")
 async def get_road_problems():
