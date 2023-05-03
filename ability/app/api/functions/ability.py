@@ -363,4 +363,6 @@ def calc_judgement(avg_time, game_type):
 def select_ability(game_id):
     data = collection.find_one({'game_id': game_id})
 
+    data['_id'] = str(data['_id'])
+
     return data
