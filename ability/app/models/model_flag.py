@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, Boolean
+from sqlalchemy import Column, Integer, Boolean, String
 from sqlalchemy.ext.declarative import declarative_base
 
 # 모델 클래스 정의
@@ -11,3 +11,4 @@ class Flag(Base):
     assess = Column(Boolean, default=False)
     video = Column(Boolean, default=False)
     is_deleted = Column(Boolean, default=False)
+    type = Column(String(10))

@@ -4,7 +4,8 @@ from api.functions import flag
 from schemas.schemas_flag import FlagBase
 
 router = APIRouter()
-
+api_url = 'http://127.0.0.1:8000/flag'
+# api_url = 'http://k8a305.p.ssafy.io:8040/flag'
 
 @router.get("/")
 def get_flag(gameid: int, type: str, video: bool):  # flag 데이터를 확인하고 적절한 요청을 보냄
@@ -12,8 +13,7 @@ def get_flag(gameid: int, type: str, video: bool):  # flag 데이터를 확인�
 
     if data == (True, False):
         if video:
-            # url = 'http://127.0.0.1:8000/flag/update'
-            url = 'http://k8a305.p.ssafy.io:8040/flag/update'
+            url = api_url + '/update'
             payload = {'gameid': gameid, 'type': type, 'video': video}
             # response = requests.put(url, json=payload)
             requests.put(url, json=payload)
@@ -29,8 +29,7 @@ def get_flag(gameid: int, type: str, video: bool):  # flag 데이터를 확인�
             # return '잘못된 요청'
             return 'FT인데 요청이 한 번 더 와서 안됨'
         else:
-            # url = 'http://127.0.0.1:8000/flag/update'
-            url = 'http://k8a305.p.ssafy.io:8040/flag/update'
+            url = api_url + '/update'
             payload = {'gameid': gameid, 'type': type, 'video': video}
             # response = requests.put(url, json=payload)
             requests.put(url, json=payload)
@@ -43,8 +42,7 @@ def get_flag(gameid: int, type: str, video: bool):  # flag 데이터를 확인�
         return '트트'
 
     else:  # data가 존재하지 않으면 flag 새로 기록
-        # url = 'http://127.0.0.1:8000/flag/create'
-        url = 'http://k8a305.p.ssafy.io:8040/flag/create'
+        url = api_url + '/create'
         payload = {'gameid':gameid, 'type':type, 'video':video}
         requests.post(url, json=payload)
 
@@ -54,7 +52,8 @@ def get_flag(gameid: int, type: str, video: bool):  # flag 데이터를 확인�
 
 @router.post("/create")
 def post_flag(flag_data: FlagBase):
-    flag.create_flag(flag_data.gameid, flag_data.video)
+    print(flag_data.type)
+    flag.create_flag(flag_data.gameid, flag_data.video, flag_data.type)
 
     return 1
 
