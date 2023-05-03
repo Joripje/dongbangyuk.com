@@ -14,10 +14,10 @@ producer_config = {
     'bootstrap_servers': 'kafka:9092'
 }
 
-producer = KafkaProducer(**producer_config)
 
 @router.post("/send")
 async def send_message():
+    producer = KafkaProducer(**producer_config)
     print("BOOTSTRAP_CONNECTED", producer.bootstrap_connected())
     message = 'testMessage'
     response = producer.send('test', message.encode('utf-8'))
