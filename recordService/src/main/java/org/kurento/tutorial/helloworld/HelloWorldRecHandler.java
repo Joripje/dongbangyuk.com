@@ -431,8 +431,8 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
       System.out.println("flag 3");
       // String serverUrl = "http://localhost:8080/images/upload";
       // String serverUrl = "http://13.125.6.24:8081/images/upload";
-      String serverUrl = "http://k8a305.p.ssafy.io:8081/images/upload";
-      // String serverUrl = "https://k8a305.p.ssafy.io/images/upload";
+      // String serverUrl = "http://k8a305.p.ssafy.io:8081/images/upload";
+      String serverUrl = "https://k8a305.p.ssafy.io/images/upload";
       RestTemplate restTemplate = new RestTemplate();
       ResponseEntity<String> responseEntity = restTemplate.exchange(serverUrl, HttpMethod.POST, requestEntity, String.class);
       log.info("Response from server: {}", responseEntity.getBody());
