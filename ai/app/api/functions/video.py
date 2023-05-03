@@ -2,9 +2,10 @@ import cv2
 import dlib
 import numpy as np
 from tensorflow.keras.models import load_model
+from datetime import datetime, timedelta
 
 
-def video_detection(game_id, video_path):
+def video_detection(game_id, video_path, start_time, end_time):
     # 얼굴 검출기와 랜드마크 검출기 초기화
     detector = dlib.get_frontal_face_detector()
     # predictor = dlib.shape_predictor("C:/Users/SSAFY/Documents/GitHub/S08P31A305/ai/app/api/functions/data/shape_predictor_68_face_landmarks.dat")
@@ -83,31 +84,20 @@ def video_detection(game_id, video_path):
     cap.release()
     cv2.destroyAllWindows()
 
-    # 분석한 감정 리스트 출력
-    # print(emotion_list[0])
-    # print(len(emotion_list[0]))
+    #### 초당 프레임을 고려한 다운샘플링
 
-
-    # 각 리스트를 구분하여 numpy array로 변환
-    # angry_arr = np.array(emotion_list[0])
-    # disgust_arr = np.array(emotion_list[1])
-    # scared_arr = np.array(emotion_list[2])
-    # happy_arr = np.array(emotion_list[3])
-    # sad_arr = np.array(emotion_list[4])
-    # surprised_arr = np.array(emotion_list[5])
-    # neutral_arr = np.array(emotion_list[6])
-
-    # data = {
-    #     '_id': game_id,
-    #     'angry': angry_arr,
-    #     'disgust': disgust_arr,
-    #     'scared': scared_arr,
-    #     'happy': happy_arr,
-    #     'sad': sad_arr,
-    #     'surprised': surprised_arr,
-    #     'neutral': neutral_arr,
-    #     'video_path': video_path,
-    # }
+    # start = datetime.fromisoformat(str(start_time))
+    # end = datetime.fromisoformat(str(end_time))
+    #
+    # fps = all_frames // (end - start).total_seconds()
+    #
+    # angry = ltd_downsampling(emotion_list[0], 2 * fps)
+    # disgust = ltd_downsampling(emotion_list[1], 2 * fps)
+    # scared = ltd_downsampling(emotion_list[2], 2 * fps)
+    # happy = ltd_downsampling(emotion_list[3], 2 * fps)
+    # sad = ltd_downsampling(emotion_list[4], 2 * fps)
+    # surprised = ltd_downsampling(emotion_list[5], 2 * fps)
+    # neutral = ltd_downsampling(emotion_list[6], 2 * fps)
 
     angry = ltd_downsampling(emotion_list[0], 60)
     disgust = ltd_downsampling(emotion_list[1], 60)
@@ -116,8 +106,6 @@ def video_detection(game_id, video_path):
     sad = ltd_downsampling(emotion_list[4], 60)
     surprised = ltd_downsampling(emotion_list[5], 60)
     neutral = ltd_downsampling(emotion_list[6], 60)
-
-
 
     data = {
         'game_id': game_id,
@@ -129,6 +117,8 @@ def video_detection(game_id, video_path):
         'surprised': surprised,
         'neutral': neutral,
         'video_path': video_path,
+        'start_time': start_time,
+        'end_time': end_time,
         'none_face': none_face / all_frames
     }
 

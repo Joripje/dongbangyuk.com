@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter  #, HTTPException
 from api.functions.video import video_detection
 from api.functions.mongodb_cr import mongodb_create, mongodb_read
 from api.functions.mongodb_cr import mongodb_list
@@ -11,13 +11,10 @@ router = APIRouter()
 @router.post("/")
 def video_analysis(video: VideoBase):
 
-    data = video_detection(video.gameid, video.videopath)
-    print('분석끝')
+    data = video_detection(video.gameid, video.videopath, video.start_time, video.end_time)
     mongodb_create(data)
-    print('저장끝')
 
     return '완료됨'
-
 
 
 @router.get("/data")
