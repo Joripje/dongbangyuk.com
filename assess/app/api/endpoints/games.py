@@ -5,7 +5,7 @@ from schemas import user, common, findroad, rps
 from models import ProblemModels, ResultModels
 from api.functions import assessment, score_calc, send_request
 from db.mongodb import problem_db, result_db
-from kafka import KafkaProducer
+from kafka import KafkaProducer, KafkaError
 import random
 
 router = APIRouter()
@@ -20,12 +20,14 @@ producer = KafkaProducer(**producer_config)
 async def send_message():
     print("BOOTSTRAP_CONNECTED", producer.bootstrap_connected())
     message = 'testMessage'
-
-    response = producer.send('test', message.encode('utf-8'))
-    print(response)
-    producer.flush()
-    content = "Sending completed."
-    return JSONResponse(content=content, status_code=200)
+    try:
+        response = producer.send('test', message.encode('utf-8'))
+        print(response.__dict__)
+        producer.flush()
+        content = "Sending completed."
+        return JSONResponse(content=content, status_code=200)
+    except KafkaError as e:
+        print(f'Failed to send message: {e}')
         
 
 @router.get("/assessment-centre/road")
