@@ -11,16 +11,15 @@ import random
 router = APIRouter()
 
 producer_config = {
-    'bootstrap_servers': 'kafka:9092'
+    'bootstrap_servers': '127.0.0.1:9092'
 }
 
 
 @router.post("/send")
-async def send_message():
+async def send_message(message: str):
     producer = KafkaProducer(**producer_config)
     print("BOOTSTRAP_CONNECTED", producer.bootstrap_connected())
-    message = 'testMessage'
-    response = producer.send('test', message)
+    response = producer.send('test', message.encode('utf-8'))
     print("BROKER_RESPONSE", response.__dict__)
     producer.flush()
     content = "Sending completed."
