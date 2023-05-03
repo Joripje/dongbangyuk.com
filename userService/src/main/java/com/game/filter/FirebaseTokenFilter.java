@@ -13,20 +13,19 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.game.domain.user.CustomUser;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
 
 import lombok.RequiredArgsConstructor;
 
-@Component
 @RequiredArgsConstructor
 public class FirebaseTokenFilter extends OncePerRequestFilter {
 
-	private final UserDetailsService userDetailService;
+	private final UserDetailsService userDetailsService;
 	private final FirebaseAuth firebaseAuth;
 
 	@Override
@@ -52,10 +51,19 @@ public class FirebaseTokenFilter extends OncePerRequestFilter {
 
 		// User를 가져와 SecurityContext에 저장한다.
 		try {
-			UserDetails user = userDetailService.loadUserByUsername(decodedToken.getUid());
-			UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-				user, null, user.getAuthorities());
-			SecurityContextHolder.getContext().setAuthentication(authentication);
+			UserDetails user = userDetailsService.loadUserByUsername(decodedToken.getUid());
+
+			if (user != null) {
+				UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+					user, null, user.getAuthorities());
+				SecurityContextHolder.getContext().setAuthentication(authentication);
+			} else {
+				CustomUser customUser = new CustomUser(decodedToken.getUid(), null);
+				user = customUser;
+				UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+					user, null, user.getAuthorities());
+				SecurityContextHolder.getContext().setAuthentication(authentication);
+			}
 		} catch (NoSuchElementException e) {
 			setUnauthorizedResponse(response, "USER_NOT_FOUND");
 			return;

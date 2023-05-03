@@ -14,7 +14,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -37,12 +36,11 @@ public class CustomUser implements UserDetails {
 	private String birthDate;
 
 	@Column(name = "is_deleted", nullable = false)
-	private Boolean isDeleted;
+	private Boolean isDeleted = false;
 
 	@Column(name = "feature")
 	private int feature = 0;
 
-	@Builder
 	public CustomUser(String uid, String birthDate) {
 		this.uid = uid;
 		this.birthDate = birthDate;
