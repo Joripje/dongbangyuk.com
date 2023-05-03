@@ -35,7 +35,7 @@ def ability(game_id, game_type):
         accuracy = ability_accuracy(result['results'])
         stability = ability_stability(video['none_face'])
         endurance = ability_endurance(result)
-        resilience = ability_resilience()
+        resilience = ability_resilience(result, video)
 
         data = {
             'game_id':  game_id,
@@ -241,8 +241,20 @@ def ability_endurance(result):
         return endurance
 
 
-def ability_resilience():
-    return 1
+def ability_resilience(result, video):
+    resilience = 5
+
+    angry = video['angry']
+    disgust = video['disgust']
+    scared = video['scared']
+    happy = video['happy']
+    sad = video['sad']
+    surprised = video['surprised']
+    neutral = video['neutral']
+
+    
+
+    return resilience
 
 
 def calc_accuracy(rate):

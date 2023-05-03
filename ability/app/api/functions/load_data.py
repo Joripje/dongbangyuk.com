@@ -25,7 +25,7 @@ def get_result(game_id, game_type):
         result = collection_rotate.find_one({'game_id': game_id})
     else:
         result = collection_cat.find_one({'game_id': game_id})
-    
+
     return result
 
 
