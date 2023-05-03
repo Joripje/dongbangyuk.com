@@ -1,8 +1,5 @@
 import $ from "jquery";
-import { useEffect } from "react";
 import { WebRtcPeer } from "kurento-utils";
-
-import { auth } from "service";
 
 function RecordVideo() {
   // var ws = new WebSocket(`wss://k8a305.p.ssafy.io:8443/recording`);
@@ -34,7 +31,7 @@ function RecordVideo() {
     console.log("Page loaded ...");
     videoInput = document.getElementById("videoInput");
     videoOutput = document.getElementById("videoOutput");
-    // setState(NO_CALL);
+    setState(NO_CALL);
   };
 
   window.onbeforeunload = function () {
@@ -86,11 +83,11 @@ function RecordVideo() {
       case "playResponse":
         playResponse(parsedMessage);
         break;
-      // case "playEnd":
-      //   playEnd();
-      //   break;
+      case "playEnd":
+        playEnd();
+        break;
       case "error":
-        // setState(NO_CALL);
+        setState(NO_CALL);
         onError("Error message from server: " + parsedMessage.message);
         break;
       case "iceCandidate":
@@ -105,7 +102,7 @@ function RecordVideo() {
       case "recording":
         break;
       default:
-        // setState(NO_CALL);
+        setState(NO_CALL);
         onError("Unrecognized message" + parsedMessage);
     }
   };
@@ -114,7 +111,7 @@ function RecordVideo() {
     console.log("Starting video call ...");
 
     // Disable start button
-    // setState(DISABLED);
+    setState(DISABLED);
     // showSpinner(videoInput, videoOutput);
     console.log("Creating WebRtcPeer and generating local sdp offer ...");
 
@@ -163,7 +160,7 @@ function RecordVideo() {
   }
 
   function startResponse(message: { sdpAnswer: {} }) {
-    // setState(IN_CALL);
+    setState(IN_CALL);
     console.log("SDP answer received from server. Processing ...");
 
     myWebRtcPeer.processAnswer(message.sdpAnswer, (error: string) => {
@@ -204,16 +201,16 @@ function RecordVideo() {
   }
 
   function playResponse(message: { sdpAnswer: {} }) {
-    // setState(IN_PLAY);
+    setState(IN_PLAY);
     myWebRtcPeer.processAnswer(message.sdpAnswer, (error: string) => {
       if (error) return console.error(error);
     });
   }
 
-  // function playEnd() {
-  //   // setState(POST_CALL);
-  //   // hideSpinner(videoInput, videoOutput);
-  // }
+  function playEnd() {
+    setState(POST_CALL);
+    //   // hideSpinner(videoInput, videoOutput);
+  }
 
   function sendMessage(message: {} | null) {
     var jsonMessage = JSON.stringify(message);
