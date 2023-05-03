@@ -18,6 +18,7 @@ producer = KafkaProducer(**producer_config)
 
 @router.post("/send")
 async def send_message():
+    print("BOOTSTRAP_CONNECTED", producer.bootstrap_connected())
     message = 'testMessage'
     try:
         producer.send('test', message.encode('utf-8'))
