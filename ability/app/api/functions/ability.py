@@ -5,8 +5,8 @@ from api.functions.load_data import get_result, get_video
 
 # 몽고디비에 저장하는 코드
 
-# client = MongoClient("mongodb://mongodb_server:27017/")
-client = MongoClient('localhost', 27017)
+client = MongoClient("mongodb://mongodb_server:27017/")
+# client = MongoClient('localhost', 27017)
 
 db = client['ability']
 collection = db['ability']
@@ -245,6 +245,7 @@ def ability_endurance(result):
 def ability_resilience(result, video):
     resilience = 5
 
+    # 영상 저장시 주석 해제 후 영상 데이터 계산
     # angry = video['angry']
     # disgust = video['disgust']
     # scared = video['scared']
@@ -271,7 +272,7 @@ def ability_resilience(result, video):
     if false_problem:
         resilience = 3
 
-    print(false_problem)
+    # print(false_problem)
 
     for i in range(len(false_problem)):
         false_problem_number = false_problem[i]
@@ -294,12 +295,12 @@ def ability_resilience(result, video):
 
             if before_accuracy > after_accuracy:
                 resilience -= 1
-                print(resilience,'감소')
+                # print(resilience,'감소')
             else:
                 resilience += 1
-                print(resilience,'증가')
+                # print(resilience,'증가')
 
-    print(resilience)
+    # print(resilience)
     if resilience > 5:
         resilience = 5
 

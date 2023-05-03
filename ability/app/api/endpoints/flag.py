@@ -52,7 +52,8 @@ def get_flag(gameid: int, type: str, video: bool):  # flag 데이터를 확인�
 
 @router.post("/create")
 def post_flag(flag_data: FlagBase):
-    flag.create_flag(flag_data.gameid, flag_data.video)
+    print(flag_data.type)
+    flag.create_flag(flag_data.gameid, flag_data.video, flag_data.type)
 
     return 1
 

@@ -89,12 +89,12 @@ def select_flag(gameid):
         return (False, False)
 
 
-def create_flag(gameid, video):
+def create_flag(gameid, video, game_type):
     if video:
-        new_flag = Flag(game_id=gameid, assess=False, video=True, is_deleted=False)
+        new_flag = Flag(game_id=gameid, assess=False, video=True, is_deleted=False, type=game_type)
 
     else:
-        new_flag = Flag(game_id=gameid, assess=True, video=False, is_deleted=False)
+        new_flag = Flag(game_id=gameid, assess=True, video=False, is_deleted=False, type=game_type)
 
     session.add(new_flag)
     session.commit()
