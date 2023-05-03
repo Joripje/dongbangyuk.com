@@ -20,7 +20,7 @@ async def send_message():
     producer = KafkaProducer(**producer_config)
     print("BOOTSTRAP_CONNECTED", producer.bootstrap_connected())
     message = 'testMessage'
-    response = producer.send('test', message.encode('utf-8'))
+    response = producer.send('test', message)
     print("BROKER_RESPONSE", response.__dict__)
     producer.flush()
     content = "Sending completed."
