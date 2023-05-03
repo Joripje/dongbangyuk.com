@@ -4,8 +4,8 @@ from api.functions import flag
 from schemas.schemas_flag import FlagBase
 
 router = APIRouter()
-api_url = 'http://127.0.0.1:8000/flag'
-# api_url = 'http://k8a305.p.ssafy.io:8040/flag'
+# api_url = 'http://127.0.0.1:8000/flag'
+api_url = 'http://k8a305.p.ssafy.io:8040/flag'
 
 @router.get("/")
 def get_flag(gameid: int, type: str, video: bool):  # flag 데이터를 확인하고 적절한 요청을 보냄
