@@ -5,8 +5,8 @@ from api.functions.load_data import get_result, get_video
 
 # 몽고디비에 저장하는 코드
 
-client = MongoClient("mongodb://mongodb_server:27017/")
-# client = MongoClient('localhost', 27017)
+# client = MongoClient("mongodb://mongodb_server:27017/")
+client = MongoClient('localhost', 27017)
 
 db = client['ability']
 collection = db['ability']
@@ -51,6 +51,7 @@ def ability(game_id, game_type):
 
         if not collection.find_one({'game_id': game_id}):
             collection.insert_one(data)
+            print('저장완료')
 
 
 def ability_rps():
@@ -244,15 +245,66 @@ def ability_endurance(result):
 def ability_resilience(result, video):
     resilience = 5
 
-    angry = video['angry']
-    disgust = video['disgust']
-    scared = video['scared']
-    happy = video['happy']
-    sad = video['sad']
-    surprised = video['surprised']
-    neutral = video['neutral']
+    # angry = video['angry']
+    # disgust = video['disgust']
+    # scared = video['scared']
+    # happy = video['happy']
+    # sad = video['sad']
+    # surprised = video['surprised']
+    # neutral = video['neutral']
+    # emotion_state = video['emotion_state']
 
-    
+    # start = datetime.fromisoformat(str(video['start_time']))
+
+    # emotions = [angry, disgust, scared, happy, sad, surprised, neutral]
+
+    tf = result['results']
+
+    # timestamps = result['timestamps']
+
+    false_problem = []
+
+    for i in range(len(tf)):
+        if not tf[i]:
+            false_problem.append(i)
+
+    if false_problem:
+        resilience = 3
+
+    print(false_problem)
+
+    for i in range(len(false_problem)):
+        false_problem_number = false_problem[i]
+
+        if false_problem_number != 0 and false_problem_number != len(tf) - 1:
+            # problem_finish = datetime.fromisoformat(str(timestamps[false_problem_number][1]))
+            # false_state = emotion_state[int((problem_finish - start).total_seconds()):]
+            # # 틀린 뒤 감정의 동요 확인
+            # if len(set(false_state)) >= 3:
+            #     resilience -= 1
+            #
+            # elif len(set(false_state)) == 1:
+            #     resilience += 1
+
+            # 틀린 뒤 정답률 확인
+            before_problem = tf[:false_problem_number]
+            after_problem = tf[false_problem_number:]
+            before_accuracy = before_problem.count(1) / len(before_problem)
+            after_accuracy = after_problem.count(1) / len(after_problem)
+
+            if before_accuracy > after_accuracy:
+                resilience -= 1
+                print(resilience,'감소')
+            else:
+                resilience += 1
+                print(resilience,'증가')
+
+    print(resilience)
+    if resilience > 5:
+        resilience = 5
+
+    elif resilience < 1:
+        resilience = 1
 
     return resilience
 
