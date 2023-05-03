@@ -107,6 +107,14 @@ def video_detection(game_id, video_path, start_time, end_time):
     surprised = ltd_downsampling(emotion_list[5], 60)
     neutral = ltd_downsampling(emotion_list[6], 60)
 
+    # emotions = ["angry", "disgust", "scared", "happy", "sad", "surprised", "neutral"]
+    emotion_state = []
+    for i in range(len(angry)):
+        emotion_values = [angry[i], disgust[i], scared[i], happy[i], sad[i], surprised[i], neutral[i]]
+        max_emotion_index = emotion_values.index(max(emotion_values))
+        # emotion_state.append(emotions[max_emotion_index])
+        emotion_state.append(max_emotion_index)
+
     data = {
         'game_id': game_id,
         'angry': angry,
@@ -119,7 +127,8 @@ def video_detection(game_id, video_path, start_time, end_time):
         'video_path': video_path,
         'start_time': start_time,
         'end_time': end_time,
-        'none_face': none_face / all_frames
+        'none_face': none_face / all_frames,
+        'emotion_state': emotion_state
     }
 
     return data
