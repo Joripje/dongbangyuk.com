@@ -1,3 +1,4 @@
+import requests
 from fastapi import APIRouter  #, HTTPException
 from api.functions.video import video_detection
 from api.functions.mongodb_cr import mongodb_create, mongodb_read
@@ -11,10 +12,21 @@ router = APIRouter()
 @router.post("/")
 def video_analysis(video: VideoBase):
 
-    data = video_detection(video.gameid, video.videopath, video.start_time, video.end_time)
-    mongodb_create(data)
+    data = video_detection(video.gameid, video.videopath, video.start_time, video.end_time, video.game_type)
+    result = mongodb_create(data)
+    if result:
+        url = 'http://k8a305.p.ssafy.io:8040/flag'
+        params = {
+            'gameid': video.gameid,
+            'type': video.game_type,
+            'video': True,
+        }
+        response = requests.get(url, params=params)
 
-    return '완료됨'
+        return response.status_code
+
+    else:
+        return '실패'
 
 
 @router.get("/data")

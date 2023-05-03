@@ -6,3 +6,4 @@ class VideoBase(BaseModel):
     videopath: str
     start_time: str
     end_time: str
+    game_type: str

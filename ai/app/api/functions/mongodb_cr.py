@@ -10,9 +10,11 @@ collection_a = db['ability']
 
 
 def mongodb_create(data):
-    collection.insert_one(data)
-
-    return 1
+    result = collection.insert_one(data)
+    if result.acknowledged:
+        return True
+    else:
+        return False
 
 
 def mongodb_read(videoid):
