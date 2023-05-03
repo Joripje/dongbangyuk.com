@@ -20,13 +20,12 @@ producer = KafkaProducer(**producer_config)
 async def send_message():
     print("BOOTSTRAP_CONNECTED", producer.bootstrap_connected())
     message = 'testMessage'
-    try:
-        producer.send('test', message.encode('utf-8'))
-        producer.flush()
-        content = "Sending completed."
-        return JSONResponse(content=content, status_code=200)
-    except:
-        raise HTTPException(status_code=500)
+
+    response = producer.send('test', message.encode('utf-8'))
+    print(response)
+    producer.flush()
+    content = "Sending completed."
+    return JSONResponse(content=content, status_code=200)
         
 
 @router.get("/assessment-centre/road")
