@@ -52,7 +52,8 @@ import com.google.gson.JsonObject;
  */
 public class HelloWorldRecHandler extends TextWebSocketHandler {
 
-  private static String RECORDER_FILE_NAME;
+  private static final String RECORDER_FILE_PATH = "file:///tmp/testRecord_";
+  private static Long sequence = 0L;
 
   private final Logger log = LoggerFactory.getLogger(HelloWorldRecHandler.class);
   private static final Gson gson = new GsonBuilder().create();
@@ -68,9 +69,6 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
     JsonObject jsonMessage = gson.fromJson(message.getPayload(), JsonObject.class);
 
     log.info("Incoming message: {}", jsonMessage);
-
-    // 파일 이름 지정
-    RECORDER_FILE_NAME = jsonMessage.get("userEmail").getAsString() + ".webm";
 
     UserSession user = registry.getBySession(session);
     if (user != null) {
@@ -129,7 +127,8 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 
       MediaProfileSpecType profile = getMediaProfileFromMessage(jsonMessage);
 
-      String filePath = "file:///tmp/" + RECORDER_FILE_NAME;
+      String filePath = RECORDER_FILE_PATH + ++sequence + ".webm";
+
       System.out.println("filePath: " + filePath);
       RecorderEndpoint recorder = new RecorderEndpoint.Builder(pipeline, filePath)
           .withMediaProfile(profile).build();
@@ -296,7 +295,8 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
       WebRtcEndpoint webRtcEndpoint = new WebRtcEndpoint.Builder(pipeline).build();
 
 
-      String filePath = "file:///tmp/" + RECORDER_FILE_NAME;
+      String filePath = "/recordvideo/testRecord_" + sequence + ".webm";
+
       System.out.println("play: " + filePath);
       PlayerEndpoint player = new PlayerEndpoint.Builder(pipeline, filePath).build();
       player.connect(webRtcEndpoint);
@@ -368,7 +368,8 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
       // 6. Send video to Spring
       // String videoPath = "kms:///tmp/testRecord_" + sequence + ".webm";
       // String videoPath = "kms:/tmp/testRecord_" + sequence + ".webm";
-      String videoPath = "/recordvideo/" + RECORDER_FILE_NAME;
+      String videoPath = "/recordvideo/testRecord_" + sequence + ".webm";
+
       System.out.println(videoPath);
       System.out.println(Paths.get(videoPath));
       try {
@@ -410,7 +411,8 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
     try {
       System.out.println("flag 1");
       // 6. Send video to Spring
-      String videoPath = "/recordvideo/" + RECORDER_FILE_NAME;
+      // 6. Send video to Spring
+      String videoPath = "/recordvideo/testRecord_" + sequence + ".webm";
       System.out.println("filePath: " + videoPath);
 
       Path videoFilePath = Paths.get(videoPath);
