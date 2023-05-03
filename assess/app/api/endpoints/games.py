@@ -11,7 +11,7 @@ import random
 router = APIRouter()
 
 producer_config = {
-    'bootstrap_servers': '127.0.0.1:9092'
+    'bootstrap_servers': 'kafka:9092'
 }
 
 
