@@ -26,7 +26,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "https://k8a305.p.ssafy.io")
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
 
 	private final FirebaseAuth firebaseAuth;
