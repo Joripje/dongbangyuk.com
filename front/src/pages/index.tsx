@@ -11,6 +11,7 @@ import FirebaseTestPage from "./FirebaseTestPage";
 import MemberPage from "./MemberPage";
 import GameSelectPage from "./GameSelectPage";
 import RecordTestPage from "./RecordTestPage";
+import StatisticsPage from "./StatisticsPage";
 
 const routes = [
   {
@@ -53,6 +54,10 @@ const routes = [
   {
     path: "/recordtest",
     element: <RecordTestPage />,
+  },
+  {
+    path: "/statistics",
+    element: <StatisticsPage />,
   },
 ];
 
