@@ -172,7 +172,7 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 
         @Override
         public void onEvent(RecordingEvent event) {
-          log.debug("recording.addRecordingListener 진입");
+          System.out.println("recording.addRecordingListener 진입");
           JsonObject response = new JsonObject();
           response.addProperty("id", "recording");
           try {
@@ -191,7 +191,7 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 
         @Override
         public void onEvent(StoppedEvent event) {
-          log.debug("recording.addStoppedListener 진입");
+          System.out.println("recording.addStoppedListener 진입");
           JsonObject response = new JsonObject();
           response.addProperty("id", "stopped");
           try {
