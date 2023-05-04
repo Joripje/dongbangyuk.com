@@ -76,10 +76,12 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
       log.debug("Incoming message from new user: {}", jsonMessage);
     }
 
-    // 파일 이름 지정
-    RECORDER_FILE_NAME = jsonMessage.get("userEmail").getAsString() + ".webm";
+    // // 파일 이름 지정
+    // RECORDER_FILE_NAME = jsonMessage.get("userEmail").getAsString() + ".webm";
     switch (jsonMessage.get("id").getAsString()) {
       case "start":
+        // 파일 이름 지정
+        RECORDER_FILE_NAME = jsonMessage.get("userEmail").getAsString() + ".webm";
         start(session, jsonMessage);
         break;
       case "stop":
