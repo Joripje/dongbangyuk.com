@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@RequestMapping("/kafka")
+@RequestMapping("/image/kafka")
 @RestController
 @RequiredArgsConstructor
 public class KafkaController {
@@ -19,6 +19,7 @@ public class KafkaController {
 
 	@GetMapping("/publish")
 	public String publish(@RequestParam String message) {
+		log.info("publish 호출호출");
 		this.kafkaTemplate.send("test", message);
 		log.info("message: " + message);
 		return "success";
