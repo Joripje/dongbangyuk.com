@@ -42,8 +42,8 @@ public class Play {
 	@Column(name = "end_time")
 	private Instant endTime;
 
-	// @Column(name = "video_path")
-	// private String videoPath;
+	@Column(name = "video_path")
+	private String videoPath;
 
 	@Builder
 	public Play(GameSaveRequestDto requestDto) {
@@ -51,6 +51,7 @@ public class Play {
 		this.type = requestDto.getType();
 		this.startTime = requestDto.getStartTime();
 		this.endTime = requestDto.getEndTime();
+		this.videoPath = requestDto.getVideoPath();
 	}
 
 }
