@@ -1,3 +1,3 @@
-import SignUp from "./Singup";
+import { auth } from "./firebase";
 
-export { SignUp };
+export { auth };

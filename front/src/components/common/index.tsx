@@ -1,3 +1,4 @@
 import Timer from "./Timer";
+import RecordVideo from "./RecordVideo";
 
-export { Timer };
+export { Timer, RecordVideo };

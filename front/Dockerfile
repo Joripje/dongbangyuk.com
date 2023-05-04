@@ -1,4 +1,4 @@
-FROM node:latest as builder
+FROM node:18.13.0 as builder
 
 RUN mkdir /usr/src/app
 
@@ -8,8 +8,9 @@ ENV PATH /usr/src/app/node_modules/.bin:$PATH
 
 COPY package.json /usr/src/app/package.json
 
-RUN npm install --silent
-RUN npm install react-scripts@3.4.1 -g --silent
+RUN npm install -g npm@9.6.5
+RUN npm install 
+RUN npm install react-scripts@3.4.1 -g
 
 COPY . /usr/src/app
 

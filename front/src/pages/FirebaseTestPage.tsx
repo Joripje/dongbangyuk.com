@@ -1,5 +1,7 @@
+import FaceDectection from "components/find_road/FaceDectection";
+
 function FirebaseTestPage() {
-  return <div />;
+  return <FaceDectection />;
 }
 
 export default FirebaseTestPage;

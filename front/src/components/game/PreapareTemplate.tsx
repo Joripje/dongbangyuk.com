@@ -4,54 +4,30 @@ import DescriptionCarousel from "./DescriptionCarousel";
 
 import styled from "styled-components";
 import { Grid } from "@mui/material";
-import {
-  whdrn,
-  ekscp,
-  wpgud,
-  dudgjs,
-  ehdns,
-  tjdwls,
-  dnjsvlf,
-  mmy789,
-  poonghyung,
-} from "assets/images";
 
 import OverviewDescript from "./OverviewDescript";
 import DetailDescript from "./DetailDescript";
 
-const PreapareTemplate = () => {
-  const imagesList: string[] = [
-    whdrn,
-    ekscp,
-    wpgud,
-    dudgjs,
-    poonghyung,
-    tjdwls,
-    ehdns,
-    dnjsvlf,
-  ];
-  const [selectedTypo, setSelectedTypo] = useState<number>(-1);
-
-  const overviewProps = {
-    image: mmy789,
-    name: "가위바위보",
-    descript: "'나' 혹은 '상대'의 입장에서 가위바위보를 해주세요.",
-    minutes: 3,
-    rounds: 3,
-    problems: 0,
-    ability: "인지능력",
+type PreapareTemplateProps = {
+  imagesList: string[];
+  overviewProps: {
+    image: string;
+    name: string;
+    descript: string;
+    minutes: number;
+    rounds: number;
+    problems: number;
+    ability: string;
   };
+  goal: string[];
+  descriptions: string[];
+  setIsPreparing: (isPreparing: boolean) => void;
+};
 
-  const goal = ["가위바위보 잘해보라구~"];
-
-  const descriptions = [
-    "왼쪽에 있는 도형을 오른쪽에 있는 도형처럼 회전시키기",
-    "사용가능한 버튼은 총 4개",
-    "버튼을 눌러 회전 과정 만들기",
-    "클릭 가능 횟수는 총 20회",
-    "하나 지움과 전체 초기화 버튼으로 과정을 지울 수 있음",
-    "답 완성 후, 답안 제출 버튼 클릭",
-  ];
+const PreapareTemplate = (props: PreapareTemplateProps) => {
+  const [selectedTypo, setSelectedTypo] = useState<number>(-1);
+  const { imagesList, overviewProps, goal, descriptions, setIsPreparing } =
+    props;
 
   return (
     <Grid container sx={{ height: `calc(100vh - 13rem)` }}>
@@ -60,6 +36,8 @@ const PreapareTemplate = () => {
           <DescriptionCarousel
             images={imagesList}
             selectedTypo={selectedTypo}
+            setSelectedTypo={setSelectedTypo}
+            setIsPreparing={setIsPreparing}
           />
         </ColFlexBox>
       </Grid>

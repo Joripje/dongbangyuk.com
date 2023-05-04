@@ -1,12 +1,14 @@
 import { useState, useMemo, MouseEvent } from "react";
+
 import RoadSingleBox from "./RoadSingleBox";
-import styled from "styled-components";
-import { getFindRoadProblems, putFindRoadProblems } from "api/test";
 import ProblemInfo from "./ProblemInfo";
+import { getFindRoadProblems, putFindRoadProblems } from "api/test";
+
+import styled from "styled-components";
 import { Button } from "@mui/material";
 
 type GameBoardProps = {
-  ascProblemNum: () => void;
+  ascProblemNum: () => void; // ProblemNum을 어센드하여 StatusBar에서 올바른 값이 나오도록 수정
 };
 
 type Problem = {
@@ -45,15 +47,21 @@ const GameBoard = (props: GameBoardProps) => {
     ],
     correct: 0,
   };
+  const [difficulty, setDiffuculty] = useState("easy");
   const [clickCount, setClickCount] = useState(20);
   const [easyProblems, setEasyProblems] = useState<Array<Problem>>([]);
   const [hardProblems, setHardProblems] = useState<Array<Problem>>([]);
-  const [boardState, setBoardState] = useState(initialProblem);
-  const [answerList, setAnswerList] = useState<Array<Answer>>([]);
-  const [timestamp, setTimestamp] = useState([new Date().toISOString()]);
+  const [boardState, setBoardState] = useState(initialProblem); // 사용자가 보고 있는 문제지
+  const [answerList, setAnswerList] = useState<Array<Answer>>([]); // 채점서버에 제출한 답변
+  const [timestamp, setTimestamp] = useState<string>(new Date().toISOString());
 
   const cleanBoard = (): void => {
-    const newProblem: Problem | undefined = easyProblems.pop();
+    var newProblem: Problem | undefined;
+    if (difficulty === "easy") {
+      newProblem = easyProblems.pop();
+    } else {
+      newProblem = hardProblems.pop();
+    }
     if (newProblem !== undefined) {
       setBoardState(newProblem);
       console.log(newProblem);
@@ -73,13 +81,15 @@ const GameBoard = (props: GameBoardProps) => {
       ...newBoardState,
       gameType: "road",
       answer: boardState.problem,
-      timestamp: [...timestamp, new Date().toISOString()].slice(-2),
+      timestamp: [timestamp, new Date().toISOString()],
       clicks: clickCount,
     };
 
     const newAnswerList: Array<Answer> = [...answerList, newAnswer];
     ascProblemNum();
-    setTimestamp([new Date().toISOString()]);
+    if (newBoardState.correct && 20 === clickCount + newBoardState.correct)
+      setDiffuculty("hard");
+    setTimestamp(new Date().toISOString());
     setAnswerList(newAnswerList);
   };
 
@@ -170,6 +180,7 @@ const GameBoard = (props: GameBoardProps) => {
         </SubmitButton>
       </ColFlexBox>
       <ColFlexBox style={{ position: "absolute", right: 0, bottom: 0 }}>
+        {/* 빌드할 때 주석처리할 것 */}
         <button style={{ height: "3rem" }} onClick={onSubmitHandler}>
           테스트용 최종 제출 버튼
         </button>

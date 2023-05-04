@@ -4,7 +4,6 @@ const headers = {
 
 // const baseUrl = "http://localhost:8000/";
 // const baseUrl = "http://70.12.246.183:8000";
-// const baseUrl = "http://k8a305.p.ssafy.io:8010";
 const baseUrl = "https://k8a305.p.ssafy.io";
 
 interface RequestProps {
@@ -18,7 +17,7 @@ export default async function request(props: RequestProps) {
   const options = {
     method,
     headers,
-    body: JSON.stringify(data),
+    [method === "GET" ? "param" : "body"]: JSON.stringify(data),
   };
 
   try {
