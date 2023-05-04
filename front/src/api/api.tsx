@@ -18,7 +18,7 @@ export default async function request(props: RequestProps) {
   const options = {
     method,
     headers,
-    body: JSON.stringify(data),
+    [method === "GET" ? "param" : "body"]: JSON.stringify(data),
   };
 
   try {

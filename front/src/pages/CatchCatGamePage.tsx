@@ -16,7 +16,10 @@ function FindRoadPage() {
   return (
     <GameTemplate>
       <StatusBar status={status} gameType='road' problemNum={problemNum} />
-      <GameBoard ascProblemNum={() => setProblemNum(problemNum + 1)} />
+      <GameBoard
+        problemNum={problemNum}
+        ascProblemNum={() => setProblemNum(problemNum + 1)}
+      />
       <Timer startTime={startTime} settingTime={3} />
     </GameTemplate>
   );
