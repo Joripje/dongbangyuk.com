@@ -30,9 +30,9 @@ def video_analysis(video: VideoBase):
 
 
 @router.get("/data")
-def get_video_data(videoid: int):
+def get_video_data(gameid: int):
 
-    data = mongodb_read(videoid)
+    data = mongodb_read(gameid)
 
     return data
 
