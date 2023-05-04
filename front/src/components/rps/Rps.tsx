@@ -1,5 +1,4 @@
 import React, {useState, useEffect, useRef} from 'react'
-import { Timer } from 'components/common';
 import styled from 'styled-components';
 import { Button, Box, Grid,  } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -34,7 +33,7 @@ const Rps: React.FC<Props> = (props: Props) => {
   const [timer, setTimer] = useState<number>(5);
   const [upperTimer, setUpperTimer] = useState<number>(settingTime);
   const [startTime, setStartTime] = useState('');
-  const [color, setColor] = useState(false);
+  const [who, setWho] = useState<number>(1);
 
   const wrapbox : any = useRef(null);
   
@@ -74,6 +73,7 @@ const Rps: React.FC<Props> = (props: Props) => {
     }
   };
 
+  // 타이머가 끝나면 빈배열을 제출하는 코드
   useEffect(() => {
     if (round === 0 || round === 1) {
       if (timer === 0) {
@@ -106,26 +106,28 @@ const Rps: React.FC<Props> = (props: Props) => {
         setTimer(5);
       } 
     } else if (round === 3) {
-      if (timer === 0 && upperTimer % 2 === 0) {
+      if (timer === 0 && who % 2 === 0) {
         const endTime = new Date().toISOString();
         const newData = {
           "gameType": 'rps',
           "answer": [],
           "timestamp": [startTime, endTime]
         }
+        
         setComputerChoice(getComputerChoice());
         setUserChoice(Object);
         setGameHistory([...gameHistory, newData])
         setIsSubmit(false);
         // handleReset();
         setTimer(5);
-      } else if (timer === 0 && upperTimer % 2 === 1) {
+      } else if (timer === 0 && who % 2 === 1) {
         const endTime = new Date().toISOString();
         const newData = {
           "gameType": 'rps',
           "answer": [],
           "timestamp": [startTime, endTime]
         }
+        
         setUserChoice(getComputerChoice());
         setComputerChoice(Object);
         setGameHistory([...gameHistory, newData])
@@ -142,6 +144,7 @@ const Rps: React.FC<Props> = (props: Props) => {
     setUserChoice(null);
     setComputerChoice(null);
     setIsSubmit(false);
+    setWho(who + 1);
   }
 
   // 타이머 시작
@@ -155,9 +158,9 @@ const Rps: React.FC<Props> = (props: Props) => {
     } else if (round === 2) {
       setUserChoice(getComputerChoice());
     } else if (round === 3) {
-      if (upperTimer % 2 === 0) {
+      if (who % 2 === 0) {
         setComputerChoice(getComputerChoice());
-      } else if (upperTimer % 2 === 1) {
+      } else if (who % 2 === 1) {
         setUserChoice(getComputerChoice());
       }
     }
@@ -201,7 +204,7 @@ const Rps: React.FC<Props> = (props: Props) => {
       setTimer(5)
       setStartTime(new Date().toISOString())
     }
-  }, [userChoice]);
+  }, [userChoice, round]);
 
   useEffect(() => {
     if (round === 2) {
@@ -214,32 +217,23 @@ const Rps: React.FC<Props> = (props: Props) => {
       setTimer(5)
       setStartTime(new Date().toISOString())
     }
-  }, [computerChoice]);
-
-  useEffect(() => {
-    if (upperTimer % 2 === 0 && round === 3) {
-      if (userChoice === null || Object.keys(userChoice).length === 0) {
-        setTimeout(() => {
-          const computerChoice = getComputerChoice();
-          setComputerChoice(computerChoice);
-        }, 1000);
-      };
-      setTimer(5)
-      setStartTime(new Date().toISOString())
-    } if (upperTimer % 2 === 1 && round === 3) {
-      if (computerChoice === null || Object.keys(computerChoice).length === 0) {
-        setTimeout(() => {
-          const computerChoice = getComputerChoice();
-          setUserChoice(computerChoice);
-        }, 1000);
-      };
-      setTimer(5)
-      setStartTime(new Date().toISOString())
-  }
-  },[userChoice])
+  }, [computerChoice, round]);
 
   // useEffect(() => {
-  //   if (upperTimer % 2 === 1 && round === 3) {
+  //   if (who % 2 === 0 && round === 3) {
+  //     if (userChoice === null || Object.keys(userChoice).length === 0) {
+  //       setTimeout(() => {
+  //         const computerChoice = getComputerChoice();
+  //         setComputerChoice(computerChoice);
+  //       }, 1000);
+  //     };
+  //     setTimer(5)
+  //     setStartTime(new Date().toISOString())
+  //   } 
+  // },[userChoice])
+
+  // useEffect(() => {
+  //   if (who % 2 === 1 && round === 3) {
   //       if (computerChoice === null || Object.keys(computerChoice).length === 0) {
   //         setTimeout(() => {
   //           const computerChoice = getComputerChoice();
@@ -249,10 +243,37 @@ const Rps: React.FC<Props> = (props: Props) => {
   //       setTimer(5)
   //       setStartTime(new Date().toISOString())
   //   }
-  // },[upperTimer])
+  // },[computerChoice])
+
+    useEffect(() => {
+    if (userChoice === null || Object.keys(userChoice).length === 0) {
+      if (who % 2 === 0 && round === 3) {
+        setTimeout(() => {
+          const computerChoice = getComputerChoice();
+          setComputerChoice(computerChoice);
+        }, 1000);
+      };
+      setTimer(5)
+      setStartTime(new Date().toISOString())
+    } 
+  },[userChoice])
+
+  useEffect(() => {
+    if (computerChoice === null || Object.keys(computerChoice).length === 0) {
+        if (who % 2 === 1 && round === 3) {
+          setTimeout(() => {
+            const computerChoice = getComputerChoice();
+            setUserChoice(computerChoice);
+          }, 1000);
+        };
+        setTimer(5)
+        setStartTime(new Date().toISOString())
+    }
+  },[computerChoice])
 
 
-  
+
+// 제출
 const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
   switch (e.keyCode) {
     case 37:
@@ -288,7 +309,7 @@ const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
           // setTimer(3);
         }
       } else if (round === 3) {
-        if (upperTimer % 2 === 0 && !isSubmit && computerChoice !== null) {
+        if (who % 2 === 0 && !isSubmit && computerChoice !== null) {
           const computer = computerChoice
           const endTime = new Date().toISOString();
           const newData = {
@@ -300,7 +321,7 @@ const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
           setGameHistory([...gameHistory, newData])
           setIsSubmit(true);
           setTimeout(handleReset, 1000);
-        } else if (upperTimer % 2 === 1 && !isSubmit && userChoice !== null) {
+        } else if (who % 2 === 1 && !isSubmit && userChoice !== null) {
           const user = userChoice
           const endTime = new Date().toISOString();
           const newData = {
@@ -349,7 +370,7 @@ const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
           // setTimer(3);
         }
       } else if (round === 3) {
-        if (upperTimer % 2 === 0 && !isSubmit && computerChoice !== null) {
+        if (who % 2 === 0 && !isSubmit && computerChoice !== null) {
           const computer = computerChoice
           const endTime = new Date().toISOString();
           const newData = {
@@ -361,7 +382,7 @@ const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
           setGameHistory([...gameHistory, newData])
           setIsSubmit(true);
           setTimeout(handleReset, 1000);
-        } else if (upperTimer % 2 === 1 && !isSubmit && userChoice !== null) {
+        } else if (who % 2 === 1 && !isSubmit && userChoice !== null) {
           const user = userChoice
           const endTime = new Date().toISOString();
           const newData = {
@@ -409,7 +430,7 @@ const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
           // setTimer(3);
         }
       } else if (round === 3) {
-        if (upperTimer % 2 === 0 && !isSubmit && computerChoice !== null) {
+        if (who % 2 === 0 && !isSubmit && computerChoice !== null) {
           const computer = computerChoice
           const endTime = new Date().toISOString();
           const newData = {
@@ -421,7 +442,7 @@ const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
           setGameHistory([...gameHistory, newData])
           setIsSubmit(true);
           setTimeout(handleReset, 1000);
-        } else if (upperTimer % 2 === 1 && !isSubmit && userChoice !== null) {
+        } else if (who % 2 === 1 && !isSubmit && userChoice !== null) {
           const user = userChoice
           const endTime = new Date().toISOString();
           const newData = {
@@ -450,7 +471,7 @@ useEffect(() => {
       <Grid container sx={{display: 'flex', justifyContent: 'space-between'}}>
         <LeftBox sx={{paddingLeft: 0}} item xs={3}>
           <img style={{width: '15vw'}} src={mudangbug} alt="" />
-          <div style={{backgroundColor: (!color) ? 'green' : 'red'}}>나</div>
+          <div>나</div>
         </LeftBox>
         <LeftBox item xs={3}>
           <img src={userChoice?.image} alt="" />
@@ -460,7 +481,7 @@ useEffect(() => {
         </RightBox>
         <RightBox item xs={3}>
           <img style={{width: '15vw' }} src={tiger} alt="" />
-          <div style={{backgroundColor: (color) ? 'green' : 'red'}}>상대</div>
+          <div>상대</div>
         </RightBox>
       </Grid>
       <Grid container sx={{display: 'flex', justifyContent: 'center'}}>

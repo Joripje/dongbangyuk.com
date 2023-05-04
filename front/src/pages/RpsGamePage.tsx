@@ -5,11 +5,11 @@ import { Timer } from 'components/common';
 import { Loading } from 'components/rps';
 
 import styled from 'styled-components';
-import { Button, Box } from '@mui/material';
+import { Box } from '@mui/material';
 
 import { postRpsResults } from 'api/rps';
 import { GameTemplate, StatusBar } from 'components/game';
-import { tiger } from 'assets/images';
+
 
 type RpsGamePageProps = {};
 
@@ -123,12 +123,6 @@ function RpsGamePage(props: RpsGamePageProps) {
 
 // css
 
-const TimerBox = styled(Box) ({
-  fontSize: '2rem',
-  display: 'flex',
-  justifyContent: 'end',
-  margin: '2rem'
-})
 
 const GameBox = styled(Box) ({
   fontSize: '2rem',
