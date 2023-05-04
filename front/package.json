@@ -13,7 +13,7 @@
     "@tensorflow-models/facemesh": "^0.0.5",
     "@tensorflow/tfjs": "^4.4.0",
     "@tensorflow/tfjs-backend-webgl": "^4.4.0",
-    "@tensorflow/tfjs-converter": "^4.4.0",
+    "@tensorflow/tfjs-converter": "^2.1.0",
     "@tensorflow/tfjs-core": "^4.4.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
