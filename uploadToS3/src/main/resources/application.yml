@@ -14,6 +14,10 @@ spring:
     url: jdbc:mysql://mysql-container:3306/DBXQ?serverTimezone=UTC&characterEncoding=UTF-8
     username: root
     password: a305
+  kafka:
+    bootstrap-servers: kafka:9092
+    key-serializer: org.apache.kafka.common.serialization.StringSerializer
+    value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
 cloud:
   aws:
