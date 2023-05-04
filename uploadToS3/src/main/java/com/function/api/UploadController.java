@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.function.dto.GameSaveRequestDto;
+import com.function.kafka.GameEventProducer;
 import com.function.service.PlayService;
 import com.function.service.UploadService;
 
@@ -31,7 +32,7 @@ public class UploadController {
 
 	private final UploadService uploadService;
 	private final PlayService playService;
-	private final KafkaController kafkaController;
+	private final GameEventProducer gameEventProducer;
 
 	@ApiOperation(value = "S3에 영상 업로드")
 	@PostMapping("/upload")
@@ -68,23 +69,16 @@ public class UploadController {
 			jsonNode = jsonNode.deepCopy();
 			((ObjectNode)jsonNode).put("gameId", newGameId);
 			String responseData = objectMapper.writeValueAsString(jsonNode);
-			log.info("kafkaController 호출");
-			kafkaController.publish(responseData);
+
+			log.info("gameEventProducer 호출");
+			gameEventProducer.publish("test", responseData);
+
 			return ResponseEntity.ok(responseData);
-			//
 		} catch (IOException e) {
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
 	}
-
-	// @ApiOperation(value = "테스트용 컨트롤러")
-	// @GetMapping("/hello")
-	// public void hello() {
-	// 	log.info("hello 호출");
-	// 	kafkaController.publish("test");
-	// 	log.info("publish도 호출");
-	// }
 
 	@ExceptionHandler(IllegalArgumentException.class)
 	public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException e) {
