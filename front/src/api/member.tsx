@@ -7,7 +7,6 @@ const getUserInfo = (props: object) => {
     data: props,
   };
   const res = request(requestProps);
-  console.log(res);
   return res;
 };
 

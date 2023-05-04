@@ -37,7 +37,7 @@ const GameBoard = (props: GameBoardProps) => {
   const [catPosition, setCatPosition] = useState<number[]>([]);
   const [boardState, setBoardState] = useState<number[][]>([]); // 사용자가 보고 있는 문제지
   // const [answerList, setAnswerList] = useState<Array<Answer>>([]); // 채점서버에 제출한 답변
-  //   const [timestamp, setTimestamp] = useState<string>(new Date().toISOString());
+  // const [timestamp, setTimestamp] = useState<string>(new Date().toISOString());
 
   const onSubmitHandler = (event: MouseEvent<HTMLElement>): void => {
     event.preventDefault();
