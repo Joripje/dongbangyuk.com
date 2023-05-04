@@ -1,13 +1,13 @@
 import styled from "styled-components";
 import love from "assets/images/love.png";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 
 type VoiceImageProps = {
   setIsEnough: (enough: boolean) => void;
 };
 
 function VoiceImage(props: VoiceImageProps) {
-  useMemo(() => {
+  useEffect(() => {
     const { setIsEnough } = props;
 
     const handleResize = () => {
