@@ -130,15 +130,15 @@ async def grade_rps_3(incoming: rps.RpsAnswer):
         rounds=rounds
         )
 
-    # result_db["rps"].insert_one(document.dict())
+    result_db["rps"].insert_one(document.dict())
 
     # 채점 완료, 저장 후 분석 서버로 채점완료 요청 보내기
     # send_request.flag(incoming.game_id, incoming.game_type, False)
     
     # Kafka topic에 메시지 저장
-    message = f'{incoming.game_type} access completed. game_id: {incoming.game_id}'
-    producer.send('test', message.encode('utf-8'))
-    producer.flush()
+    # message = f'{incoming.game_type} access completed. game_id: {incoming.game_id}'
+    # producer.send('test', message.encode('utf-8'))
+    # producer.flush()
 
     content = {
         "msg": "RPS game result saved to DB.",
