@@ -37,7 +37,8 @@ public class UploadController {
 	@ApiOperation(value = "S3에 영상 업로드")
 	@PostMapping("/upload")
 	public ResponseEntity<?> uploadVideo(@RequestParam("file") MultipartFile file) throws IOException {
-		uploadService.uploadVideo(file);
+		String filePath = uploadService.uploadVideo(file);
+		gameEventProducer.publish("test", filePath);
 		return ResponseEntity.ok("Video upload successful!");
 	}
 
