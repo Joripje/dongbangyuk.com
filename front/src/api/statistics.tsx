@@ -1,6 +1,6 @@
 import request from "./api";
 
-const getStatisticsData = (props: object) => {
+const getAbilityData = (props: object) => {
   const requestProps = {
     method: "GET",
     url: "/ability/",
@@ -10,4 +10,15 @@ const getStatisticsData = (props: object) => {
   return res;
 };
 
-export { getStatisticsData };
+const getVideoData = async (props: object) => {
+  const requestProps = {
+    method: "GET",
+    url: "/videos/data",
+    data: props,
+  };
+  const res = await request(requestProps);
+  console.log(res);
+  return res;
+};
+
+export { getAbilityData, getVideoData };

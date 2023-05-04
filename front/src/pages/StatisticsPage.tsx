@@ -1,5 +1,11 @@
+import { VideoChart } from "components/statistics";
+
 const StatisticsPage = () => {
-  return <>1</>;
+  return (
+    <div>
+      <VideoChart />
+    </div>
+  );
 };
 
 export default StatisticsPage;
