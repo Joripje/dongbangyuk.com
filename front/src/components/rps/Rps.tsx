@@ -43,6 +43,7 @@ const Rps: React.FC<Props> = (props: Props) => {
   const [startTime, setStartTime] = useState('');
   const [who, setWho] = useState<number>(1);
 
+
   const wrapbox: any = useRef(null);
 
   useEffect(() => {
@@ -76,9 +77,9 @@ const Rps: React.FC<Props> = (props: Props) => {
       setIsSubmit(true);
       setTimeout(handleReset, 1000);
       setTimer(5);
-
+    };
     }
-  };
+  
 
   // 타이머가 끝나면 빈배열을 제출하고 게임세팅하는 코드
   useEffect(() => {
@@ -150,7 +151,7 @@ const Rps: React.FC<Props> = (props: Props) => {
     setIsSubmit(false);
     setWho(who + 1);
   }
-
+  
   // 타이머 시작
   const handleStart = () => {
     // setIsStart(true);
@@ -171,6 +172,7 @@ const Rps: React.FC<Props> = (props: Props) => {
     setTimer(5);
     onGameStart();
   };
+
 
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
@@ -274,8 +276,6 @@ const Rps: React.FC<Props> = (props: Props) => {
         setStartTime(new Date().toISOString())
     }
   },[computerChoice])
-
-
 
 // 제출
 const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -401,26 +401,26 @@ const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
         }}
       break
       case 39:
-      // console.log('오른쪽')
-      if (!isSubmit && computerChoice !== null) {
-        const computer = computerChoice
-        
-        const endTime = new Date().toISOString();
-        const newData = {
-          "gameType": 'rps',
-          "answer": [choices[2].value, computer?.value],
-          "timestamp": [startTime, endTime]
-        }
-        setUserChoice(choices[2]);
-        setGameHistory([...gameHistory, newData])
-        setIsSubmit(true);
-        setTimeout(handleReset, 1000);
-        // setTimer(3);
-      }
-      break;
-  }
-}
+        // console.log('오른쪽')
+        if (!isSubmit && computerChoice !== null) {
+          const computer = computerChoice;
 
+          const endTime = new Date().toISOString();
+          const newData = {
+            gameType: "rps",
+            answer: [choices[2].value, computer?.value],
+            timestamp: [startTime, endTime],
+          };
+          setUserChoice(choices[2]);
+          setGameHistory([...gameHistory, newData]);
+          setIsSubmit(true);
+          setTimeout(handleReset, 1000);
+          // setTimer(3);
+        }
+        break;
+    }
+  };
+  
   // 키보드로 가위바위보 할 수 잇게 렌더링 시에 포커스를 이동하는 역할
   useEffect(() => {
     wrapbox.current?.focus();
@@ -462,6 +462,7 @@ const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
         ""
       )}
     </WrapBox>
+
   );
 };
 // css
@@ -471,6 +472,8 @@ const WrapBox = styled(Box)({
   marginTop: "10vh",
   width: "65vw",
 });
+
+
 
 const LeftBox = styled(Grid)({
   justifyContent: "center",
@@ -498,6 +501,7 @@ const StartButton = styled(Button)`
   padding: 0.5rem;
   border-radius: 1rem;
   background-color: white;
+  background-color: white;
   cursor: pointer;
   margin: 1rem;
   bottom: 1rem;
@@ -506,5 +510,6 @@ const StartButton = styled(Button)`
     color: white;
   }
 `;
+
 
 export default Rps;
