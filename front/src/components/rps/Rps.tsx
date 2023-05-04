@@ -96,49 +96,7 @@ const Rps: React.FC<Props> = (props: Props) => {
         setUserChoice(Object);
         setGameHistory([...gameHistory, newData])
         setIsSubmit(false);
-        setTimer(5);
-      } 
-    } else if (round === 2) {
-      if (timer === 0) {
-        const endTime = new Date().toISOString();
-        const newData = {
-          "gameType": 'rps',
-          "answer": [],
-          "timestamp": [startTime, endTime]
-        }
-        handleReset();
-        // setUserChoice(getComputerChoice());
-        setComputerChoice(Object);
-        setGameHistory([...gameHistory, newData])
-        setIsSubmit(false);
-        setTimer(5);
-      } 
-    } else if (round === 3) {
-      if (timer === 0 && who % 2 === 0) {
-        const endTime = new Date().toISOString();
-        const newData = {
-          "gameType": 'rps',
-          "answer": [],
-          "timestamp": [startTime, endTime]
-        }
-        handleReset();
-        // setComputerChoice(getComputerChoice());
-        setUserChoice(Object);
-        setGameHistory([...gameHistory, newData]);
-        setIsSubmit(false);
-        setTimer(5);
-      } else if (timer === 0 && who % 2 === 1) {
-        const endTime = new Date().toISOString();
-        const newData = {
-          "gameType": 'rps',
-          "answer": [],
-          "timestamp": [startTime, endTime]
-        }
-        handleReset();
-        // setUserChoice(getComputerChoice());
-        setComputerChoice(Object);
-        setGameHistory([...gameHistory, newData])
-        setIsSubmit(false);
+        // handleReset();
         setTimer(5);
       } 
     }
