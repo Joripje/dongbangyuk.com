@@ -1,7 +1,5 @@
 package com.function.domain;
 
-import java.time.Instant;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,7 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.function.dto.GameSaveRequestDto;
 
 import lombok.AccessLevel;
@@ -34,24 +31,14 @@ public class Play {
 	@Column(name = "type")
 	private String type;
 
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "Asia/Seoul")
-	@Column(name = "start_time")
-	private Instant startTime;
-
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "Asia/Seoul")
-	@Column(name = "end_time")
-	private Instant endTime;
-
-	@Column(name = "video_path")
-	private String videoPath;
+	@Column(name = "date")
+	private String date;
 
 	@Builder
 	public Play(GameSaveRequestDto requestDto) {
 		this.userId = requestDto.getUserId();
-		this.type = requestDto.getType();
-		this.startTime = requestDto.getStartTime();
-		this.endTime = requestDto.getEndTime();
-		this.videoPath = requestDto.getVideoPath();
+		this.type = requestDto.getGameType();
+		this.date = requestDto.getDate();
 	}
 
 }
