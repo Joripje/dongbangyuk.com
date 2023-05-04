@@ -7,15 +7,6 @@ import RpsGamePage from "./RpsGamePage";
 import RpsPreparePage from "./RpsPreparePage";
 import CatchCatGamePage from "./CatchCatGamePage";
 
-import FirebaseTestPage from "./FirebaseTestPage";
-import MemberPage from "./MemberPage";
-import GameSelectPage from "./GameSelectPage";
-import RecordTestPage from "./RecordTestPage";
-
-import FirebaseTestPage from "./FirebaseTestPage";
-import MemberPage from "./MemberPage";
-import GameSelectPage from "./GameSelectPage";
-import RecordTestPage from "./RecordTestPage";
 
 // import FirebaseTestPage from "./FirebaseTestPage";
 import MemberPage from "./MemberPage";
