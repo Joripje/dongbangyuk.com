@@ -1,25 +1,25 @@
 import * as tf from "@tensorflow/tfjs";
-import * as facemesh from "@tensorflow-models/facemesh";
+// import * as faceDetection from "@tensorflow-models/face-detection";
 import { useState, useEffect, useRef } from "react";
-import { Coord2D } from "@tensorflow-models/facemesh/dist/util";
 
 async function loadModel() {
-  const model = await facemesh.load({
-    maxFaces: 1,
-  });
+  const model = await tf.loadGraphModel(
+    "https://tfhub.dev/google/mediapipe/ssd/face_detection/1/model.json"
+  );
   return model;
 }
 
 function VideoInput() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [model, setModel] = useState<facemesh.FaceMesh | null>(null);
+  const [model, setModel] = useState<tf.GraphModel | null>(null);
 
   useEffect(() => {
     loadModel().then((res) => setModel(res));
   }, []);
 
   useEffect(() => {
+    // console.log(videoRef.current);
     if (videoRef.current && canvasRef.current && model) {
       const video = videoRef.current;
       const canvas = canvasRef.current;
@@ -31,28 +31,25 @@ function VideoInput() {
         if (context === null || model === null) {
           return;
         }
-        const result = await model.estimateFaces(video, false);
+        const pixels = tf.browser.fromPixels(video);
+        const result = await model.executeAsync(pixels, "faces");
+        pixels.dispose();
         context.clearRect(0, 0, canvas.width, canvas.height);
-        if (result && result.length > 0) {
-          result.forEach((face) => {
-            const { topLeft, bottomRight } = face.boundingBox;
-            const [x, y] =
-              topLeft instanceof tf.Tensor ? topLeft.arraySync() : topLeft;
-            const [w, h] =
-              bottomRight instanceof tf.Tensor
-                ? (bottomRight.sub(topLeft).arraySync() as [number, number])
-                : [
-                    bottomRight[0] - (topLeft as Coord2D)[0],
-                    bottomRight[1] - (topLeft as Coord2D)[1],
-                  ];
-            context.beginPath();
-            context.rect(x, y, w, h);
-            // console.log(x, y, w, h);
-            context.lineWidth = 2;
-            context.strokeStyle = "red";
-            context.stroke();
-          });
+        if (Array.isArray(result) && result.length > 0) {
+          // const face = result[0];
+          // const boundingBox = face.arraySync();
+          // if (boundingBox) {
+          //   const { topLeft, bottomRight } = boundingBox;
+          //   const [x, y] = topLeft;
+          //   const [width, height] = [bottomRight[0] - topLeft[0], bottomRight[1] - topLeft[1]];
+          //   context.beginPath();
+          //   context.rect(x, y, width, height);
+          //   context.lineWidth = 2;
+          //   context.strokeStyle = "red";
+          //   context.stroke();
+          // }
         }
+
         rafId = requestAnimationFrame(render);
       }
 
@@ -74,7 +71,7 @@ function VideoInput() {
         cancelAnimationFrame(rafId);
       });
     }
-  }, [videoRef.current, canvasRef.current, model]);
+  }, [model]);
 
   return (
     <div>
