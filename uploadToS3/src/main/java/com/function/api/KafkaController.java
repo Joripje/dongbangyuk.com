@@ -19,7 +19,7 @@ public class KafkaController {
 
 	@GetMapping("/publish")
 	public String publish(@RequestParam String message) {
-		this.kafkaTemplate.send("video", message);
+		this.kafkaTemplate.send("test", message);
 		log.info("message: " + message);
 		return "success";
 	}
