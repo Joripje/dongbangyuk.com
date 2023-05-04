@@ -7,7 +7,7 @@ import RpsGamePage from "./RpsGamePage";
 import RpsPreparePage from "./RpsPreparePage";
 import CatchCatGamePage from "./CatchCatGamePage";
 
-import FirebaseTestPage from "./FirebaseTestPage";
+// import FirebaseTestPage from "./FirebaseTestPage";
 import MemberPage from "./MemberPage";
 import GameSelectPage from "./GameSelectPage";
 import RecordTestPage from "./RecordTestPage";
@@ -46,10 +46,10 @@ const routes = [
     path: "/catPage",
     element: <CatchCatGamePage />,
   },
-  {
-    path: "/componentTest",
-    element: <FirebaseTestPage />,
-  },
+  // {
+  //   path: "/componentTest",
+  //   element: <FirebaseTestPage />,
+  // },
   {
     path: "/recordtest",
     element: <RecordTestPage />,

@@ -1,17 +1,12 @@
-import { useState, MouseEvent } from "react";
+import { useState, useEffect, useMemo, MouseEvent } from "react";
 import choco from "assets/images/catch/choco.jpg";
-import chocoFood from "assets/images/catch/choco_food.jpg";
+import chocoFood from "assets/images/catch/choco_food.png";
 
 import styled from "styled-components";
-import { height } from "@mui/system";
 
 type GameBoardProps = {
   problemNum: number;
   ascProblemNum: () => void; // ProblemNum을 어센드하여 StatusBar에서 올바른 값이 나오도록 수정
-};
-
-type Problem = {
-  problem: number[][];
 };
 
 type Answer = {
@@ -24,55 +19,103 @@ type Answer = {
 
 const GameBoard = (props: GameBoardProps) => {
   const { ascProblemNum } = props;
-  const initialProblem: Problem = {
-    problem: [
+  const initialProblem = useMemo(
+    () => [
       [0, 0, 1, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 2, 0, 0],
       [0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0],
     ],
-  };
-  //   const [problemNum, setProblemNum] = useState<number>(0);
+    []
+  );
+
+  const [problemNum, setProblemNum] = useState<number>(0);
   const [difficulty, setDifficulty] = useState<number>(4);
-  const [gameState, setGameState] = useState<string>("cat"); // cat > mouse > tomCat > choice > cat
-  const [boardState, setBoardState] = useState(initialProblem); // 사용자가 보고 있는 문제지
-  const [answerList, setAnswerList] = useState<Array<Answer>>([]); // 채점서버에 제출한 답변
+  const [gameState, setGameState] = useState<number>(0); // cat > mouse > tomCat > choice > cat
+  const [catPosition, setCatPosition] = useState<number[]>([]);
+  const [boardState, setBoardState] = useState<number[][]>([]); // 사용자가 보고 있는 문제지
+  // const [answerList, setAnswerList] = useState<Array<Answer>>([]); // 채점서버에 제출한 답변
   //   const [timestamp, setTimestamp] = useState<string>(new Date().toISOString());
-
-  const randomNumbers = (n: number) => {
-    const numbers = Array.from(Array(36), (_, index) => index); // 0부터 35까지의 숫자를 가진 배열 생성
-    for (let i = 0; i < numbers.length; i++) {
-      const randomIndex = Math.floor(Math.random() * (i + 1)); // 0부터 i까지의 인덱스 중에서 임의의 인덱스 선택
-      [numbers[i], numbers[randomIndex]] = [numbers[randomIndex], numbers[i]]; // 현재 인덱스와 선택된 인덱스의 값을 교환
-    }
-    return numbers.slice(0, n); // 처음 n개의 값을 선택하여 반환
-  };
-
-  const cleanBoard = (): void => {
-    var target;
-    if (gameState === "tomCat") target = randomNumbers(2);
-    else target = randomNumbers(difficulty);
-
-    ascProblemNum();
-  };
 
   const onSubmitHandler = (event: MouseEvent<HTMLElement>): void => {
     event.preventDefault();
     // 술래잡기와 관련된 API가 완성되면 http 통신
   };
 
+  useEffect(() => {
+    const randomNumbers = (n: number, arr: number[]) => {
+      const numbers = Array.from(arr, (_, index) => index); // 0부터 35까지의 숫자를 가진 배열 생성
+      for (let i = 0; i < numbers.length; i++) {
+        const randomIndex = Math.floor(Math.random() * (i + 1)); // 0부터 i까지의 인덱스 중에서 임의의 인덱스 선택
+        [numbers[i], numbers[randomIndex]] = [numbers[randomIndex], numbers[i]]; // 현재 인덱스와 선택된 인덱스의 값을 교환
+      }
+      return numbers.slice(0, n); // 처음 n개의 값을 선택하여 반환
+    };
+
+    const cleanBoard = (): void => {
+      let targets: number[] = [0];
+      switch (gameState % 4) {
+        case 2:
+          targets = randomNumbers(2, catPosition);
+          break;
+        case 3:
+          setProblemNum((prevProblemNum) => prevProblemNum + 1);
+          break;
+
+        default:
+          targets = randomNumbers(difficulty, Array(36));
+          setCatPosition(targets);
+      }
+
+      let newBoardState = initialProblem;
+      console.log(targets);
+      targets.forEach((target) => {
+        const yIndex = Math.floor(target / 6);
+        const xIndex = target % 6;
+        newBoardState[yIndex][xIndex] = gameState % 4;
+      });
+
+      setBoardState(newBoardState);
+
+      if (problemNum % 4 === 3) {
+        ascProblemNum();
+        setDifficulty((prevDifficulty) => prevDifficulty + 1);
+      }
+    };
+
+    const intervalId = setInterval(() => {
+      cleanBoard();
+      setGameState(gameState + 1);
+    }, 2000);
+
+    return () => clearInterval(intervalId);
+  }, [
+    gameState,
+    catPosition,
+    difficulty,
+    initialProblem,
+    problemNum,
+    ascProblemNum,
+  ]);
+
   return (
     <RowFlexBox>
       <ColFlexBox>
-        {boardState.problem.map((item, yIndex) => {
+        {boardState.map((item, yIndex) => {
           return (
             <RowFlexBox key={yIndex}>
               {item.map((rowValue, xIndex) => {
                 return (
                   <StyledBox key={xIndex}>
-                    {rowValue ? <ChocoImage src={choco} alt={"choco"} /> : ""}
+                    {rowValue === 1 ? (
+                      <ChocoImage src={choco} alt={"choco"} />
+                    ) : rowValue === 2 ? (
+                      <ChocoImage src={chocoFood} alt={"chocoFood"} />
+                    ) : (
+                      ""
+                    )}
                   </StyledBox>
                 );
               })}
