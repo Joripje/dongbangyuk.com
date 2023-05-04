@@ -5,23 +5,31 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 
-import { rock, paper, scissor, mudangbug, tiger } from 'assets/images';
+import { rock, paper, scissor, mudangbug, tiger } from "assets/images";
 
 // type Choice = string;
-type RpsType = {value: string, label: any, image: string, cmd: string}
+type RpsType = { value: string; label: any; image: string; cmd: string };
 
 type Props = {
-  round: number,
+  round: number;
   settingTime: number;
   onGameStart: () => void;
   onRoundChange: (gameHistory: object[]) => void;
-}
+};
 
-
-const choices: RpsType[] = [ {value : 'sci', label : <ArrowBackIcon/>, image: scissor, cmd: '가위'}, {value : 'roc', label : <ArrowUpwardIcon/>,  image: rock, cmd: '바위'}, {value : 'pap', label : <ArrowForwardIcon/>,  image: paper, cmd: '보'}];
+const choices: RpsType[] = [
+  {
+    value: "sci",
+    label: <ArrowBackIcon/>,
+    image: scissor,
+    cmd: "가위",
+  },
+  { value: "roc", label: <ArrowUpwardIcon />, image: rock, cmd: "바위" },
+  { value: "pap", label: <ArrowForwardIcon />, image: paper, cmd: "보" },
+];
 
 const Rps: React.FC<Props> = (props: Props) => {
-  const {onGameStart, settingTime, round, onRoundChange} = props;
+  const { onGameStart, settingTime, round, onRoundChange } = props;
   // const [userChoice, setUserChoice] = useState<string>('');
   const [userChoice, setUserChoice] = useState<RpsType | null>(Object);
 
@@ -35,8 +43,8 @@ const Rps: React.FC<Props> = (props: Props) => {
   const [startTime, setStartTime] = useState('');
   const [who, setWho] = useState<number>(1);
 
-  const wrapbox : any = useRef(null);
-  
+  const wrapbox: any = useRef(null);
+
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
 
@@ -51,24 +59,23 @@ const Rps: React.FC<Props> = (props: Props) => {
     }
 
     return () => clearInterval(intervalId);
-  },[round, upperTimer])
-
+  }, [round, upperTimer]);
 
   // 나중에 사용 클릭으로 하는거는 RPS-15에서 사용
   const handleClick = (choice: RpsType) => {
     if (!isSubmit) {
-      const computer = computerChoice
+      const computer = computerChoice;
       const endTime = new Date().toISOString();
       const newData = {
-        "gameType": 'rps',
-        "answer": [choice.value, computer?.value],
-        "timestamp": [startTime, endTime]
-      }
+        gameType: "rps",
+        answer: [choice.value, computer?.value],
+        timestamp: [startTime, endTime],
+      };
       setUserChoice(choice);
-      setGameHistory([...gameHistory, newData])
+      setGameHistory([...gameHistory, newData]);
       setIsSubmit(true);
       setTimeout(handleReset, 1000);
-      setTimer(3);
+      setTimer(5);
 
     }
   };
@@ -83,8 +90,8 @@ const Rps: React.FC<Props> = (props: Props) => {
           "answer": [],
           "timestamp": [startTime, endTime]
         }
-        // handleReset();
-        setComputerChoice(getComputerChoice());
+        handleReset();
+        // setComputerChoice(getComputerChoice());
         setUserChoice(Object);
         setGameHistory([...gameHistory, newData])
         setIsSubmit(false);
@@ -98,11 +105,11 @@ const Rps: React.FC<Props> = (props: Props) => {
           "answer": [],
           "timestamp": [startTime, endTime]
         }
-        setUserChoice(getComputerChoice());
+        handleReset();
+        // setUserChoice(getComputerChoice());
         setComputerChoice(Object);
         setGameHistory([...gameHistory, newData])
         setIsSubmit(false);
-        // handleReset();
         setTimer(5);
       } 
     } else if (round === 3) {
@@ -113,12 +120,11 @@ const Rps: React.FC<Props> = (props: Props) => {
           "answer": [],
           "timestamp": [startTime, endTime]
         }
-        
-        setComputerChoice(getComputerChoice());
+        handleReset();
+        // setComputerChoice(getComputerChoice());
         setUserChoice(Object);
-        setGameHistory([...gameHistory, newData])
+        setGameHistory([...gameHistory, newData]);
         setIsSubmit(false);
-        // handleReset();
         setTimer(5);
       } else if (timer === 0 && who % 2 === 1) {
         const endTime = new Date().toISOString();
@@ -127,17 +133,15 @@ const Rps: React.FC<Props> = (props: Props) => {
           "answer": [],
           "timestamp": [startTime, endTime]
         }
-        
-        setUserChoice(getComputerChoice());
+        handleReset();
+        // setUserChoice(getComputerChoice());
         setComputerChoice(Object);
         setGameHistory([...gameHistory, newData])
         setIsSubmit(false);
-        // handleReset();
         setTimer(5);
       } 
     }
-  }, [timer, who, round, gameHistory, startTime]);
-
+  }, [timer]);
 
   const handleReset = () => {
     // clearTimeout(timer)
@@ -166,7 +170,7 @@ const Rps: React.FC<Props> = (props: Props) => {
     }
     setTimer(5);
     onGameStart();
-  }
+  };
 
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
@@ -178,8 +182,7 @@ const Rps: React.FC<Props> = (props: Props) => {
       }, 1000);
     }
     return () => clearInterval(intervalId);
-  },[timer])
-
+  }, [timer]);
 
   const getComputerChoice = () => {
     const randomIndex = Math.floor(Math.random() * choices.length);
@@ -192,7 +195,8 @@ const Rps: React.FC<Props> = (props: Props) => {
   // }
   
 
-// 게임이 리셋된뒤에 가위바위보 세팅
+// 게임이 리셋된뒤에 가위바위보 세팅인데 지금 빈배열 제출했을때 다시 발동되는거같음 조건을 추가해서 빈배열 제출과
+// 정상적으로 게임이 작동될때 세팅을 다르게 해야하나
   useEffect(() => {
     if (round === 1 || round === 0) {
       if (userChoice === null || Object.keys(userChoice).length === 0) {
@@ -398,71 +402,29 @@ const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
       break
       case 39:
       // console.log('오른쪽')
-      if (round === 1 || round === 0) {
-        if (!isSubmit && computerChoice !== null) {
-          const computer = computerChoice
-          
-          const endTime = new Date().toISOString();
-          const newData = {
-            "gameType": 'rps',
-            "answer": [choices[2].value, computer?.value],
-            "timestamp": [startTime, endTime]
-          }
-          setUserChoice(choices[2]);
-          setGameHistory([...gameHistory, newData])
-          setIsSubmit(true);
-          setTimeout(handleReset, 1000);
-          // setTimer(3);
+      if (!isSubmit && computerChoice !== null) {
+        const computer = computerChoice
+        
+        const endTime = new Date().toISOString();
+        const newData = {
+          "gameType": 'rps',
+          "answer": [choices[2].value, computer?.value],
+          "timestamp": [startTime, endTime]
         }
-      } else if (round === 2) {
-        if (!isSubmit && userChoice !== null) {
-          const user = userChoice
-          const endTime = new Date().toISOString();
-          const newData = {
-            "gameType": 'rps',
-            "answer": [user?.value, choices[2].value],
-            "timestamp": [startTime, endTime]
-          }
-          setComputerChoice(choices[2]);
-          setGameHistory([...gameHistory, newData])
-          setIsSubmit(true);
-          setTimeout(handleReset, 1000);
-          // setTimer(3);
-        }
-      } else if (round === 3) {
-        if (who % 2 === 0 && !isSubmit && computerChoice !== null) {
-          const computer = computerChoice
-          const endTime = new Date().toISOString();
-          const newData = {
-            "gameType": 'rps',
-            "answer": [choices[2].value, computer?.value],
-            "timestamp": [startTime, endTime]
-          }
-          setUserChoice(choices[2]);
-          setGameHistory([...gameHistory, newData])
-          setIsSubmit(true);
-          setTimeout(handleReset, 1000);
-        } else if (who % 2 === 1 && !isSubmit && userChoice !== null) {
-          const user = userChoice
-          const endTime = new Date().toISOString();
-          const newData = {
-            "gameType": 'rps',
-            "answer": [user?.value, choices[2].value],
-            "timestamp": [startTime, endTime]
-          }
-          setComputerChoice(choices[2]);
-          setGameHistory([...gameHistory, newData])
-          setIsSubmit(true);
-          setTimeout(handleReset, 1000);
-        }}
-      break
+        setUserChoice(choices[2]);
+        setGameHistory([...gameHistory, newData])
+        setIsSubmit(true);
+        setTimeout(handleReset, 1000);
+        // setTimer(3);
+      }
+      break;
   }
 }
 
-// 키보드로 가위바위보 할 수 잇게 렌더링 시에 포커스를 이동하는 역할
-useEffect(() => {
-  wrapbox.current?.focus()
-},[])
+  // 키보드로 가위바위보 할 수 잇게 렌더링 시에 포커스를 이동하는 역할
+  useEffect(() => {
+    wrapbox.current?.focus();
+  }, []);
 
 
   return (
@@ -474,17 +436,17 @@ useEffect(() => {
           <div>나</div>
         </LeftBox>
         <LeftBox item xs={3}>
-          <img src={userChoice?.image} alt="" />
+          <img src={userChoice?.image} alt='' />
         </LeftBox>
         <RightBox item xs={3}>
-          <img src={computerChoice?.image} alt="" />
+          <img src={computerChoice?.image} alt='' />
         </RightBox>
         <RightBox item xs={3}>
           <img style={{width: '15vw' }} src={tiger} alt="" />
           <div>상대</div>
         </RightBox>
       </Grid>
-      <Grid container sx={{display: 'flex', justifyContent: 'center'}}>
+      <Grid container sx={{ display: "flex", justifyContent: "center" }}>
         {choices.map((choice) => (
           <Grid key={choice.value} item xs={2}>
             <ChoiceButton disabled onClick={() => handleClick(choice)}>
@@ -494,41 +456,40 @@ useEffect(() => {
           </Grid>
         ))}
       </Grid>
-      {round === 0 ? <StartButton onClick={handleStart}>start</StartButton> : ''}
+      {round === 0 ? (
+        <StartButton onClick={handleStart}>start</StartButton>
+      ) : (
+        ""
+      )}
     </WrapBox>
-  )
-}
+  );
+};
 // css
 
-const WrapBox = styled(Box) ({
-  textAlign: 'center',
-  marginTop: '10vh',
-  width: '65vw',
-})
+const WrapBox = styled(Box)({
+  textAlign: "center",
+  marginTop: "10vh",
+  width: "65vw",
+});
 
-const LeftBox = styled(Grid) ({
-  justifyContent: 'center',
-  padding: '0, 0, 0, 0'
-  
-})
+const LeftBox = styled(Grid)({
+  justifyContent: "center",
+  padding: "0, 0, 0, 0",
+});
 
-const RightBox = styled(Grid) ({
-  justifyContent: 'center',
-  
+const RightBox = styled(Grid)({
+  justifyContent: "center",
+});
 
-})
-
-
-
-const ChoiceButton = styled(Button) ({
-  fontSize: '2rem',
-  padding: '0.5rem',
-  color: 'grey',
-  margin: '1rem',
+const ChoiceButton = styled(Button)({
+  fontSize: "2rem",
+  padding: "0.5rem",
+  color: "grey",
+  margin: "1rem",
   // backgroundColor: 'grey'
   border: "3px solid gray",
-  width: '8rem'
-})
+  width: "8rem",
+});
 
 const StartButton = styled(Button)`
   display: flex;
@@ -536,15 +497,14 @@ const StartButton = styled(Button)`
   font-size: 2rem;
   padding: 0.5rem;
   border-radius: 1rem;
-  background-color : white;
+  background-color: white;
   cursor: pointer;
   margin: 1rem;
   bottom: 1rem;
-  &:hover{  
-    background-color : skyblue;
-    color : white
+  &:hover {
+    background-color: skyblue;
+    color: white;
   }
-`
+`;
 
 export default Rps;
-

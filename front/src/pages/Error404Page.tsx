@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
@@ -6,20 +6,20 @@ import { Box } from "@mui/material";
 
 function Error404Page() {
   const navigate = useNavigate();
-  const onClickHandler = () => {
-    navigate("/test/prepare/find-road");
-  };
-  const goRps = () => {
-    navigate('/prepare/rpsPage')
-  }
+
+  // 이제 강제로 가셔야합니다 오홍홍
+  useEffect(() => {
+    const onClickHandler = () => {
+      navigate("/test/prepare");
+    };
+    alert("시험이나 치러갑시다.");
+    onClickHandler();
+  }, [navigate]);
+
   return (
     <React.Fragment>
-      <WrapBox>
-        <h1>hello, here is your 404</h1>
-        <button onClick={onClickHandler}>차린건 없지만 여긴 어떠신가요?</button>
-        <p></p>
-        <button onClick={goRps}>가위가위노 바위바위노 보노보노</button>
-      </WrapBox>
+      <div>hello, here is your 404</div>
+      {/* <button onClick={onClickHandler}>차린건 없지만 여긴 어떠신가요?</button> */}
     </React.Fragment>
   );
 }

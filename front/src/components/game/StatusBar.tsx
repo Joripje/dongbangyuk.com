@@ -1,3 +1,4 @@
+import { Button } from "@mui/material";
 import { useState, useEffect } from "react";
 
 import styled from "styled-components";
@@ -6,11 +7,12 @@ interface StatusBarProps {
   status: string;
   gameType: string;
   problemNum: number | string;
+  setIsPreparing?: (isPreparing: boolean) => void;
 }
 
 function StatusBar(props: StatusBarProps) {
   // gameType과 status에 따라 다른 text를 통해 안내해야한다.
-  const { status, gameType, problemNum } = props;
+  const { status, gameType, problemNum, setIsPreparing } = props;
   const [shownText, setShownText] = useState("방법 설명");
 
   useEffect(() => {
@@ -30,6 +32,13 @@ function StatusBar(props: StatusBarProps) {
       </TypoForProblemNum>
       <Vr />
       <TypoForText>{shownText}</TypoForText>
+      {setIsPreparing === undefined ? (
+        ""
+      ) : (
+        <JumpButton onClick={() => setIsPreparing(false)}>
+          설명 건너뛰기
+        </JumpButton>
+      )}
     </StatusBarBox>
   );
 }
@@ -43,7 +52,7 @@ const StatusBarBox = styled.div({
   height: "4rem",
   background: "white",
   borderRadius: "20px 20px 0 0 ",
-  borderBottom: "1px solid #e5e5e5",
+  borderBottom: "0.2rem solid #e5e5e5",
 });
 
 const Vr = styled.div`
@@ -78,4 +87,8 @@ const TypoForText = styled.div({
   marginLeft: "1rem",
 });
 
+const JumpButton = styled(Button)({
+  width: "10rem",
+  height: "80%",
+});
 export default StatusBar;

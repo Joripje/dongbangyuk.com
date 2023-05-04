@@ -14,28 +14,24 @@ interface TimerProps {
 const Timer: React.FC<TimerProps> = (props: TimerProps) => {
   const navigate = useNavigate();
   const { startTime, settingTime, onExitHandler } = props;
-  const [realTime, setRealTime] = useState(startTime);
   const [spendTime, setSpendTime] = useState(0);
   const [remainTime, setRemainTime] = useState(settingTime);
 
-
-
   useEffect(() => {
     const intervalId = setInterval(() => {
-      setRealTime(new Date().getTime());
-      setSpendTime(Math.floor(new Date(realTime - startTime).getTime() / 1000));
+      // setRealTime(new Date().getTime());
+      setSpendTime(Math.floor((new Date().getTime() - startTime) / 1000));
       setRemainTime(settingTime - spendTime);
     }, 1000);
-    
-    // 시발 흑흑 뭔데이거 < 0 이랑 뭐가다른데 시발새끼야
+
     if (remainTime === 0) {
-      // alert("8초후 다음라운드가 시작됩니다.");
       if (onExitHandler) onExitHandler();
       // navigate("/", { replace: true });
+      return () => clearInterval(intervalId);
     }
     return () => clearInterval(intervalId);
   }, [
-    realTime,
+    // realTime,
     spendTime,
     remainTime,
     startTime,
@@ -47,7 +43,7 @@ const Timer: React.FC<TimerProps> = (props: TimerProps) => {
   return (
     <TimeBox>
       {remainTime < 0
-        ? "종료"
+        ? "0"
         : `${Math.floor(remainTime / 60)} : 
           ${
             remainTime % 60 < 10
@@ -66,7 +62,7 @@ const TimeBox = styled.div({
   width: "6rem",
   height: "1.5rem",
   textAlign: "center",
-  padding: '0.3rem',
+  padding: "0.3rem",
   border: "3px solid gray",
   borderRadius: "10%",
 

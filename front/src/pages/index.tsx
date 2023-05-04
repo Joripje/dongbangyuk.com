@@ -5,13 +5,25 @@ import FindRoadPage from "./FindRoadPage";
 import FindRoadPreparePage from "./FindRoadPreparePage";
 import RpsGamePage from "./RpsGamePage";
 import RpsPreparePage from "./RpsPreparePage";
-import ComponentTest from "./ComponentTest";
+import CatchCatGamePage from "./CatchCatGamePage";
+
+import FirebaseTestPage from "./FirebaseTestPage";
+import MemberPage from "./MemberPage";
+import GameSelectPage from "./GameSelectPage";
+import RecordTestPage from "./RecordTestPage";
 
 const routes = [
-  // error pages
   {
     path: "*",
     element: <Error404Page />,
+  },
+  {
+    path: "/member/*",
+    element: <MemberPage />,
+  },
+  {
+    path: "/test/prepare",
+    element: <GameSelectPage />,
   },
   {
     path: "/test/find-road",
@@ -29,9 +41,18 @@ const routes = [
     path: "/prepare/rpsPage",
     element: <RpsPreparePage />,
   },
+
+  {
+    path: "/catPage",
+    element: <CatchCatGamePage />,
+  },
   {
     path: "/componentTest",
-    element: <ComponentTest />,
+    element: <FirebaseTestPage />,
+  },
+  {
+    path: "/recordtest",
+    element: <RecordTestPage />,
   },
 ];
 

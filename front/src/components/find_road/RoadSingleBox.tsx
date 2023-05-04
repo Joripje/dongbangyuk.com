@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import { ReactNode, MouseEvent } from "react";
 import styled from "styled-components";
 
 interface MainProps {
@@ -9,7 +9,7 @@ interface MainProps {
     event: MouseEvent,
     xIndex: number,
     yIndex: number,
-    attribute: number
+    rotate: number
   ) => void;
 }
 
