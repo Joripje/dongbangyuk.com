@@ -122,7 +122,7 @@ const GameBoard = (props: GameBoardProps) => {
 
   return (
     <RowFlexBox>
-      {gameState === 3 ? (
+      {gameState && gameState % 4 === 0 ? (
         <SelectAnswer />
       ) : (
         <SingleCatBox boardState={boardState} />
