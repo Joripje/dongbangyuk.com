@@ -1,25 +1,20 @@
 import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
 import { useState, useEffect, useMemo, MouseEvent } from "react";
-import styled from "styled-components";
-import SingleCatBox from "./SingleCatBox";
-import SelectAnswer from "./SelectAnswer";
+import { checkAnswer } from "store/catchCatSlice";
 
+import { SingleCatBox, SelectAnswer } from "./";
+
+import styled from "styled-components";
 type GameBoardProps = {
   problemNum: number;
   ascProblemNum: () => void; // ProblemNum을 어센드하여 StatusBar에서 올바른 값이 나오도록 수정
 };
 
-// type Answer = {
-//   gameType: string;
-//   correct: boolean;
-//   answer: boolean;
-//   asure: number;
-//   //   answer: number[][];
-// };
-
 const GameBoard = (props: GameBoardProps) => {
   const { ascProblemNum } = props;
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const initialProblem = useMemo(
     () => [
       [0, 0, 0, 0, 0, 0],
@@ -37,13 +32,20 @@ const GameBoard = (props: GameBoardProps) => {
   const [difficulty, setDifficulty] = useState<number>(4);
   const [gameState, setGameState] = useState<number>(0); // 1Cat > 2mouse > 3SelectCat > 4choice > 1cat
   const [catPosition, setCatPosition] = useState<number[]>([]);
+  const [foodPosition, setFoodPosition] = useState<number[]>([]);
   const [boardState, setBoardState] = useState<number[][]>([]); // 사용자가 보고 있는 문제지
-  // const [answerList, setAnswerList] = useState<Array<Answer>>([]); // 채점서버에 제출한 답변
-  // const [timestamp, setTimestamp] = useState<string>(new Date().toISOString());
+  const [correct, setCorrect] = useState<boolean[]>([false, false]);
+
+  // 렌더될때 timestamp를 캐싱
+  const timestamp = useMemo(() => {
+    return new Date().toISOString();
+  }, []);
 
   const onSubmitHandler = (event: MouseEvent<HTMLElement>): void => {
     event.preventDefault();
-    // 술래잡기와 관련된 API가 완성되면 http 통신
+    dispatch(checkAnswer());
+    console.log(timestamp, new Date().toISOString());
+    // 술래잡기와 관련된 API가 완성되면 http 통신이 추가되어야 함
   };
 
   useEffect(() => {
@@ -69,16 +71,20 @@ const GameBoard = (props: GameBoardProps) => {
           if (problemNum % 4 === 3) {
             setDifficulty((prevDifficulty) => prevDifficulty + 1);
           }
+
           targets = randomNumbers(difficulty, number36);
           setCatPosition(targets);
           break;
         case 1:
           targets = randomNumbers(difficulty, number36);
+          setFoodPosition(targets);
           break;
         case 2:
           targets = randomNumbers(2, catPosition);
           break;
         case 3:
+          const result = targets.map((target) => foodPosition.includes(target));
+          setCorrect(result);
           break;
         default:
           console.log("어떻게 오셨어요?");
@@ -117,7 +123,7 @@ const GameBoard = (props: GameBoardProps) => {
   return (
     <RowFlexBox>
       {gameState && gameState % 4 === 0 ? (
-        <SelectAnswer />
+        <SelectAnswer correct={correct} />
       ) : (
         <SingleCatBox boardState={boardState} />
       )}

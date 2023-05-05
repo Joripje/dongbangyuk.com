@@ -1,26 +1,54 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+
+import { TimeBar } from "components/common";
+import { SelectCircle } from "./";
+import { addAnswer, setTempAnswerProperty } from "store/catchCatSlice";
+
 import styled from "styled-components";
 import choco from "assets/images/catch/choco.jpg";
-import SelectCircle from "./SelectCircle";
-import { TimeBar } from "components/common";
 
 type StyledBoxProps = {
   rowValue: number;
   children: string | JSX.Element;
 };
 
-function SelectAnswer() {
-  const [catColor, setCatColor] = useState<number>(0); // 0: red, 1: blue
+function SelectAnswer(props: { correct: boolean[] }) {
+  const { correct } = props;
+  const dispatch = useDispatch();
   const circles = [80, 50, 30, 10];
   const messages = ["매우 확실하다", "확실하다", "조금 확실하다", "불확실하다"];
+  const [catColor, setCatColor] = useState<number>(0); // 0: red, 1: blue
 
   useEffect(() => {
+    dispatch(setTempAnswerProperty({ property: "correct", value: correct[0] }));
+
     const intervalId = setInterval(() => {
+      dispatch(addAnswer());
       setCatColor((prevCatColor) => prevCatColor + 1);
+      dispatch(
+        setTempAnswerProperty({ property: "correct", value: correct[1] })
+      );
     }, 4000);
 
     return () => clearInterval(intervalId);
-  }, []);
+  }, [correct]);
+
+  function renderSelectCircles(
+    circles: number[],
+    messages: string[],
+    answer: boolean
+  ) {
+    return circles.map((radius, index) => (
+      <SelectCircle
+        key={index}
+        index={index}
+        radius={radius}
+        message={messages[index]}
+        answer={answer}
+      />
+    ));
+  }
 
   return (
     <ColFlexBox>
@@ -37,27 +65,9 @@ function SelectAnswer() {
         <div>찾았다</div>
       </RowFlexBox>
       <RowFlexBox>
-        <RowFlexBox>
-          {[0, 1, 2, 3].map((index) => {
-            return (
-              <SelectCircle
-                key={index}
-                radius={circles[index]}
-                message={messages[index]}
-              />
-            );
-          })}
-        </RowFlexBox>
+        <RowFlexBox>{renderSelectCircles(circles, messages, false)}</RowFlexBox>
         <RowFlexBox style={{ flexDirection: "row-reverse" }}>
-          {[0, 1, 2, 3].map((index) => {
-            return (
-              <SelectCircle
-                key={index}
-                radius={circles[index]}
-                message={messages[index]}
-              />
-            );
-          })}
+          {renderSelectCircles(circles, messages, true)}
         </RowFlexBox>
       </RowFlexBox>
     </ColFlexBox>

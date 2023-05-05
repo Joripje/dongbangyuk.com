@@ -1,8 +1,12 @@
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
+import { setTempAnswerProperty } from "store/catchCatSlice";
 
 type SelectCircleProps = {
+  index: number;
   radius: number;
   message: string;
+  answer: boolean;
 };
 
 type SelectionCircleProps = {
@@ -10,9 +14,16 @@ type SelectionCircleProps = {
 };
 
 function SelectCircle(props: SelectCircleProps) {
-  const { radius, message } = props;
+  const { index, radius, message, answer } = props;
+  const dispatch = useDispatch();
+
+  const onSelectHandler = () => {
+    dispatch(setTempAnswerProperty({ property: "answer", value: answer }));
+    dispatch(setTempAnswerProperty({ property: "asure", value: index }));
+  };
+
   return (
-    <ColFlexBox>
+    <ColFlexBox onClick={onSelectHandler}>
       <div>{message}</div>
       <CircleWrapper>
         <SelectionCircle radius={radius} />
