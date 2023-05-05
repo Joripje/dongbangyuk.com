@@ -1,4 +1,4 @@
-import React, { ComponentType, ReactNode } from "react";
+import { ComponentType, ReactNode } from "react";
 import { useNavigate } from "react-router";
 
 import styled from "styled-components";
@@ -20,7 +20,12 @@ function GameSelect() {
       time: 3,
       url: "/test/prepare/find-road",
     },
-    { name: "가위 바위 보", ability: "인지 능력", time: 4, url: "/prepare/rpsPage" },
+    {
+      name: "가위 바위 보",
+      ability: "인지 능력",
+      time: 4,
+      url: "/prepare/rpsPage",
+    },
     {
       name: "도형 회전하기",
       ability: "인지 능력",
