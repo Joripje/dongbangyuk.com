@@ -1,28 +1,34 @@
+import { useNavigate } from "react-router";
 import { useState, useEffect, useMemo, MouseEvent } from "react";
-import choco from "assets/images/catch/choco.jpg";
-import chocoFood from "assets/images/catch/choco_food.png";
-
 import styled from "styled-components";
+import SingleCatBox from "./SingleCatBox";
+import SelectAnswer from "./SelectAnswer";
 
 type GameBoardProps = {
   problemNum: number;
   ascProblemNum: () => void; // ProblemNum을 어센드하여 StatusBar에서 올바른 값이 나오도록 수정
 };
 
-type Answer = {
-  gameType: string;
-  correct: boolean;
-  answer: boolean;
-  asure: number;
-  //   answer: number[][];
+type StyledBoxProps = {
+  rowValue: number;
+  children: string | JSX.Element;
 };
+
+// type Answer = {
+//   gameType: string;
+//   correct: boolean;
+//   answer: boolean;
+//   asure: number;
+//   //   answer: number[][];
+// };
 
 const GameBoard = (props: GameBoardProps) => {
   const { ascProblemNum } = props;
+  const navigate = useNavigate();
   const initialProblem = useMemo(
     () => [
-      [0, 0, 1, 0, 0, 0],
-      [0, 0, 0, 2, 0, 0],
+      [0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0],
@@ -30,10 +36,11 @@ const GameBoard = (props: GameBoardProps) => {
     ],
     []
   );
+  const number36 = Array.from({ length: 36 }, (_, index) => index);
 
   const [problemNum, setProblemNum] = useState<number>(0);
   const [difficulty, setDifficulty] = useState<number>(4);
-  const [gameState, setGameState] = useState<number>(0); // cat > mouse > tomCat > choice > cat
+  const [gameState, setGameState] = useState<number>(0); // 1Cat > 2mouse > 3SelectCat > 4choice > 1cat
   const [catPosition, setCatPosition] = useState<number[]>([]);
   const [boardState, setBoardState] = useState<number[][]>([]); // 사용자가 보고 있는 문제지
   // const [answerList, setAnswerList] = useState<Array<Answer>>([]); // 채점서버에 제출한 답변
@@ -45,8 +52,11 @@ const GameBoard = (props: GameBoardProps) => {
   };
 
   useEffect(() => {
-    const randomNumbers = (n: number, arr: number[]) => {
-      const numbers = Array.from(arr, (_, index) => index); // 0부터 35까지의 숫자를 가진 배열 생성
+    // 결과 페이지로 안내해야함
+    if (problemNum === 20) navigate("/wow");
+
+    const randomNumbers = (n: number, numbers: number[]) => {
+      // const numbers = Array.from(arr, (_, index) => index); // 0부터 35까지의 숫자를 가진 배열 생성
       for (let i = 0; i < numbers.length; i++) {
         const randomIndex = Math.floor(Math.random() * (i + 1)); // 0부터 i까지의 인덱스 중에서 임의의 인덱스 선택
         [numbers[i], numbers[randomIndex]] = [numbers[randomIndex], numbers[i]]; // 현재 인덱스와 선택된 인덱스의 값을 교환
@@ -57,38 +67,48 @@ const GameBoard = (props: GameBoardProps) => {
     const cleanBoard = (): void => {
       let targets: number[] = [0];
       switch (gameState % 4) {
+        case 0:
+          targets = randomNumbers(difficulty, number36);
+          setCatPosition(targets);
+          break;
+        case 1:
+          targets = randomNumbers(difficulty, number36);
+          break;
         case 2:
           targets = randomNumbers(2, catPosition);
           break;
         case 3:
+          ascProblemNum();
           setProblemNum((prevProblemNum) => prevProblemNum + 1);
-          break;
 
+          if (problemNum % 4 === 3) {
+            setDifficulty((prevDifficulty) => prevDifficulty + 1);
+          }
+          break;
         default:
-          targets = randomNumbers(difficulty, Array(36));
-          setCatPosition(targets);
+          console.log("어떻게 오셨어요?");
       }
 
-      let newBoardState = initialProblem;
-      console.log(targets);
-      targets.forEach((target) => {
+      let newBoardState = JSON.parse(JSON.stringify(initialProblem));
+      targets.forEach((target, index) => {
         const yIndex = Math.floor(target / 6);
         const xIndex = target % 6;
-        newBoardState[yIndex][xIndex] = gameState % 4;
+        if (gameState % 4 === 2)
+          newBoardState[yIndex][xIndex] = ((gameState + 1) % 4) + index;
+        else newBoardState[yIndex][xIndex] = (gameState + 1) % 4;
       });
 
       setBoardState(newBoardState);
-
-      if (problemNum % 4 === 3) {
-        ascProblemNum();
-        setDifficulty((prevDifficulty) => prevDifficulty + 1);
-      }
     };
 
-    const intervalId = setInterval(() => {
-      cleanBoard();
-      setGameState(gameState + 1);
-    }, 2000);
+    const intervalId = setInterval(
+      () => {
+        cleanBoard();
+        setGameState(gameState + 1);
+        // console.log(boardState);
+      },
+      gameState % 4 === 0 ? 8000 : 2000
+    );
 
     return () => clearInterval(intervalId);
   }, [
@@ -102,27 +122,11 @@ const GameBoard = (props: GameBoardProps) => {
 
   return (
     <RowFlexBox>
-      <ColFlexBox>
-        {boardState.map((item, yIndex) => {
-          return (
-            <RowFlexBox key={yIndex}>
-              {item.map((rowValue, xIndex) => {
-                return (
-                  <StyledBox key={xIndex}>
-                    {rowValue === 1 ? (
-                      <ChocoImage src={choco} alt={"choco"} />
-                    ) : rowValue === 2 ? (
-                      <ChocoImage src={chocoFood} alt={"chocoFood"} />
-                    ) : (
-                      ""
-                    )}
-                  </StyledBox>
-                );
-              })}
-            </RowFlexBox>
-          );
-        })}
-      </ColFlexBox>
+      {gameState === 3 ? (
+        <SelectAnswer />
+      ) : (
+        <SingleCatBox boardState={boardState} />
+      )}
 
       <button
         style={{ height: "3rem", position: "absolute", right: 0, bottom: 0 }}
@@ -138,26 +142,5 @@ const RowFlexBox = styled.div`
   display: flex;
   flex-direction: row;
 `;
-
-const ColFlexBox = styled.div({
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  marginTop: "5rem",
-});
-
-const StyledBox = styled.div({
-  width: "8rem",
-  height: "8rem",
-
-  border: "0.5rem solid gray",
-  borderRadius: "10%",
-  margin: 5,
-});
-
-const ChocoImage = styled.img({
-  width: "100%",
-  height: "100%",
-});
 
 export default GameBoard;

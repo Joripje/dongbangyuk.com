@@ -3,6 +3,7 @@ import { WebRtcPeer } from "kurento-utils";
 
 function RecordVideo() {
   // var ws = new WebSocket(`wss://k8a305.p.ssafy.io:8443/recording`);
+  // 그럼 이게 spring으로 연결되어야 한다는 건가요??
   var ws = new WebSocket(`wss://k8a305.p.ssafy.io/recording`);
   ws.onerror = function (error) {
     console.log("WebSocket error: ", error);
