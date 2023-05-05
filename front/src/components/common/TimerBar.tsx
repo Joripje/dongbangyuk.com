@@ -1,84 +1,55 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
-type TimeLimitProgressBarProps = {
+type TimeBarProps = {
   totalTime: number; // in seconds
-  warningTime?: number; // in seconds
-  dangerTime?: number; // in seconds
+  renderer?: number;
   onComplete?: () => void;
 };
 
-type ProgressBarWrapperProps = {
-  progress: number;
-  color: string;
+type FillerProps = {
+  percentage: number;
+  renderer: number;
 };
 
-const TimeLimitProgressBar: React.FC<TimeLimitProgressBarProps> = ({
-  totalTime,
-  warningTime = 30,
-  dangerTime = 10,
-  onComplete,
-}) => {
-  const [remainingTime, setRemainingTime] = useState(totalTime);
-  const [progress, setProgress] = useState(100);
+function TimeBar({ totalTime, renderer }: TimeBarProps) {
+  const [timeLeft, setTimeLeft] = useState(totalTime);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setRemainingTime((prevRemainingTime) => {
-        const newRemainingTime = prevRemainingTime - 1;
+    const intervalId = setInterval(() => {
+      setTimeLeft((prevTime) => prevTime - 100);
+    }, 100);
 
-        if (newRemainingTime <= 0) {
-          clearInterval(interval);
-          onComplete && onComplete();
-        }
-
-        return newRemainingTime;
-      });
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [onComplete]);
+    return () => clearInterval(intervalId);
+  }, []);
 
   useEffect(() => {
-    const timeRatio = remainingTime / totalTime;
-    const progressPercentage = Math.floor((1 - timeRatio) * 100);
-
-    if (remainingTime <= dangerTime) {
-      setProgress(progressPercentage);
-    } else if (remainingTime <= warningTime) {
-      setProgress(progressPercentage);
-    } else {
-      setProgress(progressPercentage);
-    }
-  }, [remainingTime, totalTime, dangerTime, warningTime]);
+    setTimeLeft(totalTime);
+  }, [totalTime, renderer]);
 
   return (
-    <ProgressBarWrapper
-      progress={progress}
-      color={remainingTime <= dangerTime ? "#ff5c5c" : "#4a90e2"}
-    />
+    <ProgressBar>
+      <Filler
+        percentage={(timeLeft / totalTime) * 100}
+        renderer={renderer ? renderer : 0}
+      />
+    </ProgressBar>
   );
-};
+}
 
-const ProgressBarWrapper = styled.div<ProgressBarWrapperProps>`
-  height: 20px;
-  width: 100%;
-  background-color: #e0e0de;
-  border-radius: 10px;
-  position: relative;
+const ProgressBar = styled.div({
+  width: "100%",
+  height: "1rem",
+  backgroundColor: "#ddd",
+  borderRadius: "1rem",
+});
 
-  &:before {
-    content: "";
-    display: block;
-    height: 100%;
-    border-radius: 10px;
-    background-color: ${(props) => props.color};
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: ${(props) => props.progress}%;
-    transition: width 0.5s ease-in-out;
-  }
+const Filler = styled.div<FillerProps>`
+  height: 100%;
+  border-radius: inherit;
+  transition: width 0.1s ease-in-out;
+  background-color: ${(props) => (props.renderer === 0 ? "blue" : "red")};
+  width: ${(props) => (props.percentage > 0 ? props.percentage : 0)}%;
 `;
 
-export default TimeLimitProgressBar;
+export default TimeBar;

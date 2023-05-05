@@ -9,11 +9,6 @@ type GameBoardProps = {
   ascProblemNum: () => void; // ProblemNum을 어센드하여 StatusBar에서 올바른 값이 나오도록 수정
 };
 
-type StyledBoxProps = {
-  rowValue: number;
-  children: string | JSX.Element;
-};
-
 // type Answer = {
 //   gameType: string;
 //   correct: boolean;
@@ -53,7 +48,7 @@ const GameBoard = (props: GameBoardProps) => {
 
   useEffect(() => {
     // 결과 페이지로 안내해야함
-    if (problemNum === 20) navigate("/wow");
+    if (problemNum === 20 && gameState % 4 === 1) navigate("/wow");
 
     const randomNumbers = (n: number, numbers: number[]) => {
       // const numbers = Array.from(arr, (_, index) => index); // 0부터 35까지의 숫자를 가진 배열 생성
@@ -68,6 +63,12 @@ const GameBoard = (props: GameBoardProps) => {
       let targets: number[] = [0];
       switch (gameState % 4) {
         case 0:
+          ascProblemNum();
+          setProblemNum((prevProblemNum) => prevProblemNum + 1);
+
+          if (problemNum % 4 === 3) {
+            setDifficulty((prevDifficulty) => prevDifficulty + 1);
+          }
           targets = randomNumbers(difficulty, number36);
           setCatPosition(targets);
           break;
@@ -78,12 +79,6 @@ const GameBoard = (props: GameBoardProps) => {
           targets = randomNumbers(2, catPosition);
           break;
         case 3:
-          ascProblemNum();
-          setProblemNum((prevProblemNum) => prevProblemNum + 1);
-
-          if (problemNum % 4 === 3) {
-            setDifficulty((prevDifficulty) => prevDifficulty + 1);
-          }
           break;
         default:
           console.log("어떻게 오셨어요?");
@@ -105,9 +100,8 @@ const GameBoard = (props: GameBoardProps) => {
       () => {
         cleanBoard();
         setGameState(gameState + 1);
-        // console.log(boardState);
       },
-      gameState % 4 === 0 ? 8000 : 2000
+      !gameState ? 0 : gameState % 4 === 0 ? 8000 : 2000
     );
 
     return () => clearInterval(intervalId);

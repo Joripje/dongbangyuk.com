@@ -18,7 +18,7 @@ function StatusBar(props: StatusBarProps) {
   useEffect(() => {
     const explanationText: { [key: string]: string } = {
       road: "정답의 울타리 수에 맞게 울타리를 설치하여 교통수단을 정해진 손님에게 보내주세요.",
-      rps: '나 혹은 상대의 입장에서 가위바위보를 해주세요'
+      rps: "나 혹은 상대의 입장에서 가위바위보를 해주세요",
     };
     if (status === "explain") setShownText("방법 설명");
     else if (status === "practice") setShownText("연습");
@@ -49,7 +49,7 @@ const StatusBarBox = styled.div({
   alignItems: "center",
 
   width: "100%",
-  height: "4rem",
+  height: "6rem",
   background: "white",
   borderRadius: "20px 20px 0 0 ",
   borderBottom: "0.2rem solid #e5e5e5",

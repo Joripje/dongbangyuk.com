@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import choco from "assets/images/catch/choco.jpg";
 import SelectCircle from "./SelectCircle";
+import { TimeBar } from "components/common";
 
 type StyledBoxProps = {
   rowValue: number;
@@ -16,13 +17,14 @@ function SelectAnswer() {
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCatColor((prevCatColor) => prevCatColor + 1);
-    }, 3000);
+    }, 4000);
 
     return () => clearInterval(intervalId);
   }, []);
 
   return (
     <ColFlexBox>
+      <TimeBar totalTime={3000} renderer={catColor} />
       <div>
         {catColor === 0 ? "파란" : "빨강"}칸의 고양이는 생쥐를 찾았을까요?
       </div>
