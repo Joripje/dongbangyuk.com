@@ -43,7 +43,7 @@ const Timer: React.FC<TimerProps> = (props: TimerProps) => {
   return (
     <TimeBox>
       {remainTime < 0
-        ? "0"
+        ? "종료"
         : `${Math.floor(remainTime / 60)} : 
           ${
             remainTime % 60 < 10
@@ -57,7 +57,7 @@ const Timer: React.FC<TimerProps> = (props: TimerProps) => {
 const TimeBox = styled.div({
   position: "absolute",
   right: 15,
-  top: "1.2rem",
+  top: "2rem",
 
   width: "6rem",
   height: "1.5rem",
