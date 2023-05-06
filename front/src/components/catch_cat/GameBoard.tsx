@@ -33,6 +33,7 @@ const GameBoard = (props: GameBoardProps) => {
   const [gameState, setGameState] = useState<number>(0); // 1Cat > 2mouse > 3SelectCat > 4choice > 1cat
   const [catPosition, setCatPosition] = useState<number[]>([]);
   const [foodPosition, setFoodPosition] = useState<number[]>([]);
+  const [selectedCat, setSelectedCat] = useState<number[]>([]);
   const [boardState, setBoardState] = useState<number[][]>([]); // 사용자가 보고 있는 문제지
   const [correct, setCorrect] = useState<boolean[]>([false, false]);
 
@@ -81,9 +82,11 @@ const GameBoard = (props: GameBoardProps) => {
           break;
         case 2:
           targets = randomNumbers(2, catPosition);
+          setSelectedCat(targets);
           break;
         case 3:
-          const result = targets.map((target) => foodPosition.includes(target));
+          const result: boolean[] = [];
+          selectedCat.map((cat) => result.push(foodPosition.includes(cat)));
           setCorrect(result);
           break;
         default:

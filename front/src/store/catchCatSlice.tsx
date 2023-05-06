@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, current } from "@reduxjs/toolkit";
 
 type Answer = {
   gameType: "cat";
@@ -25,6 +25,7 @@ const catchCatSlice = createSlice({
   reducers: {
     addAnswer: (state) => {
       /*현재 tempAnswer를 answerList에 추가합니다.*/
+      console.log(current(state.tempAnswer));
       state.answerList.push(state.tempAnswer);
     },
     setTempAnswerProperty: (
@@ -38,7 +39,7 @@ const catchCatSlice = createSlice({
       state.tempAnswer[property] = value as never;
     },
     checkAnswer: (state) => {
-      console.log(state.answerList);
+      console.log(current(state.answerList));
     },
   },
 });
