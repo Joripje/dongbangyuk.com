@@ -1,3 +1,4 @@
+import { start } from "components/common";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 
@@ -14,6 +15,7 @@ function PrepareExam(props: PrepareExamProps) {
   const [countDown, setCountDown] = useState(10);
 
   useEffect(() => {
+    if (countDown === 10) start();
     const intervalId = setInterval(() => {
       setCountDown(countDown - 1);
     }, 1000);
