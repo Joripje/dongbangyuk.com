@@ -13,6 +13,9 @@ import MemberPage from "./MemberPage";
 import GameSelectPage from "./GameSelectPage";
 import RecordTestPage from "./RecordTestPage";
 
+// firebase chat
+import { Chat } from "components/firebase_chat";
+
 const routes = [
   {
     path: "*",
@@ -59,6 +62,10 @@ const routes = [
     path: "/recordtest",
     element: <RecordTestPage />,
   },
+  {
+    path: '/chat',
+    element: <Chat/>,
+  }
 ];
 
 const router = createBrowserRouter(routes);
