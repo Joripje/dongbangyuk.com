@@ -135,8 +135,8 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
       System.out.println("filePath: " + filePath);
       RecorderEndpoint recorder = new RecorderEndpoint.Builder(pipeline, filePath)
           .withMediaProfile(profile).build();
+      System.out.println("------" + pipeline.toString() + "_" + filePath + "_" + recorder.toString());
 
-      // Error listeners.
       pipeline.addErrorListener(new EventListener<ErrorEvent>() {
         @Override
         public void onEvent(ErrorEvent ev) {
@@ -220,7 +220,6 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
             log.error(e.getMessage());
           }
         }
-
       });
 
       connectAccordingToProfile(webRtcEndpoint, recorder, profile);
