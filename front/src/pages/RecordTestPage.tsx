@@ -1,10 +1,10 @@
-import { RecordVideo } from "components/common";
+// import { RecordVideo } from "components/common";
 
 function RecordTestPage() {
   return (
     <div>
       Hi, Its Over
-      <RecordVideo/>
+      {/* <RecordVideo /> */}
     </div>
   );
 }
