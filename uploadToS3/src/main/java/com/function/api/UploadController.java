@@ -1,5 +1,7 @@
 package com.function.api;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.function.dto.GameSaveRequestDto;
 import com.function.dto.PlaySaveRequestDto;
 import com.function.kafka.GameEventProducer;
@@ -37,6 +39,8 @@ public class UploadController {
     @PostMapping(value = "/recordPlay")
     public ResponseEntity<PlaySaveRequestDto> saveGameHistory(@RequestBody PlaySaveRequestDto requestDto) {
 
+        ObjectMapper objectMapper = new ObjectMapper();
+
         // 필요한 정보 추출
         Long userId = requestDto.getUserId();
         String gameType = requestDto.getGameType();
@@ -54,7 +58,13 @@ public class UploadController {
         requestDto.setGameId(newGameId);
 
         log.info("gameEventProducer 호출");
-//		gameEventProducer.publish("test", requestDto);
+        String dtoString;
+        try {
+            dtoString = objectMapper.writeValueAsString(requestDto);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        gameEventProducer.publish("test", dtoString);
         return ResponseEntity.ok(requestDto);
     }
 
