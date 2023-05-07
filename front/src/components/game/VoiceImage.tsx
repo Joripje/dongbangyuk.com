@@ -7,29 +7,22 @@ type VoiceImageProps = {
 };
 
 function VoiceImage(props: VoiceImageProps) {
-  useMemo(() => {
-    const { setIsEnough } = props;
+  const { setIsEnough } = props;
 
-    const handleResize = () => {
-      if (window.innerWidth < 1920 || window.innerWidth < 1080)
-        setIsEnough(false);
-      else setIsEnough(true);
-    };
-    handleResize();
-  }, [props]);
+  const handleResize = () => {
+    if (window.innerWidth < 1920 || window.innerHeight < 1080) {
+      setIsEnough(false);
+    } else {
+      setIsEnough(true);
+    }
+  };
 
   useEffect(() => {
-    const { setIsEnough } = props;
-
-    const handleResize = () => {
-      if (window.innerWidth < 1920 || window.innerWidth < 1080)
-        setIsEnough(false);
-      else setIsEnough(true);
-    };
+    handleResize();
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, [props]);
+  }, []);
 
   return <VoiceCheckImg />;
 }

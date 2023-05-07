@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { Timer } from "components/common";
-import { GameBoard } from "../components/find_road";
+import { GameBoard } from "../components/findRoad";
 import { StatusBar, GameTemplate } from "components/game";
 
 function FindRoadPage() {

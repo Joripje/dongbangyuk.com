@@ -1,4 +1,4 @@
-import FaceDectection from "components/find_road/FaceDectection";
+import FaceDectection from "components/findRoad/FaceDectection";
 
 function FirebaseTestPage() {
   return <FaceDectection />;
