@@ -57,7 +57,7 @@ const BoardBox = styled.div({
   flexDirection: "column",
   alignItems: "center",
 
-  width: "70%",
+  width: "90%",
   height: "70%",
   minHeight: `calc(100vh - 10rem)`,
   maxHeight: `calc(100vh - 10rem)`,
