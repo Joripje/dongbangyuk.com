@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Grid } from "@mui/material";
+import { Grid, Box } from "@mui/material";
 
 type OverviewDescriptProps = {
   overviewProps: {
@@ -40,9 +40,25 @@ function OverviewDescript(props: OverviewDescriptProps) {
           );
         })}
       </Grid>
+      <RpsDescript>{rounds === 3? <TypoColor>이 과제는 키보드를 사용합니다.</TypoColor> : ''}</RpsDescript>
     </OverviewDescriptBox>
   );
 }
+
+const RpsDescript = styled(Box) ({
+  display: 'flex',
+  justifyContent: 'center',
+  padding: '1rem',
+  backgroundColor: '#EEFDF3',
+  border: 'solid',
+  borderColor: '#A6CFAE',
+  borderRadius: '1rem',
+});
+
+const TypoColor = styled.div({
+  color: '#50C564',
+  fontSize: '1.2rem',
+})
 
 const RowFlexBox = styled.div({
   display: "flex",

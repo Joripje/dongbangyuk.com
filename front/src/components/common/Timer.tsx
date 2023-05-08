@@ -16,6 +16,7 @@ const Timer: React.FC<TimerProps> = (props: TimerProps) => {
   const { startTime, settingTime, onExitHandler } = props;
   const [spendTime, setSpendTime] = useState(0);
   const [remainTime, setRemainTime] = useState(settingTime);
+  const [hurry, setHurry] = useState(false);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -23,7 +24,6 @@ const Timer: React.FC<TimerProps> = (props: TimerProps) => {
       setSpendTime(Math.floor((new Date().getTime() - startTime) / 1000));
       setRemainTime(settingTime - spendTime);
     }, 1000);
-
     if (remainTime === 0) {
       if (onExitHandler) onExitHandler();
       // navigate("/", { replace: true });
@@ -39,9 +39,18 @@ const Timer: React.FC<TimerProps> = (props: TimerProps) => {
     navigate,
     onExitHandler,
   ]);
+  
+  // 5초 남으면 남은시간 빨간색으로 바꿔주는 함수
+  useEffect(() => {
+    if (remainTime === 5) {
+      setHurry(true);
+    } else if (remainTime === 0) {
+      setHurry(false);
+    }
+  },[remainTime])
 
   return (
-    <TimeBox>
+    <TimeBox style={hurry? {color: 'red'} : {color: 'black'}}>
       {remainTime < 0
         ? "종료"
         : `${Math.floor(remainTime / 60)} : 

@@ -68,7 +68,7 @@ function FindRoadPreparePage() {
           setIsPreparing={setIsPreparing}
         />
       ) : (
-        <PrepareExam image={imagesList[0]} descriptions={descriptions} />
+        <PrepareExam gameType={gameType} image={imagesList[0]} descriptions={descriptions} />
       )}
     </GameTemplate>
   );

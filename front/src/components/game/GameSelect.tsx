@@ -23,7 +23,7 @@ function GameSelect() {
     {
       name: "가위 바위 보",
       ability: "인지 능력",
-      time: 4,
+      time: 3,
       url: "/prepare/rpsPage",
     },
     {
