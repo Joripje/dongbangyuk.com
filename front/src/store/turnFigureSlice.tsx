@@ -1,23 +1,31 @@
-import { createSlice, PayloadAction, current } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
+import {
+  button_a,
+  button_b,
+  button_c,
+  button_d,
+} from "assets/images/turnFigure";
 
 type Answer = {
   gameType: "turn";
-  choice: number[];
+  choices: number[];
 };
 
-type AnswerState = {
+type State = {
   target: number;
   tempAnswer: Answer;
   answerList: Answer[];
+  images: string[];
 };
 
-const initialState: AnswerState = {
+const initialState: State = {
   target: 0,
-  tempAnswer: { gameType: "turn", choice: Array(8).fill(-1) },
+  tempAnswer: { gameType: "turn", choices: Array(8).fill(-1) },
   answerList: [],
+  images: [button_a, button_b, button_c, button_d],
 };
 
-const catchCatSlice = createSlice({
+const turnFigureSlice = createSlice({
   name: "answer",
   initialState,
   reducers: {
@@ -27,14 +35,16 @@ const catchCatSlice = createSlice({
     },
     pushChoice: (state, action) => {
       const { tempAnswer, target } = state;
-      tempAnswer.choice[target] = action.payload;
+      tempAnswer.choices[target] = action.payload;
+      state.target = target + 1;
     },
     popChoice: (state) => {
       const { tempAnswer, target } = state;
-      tempAnswer.choice[target] = -1;
+      tempAnswer.choices[target] = -1;
+      state.target = target - 1;
     },
     clearChoice: (state) => {
-      state.tempAnswer.choice = Array(8).fill(-1);
+      state.tempAnswer.choices = Array(8).fill(-1);
     },
     checkAnswer: (state) => {
       console.log(current(state.answerList));
@@ -42,5 +52,6 @@ const catchCatSlice = createSlice({
   },
 });
 
-export const { addAnswer, checkAnswer } = catchCatSlice.actions;
-export default catchCatSlice.reducer;
+export const { addAnswer, pushChoice, popChoice, clearChoice, checkAnswer } =
+  turnFigureSlice.actions;
+export default turnFigureSlice.reducer;

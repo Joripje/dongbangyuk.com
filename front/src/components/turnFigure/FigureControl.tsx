@@ -1,24 +1,33 @@
-import {
-  button_a,
-  button_b,
-  button_c,
-  button_d,
-} from "assets/images/turnFigure";
+import { MouseEvent } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "store";
+import { pushChoice } from "store/turnFigureSlice";
 import styled from "styled-components";
 
 const FigureControl = () => {
-  const images = [button_a, button_b, button_c, button_d];
+  const dispatch = useDispatch();
+  const images = useSelector((state: RootState) => state.turnFigure.images);
   const buttonName = [
     "왼쪽 45° 회전",
     "오른쪽 45° 회전",
     "좌우반전",
     "상하반전",
   ];
+
+  const onClickHandler = (event: MouseEvent, index: number) => {
+    event.preventDefault();
+    console.log(index);
+    dispatch(pushChoice(index));
+  };
+
   return (
     <ButtonWrapper>
       {images.map((image, index) => {
         return (
-          <ButtonBox key={index}>
+          <ButtonBox
+            key={index}
+            onClick={(event) => onClickHandler(event, index)}
+          >
             <ButtonImg src={image} alt={"버튼"} />;
             <ButtonTypo>{buttonName[index]}</ButtonTypo>
           </ButtonBox>
