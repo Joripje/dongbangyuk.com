@@ -121,6 +121,169 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
     registry.removeBySession(session);
   }
 
+  // private void start(final WebSocketSession session, JsonObject jsonMessage) {
+  //   try {
+  //
+  //     // 1. Media logic (webRtcEndpoint in loopback)
+  //     MediaPipeline pipeline = kurento.createMediaPipeline();
+  //     WebRtcEndpoint webRtcEndpoint = new WebRtcEndpoint.Builder(pipeline).build();
+  //     webRtcEndpoint.connect(webRtcEndpoint);
+  //
+  //     MediaProfileSpecType profile = getMediaProfileFromMessage(jsonMessage);
+  //
+  //     String filePath = "file:///tmp/" + RECORDER_FILE_NAME;
+  //
+  //     System.out.println("filePath: " + filePath);
+  //     RecorderEndpoint recorder = new RecorderEndpoint.Builder(pipeline, filePath)
+  //         .withMediaProfile(profile).build();
+  //     System.out.println("------" + pipeline.toString() + "_" + filePath + "_" + recorder.toString());
+  //
+  //     pipeline.addErrorListener(new EventListener<ErrorEvent>() {
+  //       @Override
+  //       public void onEvent(ErrorEvent ev) {
+  //         log.error(
+  //             "[MediaPipeline::ErrorEvent] Error code {}: '{}', source: {}, timestamp: {}, tags: {}, description: {}",
+  //             ev.getErrorCode(), ev.getType(), ev.getSource().getName(),
+  //             ev.getTimestampMillis(), ev.getTags(), ev.getDescription());
+  //         sendError(session, "[MediaPipeline] " + ev.getDescription());
+  //       }
+  //     });
+  //     webRtcEndpoint.addErrorListener(new EventListener<ErrorEvent>() {
+  //       @Override
+  //       public void onEvent(ErrorEvent ev) {
+  //         log.error(
+  //             "[WebRtcEndpoint::ErrorEvent] Error code {}: '{}', source: {}, timestamp: {}, tags: {}, description: {}",
+  //             ev.getErrorCode(), ev.getType(), ev.getSource().getName(),
+  //             ev.getTimestampMillis(), ev.getTags(), ev.getDescription());
+  //         sendError(session, "[WebRtcEndpoint] " + ev.getDescription());
+  //       }
+  //     });
+  //     recorder.addErrorListener(new EventListener<ErrorEvent>() {
+  //       @Override
+  //       public void onEvent(ErrorEvent ev) {
+  //         log.error(
+  //             "[RecorderEndpoint::ErrorEvent] Error code {}: '{}', source: {}, timestamp: {}, tags: {}, description: {}",
+  //             ev.getErrorCode(), ev.getType(), ev.getSource().getName(),
+  //             ev.getTimestampMillis(), ev.getTags(), ev.getDescription());
+  //         sendError(session, "[RecorderEndpoint] " + ev.getDescription());
+  //       }
+  //     });
+  //
+  //     recorder.addRecordingListener(new EventListener<RecordingEvent>() {
+  //
+  //       @Override
+  //       public void onEvent(RecordingEvent event) {
+  //         System.out.println("recording.addRecordingListener 진입");
+  //         JsonObject response = new JsonObject();
+  //         response.addProperty("id", "recording");
+  //         try {
+  //           System.out.println("record try");
+  //           synchronized (session) {
+  //             session.sendMessage(new TextMessage(response.toString()));
+  //           }
+  //         } catch (IOException e) {
+  //           log.error(e.getMessage());
+  //         }
+  //       }
+  //
+  //     });
+  //
+  //     recorder.addStoppedListener(new EventListener<StoppedEvent>() {
+  //
+  //       @Override
+  //       public void onEvent(StoppedEvent event) {
+  //         System.out.println("recording.addStoppedListener 진입");
+  //         JsonObject response = new JsonObject();
+  //         response.addProperty("id", "stopped");
+  //         try {
+  //           System.out.println("stop try");
+  //           synchronized (session) {
+  //             session.sendMessage(new TextMessage(response.toString()));
+  //           }
+  //         } catch (IOException e) {
+  //           log.error(e.getMessage());
+  //         }
+  //       }
+  //
+  //     });
+  //
+  //     recorder.addPausedListener(new EventListener<PausedEvent>() {
+  //
+  //       @Override
+  //       public void onEvent(PausedEvent event) {
+  //         JsonObject response = new JsonObject();
+  //         response.addProperty("id", "paused");
+  //         try {
+  //           synchronized (session) {
+  //             session.sendMessage(new TextMessage(response.toString()));
+  //           }
+  //         } catch (IOException e) {
+  //           log.error(e.getMessage());
+  //         }
+  //       }
+  //     });
+  //
+  //     connectAccordingToProfile(webRtcEndpoint, recorder, profile);
+  //
+  //     // 2. Store user session
+  //     UserSession user = new UserSession(session);
+  //     user.setMediaPipeline(pipeline);
+  //     user.setWebRtcEndpoint(webRtcEndpoint);
+  //     user.setRecorderEndpoint(recorder);
+  //     registry.register(user);
+  //
+  //     // 3. SDP negotiation
+  //     String sdpOffer = jsonMessage.get("sdpOffer").getAsString();
+  //     String sdpAnswer = webRtcEndpoint.processOffer(sdpOffer);
+  //
+  //     // 4. Gather ICE candidates
+  //     webRtcEndpoint.addIceCandidateFoundListener(new EventListener<IceCandidateFoundEvent>() {
+  //
+  //       @Override
+  //       public void onEvent(IceCandidateFoundEvent event) {
+  //         JsonObject response = new JsonObject();
+  //         response.addProperty("id", "iceCandidate");
+  //         response.add("candidate", JsonUtils.toJsonObject(event.getCandidate()));
+  //         try {
+  //           synchronized (session) {
+  //             session.sendMessage(new TextMessage(response.toString()));
+  //           }
+  //         } catch (IOException e) {
+  //           log.error(e.getMessage());
+  //         }
+  //       }
+  //     });
+  //
+  //     JsonObject response = new JsonObject();
+  //     response.addProperty("id", "startResponse");
+  //     response.addProperty("sdpAnswer", sdpAnswer);
+  //
+  //     synchronized (user) {
+  //       session.sendMessage(new TextMessage(response.toString()));
+  //     }
+  //
+  //     webRtcEndpoint.gatherCandidates();
+  //
+  //     recorder.record(new Continuation<Void>() {
+  //       @Override
+  //       public void onSuccess(Void result) {
+  //         // 녹화 시작 성공 시 실행할 코드
+  //         System.out.println("Recording started successfully");
+  //       }
+  //
+  //       @Override
+  //       public void onError(Throwable cause) {
+  //         // 녹화 시작 실패 시 실행할 코드
+  //         System.out.println("Failed to start recording: " + cause.getMessage());
+  //       }
+  //     });
+  //
+  //   } catch (Throwable t) {
+  //     log.error("Start error", t);
+  //     sendError(session, t.getMessage());
+  //   }
+  // }
+
   private void start(final WebSocketSession session, JsonObject jsonMessage) {
     try {
 
@@ -136,7 +299,8 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
       System.out.println("filePath: " + filePath);
       RecorderEndpoint recorder = new RecorderEndpoint.Builder(pipeline, filePath)
           .withMediaProfile(profile).build();
-      System.out.println("------" + pipeline.toString() + "_" + filePath + "_" + recorder.toString());
+
+      System.out.println("==================" + pipeline.toString() + "_" + filePath + "_" + recorder.toString());
 
       pipeline.addErrorListener(new EventListener<ErrorEvent>() {
         @Override
@@ -167,25 +331,6 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
               ev.getTimestampMillis(), ev.getTags(), ev.getDescription());
           sendError(session, "[RecorderEndpoint] " + ev.getDescription());
         }
-      });
-
-      recorder.addRecordingListener(new EventListener<RecordingEvent>() {
-
-        @Override
-        public void onEvent(RecordingEvent event) {
-          System.out.println("recording.addRecordingListener 진입");
-          JsonObject response = new JsonObject();
-          response.addProperty("id", "recording");
-          try {
-            System.out.println("record try");
-            synchronized (session) {
-              session.sendMessage(new TextMessage(response.toString()));
-            }
-          } catch (IOException e) {
-            log.error(e.getMessage());
-          }
-        }
-
       });
 
       recorder.addStoppedListener(new EventListener<StoppedEvent>() {
@@ -230,6 +375,7 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
       user.setMediaPipeline(pipeline);
       user.setWebRtcEndpoint(webRtcEndpoint);
       user.setRecorderEndpoint(recorder);
+
       registry.register(user);
 
       // 3. SDP negotiation
@@ -269,6 +415,23 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
         public void onSuccess(Void result) {
           // 녹화 시작 성공 시 실행할 코드
           System.out.println("Recording started successfully");
+          recorder.addRecordingListener(new EventListener<RecordingEvent>() {
+
+            @Override
+            public void onEvent(RecordingEvent event) {
+              System.out.println("recording.addRecordingListener 진입");
+              JsonObject response = new JsonObject();
+              response.addProperty("id", "recording");
+              try {
+                System.out.println("record try");
+                synchronized (session) {
+                  session.sendMessage(new TextMessage(response.toString()));
+                }
+              } catch (IOException e) {
+                log.error(e.getMessage());
+              }
+            }
+          });
         }
 
         @Override
@@ -283,6 +446,8 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
       sendError(session, t.getMessage());
     }
   }
+
+
 
   private MediaProfileSpecType getMediaProfileFromMessage(JsonObject jsonMessage) {
     return MediaProfileSpecType.WEBM;
