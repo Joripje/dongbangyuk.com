@@ -1,8 +1,7 @@
-import { Grid } from "@mui/material";
-import ObjectFigure from "./ObjectFigure";
+import { ObjectFigure, FigureControl, TurnHistory } from "./";
+
 import styled from "styled-components";
-import TrunFigure from "./TrunFigure";
-import FigureControl from "./FigureControl";
+import { Grid } from "@mui/material";
 
 const GameBoard = () => {
   return (
@@ -11,6 +10,7 @@ const GameBoard = () => {
       <Grid item xs={1} />
       <Grid item xs={7} height={"100%"}>
         <FigureControl />
+        <TurnHistory />
       </Grid>
     </StyledGrid>
   );
