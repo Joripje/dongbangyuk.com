@@ -58,7 +58,6 @@ const turnFigureSlice = createSlice({
     addTurnAnswer: (state) => {
       state.answerList.push(state.tempAnswer);
       state.clicks = 20;
-      state.target = 0;
     },
 
     pushChoice: (state, action) => {

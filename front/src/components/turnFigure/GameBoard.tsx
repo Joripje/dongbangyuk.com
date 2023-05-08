@@ -12,18 +12,19 @@ import { Button, Grid } from "@mui/material";
 import { useDispatch } from "react-redux";
 
 type GameBoardProps = {
+  problemNum: number;
   ascProblemNum: () => void;
 };
 
 const GameBoard = (props: GameBoardProps) => {
-  const { ascProblemNum } = props;
+  const { problemNum, ascProblemNum } = props;
   const dispatch = useDispatch();
 
   const onSubmitHandler = (event: MouseEvent) => {
     event.preventDefault();
     dispatch(addTurnAnswer());
-    dispatch(clearChoice());
     dispatch(generateProblem());
+    dispatch(clearChoice());
 
     ascProblemNum();
   };
@@ -41,8 +42,12 @@ const GameBoard = (props: GameBoardProps) => {
         <TurnHistory />
       </Grid>
       <StyledGrid item xs={12}>
-        <SubmitButton onClick={onSubmitHandler} variant='contained'>
-          답안 제출
+        <SubmitButton
+          onClick={onSubmitHandler}
+          variant='contained'
+          color={problemNum === 20 ? "warning" : "primary"}
+        >
+          {problemNum === 20 ? "최종 제출" : "답안 제출"}
         </SubmitButton>
       </StyledGrid>
     </GridContainer>

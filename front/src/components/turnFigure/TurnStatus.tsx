@@ -75,12 +75,12 @@ const ClickNumTypo = styled.div({
 });
 
 const SytledButton = styled(Button)({
-  width: "8rem",
+  width: "12rem",
   height: "3rem",
   margin: "0.5rem",
 
-  fontSize: "1rem",
-  fontWeight: "800",
+  fontSize: "1.5rem",
+  fontWeight: "700",
 
   color: "black",
   background: "#e5e5e5",
