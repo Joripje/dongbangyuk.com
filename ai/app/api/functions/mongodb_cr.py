@@ -1,6 +1,14 @@
 from pymongo import MongoClient
+from dotenv import load_dotenv
+import os
 
-client = MongoClient("mongodb://mongodb_server:27017/")
+load_dotenv()
+
+mongo_username = os.environ.get('MONGO_USERNAME')
+mongo_password = os.environ.get('MONGO_PASSWORD')
+
+# client = MongoClient(f"mongodb://{mongo_username}:{mongo_password}@k8a305.p.ssafy.io:27017/")
+client = MongoClient(f"mongodb://{mongo_username}:{mongo_password}@mongodb_server:27017/")
 # client = MongoClient('localhost', 27017)
 db = client['videos']
 collection = db['videos']
