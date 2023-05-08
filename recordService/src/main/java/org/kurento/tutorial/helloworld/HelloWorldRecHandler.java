@@ -310,7 +310,7 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
         elapsedTime += 100;
       }
 
-      System.out.println("녹화 시작까지 걸린 시간: " + elapsedTime);
+      System.out.println("녹화 시작까지 걸린 시간: " + elapsedTime + " __ " + isRecordingStarted.get() );
 
       if (isRecordingStarted.get()) {
         System.out.println("Listener 실행됨" + recorder.getState());
