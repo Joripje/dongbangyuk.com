@@ -4,7 +4,7 @@ import { KeyboardDoubleArrowRight } from "@mui/icons-material";
 
 const ObjectFigure = () => {
   return (
-    <ObjectWrapper item xs={6}>
+    <ObjectWrapper item xs={4}>
       <CharBox>
         <div>R</div>
       </CharBox>
@@ -18,7 +18,7 @@ const ObjectFigure = () => {
 
 const ObjectWrapper = styled(Grid)({
   width: "100%",
-  height: "60%",
+  height: "100%",
 
   display: "flex",
   flexDirection: "row",
@@ -38,6 +38,7 @@ const CharBox = styled.div({
   width: "50%",
   height: "100%",
   fontSize: "10rem",
+  fontWeight: "700",
   textAlign: "center",
   borderRadius: "0 2rem 2rem 0",
 });
