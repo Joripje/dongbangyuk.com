@@ -39,8 +39,12 @@ const turnFigureSlice = createSlice({
   initialState,
   reducers: {
     generateProblem: (state) => {
-      const num1 = Math.floor(Math.random() * 8);
-      const num2 = Math.floor(Math.random() * 8);
+      let num1 = Math.floor(Math.random() * 8);
+      let num2 = Math.floor(Math.random() * 8);
+      while (num1 === num2) {
+        num1 = Math.floor(Math.random() * 8);
+        num2 = Math.floor(Math.random() * 8);
+      }
       state.tempAnswer.correct = {
         flip: num1 % 2,
         degree: num2,
@@ -51,11 +55,10 @@ const turnFigureSlice = createSlice({
       };
     },
 
-    addAnswer: (state) => {
-      /*현재 tempAnswer를 answerList에 추가합니다.*/
+    addTurnAnswer: (state) => {
       state.answerList.push(state.tempAnswer);
-      generateProblem();
-      clearChoice();
+      state.clicks = 20;
+      state.target = 0;
     },
 
     pushChoice: (state, action) => {
@@ -88,7 +91,7 @@ const turnFigureSlice = createSlice({
 
 export const {
   generateProblem,
-  addAnswer,
+  addTurnAnswer,
   pushChoice,
   popChoice,
   clearChoice,

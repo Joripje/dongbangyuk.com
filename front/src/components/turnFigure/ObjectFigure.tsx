@@ -1,17 +1,11 @@
 import { useEffect, useState } from "react";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "store";
-import { generateProblem } from "store/turnFigureSlice";
 
 import styled from "styled-components";
 import { Grid } from "@mui/material";
 import { KeyboardDoubleArrowRight } from "@mui/icons-material";
-
-// type Problem = {
-//   flip: number;
-//   degree: number;
-// };
 
 type RotateProps = {
   rotate: {
@@ -21,35 +15,27 @@ type RotateProps = {
 };
 
 const ObjectFigure = () => {
-  const dispatch = useDispatch();
   const [object, setObject] = useState<string>("");
-  // const [problem, setProblem] = useState<Problem>({ flip: 0, degree: 0 });
-  // const [correct, setCorrect] = useState<Problem>({ flip: 0, degree: 0 });
-  const problem = useSelector(
-    (state: RootState) => state.turnFigure.tempAnswer.problem
-  );
 
-  const correct = useSelector(
-    (state: RootState) => state.turnFigure.tempAnswer.correct
+  const answer = useSelector((state: RootState) => state.turnFigure.tempAnswer);
+  const answerList = useSelector(
+    (state: RootState) => state.turnFigure.answerList
   );
 
   useEffect(() => {
     const availableAlph = ["R", "K", "Q", "P", "F", "L"];
     const randNum = Math.floor(Math.random() * 5);
     setObject(availableAlph[randNum]);
-    dispatch(generateProblem());
-    // setProblem(tempAnswer.problem);
-    // setCorrect(tempAnswer.correct);
-  }, [dispatch]);
+  }, [answerList]);
 
   return (
     <ObjectWrapper item xs={4}>
       <CharBox>
-        <RoatateBox rotate={problem}>{object}</RoatateBox>
+        <RoatateBox rotate={answer.problem}>{object}</RoatateBox>
       </CharBox>
       <ArrowBox />
       <CharBox style={{ background: "rgb(238, 253, 243)" }}>
-        <RoatateBox rotate={correct}>{object}</RoatateBox>
+        <RoatateBox rotate={answer.correct}>{object}</RoatateBox>
       </CharBox>
     </ObjectWrapper>
   );
@@ -85,6 +71,7 @@ const RoatateBox = styled.div<RotateProps>`
   transform: rotate(${(props) => props.rotate.degree * 45}deg)
     scaleX(${(props) => (props.rotate.flip ? -1 : 1)});
 `;
+
 const ArrowBox = styled(KeyboardDoubleArrowRight)({
   position: "absolute",
   width: "4rem",
