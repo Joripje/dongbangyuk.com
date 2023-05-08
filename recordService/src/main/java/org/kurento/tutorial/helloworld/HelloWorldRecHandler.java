@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.kurento.client.Continuation;
 import org.kurento.client.EndOfStreamEvent;
 import org.kurento.client.ErrorEvent;
 import org.kurento.client.EventListener;
@@ -263,7 +264,20 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 
       webRtcEndpoint.gatherCandidates();
 
-      recorder.record();
+      recorder.record(new Continuation<Void>() {
+        @Override
+        public void onSuccess(Void result) {
+          // 녹화 시작 성공 시 실행할 코드
+          System.out.println("Recording started successfully");
+        }
+
+        @Override
+        public void onError(Throwable cause) {
+          // 녹화 시작 실패 시 실행할 코드
+          System.out.println("Failed to start recording: " + cause.getMessage());
+        }
+      });
+
     } catch (Throwable t) {
       log.error("Start error", t);
       sendError(session, t.getMessage());
