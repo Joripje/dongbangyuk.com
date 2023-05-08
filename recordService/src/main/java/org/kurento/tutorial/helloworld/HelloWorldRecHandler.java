@@ -318,7 +318,7 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
         recorder.addRecordingListener(new EventListener<RecordingEvent>() {
           @Override
           public void onEvent(RecordingEvent event) {
-            System.out.println("recording.addRecordingListener 진입");
+            System.out.println("recording.addRecordingListener 진입" + event);
             JsonObject response = new JsonObject();
             response.addProperty("id", "recording");
             try {
@@ -346,6 +346,11 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 
   private void connectAccordingToProfile(WebRtcEndpoint webRtcEndpoint, RecorderEndpoint recorder,
       MediaProfileSpecType profile) {
+
+    System.out.println("connectAccordingToProfile webRtcEndpoint : " + webRtcEndpoint.getConnectionState());
+    System.out.println("connectAccordingToProfile recorder : " + recorder.getState());
+    System.out.println("connectAccordingToProfile profile : " + profile.toString());
+
     switch (profile) {
       case WEBM:
         webRtcEndpoint.connect(recorder, MediaType.AUDIO);
