@@ -12,6 +12,10 @@ import MemberPage from "./MemberPage";
 import GameSelectPage from "./GameSelectPage";
 import RecordTestPage from "./RecordTestPage";
 import StatisticsPage from "./StatisticsPage";
+import TurnPicGamePage from "./TurnPicGamePage";
+
+// firebase chat
+import { Chat } from "components/firebase_chat";
 
 const routes = [
   {
@@ -48,8 +52,8 @@ const routes = [
     element: <CatchCatGamePage />,
   },
   {
-    path: "/catPage",
-    element: <CatchCatGamePage />,
+    path: "/turnPage",
+    element: <TurnPicGamePage />,
   },
   // {
   //   path: "/componentTest",
@@ -62,6 +66,10 @@ const routes = [
   {
     path: "/statistics",
     element: <StatisticsPage />,
+  },
+  {
+    path: "/chat",
+    element: <Chat />,
   },
 ];
 

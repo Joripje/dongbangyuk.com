@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { TimeBar } from "components/common";
-import { SelectCircle } from "./";
+import { SelectCircle } from ".";
 import { addAnswer, setTempAnswerProperty } from "store/catchCatSlice";
 
 import styled from "styled-components";

@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { useState, useEffect, useMemo, MouseEvent } from "react";
 import { checkAnswer } from "store/catchCatSlice";
 
-import { SingleCatBox, SelectAnswer } from "./";
+import { SingleCatBox, SelectAnswer } from ".";
 
 import styled from "styled-components";
 type GameBoardProps = {
