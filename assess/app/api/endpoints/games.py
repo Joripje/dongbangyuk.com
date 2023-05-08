@@ -5,22 +5,23 @@ from schemas import user, common, findroad, rps
 from models import ProblemModels, ResultModels
 from api.functions import assessment, score_calc, send_request
 from db.mongodb import problem_db, result_db
+from kafkaclient.client import KAFKA_INSTANCE
 from kafka import KafkaProducer
-import random
+import random, inspect
 
 router = APIRouter()
 
 producer_config = {
-    'bootstrap_servers': 'kafka:9092'
+    'bootstrap_servers': KAFKA_INSTANCE
 }
 
 
 @router.post("/send")
-async def send_message(message: str):
+async def send_message_to_topic(topic: str, message: str):
     producer = KafkaProducer(**producer_config)
-    print("BOOTSTRAP_CONNECTED", producer.bootstrap_connected())
-    response = producer.send('test', message.encode('utf-8'))
-    print("BROKER_RESPONSE", response.__dict__)
+    # print("BOOTSTRAP_CONNECTED", producer.bootstrap_connected())
+    response = producer.send(topic, message.encode('utf-8'))
+    # print("BROKER_RESPONSE", response.__dict__)
     producer.flush()
     content = "Sending completed."
     return JSONResponse(content=content, status_code=200)
@@ -134,11 +135,6 @@ async def grade_rps_3(incoming: rps.RpsAnswer):
 
     # 채점 완료, 저장 후 분석 서버로 채점완료 요청 보내기
     # send_request.flag(incoming.game_id, incoming.game_type, False)
-    
-    # Kafka topic에 메시지 저장
-    # message = f'{incoming.game_type} access completed. game_id: {incoming.game_id}'
-    # producer.send('test', message.encode('utf-8'))
-    # producer.flush()
 
     content = {
         "msg": "RPS game result saved to DB.",
@@ -146,4 +142,12 @@ async def grade_rps_3(incoming: rps.RpsAnswer):
         "user_id": incoming.user_id,
         "score": score
     }
-    return JSONResponse(content=content, status_code=200)
+
+    stack = inspect.stack()
+    caller_filename = stack[1].filename
+    print(f'CALLER: {caller_filename}')
+    # 라우팅으로 호출된 경우 JSONResponse 반환
+    if 'routing' in caller_filename:
+        return JSONResponse(content=content, status_code=200)
+    # 라우팅 이외의 방법으로 호출된 경우 채점결과 데이터 반환
+    return document.dict()
