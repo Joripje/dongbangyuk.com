@@ -130,6 +130,12 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
   private void start(final WebSocketSession session, JsonObject jsonMessage) {
 
     try {
+      long startTime = System.currentTimeMillis();
+      System.out.println("======= startTime: " + startTime);
+      AtomicBoolean isRecordingStarted = new AtomicBoolean(false);
+
+
+
       // 1. Media logic (webRtcEndpoint in loopback)
       MediaPipeline pipeline = kurento.createMediaPipeline();
       WebRtcEndpoint webRtcEndpoint = new WebRtcEndpoint.Builder(pipeline).build();
@@ -138,6 +144,16 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
       MediaProfileSpecType profile = getMediaProfileFromMessage(jsonMessage);
 
       String filePath = "file:///tmp/" + RECORDER_FILE_NAME;
+
+
+      System.out.println("**************************************************");
+      System.out.println("**************************************************");
+      System.out.println("**************************************************");
+      System.out.println("**************** " + startTime + " *****************");
+      System.out.println("**************************************************");
+      System.out.println("**************************************************");
+      System.out.println("**************************************************");
+
 
       System.out.println("filePath: " + filePath);
       RecorderEndpoint recorder = new RecorderEndpoint.Builder(pipeline, filePath)
@@ -272,9 +288,7 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
       webRtcEndpoint.gatherCandidates();
 
 
-      long startTime = System.currentTimeMillis();
-      System.out.println("======= startTime: " + startTime);
-      AtomicBoolean isRecordingStarted = new AtomicBoolean(false);
+
 
       recorder.record(new Continuation<Void>() {
         @Override
