@@ -7,8 +7,9 @@ import {
   ehdns,
   tjdwls,
   dnjsvlf,
-  mmy789,
   poonghyung,
+  rps,
+  rpsDescript,
 } from "assets/images";
 import {
   GameTemplate,
@@ -21,6 +22,7 @@ function RpsPreparePage() {
   const [isPreparing, setIsPreparing] = useState(true);
 
   const imagesList: string[] = [
+    rpsDescript,
     whdrn,
     ekscp,
     wpgud,
@@ -29,10 +31,11 @@ function RpsPreparePage() {
     tjdwls,
     ehdns,
     dnjsvlf,
+    rps,
   ];
 
   const overviewProps = {
-    image: mmy789,
+    image: rps,
     name: "가위바위보",
     descript: "'나' 혹은 '상대'의 입장에서 가위바위보를 해주세요.",
     minutes: 3,
@@ -41,21 +44,25 @@ function RpsPreparePage() {
     ability: "인지능력",
   };
 
-  const goal = ["가위바위보 잘해보라구~"];
+  const goal = ["'나'혹은'상대'로 입장을 바꿔가며 항상 '나'가 이길 수 있도록 가위바위보 하기"];
 
   const descriptions = [
-    "왼쪽에 있는 도형을 오른쪽에 있는 도형처럼 회전시키기",
-    "사용가능한 버튼은 총 4개",
-    "버튼을 눌러 회전 과정 만들기",
-    "클릭 가능 횟수는 총 20회",
-    "하나 지움과 전체 초기화 버튼으로 과정을 지울 수 있음",
-    "답 완성 후, 답안 제출 버튼 클릭",
+    "라운드1은 항상'나'의 입장에서 가위바위보 이기기",
+    "'상대'가 낸 손을 확인하기'",
+    "'나'가 이기기 위해 '나'가 어떤 손을 내야 하는지 결정하기",
+    "가위,바위,보 중 하나를 키보드로 선택하기",
+    "라운드2는 항상'상대'의 입장에서 가위바위보 지기",
+    "'나'가 낸 손을 확인하기'",
+    "'나'가 이기기 위해 '상대'가 어떤 손을 내야 하는지 결정하기",
+    "가위,바위,보 중 하나를 키보드로 선택하기",
+    "라운드3은 '나' 혹은 '상대'로 입장이 계속 전환되므로, 어느 입장인지 확인하여 항상 '나'가 이기도록 응답하기"
+    
   ];
   const gameType = "rps";
 
   return (
     <GameTemplate>
-      <StatusBar gameType={gameType} status='rps' problemNum={3} />
+      <StatusBar gameType={gameType} status='rps' problemNum={3} setIsPreparing={setIsPreparing} />
       {isPreparing ? (
         <PrepareTemplate
           imagesList={imagesList}
@@ -65,7 +72,7 @@ function RpsPreparePage() {
           setIsPreparing={setIsPreparing}
         />
       ) : (
-        <PrepareExam image={imagesList[0]} descriptions={descriptions} />
+        <PrepareExam gameType={gameType} image={imagesList[0]} descriptions={descriptions} />
       )}
     </GameTemplate>
   );

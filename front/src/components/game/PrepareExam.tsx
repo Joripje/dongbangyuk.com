@@ -7,11 +7,12 @@ import styled from "styled-components";
 type PrepareExamProps = {
   image: string;
   descriptions: string[];
+  gameType?: string;
 };
 
 function PrepareExam(props: PrepareExamProps) {
   const navigate = useNavigate();
-  const { image, descriptions } = props;
+  const { image, descriptions, gameType } = props;
   const [countDown, setCountDown] = useState(10);
 
   useEffect(() => {
@@ -20,7 +21,9 @@ function PrepareExam(props: PrepareExamProps) {
       setCountDown(countDown - 1);
     }, 1000);
 
-    if (countDown === 0) navigate("/test/find-road");
+    if (gameType === 'road' && countDown === 0) navigate("/test/find-road");
+
+    if (gameType === 'rps' && countDown === 0) navigate("/rpsPage");
 
     return () => clearInterval(intervalId);
   }, [countDown]);
