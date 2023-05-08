@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.kurento.client.Continuation;
 import org.kurento.client.EndOfStreamEvent;
@@ -127,8 +128,8 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
   }
 
   private void start(final WebSocketSession session, JsonObject jsonMessage) {
-    try {
 
+    try {
       // 1. Media logic (webRtcEndpoint in loopback)
       MediaPipeline pipeline = kurento.createMediaPipeline();
       WebRtcEndpoint webRtcEndpoint = new WebRtcEndpoint.Builder(pipeline).build();
@@ -176,22 +177,22 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
       });
 
 
-      recorder.addRecordingListener(new EventListener<RecordingEvent>() {
-        @Override
-        public void onEvent(RecordingEvent event) {
-          System.out.println("recording.addRecordingListener 진입");
-          JsonObject response = new JsonObject();
-          response.addProperty("id", "recording");
-          try {
-            System.out.println("record try");
-            synchronized (session) {
-              session.sendMessage(new TextMessage(response.toString()));
-            }
-          } catch (IOException e) {
-            log.error(e.getMessage());
-          }
-        }
-      });
+      // recorder.addRecordingListener(new EventListener<RecordingEvent>() {
+      //   @Override
+      //   public void onEvent(RecordingEvent event) {
+      //     System.out.println("recording.addRecordingListener 진입");
+      //     JsonObject response = new JsonObject();
+      //     response.addProperty("id", "recording");
+      //     try {
+      //       System.out.println("record try");
+      //       synchronized (session) {
+      //         session.sendMessage(new TextMessage(response.toString()));
+      //       }
+      //     } catch (IOException e) {
+      //       log.error(e.getMessage());
+      //     }
+      //   }
+      // });
 
       recorder.addStoppedListener(new EventListener<StoppedEvent>() {
 
@@ -272,6 +273,8 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 
 
       long startTime = System.currentTimeMillis();
+      System.out.println("======= startTime: " + startTime);
+      AtomicBoolean isRecordingStarted = new AtomicBoolean(false);
 
       recorder.record(new Continuation<Void>() {
         @Override
@@ -280,15 +283,51 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
           System.out.println("Recording started successfully");
 
           try {
-            Thread.sleep(1000);
+            Thread.sleep(3000);
           } catch (InterruptedException e) {
             e.printStackTrace();
           }
 
           long endTime = System.currentTimeMillis();  // 종료 시간 기록
           long elapsedTime = endTime - startTime;  // 경과 시간 계산
-
           System.out.println("elapsedTime: " + elapsedTime);
+          isRecordingStarted.set(true);
+        }
+          //
+          // recorder.addRecordingListener(new EventListener<RecordingEvent>() {
+          //   @Override
+          //   public void onEvent(RecordingEvent event) {
+          //     System.out.println("recording.addRecordingListener 진입");
+          //     JsonObject response = new JsonObject();
+          //     response.addProperty("id", "recording");
+          //     try {
+          //       System.out.println("record try");
+          //       synchronized (session) {
+          //         session.sendMessage(new TextMessage(response.toString()));
+          //       }
+          //     } catch (IOException e) {
+          //       log.error(e.getMessage());
+          //     }
+          //   }
+          // });
+        // }
+
+        @Override
+        public void onError(Throwable cause) {
+          // 녹화 시작 실패 시 실행할 코드
+          System.out.println("Failed to start recording: " + cause.getMessage());
+        }
+      });
+
+      long maxWaitTime = 5000;
+      long elapsedTime = 0;
+
+      while (!isRecordingStarted.get() && elapsedTime <= maxWaitTime) {
+        Thread.sleep(100);  //100ms 간격
+        elapsedTime += 100;
+      }
+
+        if (isRecordingStarted.get()) {
           recorder.addRecordingListener(new EventListener<RecordingEvent>() {
             @Override
             public void onEvent(RecordingEvent event) {
@@ -305,14 +344,9 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
               }
             }
           });
+        } else {
+          System.out.println("============ 시간 초과 ============");
         }
-        @Override
-        public void onError(Throwable cause) {
-          // 녹화 시작 실패 시 실행할 코드
-          System.out.println("Failed to start recording: " + cause.getMessage());
-        }
-      });
-
     } catch (Throwable t) {
       log.error("Start error", t);
       sendError(session, t.getMessage());
