@@ -8,6 +8,8 @@ import {
 
 type Answer = {
   gameType: "turn";
+  problem: { flip: number; degree: number };
+  correct: { flip: number; degree: number };
   choices: number[];
 };
 
@@ -22,7 +24,12 @@ type State = {
 const initialState: State = {
   target: 0,
   clicks: 20,
-  tempAnswer: { gameType: "turn", choices: Array(8).fill(-1) },
+  tempAnswer: {
+    gameType: "turn",
+    problem: { flip: 0, degree: 0 },
+    correct: { flip: 0, degree: 0 },
+    choices: Array(8).fill(-1),
+  },
   answerList: [],
   images: [button_a, button_b, button_c, button_d],
 };
@@ -31,9 +38,24 @@ const turnFigureSlice = createSlice({
   name: "answer",
   initialState,
   reducers: {
+    generateProblem: (state) => {
+      const num1 = Math.floor(Math.random() * 8);
+      const num2 = Math.floor(Math.random() * 8);
+      state.tempAnswer.correct = {
+        flip: num1 % 2,
+        degree: num2,
+      };
+      state.tempAnswer.problem = {
+        flip: num2 % 2,
+        degree: num1,
+      };
+    },
+
     addAnswer: (state) => {
       /*현재 tempAnswer를 answerList에 추가합니다.*/
       state.answerList.push(state.tempAnswer);
+      generateProblem();
+      clearChoice();
     },
 
     pushChoice: (state, action) => {
@@ -64,6 +86,12 @@ const turnFigureSlice = createSlice({
   },
 });
 
-export const { addAnswer, pushChoice, popChoice, clearChoice, checkAnswer } =
-  turnFigureSlice.actions;
+export const {
+  generateProblem,
+  addAnswer,
+  pushChoice,
+  popChoice,
+  clearChoice,
+  checkAnswer,
+} = turnFigureSlice.actions;
 export default turnFigureSlice.reducer;

@@ -12,6 +12,7 @@ const GameBoard = () => {
         <FigureControl />
         <TurnHistory />
       </Grid>
+      <Grid item xs={12} />
     </StyledGrid>
   );
 };
