@@ -2,8 +2,29 @@ from fastapi import FastAPI
 from api.api import api_router
 from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
+from kafkaclient.consumer import consume1, consume2, consumer1, consumer2, loop
+from kafkaclient.producer import aioproducer
+from contextlib import asynccontextmanager
 
-app = FastAPI()
+
+# Lifespan Events
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Executed before the application(FastAPI app) starts
+    await aioproducer.start()
+    loop.create_task(consume1())
+    loop.create_task(consume2())
+    
+    # Executes FastAPI app
+    yield
+    
+    # Executed after the application(FastAPI app) finishes
+    await aioproducer.stop()
+    await consumer1.stop()
+    await consumer2.stop()
+
+
+app = FastAPI(lifespan=lifespan)
 
 # origins = [
 #     "http://localhost:3000",
