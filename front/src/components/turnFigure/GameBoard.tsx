@@ -17,7 +17,7 @@ const GameBoard = () => {
 };
 
 const StyledGrid = styled(Grid)({
-  height: "100%",
+  height: "80%",
   padding: "6%",
   alignItems: "center",
 });

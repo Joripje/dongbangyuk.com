@@ -44,7 +44,7 @@ const ButtonWrapper = styled.div({
 
   display: "flex",
   flexDirection: "row",
-  justifyContent: "space-around",
+  justifyContent: "space-between",
   alignItems: "center",
 });
 
@@ -60,8 +60,8 @@ const ButtonBox = styled.button({
 
   background: "white",
 
-  border: "0.5rem solid #52C564",
-  borderRadius: "10%",
+  border: "0.2rem solid #52C564",
+  borderRadius: "2rem",
 
   cursor: "pointer",
 
@@ -77,7 +77,7 @@ const ButtonImg = styled.img({
 
 const ButtonTypo = styled.div({
   color: "#52C564",
-  fontSize: "2rem",
+  fontSize: "1.5rem",
   fontWeight: "1000",
 });
 
