@@ -36,13 +36,18 @@ import org.springframework.web.socket.server.standard.ServletServerContainerFact
 public class HelloWorldRecApp implements WebSocketConfigurer {
 
   @Bean
+  public UserRegistry registry() {
+    return new UserRegistry();
+  }
+
+  @Bean
   public HelloWorldRecHandler handler() {
     return new HelloWorldRecHandler();
   }
 
   @Bean
   public KurentoClient kurentoClient() {
-    return KurentoClient.create();
+    return KurentoClient.create("ws://k8a305.p.ssafy.io:8888/kurento");
   }
 
   @Bean
@@ -57,12 +62,9 @@ public class HelloWorldRecApp implements WebSocketConfigurer {
     registry.addHandler(handler(), "/recording").setAllowedOrigins("*");
   }
 
-  @Bean
-  public UserRegistry registry() {
-    return new UserRegistry();
-  }
 
   public static void main(String[] args) throws Exception {
     SpringApplication.run(HelloWorldRecApp.class, args);
   }
+
 }
