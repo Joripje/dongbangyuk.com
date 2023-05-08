@@ -11,6 +11,7 @@ import CatchCatGamePage from "./CatchCatGamePage";
 import MemberPage from "./MemberPage";
 import GameSelectPage from "./GameSelectPage";
 import RecordTestPage from "./RecordTestPage";
+import StatisticsPage from "./StatisticsPage";
 import TurnPicGamePage from "./TurnPicGamePage";
 
 // firebase chat
@@ -63,9 +64,13 @@ const routes = [
     element: <RecordTestPage />,
   },
   {
-    path: '/chat',
-    element: <Chat/>,
-  }
+    path: "/statistics",
+    element: <StatisticsPage />,
+  },
+  {
+    path: "/chat",
+    element: <Chat />,
+  },
 ];
 
 const router = createBrowserRouter(routes);
