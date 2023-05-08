@@ -1,9 +1,9 @@
 from aiokafka import AIOKafkaConsumer
+from kafkaclient.client import KAFKA_INSTANCE
+from kafkaclient.producer import aioproducer
 from api.endpoints.games import grade_rps_3, grade_road_game
 from schemas import findroad, rps
 from models import ResultModels
-from kafkaclient.client import KAFKA_INSTANCE
-from kafkaclient.producer import aioproducer
 from datetime import datetime
 import asyncio, json
 
@@ -27,6 +27,11 @@ class DateTimeEncoder(json.JSONEncoder):
         return json.JSONEncoder.default(self, obj)
 
 
+def kafka_timestamp_to_str(timestamp: int):
+    obj = datetime.utcfromtimestamp(timestamp / 1000)
+    return obj.strftime("%Y-%m-%d %H:%M:%S")
+
+
 async def consume1():
     await consumer1.start()
     try:
@@ -39,23 +44,23 @@ async def consume1():
                 msg.partition,
                 msg.offset,
                 msg.key,
-                # msg.value.decode('utf-8'),
                 game_type,
-                datetime.utcfromtimestamp(msg.timestamp / 1000).strftime("%Y-%m-%d %H:%M:%S"),
+                kafka_timestamp_to_str(msg.timestamp)
             )
             
             if game_type == 'rps':
                 answer = rps.RpsAnswer(**value)
-                res = await grade_rps_3(answer)
-                result = ResultModels.RpsGameResult(**res)
+                response = await grade_rps_3(answer)
+                result = ResultModels.RpsGameResult(**response)
                 # print(result)
 
                 # 채점결과 저장 토픽으로 채점결과 데이터 보내기
-                await aioproducer.send('kafka.assess.result.json', json.dumps(result.dict(), cls=DateTimeEncoder).encode('utf-8'))
+                data = json.dumps(result.dict(), cls=DateTimeEncoder).encode('utf-8')
+                await aioproducer.send('kafka.assess.result.json', data)
             
             elif game_type == 'road':
                 answer = findroad.RoadAnswerIncoming(**value)
-                res = await grade_road_game(answer)
+                response = await grade_road_game(answer)
             
     finally:
         await consumer1.stop()
@@ -72,7 +77,7 @@ async def consume2():
                 msg.offset,
                 msg.key,
                 msg.value.decode('utf-8'),
-                datetime.utcfromtimestamp(msg.timestamp / 1000).strftime("%Y-%m-%d %H:%M:%S"),
+                kafka_timestamp_to_str(msg.timestamp),
             )
     finally:
         await consumer2.stop()
