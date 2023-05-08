@@ -292,7 +292,7 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
           long elapsedTime = endTime - startTime;  // 경과 시간 계산
           System.out.println("elapsedTime: " + elapsedTime);
           isRecordingStarted.set(true);
-          System.out.println("녹화 성공함: " + isRecordingStarted.get());
+          System.out.println("녹화요청 성공함: " + isRecordingStarted.get());
         }
 
         @Override
@@ -313,7 +313,8 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
       System.out.println("녹화 시작까지 걸린 시간: " + elapsedTime);
 
       if (isRecordingStarted.get()) {
-        System.out.println("Listener 실행됨");
+        System.out.println("Listener 실행됨" + recorder.getState());
+
         recorder.addRecordingListener(new EventListener<RecordingEvent>() {
           @Override
           public void onEvent(RecordingEvent event) {
