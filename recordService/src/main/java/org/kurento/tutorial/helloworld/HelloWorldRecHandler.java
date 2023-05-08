@@ -292,25 +292,8 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
           long elapsedTime = endTime - startTime;  // 경과 시간 계산
           System.out.println("elapsedTime: " + elapsedTime);
           isRecordingStarted.set(true);
+          System.out.println("녹화 성공함: " + isRecordingStarted.get());
         }
-          //
-          // recorder.addRecordingListener(new EventListener<RecordingEvent>() {
-          //   @Override
-          //   public void onEvent(RecordingEvent event) {
-          //     System.out.println("recording.addRecordingListener 진입");
-          //     JsonObject response = new JsonObject();
-          //     response.addProperty("id", "recording");
-          //     try {
-          //       System.out.println("record try");
-          //       synchronized (session) {
-          //         session.sendMessage(new TextMessage(response.toString()));
-          //       }
-          //     } catch (IOException e) {
-          //       log.error(e.getMessage());
-          //     }
-          //   }
-          // });
-        // }
 
         @Override
         public void onError(Throwable cause) {
@@ -327,26 +310,29 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
         elapsedTime += 100;
       }
 
-        if (isRecordingStarted.get()) {
-          recorder.addRecordingListener(new EventListener<RecordingEvent>() {
-            @Override
-            public void onEvent(RecordingEvent event) {
-              System.out.println("recording.addRecordingListener 진입");
-              JsonObject response = new JsonObject();
-              response.addProperty("id", "recording");
-              try {
-                System.out.println("record try");
-                synchronized (session) {
-                  session.sendMessage(new TextMessage(response.toString()));
-                }
-              } catch (IOException e) {
-                log.error(e.getMessage());
+      System.out.println("녹화 시작까지 걸린 시간: " + elapsedTime);
+
+      if (isRecordingStarted.get()) {
+        System.out.println("Listener 실행됨");
+        recorder.addRecordingListener(new EventListener<RecordingEvent>() {
+          @Override
+          public void onEvent(RecordingEvent event) {
+            System.out.println("recording.addRecordingListener 진입");
+            JsonObject response = new JsonObject();
+            response.addProperty("id", "recording");
+            try {
+              System.out.println("record try");
+              synchronized (session) {
+                session.sendMessage(new TextMessage(response.toString()));
               }
+            } catch (IOException e) {
+              log.error(e.getMessage());
             }
-          });
-        } else {
-          System.out.println("============ 시간 초과 ============");
-        }
+          }
+        });
+      } else {
+        System.out.println("============ 시간 초과 ============");
+      }
     } catch (Throwable t) {
       log.error("Start error", t);
       sendError(session, t.getMessage());
