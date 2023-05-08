@@ -77,6 +77,11 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
       log.debug("Incoming message from new user: {}", jsonMessage);
     }
 
+    // recording 시 record 실행 및 addEventListener 실행
+    String msg = message.getPayload();
+
+    System.out.println("msg :  " + msg);
+
     // // 파일 이름 지정
     // RECORDER_FILE_NAME = jsonMessage.get("userEmail").getAsString() + ".webm";
     switch (jsonMessage.get("id").getAsString()) {
@@ -188,8 +193,6 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
         }
       });
 
-
-
       recorder.addStoppedListener(new EventListener<StoppedEvent>() {
 
         @Override
@@ -267,11 +270,25 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 
       webRtcEndpoint.gatherCandidates();
 
+
+      long startTime = System.currentTimeMillis();
+
       recorder.record(new Continuation<Void>() {
         @Override
         public void onSuccess(Void result) {
           // 녹화 시작 성공 시 실행할 코드
           System.out.println("Recording started successfully");
+
+          try {
+            Thread.sleep(1000);
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+          }
+
+          long endTime = System.currentTimeMillis();  // 종료 시간 기록
+          long elapsedTime = endTime - startTime;  // 경과 시간 계산
+
+          System.out.println("elapsedTime: " + elapsedTime);
           recorder.addRecordingListener(new EventListener<RecordingEvent>() {
             @Override
             public void onEvent(RecordingEvent event) {
@@ -287,23 +304,20 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
                 log.error(e.getMessage());
               }
             }
-            });
-          // recorder.addRecordingListener();
+          });
         }
-
         @Override
         public void onError(Throwable cause) {
           // 녹화 시작 실패 시 실행할 코드
           System.out.println("Failed to start recording: " + cause.getMessage());
         }
       });
+
     } catch (Throwable t) {
       log.error("Start error", t);
       sendError(session, t.getMessage());
     }
   }
-
-
 
   private MediaProfileSpecType getMediaProfileFromMessage(JsonObject jsonMessage) {
     return MediaProfileSpecType.WEBM;
