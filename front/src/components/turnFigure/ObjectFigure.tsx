@@ -4,7 +4,7 @@ import { KeyboardDoubleArrowRight } from "@mui/icons-material";
 
 const ObjectFigure = () => {
   return (
-    <ObjectWrapper item xs={5}>
+    <ObjectWrapper item xs={6}>
       <CharBox>
         <div>R</div>
       </CharBox>

@@ -5,7 +5,7 @@ import { StatusBar, GameTemplate } from "components/game";
 
 function TurnPicGamePage() {
   const [status] = useState("explain");
-  const [problemNum, setProblemNum] = useState(0);
+  const [problemNum] = useState(0);
 
   return (
     <GameTemplate>

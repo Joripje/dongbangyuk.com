@@ -26,7 +26,6 @@ const GameBoard = (props: GameBoardProps) => {
     ],
     []
   );
-  const number36 = Array.from({ length: 36 }, (_, index) => index);
 
   const [problemNum, setProblemNum] = useState<number>(0);
   const [difficulty, setDifficulty] = useState<number>(4);
@@ -63,6 +62,8 @@ const GameBoard = (props: GameBoardProps) => {
     };
 
     const cleanBoard = (): void => {
+      const number36 = Array.from({ length: 36 }, (_, index) => index);
+
       let targets: number[] = [0];
       switch (gameState % 4) {
         case 0:
@@ -117,9 +118,12 @@ const GameBoard = (props: GameBoardProps) => {
   }, [
     gameState,
     catPosition,
+    foodPosition,
+    selectedCat,
     difficulty,
     initialProblem,
     problemNum,
+    navigate,
     ascProblemNum,
   ]);
 

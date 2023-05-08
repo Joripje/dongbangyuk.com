@@ -32,7 +32,7 @@ function SelectAnswer(props: { correct: boolean[] }) {
     }, 4000);
 
     return () => clearInterval(intervalId);
-  }, [correct]);
+  }, [correct, dispatch]);
 
   function renderSelectCircles(
     circles: number[],

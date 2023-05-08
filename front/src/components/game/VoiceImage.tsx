@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import love from "assets/images/love.png";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 
 type VoiceImageProps = {
   setIsEnough: (enough: boolean) => void;
@@ -9,20 +9,20 @@ type VoiceImageProps = {
 function VoiceImage(props: VoiceImageProps) {
   const { setIsEnough } = props;
 
-  const handleResize = () => {
-    if (window.innerWidth < 1920 || window.innerHeight < 1080) {
-      setIsEnough(false);
-    } else {
-      setIsEnough(true);
-    }
-  };
-
   useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 1920 || window.innerHeight < 1080) {
+        setIsEnough(false);
+      } else {
+        setIsEnough(true);
+      }
+    };
+
     handleResize();
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [setIsEnough]);
 
   return <VoiceCheckImg />;
 }

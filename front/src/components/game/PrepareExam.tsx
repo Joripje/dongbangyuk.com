@@ -23,7 +23,7 @@ function PrepareExam(props: PrepareExamProps) {
     if (countDown === 0) navigate("/test/find-road");
 
     return () => clearInterval(intervalId);
-  }, [countDown]);
+  }, [countDown, navigate]);
 
   return (
     <BOXBOX>
