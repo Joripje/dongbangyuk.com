@@ -37,3 +37,32 @@ def rps_3(is_correct, round):
         return 3 if round == 3 else 2
     else:
         return 0
+
+
+def cat(is_correct: bool, asure: int):
+    '''
+    is_correct: 정답여부
+    asure: 확신의 정도. 3, 2, 1, 0, -1(미응답)
+    1. 정답: 5점
+    2. 정답 기준으로 멀어질수록 감점: 5, 3, 2, 1, (-2), -1, -2, -3, -5
+    3. 미응답: -2점
+    '''
+    if asure == 3:
+        return 5 if is_correct else -5
+    elif asure == 2:
+        return 3 if is_correct else -3
+    elif asure == 1:
+        return 2 if is_correct else -2
+    elif asure == 0:
+        return 1 if is_correct else -1
+    elif asure == -1:
+        return -2
+
+
+def rotate(is_correct: bool, clicks_delta: int, rounds: int):
+    '''
+    정답여부: 틀리면 0점, 맞으면 5점
+    1 라운드: 정답+최소횟수 4점, 그냥 정답 2점, 틀리면 0점
+    2 라운드: 정답+최소횟수 6점, 그냥 정답 4점, 틀리면 0점
+    '''
+    pass

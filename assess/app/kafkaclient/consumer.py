@@ -1,8 +1,8 @@
 from aiokafka import AIOKafkaConsumer
 from kafkaclient.client import KAFKA_INSTANCE
 from kafkaclient.producer import aioproducer
-from api.endpoints.games import grade_rps_3, grade_road_game
-from schemas import findroad, rps
+from api.endpoints.games import grade_rps_3, grade_road_game, grade_cat
+from schemas import findroad, rps, cat
 from models import ResultModels
 from datetime import datetime
 import asyncio, json
@@ -14,17 +14,6 @@ consumer1 = AIOKafkaConsumer("kafka.assess.answer.json", bootstrap_servers=KAFKA
 
 # 다른 토픽 받아오는 컨슈머 (test)
 consumer2 = AIOKafkaConsumer("test", bootstrap_servers=KAFKA_INSTANCE, loop=loop)
-
-
-class DateTimeEncoder(json.JSONEncoder):
-    '''
-    Encoder to encode timestamp object to json. \n
-    채점결과 데이터에 포함된 timestamp 객체를 json으로 변환.
-    '''
-    def default(self, obj):
-        if isinstance(obj, datetime):
-            return obj.isoformat()
-        return json.JSONEncoder.default(self, obj)
 
 
 def kafka_timestamp_to_str(timestamp: int):
@@ -54,13 +43,18 @@ async def consume1():
                 result = ResultModels.RpsGameResult(**response)
                 # print(result)
 
-                # 채점결과 저장 토픽으로 채점결과 데이터 보내기
-                data = json.dumps(result.dict(), cls=DateTimeEncoder).encode('utf-8')
-                await aioproducer.send('kafka.assess.result.json', data)
-            
             elif game_type == 'road':
                 answer = findroad.RoadAnswerIncoming(**value)
                 response = await grade_road_game(answer)
+                result = ResultModels.RoadGameResult(**response)
+            
+            elif game_type == 'cat':
+                answer = cat.CatAnswer(**value)
+                response = await grade_cat(answer)
+                result = ResultModels.CatGameResult(**response)
+            
+            # 채점결과 저장 토픽으로 채점결과 데이터 보내기
+            await aioproducer.send('kafka.assess.result.json', result.dict())
             
     finally:
         await consumer1.stop()

@@ -1,7 +1,7 @@
 from typing import List, Optional
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import JSONResponse
-from schemas import user, common, findroad, rps
+from schemas import user, common, findroad, rps, cat, rotate
 from models import ProblemModels, ResultModels
 from api.functions import assessment, score_calc, send_request
 from db.mongodb import problem_db, result_db
@@ -150,4 +150,104 @@ async def grade_rps_3(incoming: rps.RpsAnswer):
     if 'routing' in caller_filename:
         return JSONResponse(content=content, status_code=200)
     # 라우팅 이외의 방법으로 호출된 경우 채점결과 데이터 반환
+    return document.dict()
+
+
+@router.post("/assessment-centre/cat")
+async def grade_cat(incoming: cat.CatAnswer):
+    problems = incoming.problems
+    results = []
+    timestamps = []
+    score = 0
+    for problem in problems:
+        results.append(problem.correct)
+        timestamps.append(problem.timestamp)
+
+        # 채점 점수 산정
+        score += score_calc.cat(problem.correct, problem.asure)
+    
+    # MongoDB에 채점 결과 저장
+    document = ResultModels.CatGameResult(
+        game_id=incoming.game_id, 
+        date=incoming.date, 
+        type="cat",
+        results=results, 
+        timestamps=timestamps,
+        score=score,
+        )
+    result_db["cat"].insert_one(document.dict())
+
+    # 채점 완료, 저장 후 분석 서버로 채점완료 요청 보내기
+    # send_request.flag(incoming.game_id, incoming.game_type, False)
+
+    content = {
+        "msg": "Cat game result saved to DB.",
+        "game_id": document.game_id,
+        "user_id": incoming.user_id,
+        "score": score
+    }
+
+    stack = inspect.stack()
+    caller_filename = stack[1].filename
+    
+    if 'routing' in caller_filename:
+        return JSONResponse(content=content, status_code=200)
+    
+    return document.dict()
+
+
+@router.post("/assessment-centre/rotate")
+async def grade_rotate(incoming: rotate.RotateAnswer):
+    problems = incoming.problems
+    results = []
+    timestamps = []
+    clicks = []
+    score = 0
+
+    for problem in problems:
+        before = problem.problem
+        correct = problem.correct
+        choices = problem.choices
+        rounds = problem.rounds
+
+        is_correct, correct_clicks = await assessment.rotate(before, correct, choices)
+
+        results.append(is_correct)
+        
+        # 채점 점수 산정
+        clicks_delta = problem.clicks - correct_clicks
+        score += score_calc.rotate(is_correct, clicks_delta, rounds)
+        
+        timestamps.append(problem.timestamp)
+        clicks.append(problem.clicks)
+
+    # MongoDB에 채점 결과 저장
+    document = ResultModels.RpsGameResult(
+        game_id=incoming.game_id, 
+        date=incoming.date, 
+        type="rotate", 
+        results=results, 
+        timestamps=timestamps,
+        score=score,
+        clicks=clicks
+        )
+
+    result_db["rotate"].insert_one(document.dict())
+
+    # 채점 완료, 저장 후 분석 서버로 채점완료 요청 보내기
+    # send_request.flag(incoming.game_id, incoming.game_type, False)
+
+    content = {
+        "msg": "Rotation game result saved to DB.",
+        "game_id": document.game_id,
+        "user_id": incoming.user_id,
+        "score": score
+    }
+
+    stack = inspect.stack()
+    caller_filename = stack[1].filename
+
+    if 'routing' in caller_filename:
+        return JSONResponse(content=content, status_code=200)
+    
     return document.dict()
