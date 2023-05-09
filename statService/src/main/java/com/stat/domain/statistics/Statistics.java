@@ -22,16 +22,18 @@ public class Statistics {
 	@Id
 	private int id;
 	private String type;
-	private List<Double> scores = new ArrayList<>();
+
+	// 게임별 모든 사람들의 최신 점수 저장
+	private List<Integer> scores = new ArrayList<>();
 
 	@Builder
-	public Statistics(int id, String type, List<Double> scores) {
+	public Statistics(int id, String type, List<Integer> scores) {
 		this.id = id;
 		this.type = type;
 		this.scores = scores != null ? scores : new ArrayList<>();
 	}
 
-	public void updateScores(List<Double> scores) {
+	public void updateScores(List<Integer> scores) {
 		this.scores = scores;
 	}
 

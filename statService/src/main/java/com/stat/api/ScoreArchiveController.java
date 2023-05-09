@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.stat.domain.score.GameScore;
-import com.stat.domain.statistics.StatisticsRepository;
 import com.stat.dto.GameScoreDto;
 import com.stat.service.ScoreArchiveService;
 
@@ -16,28 +15,24 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/games")
+@RequestMapping("/game_history")
 @RequiredArgsConstructor
 public class ScoreArchiveController {
 
 	private final ScoreArchiveService scoreArchiveService;
-	private final StatisticsRepository statisticsRepository;
+
+	@ApiOperation(value = "게임 기록 추가")
+	@PostMapping
+	public ResponseEntity<GameScore> addScore(@RequestBody GameScoreDto gameScoreDto) {
+		scoreArchiveService.addScore(gameScoreDto);
+		return new ResponseEntity<>(HttpStatus.CREATED);
+	}
 
 	@ApiOperation(value = "더미 데이터 생성")
 	@PostMapping("/dummy")
 	public ResponseEntity<String> addDummyData() {
 		scoreArchiveService.addDummyData();
 		return ResponseEntity.ok("Dummy 완성");
-	}
-
-	@ApiOperation(value = "게임 기록 추가")
-	@PostMapping("/add")
-	public ResponseEntity<GameScore> addScore(@RequestBody GameScoreDto gameScoreDto) {
-		int userId = gameScoreDto.getUserId();
-		String gameId = gameScoreDto.getGameId();
-		double score = gameScoreDto.getScore();
-		scoreArchiveService.addScore(userId, gameId, score);
-		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
 }

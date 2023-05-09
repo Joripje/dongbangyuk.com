@@ -33,26 +33,26 @@ public class StatisticsService {
 	public void addDummy() {
 		Statistics game1 = Statistics.builder()
 			.id(1)
-			.type("game1")
-			.scores(Arrays.asList(0.9, 0.6, 0.8, 0.7, 0.4, 0.6))
+			.type("cat")
+			.scores(Arrays.asList(9, 6, 8, 7, 4, 6))
 			.build();
 
 		Statistics game2 = Statistics.builder()
 			.id(2)
-			.type("game2")
-			.scores(Arrays.asList(0.9, 0.7, 0.8, 0.3, 0.6))
+			.type("road")
+			.scores(Arrays.asList(9, 7, 8, 3, 6))
 			.build();
 
 		Statistics game3 = Statistics.builder()
 			.id(3)
-			.type("game3")
-			.scores(Arrays.asList(0.9, 0.7, 0.4, 0.6, 1.0, 0.8))
+			.type("rotate")
+			.scores(Arrays.asList(9, 7, 4, 6, 4, 8))
 			.build();
 
 		Statistics game4 = Statistics.builder()
 			.id(4)
-			.type("game4")
-			.scores(Arrays.asList(0.7, 0.4, 0.6))
+			.type("rps")
+			.scores(Arrays.asList(7, 4, 6))
 			.build();
 
 		List<Statistics> stats = Arrays.asList(game1, game2, game3, game4);
@@ -67,11 +67,11 @@ public class StatisticsService {
 		int sequence = 0;
 
 		for (String gameType: gameTypes) {
-			List<Double> allScores = new ArrayList<>();
+			List<Integer> allScores = new ArrayList<>();
 
 			for (ScoreArchive scoreArchive : scoreArchives) {
 				for (GameScore gameScore : scoreArchive.getGameScores()) {
-					if (gameScore.getGameId().equals(gameType) && gameScore.getLastModified().toLocalDate().isEqual(today)) {
+					if (gameScore.getType().equals(gameType) && gameScore.getLastModified().toLocalDate().isEqual(today)) {
 						allScores.addAll(gameScore.getScores());
 					}
 				}

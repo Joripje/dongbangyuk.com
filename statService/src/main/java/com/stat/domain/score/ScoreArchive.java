@@ -20,8 +20,11 @@ import lombok.ToString;
 @Document(collection = "score_archive")
 public class ScoreArchive {
 
+	// 유저 고유 키 <- 이를 기준으로 데이터 쌓임
 	@Id
 	private int userId;
+	
+	// 유저의 모든 게임 점수들
 	private List<GameScore> gameScores = new ArrayList<>();
 
 	@Builder

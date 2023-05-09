@@ -9,7 +9,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class GameScoreSaveRequestDto {
 
-	private final String gameId;
-	private final List<Double> scores;
+	private final String type;
+	private final List<Integer> scores;
 
 }

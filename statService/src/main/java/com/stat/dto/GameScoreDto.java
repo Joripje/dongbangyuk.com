@@ -8,7 +8,7 @@ import lombok.Getter;
 public class GameScoreDto {
 
 	int userId;
-	String gameId;
-	double score;
+	String type;
+	int score;
 
 }
