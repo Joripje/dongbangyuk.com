@@ -357,6 +357,7 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
       log.error("Start error", t);
       sendError(session, t.getMessage());
     }
+    System.out.println("============ catch 뒤 ============");
   }
 
   private MediaProfileSpecType getMediaProfileFromMessage(JsonObject jsonMessage) {
