@@ -17,3 +17,8 @@ spring:
       port: 27017
       database: games
       authentication-mechanism: SCRAM-SHA-1
+  cloud:
+    aws:
+      credentials:
+        accessKey: AWS_ACCESSKEY
+        secretKey: AWS_SECRETKEY
