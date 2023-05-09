@@ -1,4 +1,4 @@
-import AbilityChart from "./AbilityChart";
-import VideoChart from "./VideoChart";
+import AbilityChart from "./AbilityChart2";
+import VideoChart from "./VideoChart2";
 
 export { AbilityChart, VideoChart };
