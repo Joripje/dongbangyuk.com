@@ -22,3 +22,14 @@ class RoadGameResult(GameResult):
 # 가위바위보 게임 - 채점결과의 속성
 class RpsGameResult(GameResult):
     rounds: List[int]        # [1, ..., 2, ... 3, ...], 문제별로 몇라운드인지 기록
+
+
+# 고양이 게임 - 채점결과의 속성
+class CatGameResult(GameResult):
+    pass
+
+
+# 도형 회전하기 게임 - 채점결과의 속성
+class RotateGameResult(GameResult):
+    clicks: List[int]
+    
