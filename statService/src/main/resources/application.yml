@@ -16,3 +16,8 @@ spring:
       database: games
       authentication-database: admin
       authentication-mechanism: SCRAM-SHA-1
+  cloud:
+    aws:
+      credentials:
+        accessKey: AWS_ACCESSKEY
+        secretKey: AWS_SECRETKEY
