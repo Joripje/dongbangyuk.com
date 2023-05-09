@@ -59,6 +59,43 @@ async def find_road(arr: list):
             return { "status": True, "msg": "최소 울타리 개수 갱신해야함."}
 
 
+async def rotate(before: dict, after: dict, choices: list):
+    '''
+    is_correct: 정답여부
+    correct_clicks: 최소횟수
+    '''
+    # 최소횟수 구하기
+    correct_clicks = 0
+    
+    before_flip = before['flip']
+    after_flip = after['flip']
+    before_degree = before['degree']
+    after_degree = after['degree']
+
+    if before_flip == after_flip:
+        correct_clicks += 1
+    
+    diff_degree = abs(before_degree - after_degree)
+    if diff_degree <= 4:
+        correct_clicks += diff_degree
+    else:
+        correct_clicks += (8 - diff_degree)
+
+    # 정답여부 구하기 -> 만드는중..
+    is_correct = False
+    for choice in choices:
+        if choice == 0:         # 좌측 45도 회전
+            before_degree -= 1
+        elif choice == 1:       # 우측 45도 회전
+            before_degree += 1
+        elif choice == 2:       # 좌우반전
+            before_flip = 1 - before_flip
+        elif choice == 3:       # 상하반전
+            before_flip = 1 - before_flip
+    
+    return (is_correct, correct_clicks)
+
+
 async def rps_3(me: str, you: str):
     rps = RPS_3
     n = len(rps)
