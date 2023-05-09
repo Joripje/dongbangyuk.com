@@ -106,6 +106,11 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
         break;
       case "onIceCandidate": {
         JsonObject jsonCandidate = jsonMessage.get("candidate").getAsJsonObject();
+        System.out.println(jsonCandidate.toString());
+
+        System.out.println("candidate: " + jsonCandidate.get("candidate").getAsString());
+        System.out.println("sdpMid: " + jsonCandidate.get("sdpMid").getAsString());
+        System.out.println("sdpMLineIndex: " + jsonCandidate.get("sdpMLineIndex").getAsInt());
 
         if (user != null) {
           IceCandidate candidate = new IceCandidate(jsonCandidate.get("candidate").getAsString(),
