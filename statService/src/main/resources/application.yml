@@ -1,7 +1,6 @@
 spring:
   profiles:
-    include:
-      - credentials
+    active: credentials
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://mysql-container:3306/DBXQ?serverTimezone=UTC&characterEncoding=UTF-8
@@ -12,8 +11,8 @@ spring:
       matching-strategy: ant_path_matcher
   data:
     mongodb:
-      authentication-database: admin
       host: k8a305.p.ssafy.io
       port: 27017
       database: games
+      authentication-database: admin
       authentication-mechanism: SCRAM-SHA-1
