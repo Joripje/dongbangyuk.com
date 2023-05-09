@@ -4,7 +4,6 @@ import GameSelect from "components/game/GameSelect";
 
 function GameSelectPage() {
   // const [isEnough, setIsEnough] = useState(true);
-
   return (
     <GameTemplate>
       <GameSelect />
