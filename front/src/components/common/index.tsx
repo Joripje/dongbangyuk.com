@@ -1,5 +1,5 @@
 import Timer from "./Timer";
 import TimeBar from "./TimerBar";
-import { start, stop } from "./RecordVideo";
+import RecordVideo from "./RecordVideo";
 
-export { Timer, TimeBar, start, stop };
+export { Timer, TimeBar, RecordVideo };

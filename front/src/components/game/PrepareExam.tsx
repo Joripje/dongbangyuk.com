@@ -1,4 +1,3 @@
-import { start } from "components/common";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 
@@ -16,17 +15,26 @@ function PrepareExam(props: PrepareExamProps) {
   const [countDown, setCountDown] = useState(10);
 
   useEffect(() => {
-    if (countDown === 10) start();
+    // if (countDown === 10) start();
     const intervalId = setInterval(() => {
       setCountDown(countDown - 1);
     }, 1000);
 
-    if (gameType === 'road' && countDown === 0) navigate("/test/find-road");
-
-    if (gameType === 'rps' && countDown === 0) navigate("/rpsPage");
-
     return () => clearInterval(intervalId);
   }, [countDown]);
+
+  useEffect(() => {
+    switch (gameType) {
+      case "road":
+        navigate("/test/find-road");
+        break;
+      case "rps":
+        navigate("/rpsPage");
+        break;
+      default:
+        console.log("유효하지 않은 게임명입니다.");
+    }
+  }, [gameType, navigate]);
 
   return (
     <BOXBOX>

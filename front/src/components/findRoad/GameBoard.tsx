@@ -6,7 +6,6 @@ import { getFindRoadProblems, putFindRoadProblems } from "api/test";
 
 import styled from "styled-components";
 import { Button } from "@mui/material";
-import { stop } from "components/common";
 
 type GameBoardProps = {
   ascProblemNum: () => void; // ProblemNum을 어센드하여 StatusBar에서 올바른 값이 나오도록 수정
@@ -140,7 +139,7 @@ const GameBoard = (props: GameBoardProps) => {
       problems: answerList,
     };
     putFindRoadProblems(roadProps);
-    stop();
+    // stop();
   };
 
   useMemo(async () => {
