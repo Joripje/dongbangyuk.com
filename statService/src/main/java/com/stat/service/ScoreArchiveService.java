@@ -24,28 +24,52 @@ public class ScoreArchiveService {
 
 	@Transactional
 	public ScoreArchive addScore(GameScoreDto gameScoreDto) {
-
 		int userId = gameScoreDto.getUserId();
 		String type = gameScoreDto.getType();
 		int score = gameScoreDto.getScore();
 
 		Optional<ScoreArchive> optionalScoreArchive = scoreArchiveRepository.findByUserId(userId);
+		ScoreArchive scoreArchive = optionalScoreArchive.orElseGet(() -> {
+			GameScore gameScore = createGameScore(type, score);
+			return createScoreArchive(userId, gameScore);
+		});
 
-		// userId에 해당하는 데이터가 없으면 새로 생성하여 추가
-		ScoreArchive scoreArchive = optionalScoreArchive.orElseGet(() -> ScoreArchive.builder()
-			.userId(userId)
-			.gameScores(new ArrayList<>())
-			.build());
+		Optional<GameScore> optionalGameScore = findGameScoreByType(scoreArchive, type);
+		if (optionalGameScore.isPresent()) {
+			GameScore gameScore = optionalGameScore.get();
+			gameScore.getScores().add(0, score);
+		} else {
+			GameScore gameScore = createGameScore(type, score);
+			scoreArchive.getGameScores().add(gameScore);
+		}
 
-		// gameId에 해당하는 데이터 찾기
-		Optional<GameScore> optionalScore = scoreArchive.getGameScores().stream()
-			.filter(s -> s.getType().equals(type))
-			.findFirst();
-
-		GameScore gameScore = optionalScore.get();
-		gameScore.getScores().add(0, score);
-		gameScore.updateLastModified();
 		return scoreArchiveRepository.save(scoreArchive);
+	}
+
+	private GameScore createGameScore(String type, int score) {
+		List<Integer> scores = new ArrayList<>();
+		scores.add(0, score);
+
+		return GameScore.builder()
+			.type(type)
+			.scores(scores)
+			.build();
+	}
+
+	private ScoreArchive createScoreArchive(int userId, GameScore gameScore) {
+		List<GameScore> gameScores = new ArrayList<>();
+		gameScores.add(gameScore);
+
+		return ScoreArchive.builder()
+			.userId(userId)
+			.gameScores(gameScores)
+			.build();
+	}
+
+	private Optional<GameScore> findGameScoreByType(ScoreArchive scoreArchive, String type) {
+		return scoreArchive.getGameScores().stream()
+			.filter(gameScore -> gameScore.getType().equals(type))
+			.findFirst();
 	}
 
 	@Transactional

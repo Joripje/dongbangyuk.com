@@ -32,25 +32,21 @@ public class StatisticsService {
 	@Transactional
 	public void addDummy() {
 		Statistics game1 = Statistics.builder()
-			.id(1)
 			.type("cat")
 			.scores(Arrays.asList(9, 6, 8, 7, 4, 6))
 			.build();
 
 		Statistics game2 = Statistics.builder()
-			.id(2)
 			.type("road")
 			.scores(Arrays.asList(9, 7, 8, 3, 6))
 			.build();
 
 		Statistics game3 = Statistics.builder()
-			.id(3)
 			.type("rotate")
 			.scores(Arrays.asList(9, 7, 4, 6, 4, 8))
 			.build();
 
 		Statistics game4 = Statistics.builder()
-			.id(4)
 			.type("rps")
 			.scores(Arrays.asList(7, 4, 6))
 			.build();
@@ -63,8 +59,7 @@ public class StatisticsService {
 	public void updateStatistics() {
 		LocalDate today = LocalDate.now();
 		List<ScoreArchive> scoreArchives = scoreArchiveRepository.findAll();
-		List<String> gameTypes = Arrays.asList("game1", "game2", "game3", "game4");
-		int sequence = 0;
+		List<String> gameTypes = Arrays.asList("cat", "road", "rotate", "rps");
 
 		for (String gameType: gameTypes) {
 			List<Integer> allScores = new ArrayList<>();
@@ -79,7 +74,7 @@ public class StatisticsService {
 
 			if (!allScores.isEmpty()) {
 				Statistics statistics = statisticsRepository.findByType(gameType)
-					.orElse(Statistics.builder().id(++sequence).type(gameType).build());
+					.orElse(Statistics.builder().type(gameType).build());
 				statistics.updateScores(allScores);
 				statisticsRepository.save(statistics);
 			}
