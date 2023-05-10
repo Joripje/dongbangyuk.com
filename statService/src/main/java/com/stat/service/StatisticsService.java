@@ -4,7 +4,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.TreeMap;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -91,9 +93,7 @@ public class StatisticsService {
 
 			for (ScoreArchive scoreArchive : scoreArchives) {
 				for (GameScore gameScore : scoreArchive.getGameScores()) {
-					if (gameScore.getType().equals(gameType) && gameScore.getLastModified()
-						.toLocalDate()
-						.isEqual(today)) {
+					if (gameScore.getType().equals(gameType)) {
 						allScores.addAll(gameScore.getScores());
 					}
 				}
@@ -107,4 +107,14 @@ public class StatisticsService {
 			}
 		}
 	}
+
+	@Transactional(readOnly = true)
+	public Map<String, Integer> getScoreLevelStatistics(String type) {
+		Statistics statistics = statisticsRepository.findByType(type)
+			.orElseThrow(() -> new GameTypeNotFoundException(String.format("%s에 대한 데이터가 없어요.", type)));
+
+		return new TreeMap<>(statistics.calculateScoreLevels());
+
+	}
+
 }

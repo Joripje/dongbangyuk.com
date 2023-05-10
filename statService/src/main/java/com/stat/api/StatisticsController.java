@@ -1,6 +1,7 @@
 package com.stat.api;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,4 +53,9 @@ public class StatisticsController {
 		return ResponseEntity.ok("gameId에 대한 통계 업데이트");
 	}
 
+	@ApiOperation(value = "게임별 점수 분포 조회")
+	@GetMapping("/getStatistics")
+	public ResponseEntity<Map<String, Integer>> getScoreLevelStatistics(String type) {
+		return ResponseEntity.ok(statisticsService.getScoreLevelStatistics(type));
+	}
 }
