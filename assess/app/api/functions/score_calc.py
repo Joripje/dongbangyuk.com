@@ -1,8 +1,7 @@
-from fastapi import HTTPException, status
 from datetime import datetime, timedelta
 
 
-def find_road(is_correct, clicks_delta, timestamp):
+def find_road(is_correct, clicks_delta, timestamp) -> int:
     '''
     길 만들기 점수 산정 기준
     1. 정답여부: 틀리면 0점, 맞으면 5점 (일치하게 가고 횟수도 맞게)
@@ -28,7 +27,7 @@ def find_road(is_correct, clicks_delta, timestamp):
     return score
 
 
-def rps_3(is_correct, round):
+def rps_3(is_correct, round) -> int:
     '''
     win: 2점(1,2 라운드), 3점(3라운드)
     tie/lose: 0
@@ -39,7 +38,7 @@ def rps_3(is_correct, round):
         return 0
 
 
-def cat(is_correct: bool, asure: int):
+def cat(is_correct: bool, asure: int) -> int:
     '''
     is_correct: 정답여부
     asure: 확신의 정도. 3, 2, 1, 0, -1(미응답)
@@ -59,10 +58,15 @@ def cat(is_correct: bool, asure: int):
         return -2
 
 
-def rotate(is_correct: bool, clicks_delta: int, rounds: int):
+def rotate(is_correct: bool, clicks_delta: int, rounds: int) -> int:
     '''
-    정답여부: 틀리면 0점, 맞으면 5점
     1 라운드: 정답+최소횟수 4점, 그냥 정답 2점, 틀리면 0점
     2 라운드: 정답+최소횟수 6점, 그냥 정답 4점, 틀리면 0점
     '''
-    pass
+    if not is_correct:
+        return 0
+    
+    if clicks_delta == 0:
+        return 4 if rounds == 1 else 6
+    else:
+        return 2 if rounds == 1 else 4
