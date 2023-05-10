@@ -16,7 +16,7 @@ import com.stat.domain.score.ScoreArchive;
 import com.stat.domain.score.ScoreArchiveRepository;
 import com.stat.domain.statistics.Statistics;
 import com.stat.domain.statistics.StatisticsRepository;
-import com.stat.domain.statistics.StatisticsSaveRequestDto;
+import com.stat.dto.StatisticsSaveRequestDto;
 import com.stat.exception.GameTypeNotFoundException;
 
 import lombok.RequiredArgsConstructor;
@@ -94,7 +94,7 @@ public class StatisticsService {
 			for (ScoreArchive scoreArchive : scoreArchives) {
 				for (GameScore gameScore : scoreArchive.getGameScores()) {
 					if (gameScore.getType().equals(gameType)) {
-						allScores.addAll(gameScore.getScores());
+						allScores.addAll(gameScore.getScoreList());
 					}
 				}
 			}

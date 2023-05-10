@@ -26,6 +26,8 @@ public class Statistics {
 	private ObjectId id;
 	private String type;
 
+
+
 	// 게임별 모든 사람들의 점수 저장
 	private List<Integer> scores = new ArrayList<>();
 

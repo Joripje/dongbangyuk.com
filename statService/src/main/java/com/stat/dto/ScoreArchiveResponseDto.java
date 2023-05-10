@@ -1,4 +1,4 @@
-package com.stat.domain.score;
+package com.stat.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

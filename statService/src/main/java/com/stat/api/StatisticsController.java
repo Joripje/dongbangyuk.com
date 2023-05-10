@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.stat.domain.score.GameScore;
-import com.stat.domain.statistics.StatisticsSaveRequestDto;
+import com.stat.dto.StatisticsSaveRequestDto;
 import com.stat.service.StatisticsService;
 
 import io.swagger.annotations.ApiOperation;

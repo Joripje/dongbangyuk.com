@@ -30,9 +30,5 @@ public class ScoreArchive {
 		this.gameScores = gameScores != null ? gameScores : new ArrayList<>();
 	}
 
-	public void addGameScore(GameScore gameScore) {
-		gameScores.add(gameScore);
-	}
-
 }
 
