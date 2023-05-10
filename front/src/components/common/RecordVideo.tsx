@@ -75,7 +75,10 @@ function setState(nextState: number) {
 
 ws.onmessage = function (message) {
   var parsedMessage = JSON.parse(message.data);
-  console.info("Received message: " + message.data);
+  if (parsedMessage.id !== "iceCandidate") {
+    console.log(parsedMessage.id);
+    console.info("Received message: " + message.data);
+  }
 
   switch (parsedMessage.id) {
     case "startResponse":
@@ -153,7 +156,7 @@ function onError(error: string) {
 }
 
 function onIceCandidate(candidate: string) {
-  console.log("Local candidate" + JSON.stringify(candidate));
+  // console.log("Local candidate" + JSON.stringify(candidate));
 
   var message = {
     id: "onIceCandidate",
@@ -215,9 +218,10 @@ function playEnd() {
   //   // hideSpinner(videoInput, videoOutput);
 }
 
-function sendMessage(message: {} | null) {
+function sendMessage(message: { id: string } | null) {
+  if (message?.id === "start") console.log("Send Start Message Successfuly");
   var jsonMessage = JSON.stringify(message);
-  console.log("Sending message: " + jsonMessage);
+  // console.log("Sending message: " + jsonMessage);
   ws.send(jsonMessage);
 }
 

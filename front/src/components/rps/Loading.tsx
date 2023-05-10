@@ -6,7 +6,7 @@ import { Box, Button } from "@mui/material";
 function Loading() {
   return (
     <WrapBox>
-      <h1>4초간 기다려주세요.</h1>
+      <h1>4초후 다음 라운드가 시작됩니다.</h1>
     </WrapBox>
   );
 }

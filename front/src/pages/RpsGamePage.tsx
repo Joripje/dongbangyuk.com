@@ -17,9 +17,9 @@ type RpsGamePageProps = {};
 function RpsGamePage(props: RpsGamePageProps) {
 
   const [startTime, setStartTime] = useState<number>(new Date().getTime());
-  const [settingTime, setSettingTime] = useState<number>(180);
+  const [settingTime, setSettingTime] = useState<number>(10);
   const [isGaming, setIsGaming] = useState<boolean>(true);
-  const [round, setRound] = useState<number>(0);
+  const [round, setRound] = useState<number>(1);
 
   const [answer, setAnswer] = useState<{
     gameId: number;
@@ -65,7 +65,11 @@ function RpsGamePage(props: RpsGamePageProps) {
     setTimeout(() => {
       setRound(round + 1)
       setStartTime(new Date().getTime());
-      setSettingTime(20);
+      if (round === 1) {
+        setSettingTime(10);
+      } else if (round === 2) {
+        setSettingTime(10);
+      }
       setIsGaming(true);
     }, 4000)
     

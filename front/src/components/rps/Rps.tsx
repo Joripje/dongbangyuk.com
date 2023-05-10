@@ -5,7 +5,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 
-import { rock, paper, scissor, mudangbug, tiger } from "assets/images";
+import { rock, paper, scissor, mudangbug, tiger, myPaper, myScissors, myRock, raccoon, beaver } from "assets/images";
 
 // type Choice = string;
 type RpsType = { value: string; label: any; image: string; cmd: string };
@@ -21,11 +21,11 @@ const choices: RpsType[] = [
   {
     value: "sci",
     label: <ArrowBackIcon/>,
-    image: scissor,
+    image: myScissors,
     cmd: "가위",
   },
-  { value: "roc", label: <ArrowUpwardIcon />, image: rock, cmd: "바위" },
-  { value: "pap", label: <ArrowForwardIcon />, image: paper, cmd: "보" },
+  { value: "roc", label: <ArrowUpwardIcon />, image: myRock, cmd: "바위" },
+  { value: "pap", label: <ArrowForwardIcon />, image: myPaper, cmd: "보" },
 ];
 
 const Rps: React.FC<Props> = (props: Props) => {
@@ -38,7 +38,7 @@ const Rps: React.FC<Props> = (props: Props) => {
 
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
   const [gameHistory, setGameHistory] = useState<Array<object>>([]);
-  const [timer, setTimer] = useState<number>(5);
+  const [timer, setTimer] = useState<number>(4);
   const [upperTimer, setUpperTimer] = useState<number>(settingTime);
   const [startTime, setStartTime] = useState('');
   const [who, setWho] = useState<number>(1);
@@ -76,7 +76,7 @@ const Rps: React.FC<Props> = (props: Props) => {
       setGameHistory([...gameHistory, newData]);
       setIsSubmit(true);
       setTimeout(handleReset, 1000);
-      setTimer(5);
+      setTimer(4);
     };
     }
   
@@ -96,7 +96,7 @@ const Rps: React.FC<Props> = (props: Props) => {
         setUserChoice(Object);
         setGameHistory([...gameHistory, newData])
         setIsSubmit(false);
-        setTimer(5);
+        setTimer(4);
       } 
     } else if (round === 2) {
       if (timer === 0) {
@@ -111,7 +111,7 @@ const Rps: React.FC<Props> = (props: Props) => {
         setComputerChoice(Object);
         setGameHistory([...gameHistory, newData])
         setIsSubmit(false);
-        setTimer(5);
+        setTimer(4);
       } 
     } else if (round === 3) {
       if (timer === 0 && who % 2 === 0) {
@@ -126,7 +126,7 @@ const Rps: React.FC<Props> = (props: Props) => {
         setUserChoice(Object);
         setGameHistory([...gameHistory, newData]);
         setIsSubmit(false);
-        setTimer(5);
+        setTimer(4);
       } else if (timer === 0 && who % 2 === 1) {
         const endTime = new Date().toISOString();
         const newData = {
@@ -139,7 +139,7 @@ const Rps: React.FC<Props> = (props: Props) => {
         setComputerChoice(Object);
         setGameHistory([...gameHistory, newData])
         setIsSubmit(false);
-        setTimer(5);
+        setTimer(4);
       } 
     }
   }, [timer]);
@@ -169,7 +169,7 @@ const Rps: React.FC<Props> = (props: Props) => {
         setUserChoice(getComputerChoice());
       }
     }
-    setTimer(5);
+    setTimer(4);
     onGameStart();
   };
 
@@ -207,7 +207,7 @@ const Rps: React.FC<Props> = (props: Props) => {
           setComputerChoice(computerChoice);
         }, 1000);
       };
-      setTimer(5)
+      setTimer(4)
       setStartTime(new Date().toISOString())
     }
   }, [userChoice]);
@@ -220,36 +220,11 @@ const Rps: React.FC<Props> = (props: Props) => {
           setUserChoice(computerChoice);
         }, 1000);
       };
-      setTimer(5)
+      setTimer(4)
       setStartTime(new Date().toISOString())
     }
   }, [computerChoice]);
 
-  // useEffect(() => {
-  //   if (who % 2 === 0 && round === 3) {
-  //     if (userChoice === null || Object.keys(userChoice).length === 0) {
-  //       setTimeout(() => {
-  //         const computerChoice = getComputerChoice();
-  //         setComputerChoice(computerChoice);
-  //       }, 1000);
-  //     };
-  //     setTimer(5)
-  //     setStartTime(new Date().toISOString())
-  //   } 
-  // },[userChoice])
-
-  // useEffect(() => {
-  //   if (who % 2 === 1 && round === 3) {
-  //       if (computerChoice === null || Object.keys(computerChoice).length === 0) {
-  //         setTimeout(() => {
-  //           const computerChoice = getComputerChoice();
-  //           setUserChoice(computerChoice);
-  //         }, 1000);
-  //       };
-  //       setTimer(5)
-  //       setStartTime(new Date().toISOString())
-  //   }
-  // },[computerChoice])
 
     useEffect(() => {
     if (userChoice === null || Object.keys(userChoice).length === 0) {
@@ -259,7 +234,7 @@ const Rps: React.FC<Props> = (props: Props) => {
           setComputerChoice(computerChoice);
         }, 1000);
       };
-      setTimer(5)
+      setTimer(4)
       setStartTime(new Date().toISOString())
     } 
   },[userChoice])
@@ -272,7 +247,7 @@ const Rps: React.FC<Props> = (props: Props) => {
             setUserChoice(computerChoice);
           }, 1000);
         };
-        setTimer(5)
+        setTimer(4)
         setStartTime(new Date().toISOString())
     }
   },[computerChoice])
@@ -465,15 +440,16 @@ const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
   // 키보드로 가위바위보 할 수 잇게 렌더링 시에 포커스를 이동하는 역할
   useEffect(() => {
     wrapbox.current?.focus();
-  }, []);
+  }, [round]);
 
 
   return (
     <WrapBox ref={wrapbox} autoFocus tabIndex={0} onKeyDown={handleKeyDown}>
       <h1>가위 바위 보!</h1>
       <Grid container sx={{display: 'flex', justifyContent: 'space-between'}}>
-        <LeftBox sx={{paddingLeft: 0}} item xs={3}>
-          <img style={{width: '15vw'}} src={mudangbug} alt="" />
+        <LeftBox item xs={3}>
+          <Character style={{backgroundImage: `url(${raccoon})`}}>
+          </Character>
           <div>나</div>
         </LeftBox>
         <LeftBox item xs={3}>
@@ -483,7 +459,8 @@ const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
           <img src={computerChoice?.image} alt='' />
         </RightBox>
         <RightBox item xs={3}>
-          <img style={{width: '15vw' }} src={tiger} alt="" />
+          <Character style={{backgroundImage: `url(${beaver})`}}>
+          </Character>
           <div>상대</div>
         </RightBox>
       </Grid>
@@ -514,14 +491,24 @@ const WrapBox = styled(Box)({
   width: "65vw",
 });
 
-
+const Character = styled(Box) ({
+  width: '10vw',
+  height: '10vw',
+  backgroundColor: '#CFD0D4',
+  borderRadius: '50%',
+  backgroundSize: 'cover',
+  display: 'flex',
+  justifyContent: 'center'
+})
 
 const LeftBox = styled(Grid)({
+  display: 'flex',
   justifyContent: "center",
   padding: "0, 0, 0, 0",
 });
 
 const RightBox = styled(Grid)({
+  display: 'flex',
   justifyContent: "center",
 });
 
