@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 
 import { TimeBar } from "components/common";
 import { SelectCircle } from ".";
-import { addAnswer, setTempAnswerProperty } from "store/catchCatSlice";
+import { addCatAnswer, setTempAnswerProperty } from "store/catchCatSlice";
 
 import styled from "styled-components";
 import choco from "assets/images/catch/choco.jpg";
@@ -24,7 +24,7 @@ function SelectAnswer(props: { correct: boolean[] }) {
     dispatch(setTempAnswerProperty({ property: "correct", value: correct[0] }));
 
     const intervalId = setInterval(() => {
-      dispatch(addAnswer());
+      dispatch(addCatAnswer());
       setCatColor((prevCatColor) => prevCatColor + 1);
       dispatch(
         setTempAnswerProperty({ property: "correct", value: correct[1] })
@@ -32,7 +32,7 @@ function SelectAnswer(props: { correct: boolean[] }) {
     }, 4000);
 
     return () => clearInterval(intervalId);
-  }, [correct]);
+  }, [correct, dispatch]);
 
   function renderSelectCircles(
     circles: number[],

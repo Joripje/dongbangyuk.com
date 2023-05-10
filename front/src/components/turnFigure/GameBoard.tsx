@@ -1,19 +1,78 @@
-import { Grid } from "@mui/material";
-import ObjectFigure from "./ObjectFigure";
-import styled from "styled-components";
+import { MouseEvent, useEffect } from "react";
+import {
+  addTurnAnswer,
+  clearChoice,
+  generateProblem,
+} from "store/turnFigureSlice";
 
-const GameBoard = () => {
+import { ObjectFigure, FigureControl, TurnHistory } from "./";
+
+import styled from "styled-components";
+import { Button, Grid } from "@mui/material";
+import { useDispatch } from "react-redux";
+
+type GameBoardProps = {
+  problemNum: number;
+  ascProblemNum: () => void;
+};
+
+const GameBoard = (props: GameBoardProps) => {
+  const { problemNum, ascProblemNum } = props;
+  const dispatch = useDispatch();
+
+  const onSubmitHandler = (event: MouseEvent) => {
+    event.preventDefault();
+    dispatch(addTurnAnswer());
+    dispatch(generateProblem());
+    dispatch(clearChoice());
+
+    ascProblemNum();
+  };
+
+  useEffect(() => {
+    dispatch(generateProblem());
+  }, [dispatch]);
+
   return (
-    <StyledGrid container>
+    <GridContainer container>
       <ObjectFigure />
-    </StyledGrid>
+      <Grid item xs={1} />
+      <Grid item xs={7} height={"100%"}>
+        <FigureControl />
+        <TurnHistory />
+      </Grid>
+      <StyledGrid item xs={12}>
+        <SubmitButton
+          onClick={onSubmitHandler}
+          variant='contained'
+          color={problemNum === 20 ? "warning" : "primary"}
+        >
+          {problemNum === 20 ? "최종 제출" : "답안 제출"}
+        </SubmitButton>
+      </StyledGrid>
+    </GridContainer>
   );
 };
 
-const StyledGrid = styled(Grid)({
+const GridContainer = styled(Grid)({
   height: "80%",
-  padding: "0 10%",
+  padding: "6%",
   alignItems: "center",
 });
 
+const StyledGrid = styled(Grid)({
+  height: "20%",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "end",
+});
+
+const SubmitButton = styled(Button)({
+  width: "15rem",
+  height: "4rem",
+  borderRadius: "2rem",
+
+  fontSize: "1.5rem",
+  fontWeight: "800",
+});
 export default GameBoard;

@@ -23,7 +23,7 @@ const catchCatSlice = createSlice({
   name: "answer",
   initialState,
   reducers: {
-    addAnswer: (state) => {
+    addCatAnswer: (state) => {
       /*현재 tempAnswer를 answerList에 추가합니다.*/
       console.log(current(state.tempAnswer));
       state.answerList.push(state.tempAnswer);
@@ -44,6 +44,6 @@ const catchCatSlice = createSlice({
   },
 });
 
-export const { addAnswer, setTempAnswerProperty, checkAnswer } =
+export const { addCatAnswer, setTempAnswerProperty, checkAnswer } =
   catchCatSlice.actions;
 export default catchCatSlice.reducer;

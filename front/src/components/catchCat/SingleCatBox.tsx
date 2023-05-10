@@ -23,7 +23,7 @@ function SingleCatBox(props: SingleCatBoxProps) {
             {item.map((rowValue, xIndex) => {
               return (
                 <StyledBox key={xIndex} rowValue={rowValue}>
-                  {rowValue === 1 || rowValue === 3 || rowValue == 4 ? (
+                  {rowValue === 1 || rowValue === 3 || rowValue === 4 ? (
                     <ChocoImage src={choco} alt={"choco"} />
                   ) : rowValue === 2 ? (
                     <ChocoImage src={chocoFood} alt={"chocoFood"} />
