@@ -1,5 +1,7 @@
 package com.stat.api;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.stat.domain.score.GameScore;
-import com.stat.domain.statistics.Statistics;
 import com.stat.domain.statistics.StatisticsSaveRequestDto;
 import com.stat.service.StatisticsService;
 
@@ -31,9 +32,9 @@ public class StatisticsController {
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
-	@ApiOperation(value = "게임별 통계 조회")
+	@ApiOperation(value = "게임별 통계 조회 - 모든 점수 조회")
 	@GetMapping("/games")
-	public ResponseEntity<Statistics> getStatisticsByType(@RequestParam String type) {
+	public ResponseEntity<List<Integer>> getStatisticsByType(@RequestParam String type) {
 		return ResponseEntity.ok(statisticsService.getStatisticsByType(type));
 	}
 

@@ -15,6 +15,7 @@ import com.stat.domain.score.ScoreArchiveRepository;
 import com.stat.domain.statistics.Statistics;
 import com.stat.domain.statistics.StatisticsRepository;
 import com.stat.domain.statistics.StatisticsSaveRequestDto;
+import com.stat.exception.GameTypeNotFoundException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,9 +27,11 @@ public class StatisticsService {
 	private final ScoreArchiveRepository scoreArchiveRepository;
 
 	@Transactional(readOnly = true)
-	public Statistics getStatisticsByType(String type) {
-		return statisticsRepository.findByType(type)
-			.orElseThrow(() -> new IllegalArgumentException("해당 게임이 없어요."));
+	public List<Integer> getStatisticsByType(String type) {
+		Statistics statistics = statisticsRepository.findByType(type)
+			.orElseThrow(() -> new GameTypeNotFoundException(String.format("%s에 대한 데이터가 없어요.", type)));
+
+		return statistics.getScores();
 	}
 
 	@Transactional
