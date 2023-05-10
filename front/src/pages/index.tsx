@@ -6,6 +6,7 @@ import FindRoadPreparePage from "./FindRoadPreparePage";
 import RpsGamePage from "./RpsGamePage";
 import RpsPreparePage from "./RpsPreparePage";
 import CatchCatGamePage from "./CatchCatGamePage";
+import MyProfile from "./MyProfile";
 
 // import FirebaseTestPage from "./FirebaseTestPage";
 import MemberPage from "./MemberPage";
@@ -70,6 +71,10 @@ const routes = [
   {
     path: "/chat",
     element: <Chat />,
+  },
+  {
+    path: "/profile",
+    element: <MyProfile/>,
   },
 ];
 

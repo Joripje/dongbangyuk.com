@@ -1,16 +1,41 @@
-import { Grid } from "@mui/material";
+import { useEffect, useState } from "react";
+
+import { useSelector } from "react-redux";
+import { RootState } from "store";
+
 import styled from "styled-components";
+import { Grid } from "@mui/material";
 import { KeyboardDoubleArrowRight } from "@mui/icons-material";
 
+type RotateProps = {
+  rotate: {
+    flip: number;
+    degree: number;
+  };
+};
+
 const ObjectFigure = () => {
+  const [object, setObject] = useState<string>("");
+
+  const answer = useSelector((state: RootState) => state.turnFigure.tempAnswer);
+  const answerList = useSelector(
+    (state: RootState) => state.turnFigure.answerList
+  );
+
+  useEffect(() => {
+    const availableAlph = ["R", "K", "Q", "P", "F", "L"];
+    const randNum = Math.floor(Math.random() * 5);
+    setObject(availableAlph[randNum]);
+  }, [answerList]);
+
   return (
-    <ObjectWrapper item xs={5}>
+    <ObjectWrapper item xs={4}>
       <CharBox>
-        <div>R</div>
+        <RoatateBox rotate={answer.problem}>{object}</RoatateBox>
       </CharBox>
       <ArrowBox />
       <CharBox style={{ background: "rgb(238, 253, 243)" }}>
-        <div style={{ transform: "rotate(90deg)" }}>R</div>
+        <RoatateBox rotate={answer.correct}>{object}</RoatateBox>
       </CharBox>
     </ObjectWrapper>
   );
@@ -18,10 +43,9 @@ const ObjectFigure = () => {
 
 const ObjectWrapper = styled(Grid)({
   width: "100%",
-  height: "60%",
+  height: "100%",
 
   display: "flex",
-  flexDirection: "row",
   justifyContent: "space-around",
   alignItems: "center",
 
@@ -38,9 +62,15 @@ const CharBox = styled.div({
   width: "50%",
   height: "100%",
   fontSize: "10rem",
+  fontWeight: "700",
   textAlign: "center",
   borderRadius: "0 2rem 2rem 0",
 });
+
+const RoatateBox = styled.div<RotateProps>`
+  transform: rotate(${(props) => props.rotate.degree * 45}deg)
+    scaleX(${(props) => (props.rotate.flip ? -1 : 1)});
+`;
 
 const ArrowBox = styled(KeyboardDoubleArrowRight)({
   position: "absolute",

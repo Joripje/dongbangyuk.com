@@ -26,7 +26,7 @@ function PrepareExam(props: PrepareExamProps) {
     if (gameType === 'rps' && countDown === 0) navigate("/rpsPage");
 
     return () => clearInterval(intervalId);
-  }, [countDown]);
+  }, [countDown, navigate]);
 
   return (
     <BOXBOX>

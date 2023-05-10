@@ -28,6 +28,7 @@ import rpsLogo from './rps/rpsLogo.png'
 import myRock from './rps/myRock.png'
 import question from './rps/question.png'
 import rpsDescript from './rps/rpsDescript.png'
+import LOGO from './LOGO.png'
 
 export {
   love,
@@ -56,4 +57,5 @@ export {
   myRock,
   question,
   rpsDescript,
+  LOGO,
 };
