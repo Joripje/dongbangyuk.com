@@ -22,4 +22,15 @@ const getVideoData = async (props: object) => {
   return res;
 };
 
-export { getAbilityData, getVideoData };
+const getGamesData = async (props: object) => {
+  const requestProps = {
+    method: "GET",
+    url: "/stat/games",
+    data: props,
+  };
+  const res = await requestGet(requestProps);
+  console.log(res);
+  return res;
+};
+
+export { getAbilityData, getVideoData, getGamesData };
