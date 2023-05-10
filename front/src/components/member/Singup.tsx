@@ -89,7 +89,7 @@ function SignUp(props: SignUpProps) {
         style={{ padding: "2rem", justifyContent: "center" }}
       >
         {textFieldOptions.map((item) => {
-          if (item.id === "displayName" && isLogin) return;
+          if (item.id === "displayName" && isLogin) return false;
           return (
             <Grid item xs={12} key={item.id}>
               <TextField

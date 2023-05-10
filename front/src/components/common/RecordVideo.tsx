@@ -134,9 +134,7 @@ function start() {
 
 function onOffer(error: string, offerSdp: {}) {
   if (error) return console.error("Error generating the offer");
-  console.log(
-    "Invoking SDP offer callback function " + "k8a305.p.ssafy.io:8030"
-  );
+  console.log("Invoking SDP offer callback function k8a305.p.ssafy.io:8030");
   const userEmail = localStorage.getItem("userEmail");
   const startDate = new Date().toISOString;
   var message = {
