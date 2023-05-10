@@ -7,9 +7,8 @@ import {
   PolarAngleAxis,
   PolarRadiusAxis,
 } from "recharts";
-import styled from "styled-components";
 
-const AbilityChart = () => {
+const TotalAbilityChart = () => {
   const [judgment, setJudgment] = useState<number>(0);
   const [accuracy, setaccuracy] = useState<number>(0);
   const [stability, setStability] = useState<number>(0);
@@ -74,29 +73,4 @@ const AbilityChart = () => {
   );
 };
 
-const BoardBox = styled.div({
-  position: "relative",
-  margin: "1rem 0",
-  display: "flex",
-  flexDirection: "row",
-  alignItems: "center",
-
-  width: "90%",
-  height: "70%",
-
-  background: "white",
-  borderRadius: 10,
-  boxShadow: "5px 5px 5px rgba(0, 0, 0, 0.2)",
-});
-
-const ContainerBox = styled.div({
-  position: "relative",
-  margin: "1rem",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-
-  width: "50%",
-  height: "100%",
-});
-export default AbilityChart;
+export default TotalAbilityChart;

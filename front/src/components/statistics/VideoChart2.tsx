@@ -13,6 +13,7 @@ import {
   ReferenceLine,
   ResponsiveContainer,
 } from "recharts";
+import styled from "styled-components";
 
 const VideoChart = () => {
   const [angry, setAngry] = useState<Array<number>>([]);
@@ -116,86 +117,87 @@ const VideoChart = () => {
   }
 
   return (
-    <div>
-      {/* <div style={{ width: "800px", height: "800px" }}>1</div> */}
-      <ResponsiveContainer width="80%" height="80%">
-        <LineChart
-          // width={"50vh"}
-          // height={"50vh"}
-          data={chartData}
-          // onClick={handleClick}
-          onMouseEnter={handleReferenceAreaMouseEnter}
-          onMouseMove={handleReferenceAreaMouseMove}
-          onMouseLeave={handleReferenceAreaMouseLeave}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="index" tick={false} />
-          <YAxis tick={false} />
-          <Tooltip />
-          <Legend verticalAlign="top" align="right" />
-          <Line
-            type="monotone"
-            dataKey="angry"
-            stroke="#8884d8"
-            dot={false}
-            strokeWidth={3}
-          />
-          <Line
-            type="monotone"
-            dataKey="disgust"
-            stroke="#888418"
-            dot={false}
-            strokeWidth={3}
-          />
-          <Line
-            type="monotone"
-            dataKey="scared"
-            stroke="#f884d8"
-            dot={false}
-            strokeWidth={3}
-          />
-          <Line
-            type="monotone"
-            dataKey="happy"
-            stroke="#0884d8"
-            dot={false}
-            strokeWidth={3}
-          />
-          <Line
-            type="monotone"
-            dataKey="sad"
-            stroke="#2884d8"
-            dot={false}
-            strokeWidth={3}
-          />
-          <Line
-            type="monotone"
-            dataKey="surprised"
-            stroke="#4834d8"
-            dot={false}
-            strokeWidth={3}
-          />
-          {timeData.map(([x1, x2], index) => (
-            <ReferenceArea
-              key={`reference-${x1}-${x2}`}
-              x1={x1}
-              x2={x2}
-              stroke="black"
-              strokeOpacity={0.3}
-              fill={result[index] === 1 ? "green" : "red"}
-              fillOpacity={
-                isReferenceAreaHovered >= x1 && isReferenceAreaHovered < x2
-                  ? 0.15
-                  : 0.07
-              }
-              onClick={() => handleClick(x1, x2)}
-            />
-          ))}
-          {isReferenceAreaHovered !== -1 && (
-            <ReferenceLine x={isReferenceAreaHovered} stroke="red" />
-          )}
+    <>
+      <BoardBox>
+        <ContainerBox>
+          <ResponsiveContainer
+            width={window.innerWidth * 0.38}
+            height={window.innerHeight * 0.45}
+          >
+            <LineChart
+              data={chartData}
+              onMouseEnter={handleReferenceAreaMouseEnter}
+              onMouseMove={handleReferenceAreaMouseMove}
+              onMouseLeave={handleReferenceAreaMouseLeave}
+            >
+              {/* <CartesianGrid strokeDasharray="3 3" /> */}
+              <XAxis dataKey="index" tick={false} />
+              <YAxis tick={false} />
+              {/* <Tooltip /> */}
+              <Legend verticalAlign="bottom" align="center" />
+              <Line
+                type="monotone"
+                dataKey="angry"
+                stroke="#8884d8"
+                dot={false}
+                strokeWidth={3}
+              />
+              <Line
+                type="monotone"
+                dataKey="disgust"
+                stroke="#888418"
+                dot={false}
+                strokeWidth={3}
+              />
+              <Line
+                type="monotone"
+                dataKey="scared"
+                stroke="#f884d8"
+                dot={false}
+                strokeWidth={3}
+              />
+              <Line
+                type="monotone"
+                dataKey="happy"
+                stroke="#0884d8"
+                dot={false}
+                strokeWidth={3}
+              />
+              <Line
+                type="monotone"
+                dataKey="sad"
+                stroke="#2884d8"
+                dot={false}
+                strokeWidth={3}
+              />
+              <Line
+                type="monotone"
+                dataKey="surprised"
+                stroke="#4834d8"
+                dot={false}
+                strokeWidth={3}
+              />
+              {timeData.map(([x1, x2], index) => (
+                <ReferenceArea
+                  key={`reference-${x1}-${x2}`}
+                  x1={x1}
+                  x2={x2}
+                  stroke="black"
+                  strokeOpacity={0.3}
+                  fill={result[index] === 1 ? "green" : "red"}
+                  fillOpacity={
+                    isReferenceAreaHovered >= x1 && isReferenceAreaHovered < x2
+                      ? 0.15
+                      : 0.07
+                  }
+                  onClick={() => handleClick(x1, x2)}
+                />
+              ))}
+              {isReferenceAreaHovered !== -1 && (
+                <ReferenceLine x={isReferenceAreaHovered} stroke="red" />
+              )}
 
-          {/* <ReferenceArea
+              {/* <ReferenceArea
           x1={0}
           x2={20}
           stroke="black"
@@ -234,15 +236,45 @@ const VideoChart = () => {
           }
           // onClick={handleClick}
         /> */}
-        </LineChart>
-      </ResponsiveContainer>
-      <VideoPlayer
-        start={startEndTime[0]}
-        end={startEndTime[1]}
-        autoPlay={autoPlay}
-      />
-    </div>
+            </LineChart>
+          </ResponsiveContainer>
+        </ContainerBox>
+        <ContainerBox>
+          <VideoPlayer
+            start={startEndTime[0]}
+            end={startEndTime[1]}
+            autoPlay={autoPlay}
+          />
+        </ContainerBox>
+      </BoardBox>
+    </>
   );
 };
+
+const BoardBox = styled.div({
+  position: "relative",
+  margin: "1rem auto",
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "center",
+
+  width: "90%",
+  height: "70%",
+
+  background: "white",
+  borderRadius: 10,
+  boxShadow: "5px 5px 5px rgba(0, 0, 0, 0.2)",
+});
+
+const ContainerBox = styled.div({
+  position: "relative",
+  margin: "2rem",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+
+  width: "50%",
+  height: "100%",
+});
 
 export default VideoChart;

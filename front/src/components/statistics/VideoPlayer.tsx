@@ -20,8 +20,8 @@ const VideoPlayer = (props: VideoProps) => {
       <ReactPlayer
         className="react-player"
         url={videoPath + `#t=${props.start},${props.end}`} // 플레이어 url
-        width="800px" // 플레이어 크기 (가로)
-        height="500px" // 플레이어 크기 (세로)
+        width={window.innerWidth * 0.28} // 플레이어 크기 (가로)
+        // height={window.innerHeight / 2} // 플레이어 크기 (세로)
         playing={props.autoPlay} // 자동 재생 on
         muted={false} // 자동 재생 on
         controls={true} // 플레이어 컨트롤 노출 여부
