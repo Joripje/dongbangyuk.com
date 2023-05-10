@@ -93,9 +93,10 @@ public class ScoreArchiveService {
 	}
 
 	@Transactional(readOnly = true)
-	public int findByUserIdAndGameType(int userId, String type) {
+	public ScoreArchiveResponseDto findByUserIdAndGameType(int userId, String type) {
 		Optional<ScoreArchive> optionalScoreArchive = scoreArchiveRepository.findByUserId(userId);
 
+		ScoreArchiveResponseDto dto;
 		if (optionalScoreArchive.isPresent()) {
 			ScoreArchive scoreArchive = optionalScoreArchive.get();
 
@@ -105,11 +106,11 @@ public class ScoreArchiveService {
 				.findFirst();
 
 			if (first.isPresent()) {
-				return first.get().getScores().get(0);
+				dto = new ScoreArchiveResponseDto(type, first.get().getScores().get(0));
+				return dto;
 			} else {
 				throw new GameTypeNotFoundException(String.format("해당 사용자 (%s)에 대한 %s 기록이 없습니다.", userId, type));
 			}
-
 		} else {
 			throw new UserNotFoundException(String.format("해당 사용자 (%s)에 대한 게임 기록이 없습니다.", userId));
 		}
