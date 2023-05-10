@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +14,7 @@ import com.stat.domain.score.ScoreArchive;
 import com.stat.domain.score.ScoreArchiveRepository;
 import com.stat.domain.statistics.Statistics;
 import com.stat.domain.statistics.StatisticsRepository;
+import com.stat.domain.statistics.StatisticsSaveRequestDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,6 +29,26 @@ public class StatisticsService {
 	public Statistics getStatisticsByType(String type) {
 		return statisticsRepository.findByType(type)
 			.orElseThrow(() -> new IllegalArgumentException("해당 게임이 없어요."));
+	}
+
+	@Transactional
+	public Statistics addStatistics(StatisticsSaveRequestDto requestDto) {
+		String type = requestDto.getType();
+		int score = requestDto.getScore();
+
+		Optional<Statistics> optionalStatistics = statisticsRepository.findByType(type);
+		Statistics statistics = optionalStatistics.orElseGet(() -> createStatistics(type));
+
+		statistics.getScores().add(0, score);
+		return statisticsRepository.save(statistics);
+	}
+
+	private Statistics createStatistics(String type) {
+		List<Integer> scores = new ArrayList<>();
+		return Statistics.builder()
+			.type(type)
+			.scores(scores)
+			.build();
 	}
 
 	@Transactional
@@ -54,19 +76,21 @@ public class StatisticsService {
 		List<Statistics> stats = Arrays.asList(game1, game2, game3, game4);
 		statisticsRepository.saveAll(stats);
 	}
-	
+
 	// 스케줄링 적용 필요
 	public void updateStatistics() {
 		LocalDate today = LocalDate.now();
 		List<ScoreArchive> scoreArchives = scoreArchiveRepository.findAll();
 		List<String> gameTypes = Arrays.asList("cat", "road", "rotate", "rps");
 
-		for (String gameType: gameTypes) {
+		for (String gameType : gameTypes) {
 			List<Integer> allScores = new ArrayList<>();
 
 			for (ScoreArchive scoreArchive : scoreArchives) {
 				for (GameScore gameScore : scoreArchive.getGameScores()) {
-					if (gameScore.getType().equals(gameType) && gameScore.getLastModified().toLocalDate().isEqual(today)) {
+					if (gameScore.getType().equals(gameType) && gameScore.getLastModified()
+						.toLocalDate()
+						.isEqual(today)) {
 						allScores.addAll(gameScore.getScores());
 					}
 				}
