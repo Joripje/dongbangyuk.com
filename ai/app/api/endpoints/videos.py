@@ -4,6 +4,7 @@ from api.functions.video import video_detection
 from api.functions.mongodb_cr import mongodb_create, mongodb_read
 from api.functions.mongodb_cr import mongodb_list
 from api.functions.mongodb_cr import mongodba_list
+from api.functions.emotion_stat import get_emotion_stat
 from schemas.schemas_videos import VideoBase
 
 router = APIRouter()
@@ -49,3 +50,12 @@ def get_dba_list():
     id_list = mongodba_list()
 
     return id_list
+
+@router.get("/emotion")
+def get_emotion_data(gameid: int):
+
+    data = mongodb_read(gameid)
+
+    result = get_emotion_stat(data)
+
+    return result
