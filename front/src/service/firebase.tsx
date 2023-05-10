@@ -14,14 +14,14 @@ import {getFirestore} from 'firebase/firestore'
 
 // console.log(process.env.REACT_APP_CONFIG_APIKEY)
 const firebaseConfig = {
-  apiKey: ${REACT_APP_CONFIG_APIKEY},
+  apiKey: REACT_APP_CONFIG_APIKEY,
   authDomain: "h-337b5.firebaseapp.com",
   databaseURL:
     "https://h-337b5-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "h-337b5",
   storageBucket: "h-337b5.appspot.com",
   messagingSenderId: "429281066716",
-  appId: ${REACT_APP_CONFIG_APPID},
+  appId: REACT_APP_CONFIG_APPID,
   measurementId: "G-B7HRGPWR1G",
 };
 
