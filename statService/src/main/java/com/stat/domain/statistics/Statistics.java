@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Id;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AccessLevel;
@@ -20,15 +21,14 @@ import lombok.ToString;
 public class Statistics {
 
 	@Id
-	private int id;
+	private ObjectId id;
 	private String type;
 
 	// 게임별 모든 사람들의 최신 점수 저장
 	private List<Integer> scores = new ArrayList<>();
 
 	@Builder
-	public Statistics(int id, String type, List<Integer> scores) {
-		this.id = id;
+	public Statistics(String type, List<Integer> scores) {
 		this.type = type;
 		this.scores = scores != null ? scores : new ArrayList<>();
 	}
