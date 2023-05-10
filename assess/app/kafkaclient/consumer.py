@@ -1,8 +1,8 @@
 from aiokafka import AIOKafkaConsumer
 from kafkaclient.client import KAFKA_INSTANCE
 from kafkaclient.producer import aioproducer
-from api.endpoints.games import grade_rps_3, grade_road_game, grade_cat
-from schemas import findroad, rps, cat
+from api.endpoints.games import grade_rps_3, grade_road_game, grade_cat, grade_rotate
+from schemas import findroad, rps, cat, rotate
 from models import ResultModels
 from datetime import datetime
 import asyncio, json
@@ -41,7 +41,6 @@ async def consume1():
                 answer = rps.RpsAnswer(**value)
                 response = await grade_rps_3(answer)
                 result = ResultModels.RpsGameResult(**response)
-                # print(result)
 
             elif game_type == 'road':
                 answer = findroad.RoadAnswerIncoming(**value)
@@ -52,6 +51,11 @@ async def consume1():
                 answer = cat.CatAnswer(**value)
                 response = await grade_cat(answer)
                 result = ResultModels.CatGameResult(**response)
+            
+            elif game_type == 'rotate':
+                answer = rotate.RotateAnswer(**value)
+                response = await grade_rotate(answer)
+                result = ResultModels.RotateGameResult(**response)
             
             # 채점결과 저장 토픽으로 채점결과 데이터 보내기
             await aioproducer.send('kafka.assess.result.json', result.dict())

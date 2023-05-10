@@ -59,7 +59,7 @@ async def find_road(arr: list):
             return { "status": True, "msg": "최소 울타리 개수 갱신해야함."}
 
 
-async def rotate(before: dict, after: dict, choices: list):
+async def rotate(before: dict, after: dict, choices: list) -> tuple[bool, int]:
     '''
     is_correct: 정답여부
     correct_clicks: 최소횟수
@@ -72,26 +72,34 @@ async def rotate(before: dict, after: dict, choices: list):
     before_degree = before['degree']
     after_degree = after['degree']
 
-    if before_flip == after_flip:
-        correct_clicks += 1
-    
+    diff_flip = abs(before_flip - after_flip)
     diff_degree = abs(before_degree - after_degree)
-    if diff_degree <= 4:
-        correct_clicks += diff_degree
-    else:
-        correct_clicks += (8 - diff_degree)
 
-    # 정답여부 구하기 -> 만드는중..
+    if diff_flip == 0 and diff_degree <= 4:
+        correct_clicks = diff_degree
+    elif diff_flip == 0 and diff_degree > 4:
+        correct_clicks = 8 - diff_degree
+    elif diff_flip == 1 and diff_degree <= 3:
+        correct_clicks = 1 + diff_degree
+    elif diff_flip == 1 and diff_degree > 3:
+        correct_clicks = diff_degree - 3
+
+    # 정답여부 구하기
     is_correct = False
     for choice in choices:
         if choice == 0:         # 좌측 45도 회전
             before_degree -= 1
         elif choice == 1:       # 우측 45도 회전
             before_degree += 1
-        elif choice == 2:       # 좌우반전
+        elif choice == 2:       # 좌우 반전
             before_flip = 1 - before_flip
-        elif choice == 3:       # 상하반전
+        elif choice == 3:       # 상하 반전
             before_flip = 1 - before_flip
+            before_degree += 4
+    before_degree %= 8
+
+    if before_flip == after_flip and before_degree == after_degree:
+        is_correct = True
     
     return (is_correct, correct_clicks)
 

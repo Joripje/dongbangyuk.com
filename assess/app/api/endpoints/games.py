@@ -217,12 +217,11 @@ async def grade_rotate(incoming: rotate.RotateAnswer):
         # 채점 점수 산정
         clicks_delta = problem.clicks - correct_clicks
         score += score_calc.rotate(is_correct, clicks_delta, rounds)
-        
         timestamps.append(problem.timestamp)
         clicks.append(problem.clicks)
 
     # MongoDB에 채점 결과 저장
-    document = ResultModels.RpsGameResult(
+    document = ResultModels.RotateGameResult(
         game_id=incoming.game_id, 
         date=incoming.date, 
         type="rotate", 
