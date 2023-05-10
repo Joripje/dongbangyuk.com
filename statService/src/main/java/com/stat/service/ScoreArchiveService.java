@@ -12,7 +12,10 @@ import com.stat.domain.score.GameScore;
 import com.stat.domain.score.GameScoreSaveRequestDto;
 import com.stat.domain.score.ScoreArchive;
 import com.stat.domain.score.ScoreArchiveRepository;
+import com.stat.domain.score.ScoreArchiveResponseDto;
 import com.stat.dto.GameScoreDto;
+import com.stat.exception.GameTypeNotFoundException;
+import com.stat.exception.UserNotFoundException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -70,6 +73,46 @@ public class ScoreArchiveService {
 		return scoreArchive.getGameScores().stream()
 			.filter(gameScore -> gameScore.getType().equals(type))
 			.findFirst();
+	}
+
+	@Transactional(readOnly = true)
+	public List<ScoreArchiveResponseDto> findByUserId(int userId) {
+		Optional<ScoreArchive> optionalScoreArchive = scoreArchiveRepository.findByUserId(userId);
+
+		List<ScoreArchiveResponseDto> dtos = new ArrayList<>();
+		if (optionalScoreArchive.isPresent()) {
+			ScoreArchive scoreArchive = optionalScoreArchive.get();
+
+			for (GameScore gameScore : scoreArchive.getGameScores()) {
+				dtos.add(new ScoreArchiveResponseDto(gameScore.getType(), gameScore.getScores().get(0)));
+			}
+		} else {
+			throw new UserNotFoundException(String.format("해당 사용자 (%s)에 대한 게임 기록이 없습니다.", userId));
+		}
+		return dtos;
+	}
+
+	@Transactional(readOnly = true)
+	public int findByUserIdAndGameType(int userId, String type) {
+		Optional<ScoreArchive> optionalScoreArchive = scoreArchiveRepository.findByUserId(userId);
+
+		if (optionalScoreArchive.isPresent()) {
+			ScoreArchive scoreArchive = optionalScoreArchive.get();
+
+			Optional<GameScore> first = scoreArchive.getGameScores()
+				.stream()
+				.filter(gameScore -> type.equals(gameScore.getType()))
+				.findFirst();
+
+			if (first.isPresent()) {
+				return first.get().getScores().get(0);
+			} else {
+				throw new GameTypeNotFoundException(String.format("해당 사용자 (%s)에 대한 %s 기록이 없습니다.", userId, type));
+			}
+
+		} else {
+			throw new UserNotFoundException(String.format("해당 사용자 (%s)에 대한 게임 기록이 없습니다.", userId));
+		}
 	}
 
 	@Transactional
