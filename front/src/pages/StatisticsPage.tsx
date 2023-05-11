@@ -4,11 +4,12 @@ import styled from "styled-components";
 const StatisticsPage = () => {
   return (
     <TemplateBox>
+      <Divider />
       <TitleContainer>결과보기</TitleContainer>
       <BoardBox>
         <ResultsTable />
       </BoardBox>
-
+      <Divider />
       <TitleContainer>
         &nbsp;당신은 사랑받기 위<br />해 태어난사람
       </TitleContainer>
@@ -19,7 +20,7 @@ const StatisticsPage = () => {
   );
 };
 const TemplateBox = styled.div({
-  margin: "auto",
+  margin: "2% auto",
   display: "flex",
   flexDirection: "column",
   // justifyContent: "center",
@@ -54,5 +55,11 @@ const TitleContainer = styled.div({
   marginBottom: "0.5rem",
   marginLeft: "5%",
 });
+
+const Divider = styled.hr`
+  width: 90%;
+  border: none;
+  border-top: 1.5px solid black;
+`;
 
 export default StatisticsPage;
