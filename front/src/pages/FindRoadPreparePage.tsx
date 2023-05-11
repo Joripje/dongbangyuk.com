@@ -1,32 +1,13 @@
 import { useState } from "react";
 
 import { GameTemplate, PrepareTemplate, StatusBar } from "components/game";
-import {
-  whdrn,
-  ekscp,
-  wpgud,
-  dudgjs,
-  ehdns,
-  tjdwls,
-  dnjsvlf,
-  poonghyung,
-  rmt,
-} from "assets/images/findRoad";
+import { rmt, findRoad } from "assets/images/findRoad";
 import PrepareExam from "components/game/PrepareExam";
 
 function FindRoadPreparePage() {
   const [isPreparing, setIsPreparing] = useState(true);
 
-  const imagesList: string[] = [
-    whdrn,
-    ekscp,
-    wpgud,
-    dudgjs,
-    poonghyung,
-    tjdwls,
-    ehdns,
-    dnjsvlf,
-  ];
+  const imagesList: string[] = [findRoad];
 
   const overviewProps = {
     image: rmt,

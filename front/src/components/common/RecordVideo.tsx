@@ -35,9 +35,11 @@ window.onload = function () {
   setState(NO_CALL);
 };
 
-window.onbeforeunload = function () {
+const closeWebSocket = () => {
   ws.close();
 };
+
+window.onbeforeunload = closeWebSocket;
 
 function setState(nextState: number) {
   switch (nextState) {
@@ -235,5 +237,5 @@ function sendMessage(message: { id: string } | null) {
 // );
 // }
 
-export { start, stop };
+export { start, stop, closeWebSocket };
 // export default RecordVideo;

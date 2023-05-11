@@ -1,4 +1,4 @@
-import { useState, useMemo, MouseEvent } from "react";
+import { useState, useMemo, MouseEvent, useEffect } from "react";
 
 import RoadSingleBox from "./RoadSingleBox";
 import ProblemInfo from "./ProblemInfo";
@@ -7,6 +7,7 @@ import { getFindRoadProblems, putFindRoadProblems } from "api/test";
 import styled from "styled-components";
 import { Button } from "@mui/material";
 import { stop } from "components/common";
+import { closeWebSocket } from "components/common/RecordVideo";
 
 type GameBoardProps = {
   ascProblemNum: () => void; // ProblemNum을 어센드하여 StatusBar에서 올바른 값이 나오도록 수정
@@ -54,7 +55,6 @@ const GameBoard = (props: GameBoardProps) => {
   const [hardProblems, setHardProblems] = useState<Array<Problem>>([]);
   const [boardState, setBoardState] = useState(initialProblem); // 사용자가 보고 있는 문제지
   const [answerList, setAnswerList] = useState<Array<Answer>>([]); // 채점서버에 제출한 답변
-  const [date] = useState<string>(new Date().toISOString());
   const [timestamp, setTimestamp] = useState<string>(new Date().toISOString());
 
   const cleanBoard = (): void => {
@@ -155,6 +155,10 @@ const GameBoard = (props: GameBoardProps) => {
     };
 
     fetchProblems();
+  }, []);
+
+  useEffect(() => {
+    closeWebSocket();
   }, []);
 
   return (
