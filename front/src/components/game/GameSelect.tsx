@@ -6,7 +6,6 @@ import { Card, Grid } from "@mui/material";
 
 type StyledCardProps = {
   key: number;
-  disabled: boolean | undefined;
   children: ReactNode;
   onClick: () => void;
 };
@@ -18,27 +17,25 @@ function GameSelect() {
       name: "길 찾기",
       ability: "계획 능력",
       time: 3,
-      url: "/test/prepare/find-road",
+      url: "/test/find-road/prepare",
     },
     {
       name: "가위 바위 보",
       ability: "인지 능력",
       time: 3,
-      url: "/prepare/rpsPage",
+      url: "/test/rps/prepare",
     },
     {
       name: "도형 회전하기",
       ability: "인지 능력",
       time: 4,
-      url: "",
-      disabled: true,
+      url: "/test/turn/prepare",
     },
     {
       name: "고양이 술래잡기",
       ability: "인지 능력",
       time: 4,
-      url: "",
-      disabled: true,
+      url: "/test/cat/prepare",
     },
   ];
 
@@ -49,13 +46,9 @@ function GameSelect() {
         <h1>게임 목록</h1>
         <RowFlexBox>
           {gameOptions.map((item, index) => {
-            const { name, ability, time, disabled, url } = item;
+            const { name, ability, time, url } = item;
             return (
-              <StyledCard
-                key={index}
-                disabled={disabled}
-                onClick={() => navigate(url)}
-              >
+              <StyledCard key={index} onClick={() => navigate(url)}>
                 <TypoForGameName>{name}</TypoForGameName>
                 <TypoForAbility>
                   {ability} | 약 {time}분
@@ -97,11 +90,11 @@ const StyledCard: ComponentType<StyledCardProps> = styled(
   border: "2px solid gray",
   borderRadius: "20px",
 
-  background: props.disabled ? "#e5e5e5" : "white",
-  cursor: props.disabled ? "" : "pointer",
+  background: "white",
+  cursor: "pointer",
 
   "&:hover": {
-    background: props.disabled ? "e5e5e5" : "#97E3E1",
+    background: "#97E3E1",
   },
 }));
 
