@@ -33,4 +33,14 @@ const getGamesData = async (props: object) => {
   return res;
 };
 
-export { getAbilityData, getVideoData, getGamesData };
+const getEmotionData = async (props: object) => {
+  const requestProps = {
+    method: "GET",
+    url: "/videos/emotion",
+    data: props,
+  };
+  const res = await requestGet(requestProps);
+  console.log(res);
+  return res;
+};
+export { getAbilityData, getVideoData, getGamesData, getEmotionData };

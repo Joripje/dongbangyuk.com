@@ -1,7 +1,8 @@
-import { getAbilityData } from "api/statistics";
+import { getAbilityData, getEmotionData } from "api/statistics";
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import AbilityBlock from "./AbilityBlock";
+import EmotionChart from "./EmotionChart";
 
 const AbilityChart = () => {
   const [judgment, setJudgment] = useState<number>(0);
@@ -9,10 +10,19 @@ const AbilityChart = () => {
   const [stability, setStability] = useState<number>(0);
   const [endurance, setEndurance] = useState<number>(0);
   const [resilience, setResilience] = useState<number>(0);
+  const [emotions, setEmotions] = useState<{ [key: string]: number }>({
+    angry: 0,
+    disgust: 0,
+    scared: 0,
+    happy: 0,
+    sad: 0,
+    surprised: 0,
+    neutral: 0,
+  });
   // const [gameAbility, setGameAbility] = useState<number>(0);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchAbilityData = async () => {
       try {
         const response = await getAbilityData({
           gameid: 1,
@@ -29,7 +39,21 @@ const AbilityChart = () => {
       }
     };
 
-    fetchData();
+    const fetchEmotionData = async () => {
+      try {
+        const response = await getEmotionData({
+          gameid: 1,
+        });
+
+        setEmotions(response);
+        console.log(response);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchAbilityData();
+    fetchEmotionData();
   }, []);
 
   const abilityData = [
@@ -56,22 +80,27 @@ const AbilityChart = () => {
   ];
 
   return (
-    <ContainerBox>
-      {abilityData.map((data) => (
-        <AbilityBlock
-          key={data.ability}
-          abilityName={data.ability}
-          level={data.level}
-          color={data.color}
-        />
-      ))}
-    </ContainerBox>
+    <BoardBox>
+      <ContainerBox>
+        {abilityData.map((data) => (
+          <AbilityBlock
+            key={data.ability}
+            abilityName={data.ability}
+            level={data.level}
+            color={data.color}
+          />
+        ))}
+      </ContainerBox>
+      <ContainerBox>
+        <EmotionChart emotions={emotions} />
+      </ContainerBox>
+    </BoardBox>
   );
 };
 
 const BoardBox = styled.div({
   position: "relative",
-  margin: "1rem 0",
+  margin: "1rem auto",
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
