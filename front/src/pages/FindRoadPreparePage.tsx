@@ -1,13 +1,38 @@
 import { useState } from "react";
 
-import { GameTemplate, PrepareTemplate, StatusBar } from "components/game";
-import { rmt, findRoad } from "assets/images/findRoad";
+import { PrepareTemplate, StatusBar } from "components/game";
+import {
+  rmt,
+  findRoad,
+  first,
+  second,
+  third,
+  fourth,
+  fifth,
+  sixth,
+  seventh,
+  eighth,
+  nineth,
+  tenth,
+} from "assets/images/findRoad";
 import PrepareExam from "components/game/PrepareExam";
 
 function FindRoadPreparePage() {
   const [isPreparing, setIsPreparing] = useState(true);
 
-  const imagesList: string[] = [findRoad];
+  const imagesList: string[] = [
+    findRoad,
+    first,
+    second,
+    third,
+    fourth,
+    fifth,
+    sixth,
+    seventh,
+    eighth,
+    nineth,
+    tenth,
+  ];
 
   const overviewProps = {
     image: rmt,
@@ -36,7 +61,7 @@ function FindRoadPreparePage() {
   const gameType = "road";
 
   return (
-    <GameTemplate>
+    <>
       <StatusBar
         gameType={gameType}
         status='explain'
@@ -58,7 +83,7 @@ function FindRoadPreparePage() {
           descriptions={descriptions}
         />
       )}
-    </GameTemplate>
+    </>
   );
 }
 

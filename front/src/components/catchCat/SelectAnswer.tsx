@@ -9,7 +9,6 @@ import styled from "styled-components";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 
 import choco from "assets/images/catch/choco.jpg";
-import teontenote from "assets/images/catch/teontenote.png";
 
 type StyledBoxProps = {
   rowValue: number;
@@ -52,7 +51,7 @@ function SelectAnswer(props: { correct: boolean[] }) {
     }, 4000);
 
     return () => clearInterval(intervalId);
-  }, [correct, dispatch]);
+  }, [correct, dispatch, timestamp]);
 
   function renderSelectCircles(
     circles: number[],

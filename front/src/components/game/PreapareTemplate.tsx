@@ -25,7 +25,7 @@ type PreapareTemplateProps = {
 };
 
 const PreapareTemplate = (props: PreapareTemplateProps) => {
-  const [selectedTypo, setSelectedTypo] = useState<number>(-1);
+  const [selectedTypo, setSelectedTypo] = useState<number>(0);
   const { imagesList, overviewProps, goal, descriptions, setIsPreparing } =
     props;
 
