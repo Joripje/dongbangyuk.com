@@ -158,7 +158,7 @@ const GameBoard = (props: GameBoardProps) => {
   }, []);
 
   return (
-    <RowFlexBox>
+    <BoardWrapper>
       <ProblemInfo clickCount={clickCount} leastWall={boardState.correct} />
       <ColFlexBox>
         {boardState.problem.map((item, yIndex) => {
@@ -188,9 +188,15 @@ const GameBoard = (props: GameBoardProps) => {
           테스트용 최종 제출 버튼
         </button>
       </ColFlexBox>
-    </RowFlexBox>
+    </BoardWrapper>
   );
 };
+
+const BoardWrapper = styled.div({
+  display: "flex",
+  flexDirection: "row",
+  marginTop: "3%",
+});
 
 const RowFlexBox = styled.div`
   display: flex;
