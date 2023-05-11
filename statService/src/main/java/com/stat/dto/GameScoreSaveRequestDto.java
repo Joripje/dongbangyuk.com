@@ -1,7 +1,5 @@
 package com.stat.dto;
 
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -10,8 +8,9 @@ import lombok.Getter;
 public class GameScoreSaveRequestDto {
 
 	private final String type;
-	private final List<Integer> scoreList;
-	private final List<Integer> enduranceList;
-	private final List<Integer> resilienceList;
+	private final int gameId;
+	private final int score;
+	private final int endurance;
+	private final int resilience;
 
 }

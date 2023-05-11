@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.stat.domain.score.GameScore;
+import com.stat.dto.AbilityResponseDto;
 import com.stat.dto.StatisticsSaveRequestDto;
 import com.stat.service.StatisticsService;
 
@@ -39,6 +40,22 @@ public class StatisticsController {
 		return ResponseEntity.ok(statisticsService.getStatisticsByType(type));
 	}
 
+	@ApiOperation(value = "유저 응시 게임 기록 가져오기")
+	@GetMapping("/getUserGameList")
+	public ResponseEntity<?> getUserGameList(@RequestParam int userId, @RequestParam(required = false) String type) {
+		if (type == null) {
+			return ResponseEntity.ok(statisticsService.getUserHistoryAll(userId));
+		} else {
+			return ResponseEntity.ok(statisticsService.getUserHistoryByGameType(userId, type));
+		}
+	}
+
+	@ApiOperation(value = "유저 개인 역량 가져오기")
+	@GetMapping("/getUserAbility")
+	public AbilityResponseDto getUserAbility(@RequestParam int userId) {
+		return statisticsService.getUserAbility(userId);
+	}
+
 	@ApiOperation(value = "더미 데이터 생성")
 	@PostMapping("/dummy")
 	public ResponseEntity<String> addDummyData() {
@@ -46,12 +63,12 @@ public class StatisticsController {
 		return ResponseEntity.ok("Dummy 완성");
 	}
 
-	@ApiOperation(value = "통계 업데이트")
-	@PostMapping("/update")
-	public ResponseEntity<String> updateStatistics() {
-		statisticsService.updateStatistics();
-		return ResponseEntity.ok("gameId에 대한 통계 업데이트");
-	}
+	// @ApiOperation(value = "통계 업데이트")
+	// @PostMapping("/update")
+	// public ResponseEntity<String> updateStatistics() {
+	// 	statisticsService.updateStatistics();
+	// 	return ResponseEntity.ok("gameId에 대한 통계 업데이트");
+	// }
 
 	@ApiOperation(value = "게임별 점수 분포 조회")
 	@GetMapping("/getStatistics")

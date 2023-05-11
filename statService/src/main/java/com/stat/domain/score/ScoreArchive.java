@@ -22,13 +22,12 @@ public class ScoreArchive {
 	@Id
 	private ObjectId id;
 	private int userId;
-	private List<GameScore> gameScores = new ArrayList<>();
+	private List<GameScore> gameList = new ArrayList<>();
 
 	@Builder
-	public ScoreArchive(int userId, List<GameScore> gameScores) {
+	public ScoreArchive(int userId, List<GameScore> gameList) {
 		this.userId = userId;
-		this.gameScores = gameScores != null ? gameScores : new ArrayList<>();
+		this.gameList = gameList != null ? gameList : new ArrayList<>();
 	}
 
 }
-

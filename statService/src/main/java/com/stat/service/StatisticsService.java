@@ -1,6 +1,5 @@
 package com.stat.service;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,8 +15,11 @@ import com.stat.domain.score.ScoreArchive;
 import com.stat.domain.score.ScoreArchiveRepository;
 import com.stat.domain.statistics.Statistics;
 import com.stat.domain.statistics.StatisticsRepository;
+import com.stat.dto.AbilityResponseDto;
 import com.stat.dto.StatisticsSaveRequestDto;
+import com.stat.dto.UserHistoryResponseDto;
 import com.stat.exception.GameTypeNotFoundException;
+import com.stat.exception.UserNotFoundException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -46,6 +48,150 @@ public class StatisticsService {
 
 		statistics.getScores().add(0, score);
 		return statisticsRepository.save(statistics);
+	}
+
+	@Transactional(readOnly = true)
+	public UserHistoryResponseDto getUserHistoryAll(int userId) {
+		Map<String, Integer> gameCount = getGameCount(userId);
+		ScoreArchive scoreArchive = scoreArchiveRepository.findByUserId(userId)
+			.orElseThrow(() -> new UserNotFoundException(String.format("%s 님의 게임 응시 내역이 없어요.", userId)));
+
+		String type = "cat";
+		// 임시로 cat으로 설정
+		Optional<GameScore> first = scoreArchive.getGameList().stream()
+			.filter(gameScore -> gameScore.getType().equals(type))
+			.findFirst();
+
+		GameScore gameScore;
+		if (first.isPresent()) {
+			gameScore = first.get();
+			List<List<Integer>> lists = gameScore.getScoreList();
+			if (lists.size() < 6) {
+				return new UserHistoryResponseDto(gameCount, lists.subList(0, lists.size()));
+			} else {
+				return new UserHistoryResponseDto(gameCount, lists.subList(0, 6));
+			}
+		} else {
+			throw new GameTypeNotFoundException("[getUserHistoryAll] 해당 게임에 대한 응시 내역이 없어요.");
+		}
+	}
+
+	@Transactional(readOnly = true)
+	public UserHistoryResponseDto getUserHistoryByGameType(int userId, String type) {
+		Map<String, Integer> gameCount = getGameCount(userId);
+		ScoreArchive scoreArchive = scoreArchiveRepository.findByUserId(userId)
+			.orElseThrow(() -> new UserNotFoundException(String.format("%s 님의 게임 응시 내역이 없어요.", userId)));
+
+		Optional<GameScore> first = scoreArchive.getGameList().stream()
+			.filter(gameScore -> gameScore.getType().equals(type))
+			.findFirst();
+
+		GameScore gameScore;
+		if (first.isPresent()) {
+			gameScore = first.get();
+			List<List<Integer>> lists = gameScore.getScoreList();
+
+			if (lists.size() < 6) {
+				return new UserHistoryResponseDto(gameCount, lists.subList(0, lists.size()));
+			} else {
+				return new UserHistoryResponseDto(gameCount, lists.subList(0, 6));
+			}
+		} else {
+			throw new GameTypeNotFoundException("[getUserHistoryByGameType] 해당 게임에 대한 응시 내역이 없어요.");
+		}
+	}
+
+	private Map<String, Integer> getGameCount(int userId) {
+		ScoreArchive scoreArchive = scoreArchiveRepository.findByUserId(userId)
+			.orElseThrow(() -> new UserNotFoundException(String.format("%s 님의 게임 응시 내역이 없어요.", userId)));
+
+		Map<String, Integer> gameDataCounts = new TreeMap<>();
+		int total = 0;
+		for (GameScore gameScore : scoreArchive.getGameList()) {
+			String gameType = gameScore.getType();
+			int dataCount = gameScore.getScoreList().size();
+			total += dataCount;
+			gameDataCounts.put(gameType, dataCount);
+		}
+		gameDataCounts.put("total", total);
+
+		return gameDataCounts;
+	}
+
+	public AbilityResponseDto getUserAbility(int userId) {
+		ScoreArchive scoreArchive = scoreArchiveRepository.findByUserId(userId)
+			.orElseThrow(() -> new GameTypeNotFoundException(String.format("%s에 대한 데이터가 없어요.", userId)));
+
+		List<GameScore> gameList = scoreArchive.getGameList();
+		if (gameList.size() != 4) {
+			throw new IllegalArgumentException("모든 게임을 수행했을 때만 조회가 가능합니다.");
+		}
+
+		// Map<String, Integer> scoreList = new HashMap<>();
+		List<Integer> enduranceList = new ArrayList<>();    // 지구력
+		List<Integer> resilienceList = new ArrayList<>();    // 회복탄력성
+
+		int catScore = 0;
+		int roadScore = 0;
+		int rotateScore = 0;
+		int rpsScore = 0;
+
+		int total = 0;
+		for (GameScore gameScore : gameList) {
+			List<List<Integer>> results = gameScore.getScoreList();
+			// scoreList.put(gameScore.getType(), results.get(0).get(1));
+
+			switch (gameScore.getType()) {
+				case "cat":
+					catScore = results.get(0).get(1);
+					break;
+				case "road":
+					roadScore = results.get(0).get(1);
+					break;
+				case "rotate":
+					rotateScore = results.get(0).get(1);
+					break;
+				case "rps":
+					rpsScore = results.get(0).get(1);
+					break;
+			}
+
+			// 지구력과 회탄성 평균 구하기
+			int sum2nd = 0;
+			int sum3rd = 0;
+			for (List<Integer> scoreEntry : results) {
+				total += 1;
+				sum2nd += scoreEntry.get(2);
+				sum3rd += scoreEntry.get(3);
+			}
+
+			System.out.println("total: " + total);
+			int average2nd = sum2nd / total;
+			int average3rd = sum3rd / total;
+			enduranceList.add(average2nd);
+			resilienceList.add(average3rd);
+		}
+
+		// Output
+		System.out.println("Average of the 2nd value: " + calculateAverage(enduranceList));
+		System.out.println("Average of the 3rd value: " + calculateAverage(resilienceList));
+
+		AbilityResponseDto abilityResponseDto = new AbilityResponseDto(catScore, roadScore, rotateScore, rpsScore,
+			calculateAverage(enduranceList), calculateAverage(resilienceList));
+
+		String s = abilityResponseDto.toString();
+		System.out.println("ability: " + s);
+
+		return abilityResponseDto;
+		// return new AbilityResponseDto(catScore, roadScore, rotateScore, rpsScore, calculateAverage(enduranceList), calculateAverage(resilienceList));
+	}
+
+	private static int calculateAverage(List<Integer> values) {
+		int sum = 0;
+		for (int value : values) {
+			sum += value;
+		}
+		return sum / values.size();
 	}
 
 	private Statistics createStatistics(String type) {
@@ -83,30 +229,30 @@ public class StatisticsService {
 	}
 
 	// 스케줄링 적용 필요
-	public void updateStatistics() {
-		LocalDate today = LocalDate.now();
-		List<ScoreArchive> scoreArchives = scoreArchiveRepository.findAll();
-		List<String> gameTypes = Arrays.asList("cat", "road", "rotate", "rps");
-
-		for (String gameType : gameTypes) {
-			List<Integer> allScores = new ArrayList<>();
-
-			for (ScoreArchive scoreArchive : scoreArchives) {
-				for (GameScore gameScore : scoreArchive.getGameScores()) {
-					if (gameScore.getType().equals(gameType)) {
-						allScores.addAll(gameScore.getScoreList());
-					}
-				}
-			}
-
-			if (!allScores.isEmpty()) {
-				Statistics statistics = statisticsRepository.findByType(gameType)
-					.orElse(Statistics.builder().type(gameType).build());
-				statistics.updateScores(allScores);
-				statisticsRepository.save(statistics);
-			}
-		}
-	}
+	// public void updateStatistics() {
+	// 	LocalDate today = LocalDate.now();
+	// 	List<ScoreArchive> scoreArchives = scoreArchiveRepository.findAll();
+	// 	List<String> gameTypes = Arrays.asList("cat", "road", "rotate", "rps");
+	//
+	// 	for (String gameType : gameTypes) {
+	// 		List<Integer> allScores = new ArrayList<>();
+	//
+	// 		for (ScoreArchive scoreArchive : scoreArchives) {
+	// 			for (GameScore gameScore : scoreArchive.getGameScores()) {
+	// 				if (gameScore.getType().equals(gameType)) {
+	// 					allScores.addAll(gameScore.getScoreList());
+	// 				}
+	// 			}
+	// 		}
+	//
+	// 		if (!allScores.isEmpty()) {
+	// 			Statistics statistics = statisticsRepository.findByType(gameType)
+	// 				.orElse(Statistics.builder().type(gameType).build());
+	// 			statistics.updateScores(allScores);
+	// 			statisticsRepository.save(statistics);
+	// 		}
+	// 	}
+	// }
 
 	@Transactional(readOnly = true)
 	public Map<String, Integer> getScoreLevelStatistics(String type) {

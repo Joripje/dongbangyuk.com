@@ -26,12 +26,13 @@ public class ScoreArchiveController {
 
 	@ApiOperation(value = "게임 기록 추가")
 	@PostMapping
-	public ResponseEntity<GameScore> addScore(@RequestBody GameScoreDto gameScoreDto) {
-		scoreArchiveService.addScore(gameScoreDto);
+	public ResponseEntity<GameScore> addScore(
+		@RequestBody GameScoreDto gameScoreDto) {
+		scoreArchiveService.saveGameScore(gameScoreDto);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
-	@ApiOperation(value = "유저 아이디에 해당하는 게임 기록 조회")
+	@ApiOperation(value = "유저별 게임 최신 기록 단건 조회 - gameType 지정 안하면 게임별 최신 데이터 하나씩 반환")
 	@GetMapping("/{userId}")
 	public ResponseEntity<?> searchByUserId(
 		@PathVariable int userId,
