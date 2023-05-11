@@ -28,6 +28,8 @@ function SignUp(props: SignUpProps) {
   const [inputEmail, setInputEmail] = useState("");
   const [inputPassword, setInputPassword] = useState("");
   const [inputDisplayName, setInputDisplayName] = useState("");
+  const [inputPhoneNumber, setInputPhoneNumber] = useState("");
+
   const textFieldOptions: Array<textFieldOption> = [
     {
       id: "userId",
@@ -48,13 +50,20 @@ function SignUp(props: SignUpProps) {
     {
       id: "displayName",
       target: inputDisplayName,
-      setTarget: (password) => setInputDisplayName(password),
+      setTarget: (displayName) => setInputDisplayName(displayName),
       label: "닉네임",
       focus: false,
       type: "displayName",
     },
+    {
+      id: "phoneNumber",
+      target: inputPhoneNumber,
+      setTarget: (phoneNumber) => setInputPhoneNumber(phoneNumber),
+      label: "전화번호",
+      focus: false,
+      type: "phoneNumber",
+    },
   ];
-
   const onTypingHandler = (event: ChangeEvent<HTMLInputElement>) => {
     for (const key in textFieldOptions) {
       const option = textFieldOptions[key];
@@ -88,8 +97,8 @@ function SignUp(props: SignUpProps) {
         spacing={2}
         style={{ padding: "2rem", justifyContent: "center" }}
       >
-        {textFieldOptions.map((item) => {
-          if (item.id === "displayName" && isLogin) return false;
+        {textFieldOptions.map((item, index) => {
+          if (isLogin && index > 1) return false;
           return (
             <Grid item xs={12} key={item.id}>
               <TextField

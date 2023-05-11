@@ -27,7 +27,7 @@ const routes = [
     element: <MemberPage />,
   },
   {
-    path: "/test/prepare",
+    path: "/test",
     element: <GameSelectPage />,
   },
   {
@@ -35,24 +35,24 @@ const routes = [
     element: <FindRoadPage />,
   },
   {
-    path: "/test/prepare/find-road",
+    path: "/test/find-road/prepare",
     element: <FindRoadPreparePage />,
   },
   {
-    path: "/rpsPage",
+    path: "/test/rps",
     element: <RpsGamePage />,
   },
   {
-    path: "/prepare/rpsPage",
+    path: "/test/rps/prepare",
     element: <RpsPreparePage />,
   },
 
   {
-    path: "/catPage",
+    path: "/test/cat",
     element: <CatchCatGamePage />,
   },
   {
-    path: "/turnPage",
+    path: "/test/turn",
     element: <TurnPicGamePage />,
   },
   {
