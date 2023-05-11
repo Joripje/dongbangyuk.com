@@ -168,6 +168,8 @@ public class StatisticsService {
 		int rpsScore = 0;
 
 		int total = 0;
+		int sum2nd = 0;
+		int sum3rd = 0;
 		for (GameScore gameScore : gameList) {
 			List<List<Integer>> results = gameScore.getScoreList();
 
@@ -187,28 +189,22 @@ public class StatisticsService {
 			}
 
 			// 지구력과 회탄성 평균 구하기
-			int sum2nd = 0;
-			int sum3rd = 0;
+
 			for (List<Integer> scoreEntry : results) {
 				total += 1;
 				sum2nd += scoreEntry.get(2);
 				sum3rd += scoreEntry.get(3);
 			}
 
-			System.out.println("total: " + total);
-			int average2nd = sum2nd / total;
-			int average3rd = sum3rd / total;
-			enduranceList.add(average2nd);
-			resilienceList.add(average3rd);
 		}
+		int average2nd = sum2nd / total;
+		int average3rd = sum3rd / total;
 
-		AbilityResponseDto abilityResponseDto = new AbilityResponseDto(catScore, roadScore, rotateScore, rpsScore,
+		enduranceList.add(average2nd);
+		resilienceList.add(average3rd);
+
+		return new AbilityResponseDto(catScore, roadScore, rotateScore, rpsScore,
 			calculateAverage(enduranceList), calculateAverage(resilienceList));
-
-		String s = abilityResponseDto.toString();
-		System.out.println("ability: " + s);
-
-		return abilityResponseDto;
 	}
 
 	private static int calculateAverage(List<Integer> values) {
