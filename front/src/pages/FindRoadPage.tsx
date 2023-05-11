@@ -5,7 +5,7 @@ import { GameBoard } from "../components/findRoad";
 import { StatusBar, GameTemplate } from "components/game";
 
 function FindRoadPage() {
-  const startTime = new Date();
+  const [startTime] = useState(new Date());
   const [status] = useState("explain");
   const [problemNum, setProblemNum] = useState(1);
 

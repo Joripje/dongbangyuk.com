@@ -39,7 +39,7 @@ const Timer: React.FC<TimerProps> = (props: TimerProps) => {
     navigate,
     onExitHandler,
   ]);
-  
+
   // 5초 남으면 남은시간 빨간색으로 바꿔주는 함수
   useEffect(() => {
     if (remainTime === 5) {
@@ -47,10 +47,10 @@ const Timer: React.FC<TimerProps> = (props: TimerProps) => {
     } else if (remainTime === 0) {
       setHurry(false);
     }
-  },[remainTime])
+  }, [remainTime]);
 
   return (
-    <TimeBox style={hurry? {color: 'red'} : {color: 'black'}}>
+    <TimeBox style={hurry ? { color: "red" } : { color: "black" }}>
       {remainTime < 0
         ? "종료"
         : `${Math.floor(remainTime / 60)} : 
