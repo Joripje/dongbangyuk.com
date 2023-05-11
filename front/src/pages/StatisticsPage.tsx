@@ -4,6 +4,7 @@ import styled from "styled-components";
 const StatisticsPage = () => {
   return (
     <TemplateBox>
+      <MainTitleContainer>나의 통계</MainTitleContainer>
       <Divider />
       <TitleContainer>결과보기</TitleContainer>
       <BoardBox>
@@ -53,6 +54,13 @@ const TitleContainer = styled.div({
   fontSize: "2rem",
   marginTop: "0.5rem",
   marginBottom: "0.5rem",
+  marginLeft: "5%",
+});
+
+const MainTitleContainer = styled.div({
+  fontWeight: "bold",
+  fontSize: "4rem",
+  margin: "2rem",
   marginLeft: "5%",
 });
 

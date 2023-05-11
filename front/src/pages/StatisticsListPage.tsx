@@ -2,75 +2,55 @@ import queryString from "query-string";
 import { useLocation } from "react-router-dom";
 import { getStatisicsListData } from "api/statistics";
 import { useState, useEffect } from "react";
-import { StatisticsListCircles } from "components/statistics";
+import {
+  StatisticsListCircles,
+  StatisticListCards,
+} from "components/statistics";
 import styled from "styled-components";
+
+type GameCounts = {
+  [key: string]: number;
+};
 
 const StatisticsListPage = () => {
   const location = useLocation();
   const [gameType, setGameType] = useState<String>("all");
-  const [cardList, setCardList] = useState<Array<object>>([]);
-  const [gameCounts, setGameCounts] = useState<object>({});
+  const [cardList, setCardList] = useState([]);
+  const [gameCounts, setGameCounts] = useState<GameCounts>({
+    cat: 0,
+    road: 0,
+    rotate: 0,
+    rps: 0,
+    total: 0,
+  });
   const parsed = queryString.parse(location.search);
-  // const response = {
-  //   gameCounts: {
-  //     cat: 1,
-  //     road: 1,
-  //     rotate: 1,
-  //     rps: 1,
-  //     total: 4,
-  //   },
-  //   gameScoreList: [
-  //     {
-  //       type: "cat",
-  //       gameId: 1,
-  //       score: 0,
-  //       endurance: 1,
-  //       resilience: 1,
-  //     },
-  //     {
-  //       type: "road",
-  //       gameId: 2,
-  //       score: 0,
-  //       endurance: 1,
-  //       resilience: 1,
-  //     },
-  //     {
-  //       type: "rotate",
-  //       gameId: 3,
-  //       score: 0,
-  //       endurance: 1,
-  //       resilience: 1,
-  //     },
-  //     {
-  //       type: "rps",
-  //       gameId: 4,
-  //       score: 0,
-  //       endurance: 1,
-  //       resilience: 1,
-  //     },
-  //   ],
-  // };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await getStatisicsListData({
-          type: "all",
-          userId: 1,
+          type: gameType,
+          userId: parsed.userid,
         });
+        setCardList(response.gameScoreList);
+        console.log(cardList);
+        setGameCounts(response.gameCounts);
+        console.log(gameCounts);
       } catch (err) {
         console.error(err);
       }
     };
     fetchData();
-    // setCardList(response.gameScoreList);
   }, [gameType]);
 
   return (
     <>
       <TemplateBox>
-        {/* <StatisticsListCircles gameCounts={response.gameCounts} /> */}
+        <MainTitleContainer>나의 통계</MainTitleContainer>
         <Divider />
+        <StatisticsListCircles gameCounts={gameCounts} />
+        <Divider />
+        <StatisticListCards cardList={cardList} />
       </TemplateBox>
     </>
   );
@@ -127,6 +107,14 @@ const TemplateBox = styled.div({
 //   font-weight: bold;
 //   margin-bottom: 0.5rem;
 // `;
+
+const MainTitleContainer = styled.div({
+  fontWeight: "bold",
+  fontSize: "4rem",
+  margin: "2rem",
+  marginLeft: "5%",
+});
+
 const Divider = styled.hr`
   width: 90%;
   border: none;

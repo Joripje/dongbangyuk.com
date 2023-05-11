@@ -1,9 +1,7 @@
 import styled from "styled-components";
 
 interface CircleProps {
-  gameCounts: {
-    [key: string]: number;
-  };
+  gameCounts: { [key: string]: number };
 }
 
 const StatisticsListCircles = (props: CircleProps) => {
