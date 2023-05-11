@@ -24,123 +24,6 @@ public class ScoreArchiveService {
 
 	private final ScoreArchiveRepository scoreArchiveRepository;
 
-	// @Transactional(readOnly = true)
-	// public List<ScoreArchiveResponseDto> findByUserId(int userId) {
-	// 	Optional<ScoreArchive> optionalScoreArchive = scoreArchiveRepository.findByUserId(userId);
-	//
-	// 	List<ScoreArchiveResponseDto> dtos = new ArrayList<>();
-	// 	if (optionalScoreArchive.isPresent()) {
-	// 		ScoreArchive scoreArchive = optionalScoreArchive.get();
-	//
-	// 		int endurance = 0;    // 지구력
-	// 		int resilience = 0;    // 회탄성
-	// 		int cnt = 0;
-	//
-	// 		// 4가지 게임 역량
-	// 		for (GameScore gameScore : scoreArchive.getGameList()) {
-	// 			gameScore.getScoreList().values().stream()
-	// 				.findFirst()
-	// 				.orElse(null);
-	//
-	// 			for (int i = 0; i < 4; i++) {
-	// 				new ScoreArchiveResponseDto(gameScore.getType(), gameScore.getScoreList());
-	// 			}
-	// 			dtos.add(new ScoreArchiveResponseDto(gameScore.getType(), gameScore.getScoreList().values());
-	//
-	// 			for (List<Integer>cores : gameScore.getScoreList().values()) {
-	// 				endurance += scores.get(1);
-	// 				resilience += scores.get(2);
-	// 			}
-	// 			cnt += 1;
-	// 		}
-	//
-	// 		// 지구력
-	// 		dtos.add(new ScoreArchiveResponseDto("endurance", endurance / cnt));
-	//
-	// 		// 회탄성
-	// 		dtos.add(new ScoreArchiveResponseDto("resilience", resilience / cnt));
-	//
-	// 	} else {
-	// 		throw new UserNotFoundException(String.format("해당 사용자 (%s)에 대한 게임 기록이 없습니다.", userId));
-	// 	}
-	// 	return dtos;
-	// }
-
-	// private static int calculateAverage(List<Integer> values) {
-	// 	if (values == null || values.isEmpty()) {
-	// 		return 0;
-	// 	}
-	// 	int sum = 0;
-	//
-	// 	for (Integer value : values) {
-	// 		sum += value;
-	// 	}
-	//
-	// 	return sum / values.size();
-	// }
-	//
-	// private static int calculateEnduranceAverage(ScoreArchive scoreArchive) {
-	// 	List<Integer> enduranceList = new ArrayList<>();
-	// 	for (GameScore gameScore : scoreArchive.getGameList()) {
-	// 		enduranceList.addAll(gameScore.get());
-	// 	}
-	// 	return calculateAverage(enduranceList);
-	// }
-	//
-	// public static int calculateResilienceAverage(ScoreArchive scoreArchive) {
-	// 	List<Integer> resilienceList = new ArrayList<>();
-	// 	for (GameScore gameScore : scoreArchive.getGameList()) {
-	// 		resilienceList.addAll(gameScore.getResilienceList());
-	// 	}
-	// 	return calculateAverage(resilienceList);
-	// }
-
-	// @Transactional(readOnly = true)
-	// public ScoreArchiveResponseDto findByUserIdAndGameType(int userId, String type) {
-	// 	Optional<ScoreArchive> optionalScoreArchive = scoreArchiveRepository.findByUserId(userId);
-	//
-	// 	ScoreArchiveResponseDto dto;
-	// 	if (optionalScoreArchive.isPresent()) {
-	// 		ScoreArchive scoreArchive = optionalScoreArchive.get();
-	//
-	// 		Optional<GameScore> first = scoreArchive.getGameScores()
-	// 			.stream()
-	// 			.filter(gameScore -> type.equals(gameScore.getType()))
-	// 			.findFirst();
-	//
-	// 		if (first.isPresent()) {
-	// 			dto = new ScoreArchiveResponseDto(type, first.get().getScoreList().get(0));
-	// 			return dto;
-	// 		} else {
-	// 			throw new GameTypeNotFoundException(String.format("해당 사용자 (%s)에 대한 %s 기록이 없습니다.", userId, type));
-	// 		}
-	// 	} else {
-	// 		throw new UserNotFoundException(String.format("해당 사용자 (%s)에 대한 게임 기록이 없습니다.", userId));
-	// 	}
-	// }
-
-	@Transactional
-	public void addDummyData() {
-		GameScore score1 = new GameScore("cat", List.of(List.of(1, 0, 1, 1)));
-		GameScore score2 = new GameScore("road", List.of(List.of(1, 0, 1, 1)));
-		GameScore score3 = new GameScore("rotate", List.of(List.of(1, 0, 1, 1)));
-		GameScore score4 = new GameScore("rps", List.of(List.of(1, 0, 1, 1)));
-
-		List<GameScore> scores1 = Arrays.asList(score1, score2, score3, score4);
-		ScoreArchive gameScore1 = new ScoreArchive(1, scores1);
-
-		GameScore score5 = new GameScore("cat", List.of(List.of(1, 0, 1, 1)));
-		GameScore score6 = new GameScore("road", List.of(List.of(1, 0, 1, 1)));
-		GameScore score7 = new GameScore("rotate", List.of(List.of(1, 0, 1, 1)));
-		GameScore score8 = new GameScore("rps", List.of(List.of(1, 0, 1, 1)));
-
-		List<GameScore> scores2 = Arrays.asList(score5, score6, score7, score8);
-		ScoreArchive gameScore2 = new ScoreArchive(2, scores2);
-
-		List<ScoreArchive> gameScores = Arrays.asList(gameScore1, gameScore2);
-		scoreArchiveRepository.saveAll(gameScores);
-	}
-
 	@Transactional
 	public void saveGameScore(GameScoreDto gameScoreDto) {
 		ScoreArchive scoreArchive = scoreArchiveRepository.findByUserId(gameScoreDto.getUserId())
@@ -156,6 +39,8 @@ public class ScoreArchiveService {
 			gameList.add(gameScore);
 		}
 
+		List<Integer> gameIds = scoreArchive.getGameIds();
+		gameIds.add(0, gameScoreDto.getGameId());
 		scoreArchiveRepository.save(scoreArchive);
 	}
 
@@ -229,5 +114,28 @@ public class ScoreArchiveService {
 		}
 		throw new GameTypeNotFoundException(String.format("해당 사용자에 대한 게임 %s 기록이 없습니다.", gameType));
 	}
+
+	@Transactional
+	public void addDummyData() {
+		GameScore score1 = new GameScore("cat", List.of(List.of(1, 0, 1, 1)));
+		GameScore score2 = new GameScore("road", List.of(List.of(1, 0, 1, 1)));
+		GameScore score3 = new GameScore("rotate", List.of(List.of(1, 0, 1, 1)));
+		GameScore score4 = new GameScore("rps", List.of(List.of(1, 0, 1, 1)));
+
+		List<GameScore> scores1 = Arrays.asList(score1, score2, score3, score4);
+		ScoreArchive gameScore1 = new ScoreArchive(1, scores1);
+
+		GameScore score5 = new GameScore("cat", List.of(List.of(1, 0, 1, 1)));
+		GameScore score6 = new GameScore("road", List.of(List.of(1, 0, 1, 1)));
+		GameScore score7 = new GameScore("rotate", List.of(List.of(1, 0, 1, 1)));
+		GameScore score8 = new GameScore("rps", List.of(List.of(1, 0, 1, 1)));
+
+		List<GameScore> scores2 = Arrays.asList(score5, score6, score7, score8);
+		ScoreArchive gameScore2 = new ScoreArchive(2, scores2);
+
+		List<ScoreArchive> gameScores = Arrays.asList(gameScore1, gameScore2);
+		scoreArchiveRepository.saveAll(gameScores);
+	}
+
 
 }

@@ -34,20 +34,10 @@ public class StatisticsController {
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
-	@ApiOperation(value = "게임별 통계 조회 - 모든 점수 조회")
-	@GetMapping("/games")
-	public ResponseEntity<List<Integer>> getStatisticsByType(@RequestParam String type) {
-		return ResponseEntity.ok(statisticsService.getStatisticsByType(type));
-	}
-
 	@ApiOperation(value = "유저 응시 게임 기록 가져오기")
-	@GetMapping("/getUserGameList")
-	public ResponseEntity<?> getUserGameList(@RequestParam int userId, @RequestParam(required = false) String type) {
-		if (type == null) {
-			return ResponseEntity.ok(statisticsService.getUserHistoryAll(userId));
-		} else {
-			return ResponseEntity.ok(statisticsService.getUserHistoryByGameType(userId, type));
-		}
+	@GetMapping("/getUserGameHistory")
+	public ResponseEntity<?> getUserGameHistory(@RequestParam int userId, @RequestParam String type) {
+		return ResponseEntity.ok(statisticsService.getUserHistoryByGameType(userId, type));
 	}
 
 	@ApiOperation(value = "유저 개인 역량 가져오기")
@@ -56,11 +46,24 @@ public class StatisticsController {
 		return statisticsService.getUserAbility(userId);
 	}
 
-	@ApiOperation(value = "더미 데이터 생성")
+
+	@ApiOperation(value = "게임별 점수 분포 조회")
+	@GetMapping("/getStatistics")
+	public ResponseEntity<Map<String, Integer>> getScoreLevelStatistics(String type) {
+		return ResponseEntity.ok(statisticsService.getScoreLevelStatistics(type));
+	}
+
+	@ApiOperation(value = "[TEST] 더미 데이터 생성")
 	@PostMapping("/dummy")
 	public ResponseEntity<String> addDummyData() {
 		statisticsService.addDummy();
 		return ResponseEntity.ok("Dummy 완성");
+	}
+
+	@ApiOperation(value = "[TEST] 게임별 통계 조회 - 모든 점수 조회")
+	@GetMapping("/getAllScoresByType")
+	public ResponseEntity<List<Integer>> getAllScoresByType(@RequestParam String type) {
+		return ResponseEntity.ok(statisticsService.getAllScoresByType(type));
 	}
 
 	// @ApiOperation(value = "통계 업데이트")
@@ -70,9 +73,4 @@ public class StatisticsController {
 	// 	return ResponseEntity.ok("gameId에 대한 통계 업데이트");
 	// }
 
-	@ApiOperation(value = "게임별 점수 분포 조회")
-	@GetMapping("/getStatistics")
-	public ResponseEntity<Map<String, Integer>> getScoreLevelStatistics(String type) {
-		return ResponseEntity.ok(statisticsService.getScoreLevelStatistics(type));
-	}
 }

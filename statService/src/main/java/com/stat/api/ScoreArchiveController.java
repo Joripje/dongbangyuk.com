@@ -32,7 +32,7 @@ public class ScoreArchiveController {
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
-	@ApiOperation(value = "유저별 게임 최신 기록 단건 조회 - gameType 지정 안하면 게임별 최신 데이터 하나씩 반환")
+	@ApiOperation(value = "[TEST] 유저별 게임 최신 기록 단건 조회 - gameType 지정 안하면 게임별 최신 데이터 하나씩 반환")
 	@GetMapping("/{userId}")
 	public ResponseEntity<?> searchByUserId(
 		@PathVariable int userId,
@@ -45,7 +45,7 @@ public class ScoreArchiveController {
 		}
 	}
 
-	@ApiOperation(value = "더미 데이터 생성")
+	@ApiOperation(value = "[TEST] 더미 데이터 생성")
 	@PostMapping("/dummy")
 	public ResponseEntity<String> addDummyData() {
 		scoreArchiveService.addDummyData();

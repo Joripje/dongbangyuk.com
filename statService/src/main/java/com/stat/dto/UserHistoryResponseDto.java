@@ -11,6 +11,6 @@ import lombok.Getter;
 public class UserHistoryResponseDto {
 
 	private Map<String, Integer> gameCounts;
-	private List<List<Integer>> gameScoreList;
+	private List<GameScoreResponseDto> gameScoreList;
 
 }
