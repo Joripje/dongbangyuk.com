@@ -3,8 +3,10 @@ package com.stat.dto;
 import java.util.List;
 
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public class GameScoreResponseDto {
 
 	private final String type;

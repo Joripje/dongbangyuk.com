@@ -25,7 +25,7 @@ public class ScoreArchiveService {
 	private final ScoreArchiveRepository scoreArchiveRepository;
 
 	@Transactional
-	public void saveGameScore(GameScoreDto gameScoreDto) {
+	public ScoreArchive saveGameScore(GameScoreDto gameScoreDto) {
 		ScoreArchive scoreArchive = scoreArchiveRepository.findByUserId(gameScoreDto.getUserId())
 			.orElseGet(() -> ScoreArchive.builder().userId(gameScoreDto.getUserId()).build());
 
@@ -41,7 +41,7 @@ public class ScoreArchiveService {
 
 		List<Integer> gameIds = scoreArchive.getGameIds();
 		gameIds.add(0, gameScoreDto.getGameId());
-		scoreArchiveRepository.save(scoreArchive);
+		return scoreArchiveRepository.save(scoreArchive);
 	}
 
 	private GameScore findGameScoreByType(String type, List<GameScore> gameList) {
