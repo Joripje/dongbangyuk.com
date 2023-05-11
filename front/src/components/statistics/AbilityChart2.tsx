@@ -1,13 +1,8 @@
-import { getAbilityData } from "api/statistics";
+import { getAbilityData, getEmotionData } from "api/statistics";
 import { useState, useEffect } from "react";
-import {
-  Radar,
-  RadarChart,
-  PolarGrid,
-  PolarAngleAxis,
-  PolarRadiusAxis,
-} from "recharts";
 import styled from "styled-components";
+import AbilityBlock from "./AbilityBlock";
+import EmotionChart from "./EmotionChart";
 
 const AbilityChart = () => {
   const [judgment, setJudgment] = useState<number>(0);
@@ -15,10 +10,19 @@ const AbilityChart = () => {
   const [stability, setStability] = useState<number>(0);
   const [endurance, setEndurance] = useState<number>(0);
   const [resilience, setResilience] = useState<number>(0);
-  const [gameAbility, setGameAbility] = useState<number>(0);
+  const [emotions, setEmotions] = useState<{ [key: string]: number }>({
+    angry: 0,
+    disgust: 0,
+    scared: 0,
+    happy: 0,
+    sad: 0,
+    surprised: 0,
+    neutral: 0,
+  });
+  // const [gameAbility, setGameAbility] = useState<number>(0);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchAbilityData = async () => {
       try {
         const response = await getAbilityData({
           gameid: 1,
@@ -29,54 +33,74 @@ const AbilityChart = () => {
         setStability(response.stability);
         setEndurance(response.endurance);
         setResilience(response.resilience);
-        setGameAbility(response.gameAbility);
+        // setGameAbility(response.gameAbility);
       } catch (err) {
         console.error(err);
       }
     };
 
-    fetchData();
+    const fetchEmotionData = async () => {
+      try {
+        const response = await getEmotionData({
+          gameid: 1,
+        });
+
+        setEmotions(response);
+        console.log(response);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchAbilityData();
+    fetchEmotionData();
   }, []);
 
   const abilityData = [
     {
       ability: "판단력",
       level: judgment,
+      color: "#5978E8",
     },
     {
       ability: "정확도",
       level: accuracy,
+      color: "#7FE47E",
     },
     {
       ability: "지구력",
       level: endurance,
+      color: "#FFEB3A",
     },
     {
       ability: "회복탄력성",
       level: resilience,
+      color: "#FF718B",
     },
   ];
 
   return (
-    <>
-      <RadarChart width={500} height={500} data={abilityData}>
-        <PolarGrid />
-        <PolarAngleAxis dataKey="ability" />
-        <PolarRadiusAxis domain={[0, 5]} tickCount={6} />
-        <Radar
-          dataKey="level"
-          stroke="#8884d8"
-          fill="#8884d8"
-          fillOpacity={0.6}
-        />
-      </RadarChart>
-    </>
+    <BoardBox>
+      <ContainerBox>
+        {abilityData.map((data) => (
+          <AbilityBlock
+            key={data.ability}
+            abilityName={data.ability}
+            level={data.level}
+            color={data.color}
+          />
+        ))}
+      </ContainerBox>
+      <ContainerBox>
+        <EmotionChart emotions={emotions} />
+      </ContainerBox>
+    </BoardBox>
   );
 };
 
 const BoardBox = styled.div({
   position: "relative",
-  margin: "1rem 0",
+  margin: "1rem auto",
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
@@ -94,9 +118,31 @@ const ContainerBox = styled.div({
   margin: "1rem",
   display: "flex",
   alignItems: "center",
+  flexDirection: "column",
   justifyContent: "center",
 
   width: "50%",
   height: "100%",
 });
+
+// const AbilityContainer = styled.div`
+//   position: relative;
+//   margin: 1rem auto;
+//   display: flex;
+//   flexdirection: row;
+//   alignitems: center;
+// `;
+
+// type RectangleProps = {
+//   color?: string;
+// };
+
+// const Rectangle = styled.div<RectangleProps>`
+//   width: 3.5rem;
+//   height: 2rem;
+//   margin: 0 0.1rem;
+//   border-radius: 10px;
+//   background-color: ${(props) => (props.color ? props.color : "gray")};
+// `;
+
 export default AbilityChart;
