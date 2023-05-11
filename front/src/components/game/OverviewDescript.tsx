@@ -40,25 +40,31 @@ function OverviewDescript(props: OverviewDescriptProps) {
           );
         })}
       </Grid>
-      <RpsDescript>{rounds === 3? <TypoColor>이 과제는 키보드를 사용합니다.</TypoColor> : ''}</RpsDescript>
+      <RpsDescript>
+        <TypoColor>
+          {rounds === 3
+            ? "이 과제는 키보드를 사용합니다."
+            : "이 과제는 마우스를 사용합니다."}
+        </TypoColor>
+      </RpsDescript>
     </OverviewDescriptBox>
   );
 }
 
-const RpsDescript = styled(Box) ({
-  display: 'flex',
-  justifyContent: 'center',
-  padding: '1rem',
-  backgroundColor: '#EEFDF3',
-  border: 'solid',
-  borderColor: '#A6CFAE',
-  borderRadius: '1rem',
+const RpsDescript = styled(Box)({
+  display: "flex",
+  justifyContent: "center",
+  padding: "1rem",
+  backgroundColor: "#EEFDF3",
+  border: "solid",
+  borderColor: "#A6CFAE",
+  borderRadius: "1rem",
 });
 
 const TypoColor = styled.div({
-  color: '#50C564',
-  fontSize: '1.2rem',
-})
+  color: "#50C564",
+  fontSize: "1.2rem",
+});
 
 const RowFlexBox = styled.div({
   display: "flex",
@@ -98,7 +104,7 @@ const MeasureBox = styled.div({
   ...StyleForTypo,
   width: "10rem",
   height: "2rem",
-  color: "#bbbbbb",
+  color: "#777777",
   background: "#e5e5e5",
   justifyContent: "center",
   borderRadius: 10,

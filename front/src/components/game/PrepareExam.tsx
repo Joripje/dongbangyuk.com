@@ -16,14 +16,27 @@ function PrepareExam(props: PrepareExamProps) {
   const [countDown, setCountDown] = useState(10);
 
   useEffect(() => {
-    if (countDown === 10) start();
+    if (countDown === 10) {
+      start();
+    }
+
     const intervalId = setInterval(() => {
       setCountDown(countDown - 1);
     }, 1000);
 
-    if (gameType === 'road' && countDown === 0) navigate("/test/find-road");
+    if (countDown !== 0) return;
+    switch (gameType) {
+      case "road":
+        navigate("/test/find-road");
+        break;
+      case "rps":
+        navigate("/test/rps");
+        break;
+    }
 
-    if (gameType === 'rps' && countDown === 0) navigate("/rpsPage");
+    // if (gameType === "road" && countDown === 0) ;
+
+    // if (gameType === "rps" && countDown === 0) navigate("/test/rps");
 
     return () => clearInterval(intervalId);
   }, [countDown, navigate]);

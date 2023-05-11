@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import love from "assets/images/love.png";
+import { janban } from "assets/images";
 import { useEffect } from "react";
 
 type VoiceImageProps = {
@@ -31,7 +31,7 @@ const VoiceCheckImg = styled.div({
   width: "5rem",
   height: "5rem",
   margin: "1rem",
-  backgroundImage: `url(${love})`,
+  backgroundImage: `url(${janban})`,
   backgroundSize: "cover",
 });
 

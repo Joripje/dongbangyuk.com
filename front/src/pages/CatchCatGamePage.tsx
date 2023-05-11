@@ -4,7 +4,7 @@ import { useState } from "react";
 import { GameBoard } from "../components/catchCat";
 import { StatusBar, GameTemplate } from "components/game";
 
-function FindRoadPage() {
+function CatchCatGamePage() {
   const [status] = useState("explain");
   const [problemNum, setProblemNum] = useState(0);
   // const [startTime, setStartTime] = useState(new Date().getTime());
@@ -14,15 +14,15 @@ function FindRoadPage() {
   // }, [problemNum]);
 
   return (
-    <GameTemplate>
+    <>
       <StatusBar status={status} gameType='road' problemNum={problemNum} />
       <GameBoard
         problemNum={problemNum}
         ascProblemNum={() => setProblemNum(problemNum + 1)}
       />
       {/* <Timer startTime={startTime} settingTime={3} /> */}
-    </GameTemplate>
+    </>
   );
 }
 
-export default FindRoadPage;
+export default CatchCatGamePage;

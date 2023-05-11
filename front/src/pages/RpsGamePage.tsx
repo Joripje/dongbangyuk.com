@@ -1,21 +1,18 @@
-import React, {useState, useEffect} from 'react'
-import { useNavigate } from 'react-router-dom';
-import Rps from 'components/rps/Rps';
-import { Timer } from 'components/common';
-import { Loading } from 'components/rps';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import Rps from "components/rps/Rps";
+import { Timer } from "components/common";
+import { Loading } from "components/rps";
 
-import styled from 'styled-components';
-import { Box } from '@mui/material';
+import styled from "styled-components";
+import { Box } from "@mui/material";
 
-import { postRpsResults } from 'api/rps';
-import { GameTemplate, StatusBar } from 'components/game';
-
+import { postRpsResults } from "api/rps";
+import { GameTemplate, StatusBar } from "components/game";
 
 type RpsGamePageProps = {};
 
-
 function RpsGamePage(props: RpsGamePageProps) {
-
   const [startTime, setStartTime] = useState<number>(new Date().getTime());
   const [settingTime, setSettingTime] = useState<number>(10);
   const [isGaming, setIsGaming] = useState<boolean>(true);
@@ -27,20 +24,19 @@ function RpsGamePage(props: RpsGamePageProps) {
     date: string;
     gameType: string;
     rounds: {
-    [key: string]: object[]
+      [key: string]: object[];
     };
   }>({
-  gameId: 1,
-  userId: 1,
-  date: new Date().toISOString(),
-  gameType: 'rps',
-  rounds: {
-    1: [],
-    2: [],
-    3: []
-  }
-});
-
+    gameId: 1,
+    userId: 1,
+    date: new Date().toISOString(),
+    gameType: "rps",
+    rounds: {
+      1: [],
+      2: [],
+      3: [],
+    },
+  });
 
   const navigate = useNavigate();
 
@@ -55,15 +51,13 @@ function RpsGamePage(props: RpsGamePageProps) {
         setIsGaming(true);
       }, 4000);
     }
-  }
-
-
+  };
 
   // 라운드 종료
   const handleRoundEnd = () => {
     setIsGaming(false);
     setTimeout(() => {
-      setRound(round + 1)
+      setRound(round + 1);
       setStartTime(new Date().getTime());
       if (round === 1) {
         setSettingTime(10);
@@ -71,71 +65,73 @@ function RpsGamePage(props: RpsGamePageProps) {
         setSettingTime(10);
       }
       setIsGaming(true);
-    }, 4000)
-    
+    }, 4000);
   };
-
-
 
   const handleGameEnd = () => {
     setIsGaming(false);
     // console.log('하윙', answer)
-    postRpsResults(answer)
-    navigate('/')
+    postRpsResults(answer);
+    navigate("/");
   };
 
   const handleTimerExit = () => {
     if (round < 3) {
       handleRoundEnd();
-      // newRound(); 
+      // newRound();
     } else {
       handleGameEnd();
     }
-  }
+  };
   const handleAnswer = (gameHistory: object) => {
     const updatedRounds = {
       ...answer.rounds,
-      [round]:  gameHistory
+      [round]: gameHistory,
     };
     setAnswer({
       ...answer,
-      rounds: updatedRounds
+      rounds: updatedRounds,
     });
-  }
+  };
 
   useEffect(() => {
-    console.log(answer)
-  },[answer,])
-
+    console.log(answer);
+  }, [answer]);
 
   return (
-    <GameTemplate>
-      <StatusBar status='rps' gameType='rps' problemNum={round}/>
-      <Timer onExitHandler={handleTimerExit} startTime={startTime} settingTime={settingTime} />
+    <>
+      <StatusBar status='rps' gameType='rps' problemNum={round} />
+      <Timer
+        onExitHandler={handleTimerExit}
+        startTime={startTime}
+        settingTime={settingTime}
+      />
       {isGaming ? (
-            <>
-              <GameBox>
-                <Rps onRoundChange={handleAnswer} round={round} settingTime={settingTime} onGameStart={handleStart} />
-              </GameBox>
-            </>
-          ) : (
-              <Loading />
-          )}
-    </GameTemplate>
-  )
+        <>
+          <GameBox>
+            <Rps
+              onRoundChange={handleAnswer}
+              round={round}
+              settingTime={settingTime}
+              onGameStart={handleStart}
+            />
+          </GameBox>
+        </>
+      ) : (
+        <Loading />
+      )}
+    </>
+  );
 }
 
 // css
 
-
-const GameBox = styled(Box) ({
-  fontSize: '2rem',
+const GameBox = styled(Box)({
+  fontSize: "2rem",
   // display: 'flex',
-  justifyContent: 'center',
-  textAlign: 'center',
-  margin: '2rem'
-})
-
-
+  justifyContent: "center",
+  textAlign: "center",
+  margin: "2rem",
+});
 
 export default RpsGamePage;
