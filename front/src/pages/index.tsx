@@ -53,17 +53,18 @@ const routes = [
     element: <CatchCatGamePage />,
   },
   {
+    path: "/test/cat/prepare",
+    element: <CatchCatGamePage />,
+  },
+  {
     path: "/test/turn",
     element: <TurnPicGamePage />,
   },
   {
-    path: "/componentTest",
-    element: <FirebaseTestPage />,
+    path: "/test/turn/prepare",
+    element: <TurnPicGamePage />,
   },
-  {
-    path: "/recordtest",
-    element: <RecordTestPage />,
-  },
+
   {
     path: "/statistics",
     element: <StatisticsPage />,
@@ -74,7 +75,16 @@ const routes = [
   },
   {
     path: "/profile",
-    element: <MyProfile/>,
+    element: <MyProfile />,
+  },
+  //TEST PAGES
+  {
+    path: "/componentTest",
+    element: <FirebaseTestPage />,
+  },
+  {
+    path: "/recordtest",
+    element: <RecordTestPage />,
   },
 ];
 

@@ -1,5 +1,4 @@
 import { useRef, useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
 import Slider, { Settings } from "react-slick";
 
 import "slick-carousel/slick/slick.css";
@@ -18,6 +17,7 @@ const DescriptionCarousel = (props: DescriptionCarouselProps) => {
   const { images, selectedTypo, setIsPreparing, setSelectedTypo } = props;
   const sliderRef = useRef<Slider>(null);
   const [currentSlideIndex, setCurrentSlideIndex] = useState<number>(0);
+
   const settings: Settings = {
     dots: true,
     arrows: false,
@@ -81,12 +81,15 @@ const DescriptionCarousel = (props: DescriptionCarouselProps) => {
 const CarouselWrapper = styled.div({
   position: "relative",
   width: "90%",
+  maxWidth: "1100px",
+  height: "90%",
   margin: "0 5% ",
 });
 
 const ControlButton = styled(Button)({
   position: "absolute",
   right: 0,
+
   width: "8rem",
   height: "3rem",
 });
