@@ -1,12 +1,8 @@
 package com.function.api;
 
-import java.io.IOException;
-
 import javax.validation.Valid;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +34,7 @@ public class UploadController {
 	// @ApiOperation(value = "S3에 영상 업로드")
 	// @PostMapping("/upload")
 	// public ResponseEntity<?> uploadVideo(@RequestParam("file") MultipartFile file) throws IOException {
+	// 	// TODO: Upload to S3 코드 구현
 	// 	String filePath = uploadService.uploadVideo(file);
 	// 	return ResponseEntity.ok("Video upload successful!");
 	// }
@@ -50,10 +47,7 @@ public class UploadController {
 		String gameType = requestDto.getGameType();
 		String date = requestDto.getDate();
 
-		// GameHistory 엔티티 생성 후 필요한 정보 저장
 		GameSaveRequestDto gameHistory = createGameHistory(userId, gameType, date);
-
-		// GameHistory 엔티티 저장
 		Long newGameId = playService.save(gameHistory);
 
 		// 채점 kafka 로 보낼 데이터
@@ -63,16 +57,6 @@ public class UploadController {
 		gameEventProducer.publish("kafka.assess.answer.json", dtoString);
 
 		return ResponseEntity.ok(requestDto);
-	}
-
-	@ExceptionHandler(IllegalArgumentException.class)
-	public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException e) {
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-	}
-
-	@ExceptionHandler(IOException.class)
-	public ResponseEntity<String> handleIOException(IOException e) {
-		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Image upload failed: " + e.getMessage());
 	}
 
 	private GameSaveRequestDto createGameHistory(Long userId, String gameType, String date) {
