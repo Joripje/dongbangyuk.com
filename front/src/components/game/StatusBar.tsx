@@ -50,6 +50,7 @@ const StatusBarBox = styled.div({
 
   width: "100%",
   height: "6rem",
+  marginBottom: "3%",
   background: "white",
   borderRadius: "20px 20px 0 0 ",
   borderBottom: "0.2rem solid #e5e5e5",
