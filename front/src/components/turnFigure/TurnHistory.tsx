@@ -36,7 +36,7 @@ const TurnHistory = () => {
 };
 
 const HistoryBox = styled(Grid)({
-  height: "calc(60% )",
+  height: "calc(60% - 1rem)",
   background: "rgba(0, 0, 0, 0.05)",
   border: "0.5rem solid rgba(0, 0, 0, 0.2)",
   borderRadius: "2rem",
@@ -65,7 +65,7 @@ const ChoiceType = styled.div({
   position: "absolute",
   left: "50%",
   top: "50%",
-  transform: "translate(-50%, -50%)",
+  transform: "translate(-50%, -55%)",
 });
 
 const ChoiceImg = styled.img({
