@@ -40,6 +40,7 @@ public class Statistics {
 		this.scores = scores;
 	}
 
+	// TODO: 구간 기준 적용 및 변수명 수정
 	public Map<String, Integer> calculateScoreLevels() {
 		Map<String, Integer> levelCounts = new HashMap<>();
 		levelCounts.put("level1", 0);
@@ -58,7 +59,6 @@ public class Statistics {
 				levelCounts.put("level4", levelCounts.get("level4") + 1);
 			}
 		}
-
 		return levelCounts;
 	}
 

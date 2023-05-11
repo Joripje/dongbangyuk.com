@@ -3,7 +3,6 @@ package com.stat.service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,67 +51,61 @@ public class ScoreArchiveService {
 	}
 
 	private void addScoreToList(GameScore gameScore, GameScoreDto gameScoreDto) {
-		List<Integer> newScore = List.of(gameScoreDto.getGameId(), gameScoreDto.getScore(),
-			gameScoreDto.getEndurance(), gameScoreDto.getResilience());
+		List<Integer> newScore = List.of(
+			gameScoreDto.getGameId(),
+			gameScoreDto.getScore(),
+			gameScoreDto.getEndurance(),
+			gameScoreDto.getResilience()
+		);
 		gameScore.getScoreList().add(0, newScore);
 	}
 
 	private GameScore createGameScore(GameScoreDto gameScoreDto) {
-		List<Integer> score = List.of(gameScoreDto.getGameId(), gameScoreDto.getScore(),
-			gameScoreDto.getEndurance(), gameScoreDto.getResilience());
+		List<Integer> score = List.of(
+			gameScoreDto.getGameId(),
+			gameScoreDto.getScore(),
+			gameScoreDto.getEndurance(),
+			gameScoreDto.getResilience()
+		);
 		return GameScore.builder()
 			.type(gameScoreDto.getType())
 			.scoreList(List.of(score))
 			.build();
 	}
 
-	// userId 로 조회했을 때 각 게임별 최신 기록 반환
 	@Transactional(readOnly = true)
 	public List<GameScoreResponseDto> findByUserId(int userId) {
-		Optional<ScoreArchive> optionalScoreArchive = scoreArchiveRepository.findByUserId(userId);
+		ScoreArchive scoreArchive = scoreArchiveRepository.findByUserId(userId)
+			.orElseThrow(() -> new UserNotFoundException(String.format("해당 사용자 (%s)에 대한 게임 기록이 없습니다.", userId)));
 
-		List<GameScoreResponseDto> dtos = new ArrayList<>();
+		List<GameScoreResponseDto> dtos = new ArrayList<>(scoreArchive.getGameList().size());
 
-		if (optionalScoreArchive.isPresent()) {
-			ScoreArchive scoreArchive = optionalScoreArchive.get();
+		for (GameScore gameScore : scoreArchive.getGameList()) {
+			List<Integer> results = gameScore.getScoreList().stream()
+				.findFirst()
+				.orElse(null);
 
-			// 4가지 게임 역량
-			for (GameScore gameScore : scoreArchive.getGameList()) {
-				List<Integer> results = gameScore.getScoreList().stream()
-					.findFirst()
-					.orElse(null);
-
-				dtos.add(new GameScoreResponseDto(gameScore.getType(), results));
-			}
-		} else {
-			throw new UserNotFoundException(String.format("해당 사용자 (%s)에 대한 게임 기록이 없습니다.", userId));
+			dtos.add(new GameScoreResponseDto(gameScore.getType(), results));
 		}
 		return dtos;
 	}
 
-	// userId 와 gameType 으로 조회했을 때, 가장 최신 기록 하나 반환
 	@Transactional(readOnly = true)
 	public GameScoreResponseDto findByUserIdAndGameType(int userId, String gameType) {
-		Optional<GameScore> optionalGameScore = scoreArchiveRepository.findByUserId(userId)
-			.map(scoreArchive1 -> filterGameScoreByType(gameType, scoreArchive1));
+		ScoreArchive scoreArchive = scoreArchiveRepository.findByUserId(userId)
+			.orElseThrow(
+				() -> new UserNotFoundException(String.format("No game records found for user (%d).", userId)));
 
-		if (optionalGameScore.isPresent()) {
-			GameScore gameScore = optionalGameScore.get();
-			return new GameScoreResponseDto(gameScore.getType(), gameScore.getScoreList().get(0));
-		} else {
-			throw new UserNotFoundException(String.format("해당 사용자 (%d)에 대한 게임 기록이 없습니다.", userId));
-		}
+		GameScore gameScore = filterGameScoreByType(gameType, scoreArchive);
+
+		return new GameScoreResponseDto(gameScore.getType(), gameScore.getScoreList().get(0));
 	}
 
 	private GameScore filterGameScoreByType(String gameType, ScoreArchive scoreArchive) {
-		Optional<GameScore> first = scoreArchive.getGameList().stream()
+		return scoreArchive.getGameList().stream()
 			.filter(gameScore -> gameScore.getType().equals(gameType))
-			.findFirst();
-
-		if (first.isPresent()) {
-			return first.get();
-		}
-		throw new GameTypeNotFoundException(String.format("해당 사용자에 대한 게임 %s 기록이 없습니다.", gameType));
+			.findFirst()
+			.orElseThrow(() -> new GameTypeNotFoundException(String.format("해당 사용자에 대한 게임 %s 기록이 없습니다.", gameType)));
 	}
 
 	@Transactional
@@ -136,6 +129,5 @@ public class ScoreArchiveService {
 		List<ScoreArchive> gameScores = Arrays.asList(gameScore1, gameScore2);
 		scoreArchiveRepository.saveAll(gameScores);
 	}
-
 
 }
