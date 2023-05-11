@@ -1,7 +1,7 @@
 from fastapi import HTTPException, status
 
 
-async def find_road(arr: list):
+async def find_road(arr: list) -> dict:
     points = {1: [], 2: [], 3: []}
     answer = 3  # 문제 DB에서 가져오는 정답 값
     cnt = 0     # 입력된 배열에서 울타리 개수 count
@@ -104,7 +104,7 @@ async def rotate(before: dict, after: dict, choices: list) -> tuple[bool, int]:
     return (is_correct, correct_clicks)
 
 
-async def rps_3(me: str, you: str):
+async def rps_3(me: str, you: str) -> bool:
     rps = RPS_3
     n = len(rps)
     half = n // 2
@@ -120,7 +120,7 @@ async def rps_3(me: str, you: str):
         return True if me_idx < you_idx else False
 
 
-async def rps_15(me: str, you: str):
+async def rps_15(me: str, you: str) -> bool:
     rps = RPS_15
     n = len(rps)
     half = n // 2
@@ -136,7 +136,7 @@ async def rps_15(me: str, you: str):
         return True if me_idx < you_idx else False
 
 
-async def rps_5(me: str, you: str):
+async def rps_5(me: str, you: str) -> bool:
     rps = RPS_5
     n = len(rps)
     half = n // 2
