@@ -17,8 +17,8 @@ def find_road(is_correct, clicks_delta, timestamp) -> int:
     if clicks_delta > 0:
         score -= clicks_delta // 3
     
-    start_time = datetime.fromisoformat(timestamp[0])
-    end_time = datetime.fromisoformat(timestamp[1])
+    start_time = timestamp[0]
+    end_time = timestamp[1]
     problem_time = (end_time - start_time).total_seconds()
     
     if problem_time < 20:
