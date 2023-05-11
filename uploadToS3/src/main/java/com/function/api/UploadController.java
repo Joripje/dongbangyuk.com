@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.function.dto.GameSaveRequestDto;
+import com.function.dto.GradingRequestDto;
 import com.function.dto.PlaySaveRequestDto;
 import com.function.kafka.GameEventProducer;
 import com.function.service.PlayService;
@@ -54,9 +55,10 @@ public class UploadController {
 
 		// GameHistory 엔티티 저장
 		Long newGameId = playService.save(gameHistory);
-		requestDto.setGameId(newGameId);
 
-		String dtoString = convertDtoToJsonString(requestDto);
+		// 채점 kafka 로 보낼 데이터
+		GradingRequestDto dto = new GradingRequestDto(newGameId, requestDto);
+		String dtoString = convertDtoToJsonString(dto);
 		log.info("gameEventProducer 호출");
 		gameEventProducer.publish("kafka.assess.answer.json", dtoString);
 

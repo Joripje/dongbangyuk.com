@@ -24,7 +24,6 @@ public class PlaySaveRequestDto {
 	private final String gameType;
 
 	private final List<JsonNode> problems;
-	private Long gameId = 0L;
 
 	@Builder
 	public PlaySaveRequestDto(Long userId, String date, String gameType, List<JsonNode> problems) {
@@ -32,10 +31,6 @@ public class PlaySaveRequestDto {
 		this.date = date;
 		this.gameType = gameType;
 		this.problems = problems;
-	}
-
-	public void setGameId(Long gameId) {
-		this.gameId = gameId;
 	}
 
 }
