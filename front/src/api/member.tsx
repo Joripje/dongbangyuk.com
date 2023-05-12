@@ -10,4 +10,14 @@ const getUserInfo = (props: object) => {
   return res;
 };
 
-export { getUserInfo };
+const makeUser = (props: object) => {
+  const requestProps = {
+    method: "POST",
+    url: "/users",
+    data: props,
+  };
+  const res = request(requestProps);
+  return res;
+};
+
+export { getUserInfo, makeUser };
