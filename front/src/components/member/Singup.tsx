@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   createUserWithEmailAndPassword,
@@ -8,6 +8,10 @@ import {
 import { auth } from "service";
 
 import { Box, Grid, Button, TextField } from "@mui/material";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 type SignUpProps = {
   isLogin: boolean;
@@ -25,6 +29,8 @@ type textFieldOption = {
 function SignUp(props: SignUpProps) {
   const navigate = useNavigate();
   const { isLogin } = props;
+
+  const dateRef = useRef<any>();
   const [inputEmail, setInputEmail] = useState("");
   const [inputPassword, setInputPassword] = useState("");
   const [inputDisplayName, setInputDisplayName] = useState("");
@@ -64,7 +70,7 @@ function SignUp(props: SignUpProps) {
       type: "phoneNumber",
     },
   ];
-  const onTypingHandler = (event: ChangeEvent<HTMLInputElement>) => {
+  const onTypingHandler = (event: ChangeEvent<HTMLInputElement>): void => {
     for (const key in textFieldOptions) {
       const option = textFieldOptions[key];
       if (event.target.id === option.id) {
@@ -112,6 +118,20 @@ function SignUp(props: SignUpProps) {
             </Grid>
           );
         })}
+        {isLogin ? (
+          ""
+        ) : (
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DemoContainer components={["DatePicker"]}>
+              <DatePicker
+                inputRef={dateRef}
+                label={"생년월일"}
+                format={"YYYY-MM-DD"}
+              />
+            </DemoContainer>
+          </LocalizationProvider>
+        )}
+
         <Grid item xs={9}>
           <Button
             onClick={onClickHandler}
