@@ -13,6 +13,8 @@ import MemberPage from "./MemberPage";
 import GameSelectPage from "./GameSelectPage";
 import RecordTestPage from "./RecordTestPage";
 import StatisticsPage from "./StatisticsPage";
+import StatisticsListPage from "./StatisticsListPage";
+import StatisticsTotalPage from "./StatisticsTotalPage";
 import TurnPicGamePage from "./TurnPicGamePage";
 
 // firebase chat
@@ -68,8 +70,16 @@ const routes = [
   },
 
   {
-    path: "/statistics",
+    path: "/statistics/*",
     element: <StatisticsPage />,
+  },
+  {
+    path: "/statistics/list/*",
+    element: <StatisticsListPage />,
+  },
+  {
+    path: "/statistics/total/*",
+    element: <StatisticsTotalPage />,
   },
   {
     path: "/chat",

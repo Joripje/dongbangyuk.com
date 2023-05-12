@@ -1,22 +1,22 @@
-import { VideoChart, AbilityChart, ResultsTable } from "components/statistics";
+import { TotalAbilityChart } from "components/statistics";
 import styled from "styled-components";
 
-const StatisticsPage = () => {
+const StatisticsTotalPage = () => {
   return (
     <TemplateBox>
       <MainTitleContainer>나의 통계</MainTitleContainer>
       <Divider />
-      <TitleContainer>결과보기</TitleContainer>
+      <TitleContainer>나의 역량</TitleContainer>
       <BoardBox>
-        <ResultsTable />
+        <TotalAbilityChart />
       </BoardBox>
       <Divider />
       <TitleContainer>
         &nbsp;당신은 사랑받기 위<br />해 태어난사람
       </TitleContainer>
-      <AbilityChart />
-      <TitleContainer>나의 영상 확인</TitleContainer>
-      <VideoChart />
+      <BoardBox>
+        <TotalAbilityChart />
+      </BoardBox>
     </TemplateBox>
   );
 };
@@ -44,9 +44,6 @@ const BoardBox = styled.div({
 
   width: "90%",
   height: "70%",
-  background: "white",
-  borderRadius: 10,
-  boxShadow: "5px 5px 5px rgba(0, 0, 0, 0.2)",
 });
 
 const TitleContainer = styled.div({
@@ -70,4 +67,4 @@ const Divider = styled.hr`
   border-top: 1.5px solid black;
 `;
 
-export default StatisticsPage;
+export default StatisticsTotalPage;

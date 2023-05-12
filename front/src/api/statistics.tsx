@@ -43,4 +43,22 @@ const getEmotionData = async (props: object) => {
   console.log(res);
   return res;
 };
-export { getAbilityData, getVideoData, getGamesData, getEmotionData };
+
+const getStatisicsListData = async (props: object) => {
+  const requestProps = {
+    method: "GET",
+    url: "/stat/history",
+    data: props,
+  };
+  const res = await requestGet(requestProps);
+  console.log(res);
+  return res;
+};
+
+export {
+  getAbilityData,
+  getVideoData,
+  getGamesData,
+  getEmotionData,
+  getStatisicsListData,
+};
