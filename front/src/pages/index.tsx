@@ -19,6 +19,8 @@ import TurnPicGamePage from "./TurnPicGamePage";
 
 // firebase chat
 import { Chat } from "components/firebase_chat";
+import { SelectAnswer } from "components/catchCat";
+import ShowOffPage from "./ShowOffPage";
 
 const routes = [
   {
@@ -55,17 +57,18 @@ const routes = [
     element: <CatchCatGamePage />,
   },
   {
+    path: "/test/cat/prepare",
+    element: <CatchCatGamePage />,
+  },
+  {
     path: "/test/turn",
     element: <TurnPicGamePage />,
   },
   {
-    path: "/componentTest",
-    element: <FirebaseTestPage />,
+    path: "/test/turn/prepare",
+    element: <TurnPicGamePage />,
   },
-  {
-    path: "/recordtest",
-    element: <RecordTestPage />,
-  },
+
   {
     path: "/statistics/*",
     element: <StatisticsPage />,
@@ -85,6 +88,23 @@ const routes = [
   {
     path: "/profile",
     element: <MyProfile />,
+  },
+  //TEST PAGES
+  {
+    path: "/firebaseTest",
+    element: <FirebaseTestPage />,
+  },
+  {
+    path: "/componentTest",
+    element: <SelectAnswer correct={[true]} />,
+  },
+  {
+    path: "/recordtest",
+    element: <RecordTestPage />,
+  },
+  {
+    path: "/test/showOff",
+    element: <ShowOffPage />,
   },
 ];
 

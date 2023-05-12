@@ -3,7 +3,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
 // firestore
-import {getFirestore} from 'firebase/firestore'
+import { getFirestore } from "firebase/firestore";
 
 // import { getAnalytics } from "firebase/analytics";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -14,14 +14,14 @@ import {getFirestore} from 'firebase/firestore'
 
 // console.log(process.env.REACT_APP_CONFIG_APIKEY)
 const firebaseConfig = {
-  apiKey: "REACT_APP_CONFIG_APIKEY",
+  apiKey: "AIzaSyDHxDUzN2biYkuSKL8_HbSItWHEBq9SEig",
   authDomain: "h-337b5.firebaseapp.com",
   databaseURL:
     "https://h-337b5-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "h-337b5",
   storageBucket: "h-337b5.appspot.com",
   messagingSenderId: "429281066716",
-  appId: "REACT_APP_CONFIG_APPID",
+  appId: "1:429281066716:web:fe55ad5c0cfda8f3a27e19",
   measurementId: "G-B7HRGPWR1G",
 };
 

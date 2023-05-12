@@ -5,6 +5,7 @@ type Answer = {
   correct: boolean;
   answer: boolean;
   asure: number;
+  timestamp: string;
 };
 
 type AnswerState = {
@@ -15,7 +16,13 @@ type AnswerState = {
 type AnswerProperty = keyof Answer;
 
 const initialState: AnswerState = {
-  tempAnswer: { gameType: "cat", correct: true, answer: true, asure: -1 },
+  tempAnswer: {
+    gameType: "cat",
+    correct: true,
+    answer: true,
+    asure: -1,
+    timestamp: "2023-05-11T05:00:47.557Z",
+  },
   answerList: [],
 };
 
@@ -32,7 +39,7 @@ const catchCatSlice = createSlice({
       state,
       action: PayloadAction<{
         property: AnswerProperty;
-        value: number | boolean | "cat";
+        value: number | boolean | "cat" | string[];
       }>
     ) => {
       const { property, value } = action.payload;

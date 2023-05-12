@@ -1,4 +1,4 @@
-import { useState, useMemo, MouseEvent } from "react";
+import { useState, useMemo, MouseEvent, useEffect } from "react";
 
 import RoadSingleBox from "./RoadSingleBox";
 import ProblemInfo from "./ProblemInfo";
@@ -7,6 +7,7 @@ import { getFindRoadProblems, putFindRoadProblems } from "api/test";
 import styled from "styled-components";
 import { Button } from "@mui/material";
 import { stop } from "components/common";
+import { closeWebSocket } from "components/common/RecordVideo";
 
 type GameBoardProps = {
   ascProblemNum: () => void; // ProblemNum을 어센드하여 StatusBar에서 올바른 값이 나오도록 수정
@@ -156,8 +157,12 @@ const GameBoard = (props: GameBoardProps) => {
     fetchProblems();
   }, []);
 
+  useEffect(() => {
+    closeWebSocket();
+  }, []);
+
   return (
-    <RowFlexBox>
+    <BoardWrapper>
       <ProblemInfo clickCount={clickCount} leastWall={boardState.correct} />
       <ColFlexBox>
         {boardState.problem.map((item, yIndex) => {
@@ -187,9 +192,15 @@ const GameBoard = (props: GameBoardProps) => {
           테스트용 최종 제출 버튼
         </button>
       </ColFlexBox>
-    </RowFlexBox>
+    </BoardWrapper>
   );
 };
+
+const BoardWrapper = styled.div({
+  display: "flex",
+  flexDirection: "row",
+  marginTop: "3%",
+});
 
 const RowFlexBox = styled.div`
   display: flex;

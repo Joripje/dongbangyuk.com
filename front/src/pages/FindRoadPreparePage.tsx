@@ -1,58 +1,67 @@
 import { useState } from "react";
 
-import { GameTemplate, PrepareTemplate, StatusBar } from "components/game";
+import { PrepareTemplate, StatusBar } from "components/game";
 import {
-  whdrn,
-  ekscp,
-  wpgud,
-  dudgjs,
-  ehdns,
-  tjdwls,
-  dnjsvlf,
-  mmy789,
-  poonghyung,
-} from "assets/images";
+  rmt,
+  findRoad,
+  first,
+  second,
+  third,
+  fourth,
+  fifth,
+  sixth,
+  seventh,
+  eighth,
+  nineth,
+  tenth,
+} from "assets/images/findRoad";
 import PrepareExam from "components/game/PrepareExam";
 
 function FindRoadPreparePage() {
   const [isPreparing, setIsPreparing] = useState(true);
 
   const imagesList: string[] = [
-    whdrn,
-    ekscp,
-    wpgud,
-    dudgjs,
-    poonghyung,
-    tjdwls,
-    ehdns,
-    dnjsvlf,
+    findRoad,
+    first,
+    second,
+    third,
+    fourth,
+    fifth,
+    sixth,
+    seventh,
+    eighth,
+    nineth,
+    tenth,
   ];
 
   const overviewProps = {
-    image: mmy789,
-    name: "가위바위보",
-    descript: "'나' 혹은 '상대'의 입장에서 가위바위보를 해주세요.",
+    image: rmt,
+    name: "길 만들기",
+    descript:
+      "매트릭스 위에 울타리를 설치하여 교통수단을 정해진 손님에게 보내주세요.",
     minutes: 3,
-    rounds: 3,
+    rounds: 1,
     problems: 0,
-    ability: "인지능력",
+    ability: "계획능력",
   };
 
-  const goal = ["가위바위보 잘해보라구~"];
+  const goal = [
+    "매트릭스에 정답 수 만큼의 울타리를 설치하여 모든 교통수단을 정해진 손님에게 보내기",
+  ];
 
   const descriptions = [
-    "왼쪽에 있는 도형을 오른쪽에 있는 도형처럼 회전시키기",
-    "사용가능한 버튼은 총 4개",
-    "버튼을 눌러 회전 과정 만들기",
-    "클릭 가능 횟수는 총 20회",
-    "하나 지움과 전체 초기화 버튼으로 과정을 지울 수 있음",
-    "답 완성 후, 답안 제출 버튼 클릭",
+    "각 교통수단의 위치와 대응하는 손님의 위치를 확인하기",
+    "각 교통수단이 정해진 손님에게 도착하도록 매트릭스에 울타리를 설치하기",
+    "교통 수단은 울타리가 없으면 직진하고 울타리를 만나면 90도 회전",
+    "잘못 설치된 울타리는 다시 클릭하여 제거하기",
+    "울타리 설치를 마친 뒤 정답 수에 맞는 울타리가 사용되었는지 확인하기",
+    "제출 버튼을 클릭하여 응답 제출하기",
   ];
 
   const gameType = "road";
 
   return (
-    <GameTemplate>
+    <>
       <StatusBar
         gameType={gameType}
         status='explain'
@@ -68,9 +77,13 @@ function FindRoadPreparePage() {
           setIsPreparing={setIsPreparing}
         />
       ) : (
-        <PrepareExam gameType={gameType} image={imagesList[0]} descriptions={descriptions} />
+        <PrepareExam
+          gameType={gameType}
+          image={imagesList[0]}
+          descriptions={descriptions}
+        />
       )}
-    </GameTemplate>
+    </>
   );
 }
 

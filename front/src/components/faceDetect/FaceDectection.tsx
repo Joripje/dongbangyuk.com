@@ -1,5 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import * as faceapi from "face-api.js";
+import styled from "styled-components";
+import VoiceImage from "components/game/VoiceImage";
 
 const MODEL_URL = "/models";
 
@@ -31,6 +33,7 @@ function App() {
     ]).then(() => {
       setModelsLoaded(true);
     });
+    startVideo();
   }, []);
 
   // 영상 권한 요청
@@ -71,27 +74,30 @@ function App() {
   }, [isStartDetect, isDetected, videoRef]);
 
   return (
-    <div>
-      <h2>Face-Api Video Test</h2>
-      <ul>
-        <li>model loaded: {modelsLoaded.toString()}</li>
-      </ul>
-
-      <div ref={wrapRef}>
-        <video
-          ref={videoRef}
-          autoPlay
-          muted
-          // onPlay={onPlay}
-          width={640}
-          height={480}
-        />
-        <canvas ref={canvasRef} style={{ position: "absolute" }} />
-      </div>
-
-      <button onClick={startVideo}>영상 권한 호출</button>
-    </div>
+    <FaceDectectionWrapper ref={wrapRef}>
+      <VoiceImage setIsEnough={() => {}} />
+      <video
+        ref={videoRef}
+        autoPlay
+        muted
+        // onPlay={onPlay}
+        width={640}
+        height={480}
+      />
+      <canvas ref={canvasRef} style={{ position: "absolute" }} />
+    </FaceDectectionWrapper>
   );
 }
+
+const FaceDectectionWrapper = styled.div({
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+
+  width: "100%",
+  height: "100vh",
+  background: "rgba(237, 252, 242, 1)",
+});
 
 export default App;

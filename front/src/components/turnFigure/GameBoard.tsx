@@ -56,7 +56,7 @@ const GameBoard = (props: GameBoardProps) => {
 
 const GridContainer = styled(Grid)({
   height: "80%",
-  padding: "6%",
+  padding: "3%",
   alignItems: "center",
 });
 
@@ -64,7 +64,7 @@ const StyledGrid = styled(Grid)({
   height: "20%",
   display: "flex",
   justifyContent: "center",
-  alignItems: "end",
+  alignItems: "center",
 });
 
 const SubmitButton = styled(Button)({
