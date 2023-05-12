@@ -31,8 +31,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 */
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests()
-			.anyRequest().authenticated().and()
+		http.cors().and()
+			.authorizeRequests()
+				.anyRequest().authenticated().and()
 			.addFilterBefore(new FirebaseTokenFilter(userService, firebaseAuth),
 				UsernamePasswordAuthenticationFilter.class)
 			.exceptionHandling()
