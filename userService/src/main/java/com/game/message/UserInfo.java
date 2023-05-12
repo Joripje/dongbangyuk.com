@@ -6,12 +6,10 @@ import lombok.Getter;
 @Getter
 public class UserInfo {
 
-    private String birthDate;
-    private int feature;
+    private final String birthDate;
 
     public UserInfo(CustomUser customUser) {
         this.birthDate = customUser.getBirthDate();
-        this.feature = customUser.getFeature();
     }
 
 }

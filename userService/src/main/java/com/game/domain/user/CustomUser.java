@@ -16,9 +16,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
 @Entity
+@ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "user")
 @SQLDelete(sql = "UPDATE user SET is_deleted = true WHERE id = ?")
@@ -35,19 +37,19 @@ public class CustomUser implements UserDetails {
 	@Column(name = "birth_date", nullable = false)
 	private String birthDate;
 
+	@Column(name = "profile_path")
+	private String profilePath;
+
 	@Column(name = "is_deleted", nullable = false)
 	private Boolean isDeleted = false;
-
-	@Column(name = "feature")
-	private int feature = 0;
 
 	public CustomUser(String uid, String birthDate) {
 		this.uid = uid;
 		this.birthDate = birthDate;
 	}
 
-	public void update(int feature) {
-		this.feature = feature;
+	public void updateProfileImage(String profilePath) {
+		this.profilePath = profilePath;
 	}
 
 	@Override

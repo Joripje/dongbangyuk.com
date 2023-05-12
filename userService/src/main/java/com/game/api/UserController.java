@@ -58,4 +58,11 @@ public class UserController {
 		return new UserInfo(customUser);
 	}
 
+	@ApiOperation(value = "생년월일을 기준으로 DALI에 프로필 사진 요청")
+	@GetMapping("/profile-update")
+	public String updateProfileImage(Authentication authentication) {
+		Long id = ((CustomUser)authentication.getPrincipal()).getId();
+		return userService.updateProfileImage(id);
+	}
+
 }
