@@ -1,7 +1,6 @@
 package com.stat.api;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.stat.domain.score.GameScore;
 import com.stat.domain.statistics.Statistics;
 import com.stat.dto.AbilityResponseDto;
+import com.stat.dto.StatisticsListResponseDto;
 import com.stat.dto.StatisticsSaveRequestDto;
 import com.stat.dto.UserHistoryResponseDto;
 import com.stat.service.StatisticsService;
@@ -60,16 +60,11 @@ public class StatisticsController {
 		return statisticsService.getUserAbility(userId);
 	}
 
-
-	@ApiOperation(value = "게임별 점수 분포 조회")
+	@ApiOperation(value = "게임 점수 분포 조회")
 	@GetMapping("/score-distribution")
-	public ResponseEntity<Map<String, Integer>> getScoreLevelStatistics(@RequestParam String type) {
+	public ResponseEntity<List<StatisticsListResponseDto>> getScoreLevelStatistics() {
 		log.info("============ getScoreLevelStatistics 호출 ===========");
-
-		Map<String, Integer> dto = statisticsService.getScoreLevelStatistics(type);
-		log.info("return: " + dto.toString());
-
-		return ResponseEntity.ok(statisticsService.getScoreLevelStatistics(type));
+		return ResponseEntity.ok(statisticsService.getScoreLevelStatistics());
 	}
 
 	@ApiOperation(value = "[TEST] 더미 데이터 생성")

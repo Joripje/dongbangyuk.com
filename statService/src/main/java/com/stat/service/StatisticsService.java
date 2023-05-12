@@ -18,6 +18,7 @@ import com.stat.domain.statistics.Statistics;
 import com.stat.domain.statistics.StatisticsRepository;
 import com.stat.dto.AbilityResponseDto;
 import com.stat.dto.GameScoreResponseDto;
+import com.stat.dto.StatisticsListResponseDto;
 import com.stat.dto.StatisticsSaveRequestDto;
 import com.stat.dto.UserHistoryResponseDto;
 import com.stat.exception.GameTypeNotFoundException;
@@ -214,11 +215,17 @@ public class StatisticsService {
 	}
 
 	@Transactional(readOnly = true)
-	public Map<String, Integer> getScoreLevelStatistics(String type) {
-		Statistics statistics = statisticsRepository.findByType(type)
-			.orElseThrow(() -> new GameTypeNotFoundException(String.format("%s에 대한 데이터가 없어요.", type)));
+	public List<StatisticsListResponseDto> getScoreLevelStatistics() {
 
-		return new TreeMap<>(statistics.calculateScoreLevels());
+		List<StatisticsListResponseDto> dtoList = new ArrayList<>();
+		String[] gameTypes = {"cat", "road", "rotate", "rps"};
+		for (String gameType : gameTypes) {
+			Statistics statistics = statisticsRepository.findByType(gameType)
+				.orElseThrow(() -> new GameTypeNotFoundException(String.format("%s에 대한 데이터가 없어요.", gameType)));
+
+			dtoList.add(new StatisticsListResponseDto(gameType, statistics.calculateScoreLevels()));
+		}
+		return dtoList;
 	}
 
 }
