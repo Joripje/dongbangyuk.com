@@ -12,6 +12,7 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { makeUser } from "api/member";
 
 type SignUpProps = {
   isLogin: boolean;
@@ -81,9 +82,7 @@ function SignUp(props: SignUpProps) {
   };
 
   const onClickHandler = () => {
-    const authFunction = isLogin
-      ? signInWithEmailAndPassword
-      : createUserWithEmailAndPassword;
+    const authFunction = isLogin ? signInWithEmailAndPassword : makeUser;
 
     authFunction(auth, inputEmail, inputPassword)
       .then((userInfo) => {

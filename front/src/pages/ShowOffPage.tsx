@@ -10,9 +10,11 @@ import StatisticsPage from "./StatisticsPage";
 
 import styled from "styled-components";
 import { Button } from "@mui/material";
+import { FaceDectection } from "components/faceDetect";
 
 function ShowOffPage() {
   const components = [
+    <FaceDectection />,
     <FindRoadPreparePage />,
     <FindRoadPage />,
     <RpsGamePage />,
@@ -28,7 +30,7 @@ function ShowOffPage() {
 
   return (
     <>
-      {showOffComponent > 4 ? (
+      {showOffComponent > 5 || showOffComponent < 1 ? (
         components[showOffComponent]
       ) : (
         <GameTemplate>{components[showOffComponent]}</GameTemplate>
