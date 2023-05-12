@@ -61,7 +61,7 @@ const EmotionChart = (props: EmotionChartProps) => {
       >
         {/* <CartesianGrid strokeDasharray="1 1" /> */}
         <XAxis dataKey="name" />
-        <YAxis />
+        <YAxis tick={false} />
         <Tooltip />
         {/* <Legend /> */}
         <Bar dataKey="value" fill="#8884d8" />

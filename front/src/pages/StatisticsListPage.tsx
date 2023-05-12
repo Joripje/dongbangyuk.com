@@ -25,6 +25,10 @@ const StatisticsListPage = () => {
   });
   const parsed = queryString.parse(location.search);
 
+  const TypeChangeHandler = (gameType: string) => {
+    setGameType(gameType);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -48,7 +52,10 @@ const StatisticsListPage = () => {
       <TemplateBox>
         <MainTitleContainer>나의 통계</MainTitleContainer>
         <Divider />
-        <StatisticsListCircles gameCounts={gameCounts} />
+        <StatisticsListCircles
+          gameCounts={gameCounts}
+          TypeChangeHandler={TypeChangeHandler}
+        />
         <Divider />
         <StatisticListCards cardList={cardList} />
       </TemplateBox>

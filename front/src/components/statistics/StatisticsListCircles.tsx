@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 interface CircleProps {
   gameCounts: { [key: string]: number };
+  TypeChangeHandler: (gameType: string) => void;
 }
 
 const StatisticsListCircles = (props: CircleProps) => {
@@ -9,7 +10,10 @@ const StatisticsListCircles = (props: CircleProps) => {
     <>
       <MainContainer>
         <MenuContainer>
-          <Circle color={"#FFB4B4"}>
+          <Circle
+            color={"#FFB4B4"}
+            onClick={() => props.TypeChangeHandler("all")}
+          >
             <ContainerBox>
               <NumberContainer>{props.gameCounts.total}</NumberContainer>
               <CountContainer>회</CountContainer>
@@ -19,7 +23,10 @@ const StatisticsListCircles = (props: CircleProps) => {
         </MenuContainer>
 
         <MenuContainer>
-          <Circle color={"#5978E850"}>
+          <Circle
+            color={"#5978E850"}
+            onClick={() => props.TypeChangeHandler("rps")}
+          >
             <ContainerBox>
               <NumberContainer>{props.gameCounts.rps}</NumberContainer>
               <CountContainer>회</CountContainer>
@@ -29,7 +36,10 @@ const StatisticsListCircles = (props: CircleProps) => {
         </MenuContainer>
 
         <MenuContainer>
-          <Circle color={"#5978E850"}>
+          <Circle
+            color={"#5978E850"}
+            onClick={() => props.TypeChangeHandler("cat")}
+          >
             <ContainerBox>
               <NumberContainer>{props.gameCounts.cat}</NumberContainer>
               <CountContainer>회</CountContainer>
@@ -39,7 +49,10 @@ const StatisticsListCircles = (props: CircleProps) => {
         </MenuContainer>
 
         <MenuContainer>
-          <Circle color={"#5978E850"}>
+          <Circle
+            color={"#5978E850"}
+            onClick={() => props.TypeChangeHandler("road")}
+          >
             <ContainerBox>
               <NumberContainer>{props.gameCounts.road}</NumberContainer>
               <CountContainer>회</CountContainer>
@@ -49,7 +62,10 @@ const StatisticsListCircles = (props: CircleProps) => {
         </MenuContainer>
 
         <MenuContainer>
-          <Circle color={"#5978E850"}>
+          <Circle
+            color={"#5978E850"}
+            onClick={() => props.TypeChangeHandler("rotate")}
+          >
             <ContainerBox>
               <NumberContainer>{props.gameCounts.rotate}</NumberContainer>
               <CountContainer>회</CountContainer>
@@ -92,6 +108,10 @@ const Circle = styled.div`
   border-radius: 50%;
   background-color: ${(props) => (props.color ? props.color : "#D9D9D9")};
   font-weight: bold;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 const ContainerBox = styled.div`
   display: flex;

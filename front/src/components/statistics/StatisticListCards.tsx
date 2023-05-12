@@ -24,9 +24,10 @@
 
 // export default StatisticListCards;
 
-import { CardContent, Grid } from "@mui/material";
+import { CardContent, Grid, CardActionArea } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
+import { useNavigate } from "react-router";
 import styled from "styled-components";
 
 interface GameScore {
@@ -42,6 +43,7 @@ interface CardDataProps {
 }
 
 const StatisticListCards = (props: CardDataProps) => {
+  const navigate = useNavigate();
   const { cardList } = props;
 
   // 데이터를 3열씩 자른 배열을 생성합니다.
@@ -59,17 +61,21 @@ const StatisticListCards = (props: CardDataProps) => {
             {row.map((data, dataIndex) => (
               <Grid key={dataIndex} item xs={4}>
                 <Card sx={{ width: "100%", height: "100%" }}>
-                  <CardContent>
-                    <DongBang>동방역검</DongBang>
-                    <TitleContainer>
-                      {" "}
-                      {data.type === "cat" && "고양이 술래잡기"}
-                      {data.type === "rps" && "가위바위보"}
-                      {data.type === "road" && "길 만들기"}
-                      {data.type === "rotate" && "도형 회전하기"}
-                    </TitleContainer>
-                    <DateContainer>2023.05.11</DateContainer>
-                  </CardContent>
+                  <CardActionArea
+                    onClick={() => navigate("/statistics/?gameid=1")}
+                  >
+                    <CardContent>
+                      <DongBang>동방역검</DongBang>
+                      <TitleContainer>
+                        {/* {" "} */}
+                        {data.type === "cat" && "고양이 술래잡기"}
+                        {data.type === "rps" && "가위바위보"}
+                        {data.type === "road" && "길 만들기"}
+                        {data.type === "rotate" && "도형 회전하기"}
+                      </TitleContainer>
+                      <DateContainer>2023.05.11</DateContainer>
+                    </CardContent>
+                  </CardActionArea>
                 </Card>
               </Grid>
             ))}
