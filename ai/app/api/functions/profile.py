@@ -4,12 +4,20 @@ import xml.etree.ElementTree as ET
 import requests
 import openai
 from dotenv import load_dotenv
+import io
 import os
+import boto3
+import uuid
 
 load_dotenv()
 
 saju_api = os.environ.get('SAJU_API')
 openai_api = os.environ.get('OPENAI_API')
+s3_bucket = os.environ.get('S3_BUCKET')
+region_static = os.environ.get('REGION_STATIC')
+aws_accesskey = os.environ.get('AWS_ACCESSKEY')
+aws_secretkey = os.environ.get('AWS_SECRETKEY')
+
 
 def saju(year, month, day):
     url = 'http://apis.data.go.kr/B090041/openapi/service/LrsrCldInfoService/getLunCalInfo'
@@ -252,6 +260,7 @@ def saju(year, month, day):
 
     return image_url
 
+
 def create_image(prompt):
     openai.api_key = openai_api
 
@@ -263,4 +272,24 @@ def create_image(prompt):
 
     image_url = response['data'][0]['url']
 
-    return image_url
+    response = requests.get(image_url)
+    img = io.BytesIO(response.content)
+
+    client_s3 = boto3.client('s3',
+                             aws_access_key_id=aws_accesskey,
+                             aws_secret_access_key=aws_secretkey,
+                             )
+
+    file_name = str(uuid.uuid4()) + ".png"
+
+    # client_s3.upload_file(img, s3_bucket, 'images/' + file_name)
+    client_s3.put_object(
+        Body=img,
+        Bucket=s3_bucket,
+        Key='images/' + file_name,
+        ContentType='image/png'
+    )
+
+    s3_file_path = f'https://{s3_bucket}.s3.{region_static}.amazonaws.com/images/{file_name}'
+
+    return s3_file_path
