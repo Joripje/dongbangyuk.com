@@ -18,6 +18,7 @@ import PrepareExam from "components/game/PrepareExam";
 function FindRoadPreparePage(props: { isPreparing: boolean }) {
   // const [isPreparing, setIsPreparing] = useState(true);
   const { isPreparing } = props;
+  const gameType = "road";
 
   const imagesList: string[] = [
     findRoad,
@@ -56,8 +57,6 @@ function FindRoadPreparePage(props: { isPreparing: boolean }) {
     "울타리 설치를 마친 뒤 정답 수에 맞는 울타리가 사용되었는지 확인하기",
     "제출 버튼을 클릭하여 응답 제출하기",
   ];
-
-  const gameType = "road";
 
   return (
     <>

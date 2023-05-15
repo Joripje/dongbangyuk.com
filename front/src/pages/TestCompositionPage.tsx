@@ -1,38 +1,53 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-
-import { GameTemplate } from "components/game";
-import { GameSelect } from "components/game";
 import { RootState } from "store";
+import { useSelector, useDispatch } from "react-redux";
+import { resetGameState } from "store/testControlSlice";
+
 import FindRoadPage from "./FindRoadPage";
-import FindRoadPreparePage from "./FindRoadPreparePage";
+import { GameSelect, GameTemplate, NotEnough } from "components/game";
+
+import styled from "styled-components";
+import { Button } from "@mui/material";
 
 function TestCompositionPage() {
-  // const dispatch = useDispatch();
-  const gameState = useSelector((state: RootState) => state.testControl);
+  const dispatch = useDispatch();
+  const { game, isEnough } = useSelector(
+    (state: RootState) => state.testControl
+  );
   const [thisComponent, setThisComponent] = useState(<GameSelect />);
 
   useEffect(() => {
-    console.log(gameState);
-    const { game, isEnough, isGaming, isPreparing } = gameState;
-
     if (!isEnough) {
-      setThisComponent(<div>1920 1080 ^^7</div>);
+      setThisComponent(<NotEnough />);
     } else {
-      console.log("wow");
+      console.log("Game State is just changed");
       switch (game) {
         case undefined:
           setThisComponent(<GameSelect />);
           break;
         case "road":
-          if (isGaming) setThisComponent(<FindRoadPage />);
-          else
-            setThisComponent(<FindRoadPreparePage isPreparing={isPreparing} />);
+          setThisComponent(<FindRoadPage />);
+          break;
       }
     }
-  }, [gameState]);
+  }, [game, isEnough]);
 
-  return <GameTemplate>{thisComponent}</GameTemplate>;
+  const onResetForDev = () => {
+    dispatch(resetGameState());
+  };
+
+  return (
+    <>
+      <TempControlButton variant='contained' onClick={onResetForDev}>
+        선택 페이지로 가쉴?
+      </TempControlButton>
+      <GameTemplate>{thisComponent}</GameTemplate>;
+    </>
+  );
 }
+
+const TempControlButton = styled(Button)({
+  position: "absolute",
+});
 
 export default TestCompositionPage;

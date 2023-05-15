@@ -31,8 +31,8 @@ const DescriptionCarousel = (props: DescriptionCarouselProps) => {
     afterChange: setCurrentSlideIndex,
   };
 
-  const setIsPreparing = (isPreparing: boolean) => {
-    dispatch(setBoolState({ property: "isPreparing", value: isPreparing }));
+  const setIsPreparing = () => {
+    dispatch(setBoolState({ property: "isPreparing", value: false }));
   };
 
   useEffect(() => {
@@ -58,10 +58,7 @@ const DescriptionCarousel = (props: DescriptionCarouselProps) => {
         {currentSlideIndex === 0 ? "용어 설명" : "이전"}
       </WordDesButton>
       {currentSlideIndex === images.length - 1 ? (
-        <ControlButton
-          variant='contained'
-          onClick={() => setIsPreparing(false)}
-        >
+        <ControlButton variant='contained' onClick={setIsPreparing}>
           검사 시작
         </ControlButton>
       ) : (

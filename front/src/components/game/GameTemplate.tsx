@@ -1,11 +1,8 @@
-import { useState, ReactElement } from "react";
+import { ReactElement } from "react";
 
 import VoiceImage from "./VoiceImage";
-import { auth } from "service";
-import { getUserInfo } from "api/member";
 
 import styled from "styled-components";
-import { Button } from "@mui/material";
 
 type GameTemplateProps = {
   children: ReactElement[] | ReactElement;
@@ -13,27 +10,11 @@ type GameTemplateProps = {
 
 const GameTemplate = (props: GameTemplateProps) => {
   const { children } = props;
-  const [isEnough, setIsEnough] = useState(true);
-
-  const tokenHandler = async () => {
-    const userToken = await auth.currentUser?.getIdToken();
-    console.log(userToken);
-    if (auth.currentUser) getUserInfo({ Authorization: userToken });
-  };
 
   return (
     <TemplateBox>
       <VoiceImage />
-      {isEnough ? (
-        <BoardBox>{children}</BoardBox>
-      ) : (
-        <>
-          <div>
-            화면이 1920 X 1080 이상이어야지 정상적인 시험을 칠 수 있어요
-          </div>
-          <Button onClick={tokenHandler}>시험해보세용</Button>
-        </>
-      )}
+      <BoardBox>{children}</BoardBox>
     </TemplateBox>
   );
 };

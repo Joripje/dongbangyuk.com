@@ -1,4 +1,4 @@
-import { ComponentType, ReactNode, MouseEvent } from "react";
+import { ComponentType, ReactNode } from "react";
 import { useDispatch } from "react-redux";
 
 import styled from "styled-components";

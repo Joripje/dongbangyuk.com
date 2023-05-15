@@ -1,8 +1,10 @@
-import { start } from "components/common";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+
+import { start } from "components/common";
 
 import styled from "styled-components";
+import { setBoolState } from "store/testControlSlice";
 
 type PrepareExamProps = {
   image: string;
@@ -11,8 +13,8 @@ type PrepareExamProps = {
 };
 
 function PrepareExam(props: PrepareExamProps) {
-  const navigate = useNavigate();
   const { image, descriptions, gameType } = props;
+  const dispatch = useDispatch();
   const [countDown, setCountDown] = useState(10);
 
   useEffect(() => {
@@ -25,21 +27,13 @@ function PrepareExam(props: PrepareExamProps) {
     }, 1000);
 
     if (countDown !== 0) return;
-    switch (gameType) {
-      case "road":
-        navigate("/test/find-road");
-        break;
-      case "rps":
-        navigate("/test/rps");
-        break;
+    else {
+      dispatch(setBoolState({ property: "isGaming", value: false }));
+      dispatch(setBoolState({ property: "isPreparing", value: true }));
     }
 
-    // if (gameType === "road" && countDown === 0) ;
-
-    // if (gameType === "rps" && countDown === 0) navigate("/test/rps");
-
     return () => clearInterval(intervalId);
-  }, [countDown, navigate]);
+  }, [countDown]);
 
   return (
     <BOXBOX>
