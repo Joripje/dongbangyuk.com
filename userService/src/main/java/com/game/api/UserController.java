@@ -59,7 +59,14 @@ public class UserController {
 	@ApiOperation(value = "생년월일을 기준으로 DALI에 프로필 사진 요청")
 	@PostMapping("/profile-update")
 	public String updateProfileImage(Authentication authentication) {
+		System.out.println("================ profile-update 실행 ================");
+		System.out.println("Authentication : " + authentication);
+
+		Object principal = authentication.getPrincipal();
+		System.out.println("principal: " + principal.toString());
+		System.out.println("id: " + ((CustomUser)principal).getId());
 		Long id = ((CustomUser)authentication.getPrincipal()).getId();
+
 		return userService.updateProfileImage(id);
 	}
 
