@@ -28,7 +28,7 @@ function PrepareExam(props: PrepareExamProps) {
 
     if (countDown !== 0) return;
     else {
-      dispatch(setBoolState({ property: "isGaming", value: false }));
+      dispatch(setBoolState({ property: "isGaming", value: true }));
       dispatch(setBoolState({ property: "isPreparing", value: true }));
     }
 

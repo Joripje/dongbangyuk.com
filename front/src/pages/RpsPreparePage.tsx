@@ -41,12 +41,7 @@ function RpsPreparePage() {
 
   return (
     <GameTemplate>
-      <StatusBar
-        gameType={gameType}
-        status='rps'
-        problemNum={3}
-        setIsPreparing={setIsPreparing}
-      />
+      <StatusBar gameType={gameType} status='rps' problemNum={3} />
       {isPreparing ? (
         <PrepareTemplate
           imagesList={imagesList}

@@ -29,7 +29,7 @@ const PreapareTemplate = (props: PreapareTemplateProps) => {
   const { imagesList, overviewProps, goal, descriptions } = props;
 
   return (
-    <Grid container sx={{ height: `calc(100vh - 13rem)` }}>
+    <Grid container sx={{ height: `calc(100% - 6rem)` }}>
       <Grid item xs={8}>
         <ColFlexBox>
           <DescriptionCarousel

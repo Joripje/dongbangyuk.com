@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
@@ -11,7 +11,7 @@ interface TimerProps {
   onExitHandler?: () => void;
 }
 
-const Timer: React.FC<TimerProps> = (props: TimerProps) => {
+const Timer = (props: TimerProps) => {
   const navigate = useNavigate();
   const { startTime, settingTime, onExitHandler } = props;
   const [spendTime, setSpendTime] = useState(0);
@@ -42,7 +42,7 @@ const Timer: React.FC<TimerProps> = (props: TimerProps) => {
 
   // 5초 남으면 남은시간 빨간색으로 바꿔주는 함수
   useEffect(() => {
-    if (remainTime === 5) {
+    if (remainTime < settingTime / 4) {
       setHurry(true);
     } else if (remainTime === 0) {
       setHurry(false);
@@ -64,10 +64,6 @@ const Timer: React.FC<TimerProps> = (props: TimerProps) => {
 };
 
 const TimeBox = styled.div({
-  position: "absolute",
-  right: 15,
-  top: "1.5rem",
-
   width: "6rem",
   height: "1.5rem",
   textAlign: "center",

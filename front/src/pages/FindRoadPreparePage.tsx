@@ -1,4 +1,4 @@
-import { PrepareTemplate, StatusBar } from "components/game";
+import { PrepareTemplate, PrepareExam, StatusBar } from "components/game";
 import {
   rmt,
   findRoad,
@@ -13,7 +13,6 @@ import {
   nineth,
   tenth,
 } from "assets/images/findRoad";
-import PrepareExam from "components/game/PrepareExam";
 
 function FindRoadPreparePage(props: { isPreparing: boolean }) {
   // const [isPreparing, setIsPreparing] = useState(true);
@@ -60,7 +59,7 @@ function FindRoadPreparePage(props: { isPreparing: boolean }) {
 
   return (
     <>
-      <StatusBar gameType={gameType} status='explain' problemNum='길 찾기' />
+      {/* <StatusBar gameType={gameType} status={status} problemNum='길 찾기' /> */}
       {isPreparing ? (
         <PrepareTemplate
           imagesList={imagesList}

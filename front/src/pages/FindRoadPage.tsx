@@ -22,9 +22,8 @@ import {
 import { RootState } from "store";
 
 function FindRoadPage() {
+  const [startTime, setStartTime] = useState(new Date());
   const [thisComponent, setThisComponent] = useState<JSX.Element>();
-  const [startTime] = useState(new Date());
-  const [status] = useState("explain");
   const [problemNum, setProblemNum] = useState(1);
 
   const { isPreparing, isGaming } = useSelector(
@@ -78,6 +77,7 @@ function FindRoadPage() {
       );
     } else {
       if (isPreparing) {
+        setStartTime(new Date());
         setThisComponent(
           <PrepareTemplate
             imagesList={imagesList}
@@ -100,9 +100,19 @@ function FindRoadPage() {
 
   return (
     <>
-      <StatusBar status={status} gameType='road' problemNum={problemNum} />
+      <StatusBar
+        status={isGaming}
+        gameType='road'
+        problemNum={problemNum}
+        isPreparing={isPreparing}
+      >
+        {!isPreparing ? (
+          <></>
+        ) : (
+          <Timer startTime={startTime.getTime()} settingTime={300} />
+        )}
+      </StatusBar>
       {thisComponent}
-      <Timer startTime={startTime.getTime()} settingTime={300} />
     </>
   );
 }
