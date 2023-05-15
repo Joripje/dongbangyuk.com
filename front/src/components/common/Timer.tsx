@@ -20,13 +20,11 @@ const Timer = (props: TimerProps) => {
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      // setRealTime(new Date().getTime());
       setSpendTime(Math.floor((new Date().getTime() - startTime) / 1000));
       setRemainTime(settingTime - spendTime);
     }, 1000);
     if (remainTime === 0) {
       if (onExitHandler) onExitHandler();
-      // navigate("/", { replace: true });
       return () => clearInterval(intervalId);
     }
     return () => clearInterval(intervalId);

@@ -8,6 +8,9 @@ import { GameSelect, GameTemplate, NotEnough } from "components/game";
 
 import styled from "styled-components";
 import { Button } from "@mui/material";
+import CatchCatGamePage from "./CatchCatGamePage";
+import TurnPicGamePage from "./TurnPicGamePage";
+import RpsGamePage from "./RpsGamePage";
 
 function TestCompositionPage() {
   const dispatch = useDispatch();
@@ -27,6 +30,15 @@ function TestCompositionPage() {
           break;
         case "road":
           setThisComponent(<FindRoadPage />);
+          break;
+        case "rps":
+          setThisComponent(<RpsGamePage />);
+          break;
+        case "rotate":
+          setThisComponent(<TurnPicGamePage />);
+          break;
+        case "cat":
+          setThisComponent(<CatchCatGamePage />);
           break;
       }
     }

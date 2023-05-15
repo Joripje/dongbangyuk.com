@@ -64,14 +64,6 @@ const turnFigureSlice = createSlice({
       state.tempAnswer.timestamp[0] = new Date().toISOString();
     },
 
-    addTurnAnswer: (state) => {
-      state.tempAnswer.timestamp[1] = new Date().toISOString();
-      state.tempAnswer.clicks = state.clicks;
-
-      state.answerList.push(state.tempAnswer);
-      state.clicks = 20;
-    },
-
     pushChoice: (state, action) => {
       const { tempAnswer, target } = state;
       tempAnswer.choices[target] = action.payload;
@@ -97,6 +89,7 @@ const turnFigureSlice = createSlice({
     checkAnswer: (state) => {
       console.log(current(state.answerList));
     },
+
     submitAnswers: (state) => {
       const testData = {
         gameId: 0,
@@ -107,6 +100,17 @@ const turnFigureSlice = createSlice({
       };
       console.log(testData);
       postRoateAnswers(testData);
+    },
+
+    addTurnAnswer: (state) => {
+      state.tempAnswer.timestamp[1] = new Date().toISOString();
+      state.tempAnswer.clicks = state.clicks;
+
+      state.answerList.push(state.tempAnswer);
+      generateProblem();
+      clearChoice();
+
+      state.clicks = 20;
     },
   },
 });
