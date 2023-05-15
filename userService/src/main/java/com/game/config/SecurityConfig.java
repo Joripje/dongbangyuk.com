@@ -33,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configure(HttpSecurity http) throws Exception {
 		http.cors().and()
 			.authorizeRequests()
-				.antMatchers(HttpMethod.POST, "/users", "/users/").permitAll()
+				.antMatchers(HttpMethod.POST, "/users/register", "/users/register/").permitAll()
 				.anyRequest().authenticated()
 				.and()
 			.addFilterBefore(new FirebaseTokenFilter(userService, firebaseAuth),
@@ -48,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		// 회원가입, 메인페이지
-		web.ignoring().antMatchers(HttpMethod.POST, "/users")
+		web.ignoring().antMatchers(HttpMethod.POST, "/users/register")
 				.antMatchers("/");
 	}
 
