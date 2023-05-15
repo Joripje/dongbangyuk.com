@@ -1,23 +1,44 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Navbar } from "components/common";
 import { UserInfo } from "components/profile";
-import { AbilityChart } from "components/statistics";
+import { TotalAbilityChart } from "components/statistics";
 
 import { auth } from "service";
 
 function MyProfile() {
+  const [currentUser, setCurrentUser] = useState(auth.currentUser);
+
+  // 현재로그인중인지 아닌지 확인하는 함수
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setCurrentUser(user);
+    });
+
+    return unsubscribe;
+  }, []);
+
   return (
     <div>
       <Navbar />
-      <UserInfo />
-      <AbilityBox>
-        <AbilityChart />
-      </AbilityBox>
-      <InfoBox>
-        <h1>user info</h1>
-        {/* <Info>이메일</Info> */}
-      </InfoBox>
+
+      {currentUser ? (
+        <>
+          <UserInfo />
+          <AbilityBox>
+            <TotalAbilityChart />
+          </AbilityBox>
+          <InfoBox>
+            <h1>user info</h1>
+          </InfoBox>
+        </>
+      ) : (
+        <>
+          <h1>로그인하세용</h1>
+          <h1>로그인하세용</h1>
+          <h1>로그인하세용</h1>
+        </>
+      )}
     </div>
   );
 }
@@ -27,7 +48,7 @@ const AbilityBox = styled.div({
   height: "40%",
   display: "flex",
   marginTop: "4rem",
-  marginLeft: "13rem",
+  marginLeft: "11vw",
   borderRadius: "1rem",
   justifyContent: "center",
   position: "fixed",
@@ -38,7 +59,7 @@ const InfoBox = styled.div({
   height: "40%",
   display: "flex",
   marginTop: "4rem",
-  marginLeft: "67rem",
+  marginLeft: "52vw",
   borderRadius: "1rem",
   justifyContent: "center",
   position: "fixed",
