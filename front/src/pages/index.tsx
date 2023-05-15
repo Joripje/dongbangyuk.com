@@ -22,6 +22,9 @@ import { Chat } from "components/firebase_chat";
 import { SelectAnswer } from "components/catchCat";
 import ShowOffPage from "./ShowOffPage";
 
+// testpage
+import TestPage from "./TestPage";
+
 const routes = [
   {
     path: "*",
@@ -105,6 +108,10 @@ const routes = [
   {
     path: "/test/showOff",
     element: <ShowOffPage />,
+  },
+  {
+    path: "/testpage",
+    element: <TestPage />,
   },
 ];
 
