@@ -47,7 +47,7 @@ function RpsGamePage(props: RpsGamePageProps) {
       setTimeout(() => {
         setRound(round + 1);
         setStartTime(new Date().getTime());
-        setSettingTime(20);
+        setSettingTime(30);
         setIsGaming(true);
       }, 4000);
     }
@@ -60,9 +60,9 @@ function RpsGamePage(props: RpsGamePageProps) {
       setRound(round + 1);
       setStartTime(new Date().getTime());
       if (round === 1) {
-        setSettingTime(10);
+        setSettingTime(30);
       } else if (round === 2) {
-        setSettingTime(10);
+        setSettingTime(100);
       }
       setIsGaming(true);
     }, 4000);
