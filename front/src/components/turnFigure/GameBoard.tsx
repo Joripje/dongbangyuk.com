@@ -1,15 +1,16 @@
 import { MouseEvent, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import {
   addTurnAnswer,
   clearChoice,
   generateProblem,
+  submitAnswers,
 } from "store/turnFigureSlice";
 
 import { ObjectFigure, FigureControl, TurnHistory } from "./";
 
 import styled from "styled-components";
 import { Button, Grid } from "@mui/material";
-import { useDispatch } from "react-redux";
 
 type GameBoardProps = {
   problemNum: number;
@@ -23,6 +24,12 @@ const GameBoard = (props: GameBoardProps) => {
   const onSubmitHandler = (event: MouseEvent) => {
     event.preventDefault();
     dispatch(addTurnAnswer());
+    if (problemNum >= 20) {
+      alert("end");
+      dispatch(submitAnswers());
+      return;
+    }
+
     dispatch(generateProblem());
     dispatch(clearChoice());
 

@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { useState, useEffect, useMemo, MouseEvent } from "react";
-import { checkAnswer } from "store/catchCatSlice";
+import { submitCatAnswer } from "store/catchCatSlice";
 
 import { SingleCatBox, SelectAnswer } from ".";
 
@@ -36,16 +36,11 @@ const GameBoard = (props: GameBoardProps) => {
   const [boardState, setBoardState] = useState<number[][]>([]); // 사용자가 보고 있는 문제지
   const [correct, setCorrect] = useState<boolean[]>([false, false]);
 
-  // 렌더될때 timestamp를 캐싱
-  const timestamp = useMemo(() => {
-    return new Date().toISOString();
-  }, []);
-
   const onSubmitHandler = (event: MouseEvent<HTMLElement>): void => {
     event.preventDefault();
-    dispatch(checkAnswer());
-    console.log(timestamp, new Date().toISOString());
+    // console.log(timestamp, new Date().toISOString());
     // 술래잡기와 관련된 API가 완성되면 http 통신이 추가되어야 함
+    dispatch(submitCatAnswer());
   };
 
   useEffect(() => {

@@ -2,7 +2,7 @@ import { useState } from "react";
 
 // import { Timer } from "components/common";
 import { GameBoard } from "../components/catchCat";
-import { StatusBar, GameTemplate } from "components/game";
+import { StatusBar } from "components/game";
 
 function CatchCatGamePage() {
   const [status] = useState("explain");

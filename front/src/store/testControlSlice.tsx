@@ -1,9 +1,11 @@
 import { createSlice, PayloadAction, current } from "@reduxjs/toolkit";
 
-const initialState = {};
+const initialState = {
+  answer: {},
+};
 
 const testSlice = createSlice({
-  name: "answer",
+  name: "test",
   initialState,
   reducers: {},
 });
