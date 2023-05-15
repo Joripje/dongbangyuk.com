@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.function.dto.PlayListResponseDto;
@@ -27,6 +28,12 @@ public class PlayController {
 		return ResponseEntity.ok(playService.findById(id));
 	}
 
+	@ApiOperation(value = "{gameId}에 해당하는 유저 아이디 가져오기")
+	@GetMapping("/userInfo")
+	public ResponseEntity<Long> getUserIdByGameId(@RequestParam Long gameId) {
+		return ResponseEntity.ok(playService.findById(gameId).getUserId());
+	}
+	
 	@ApiOperation(value = "아이디가 {id}인 유저의 모든 게임 기록 가져오기")
 	@GetMapping("/users/{id}")
 	public ResponseEntity<List<PlayListResponseDto>> getPlayByUserId(@PathVariable("id") Long userId) {
