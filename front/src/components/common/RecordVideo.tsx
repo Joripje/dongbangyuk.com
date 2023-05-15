@@ -80,6 +80,7 @@ ws.onmessage = function (message) {
   if (parsedMessage.id !== "iceCandidate") {
     console.log(parsedMessage.id);
     console.info("Received message: " + message.data);
+    // 여기서 spring이 주는 gameId 받기 (게임 끝날때 gameId에 넣어서 보냄)
   }
 
   switch (parsedMessage.id) {
@@ -139,7 +140,7 @@ function start() {
 
 function onOffer(error: string, offerSdp: {}) {
   if (error) return console.error("Error generating the offer");
-  console.log("Invoking SDP offer callback function k8a305.p.ssafy.io:8030");
+  console.log("Invoking SDP offer callback function");
   const userEmail = localStorage.getItem("userEmail");
   const startDate = new Date().toISOString;
   var message = {
