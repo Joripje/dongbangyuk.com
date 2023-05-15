@@ -86,7 +86,7 @@ async def grade_road_game(incoming: findroad.RoadAnswerIncoming):
     result_db["road"].insert_one(document.dict())
 
     # 채점 완료, 저장 후 분석 서버로 채점완료 요청 보내기
-    # send_request.flag(incoming.game_id, incoming.game_type, False)
+    send_request.flag(incoming.game_id, incoming.game_type, False)
 
     content = {
         "msg": "Road game result saved to DB.",
@@ -141,7 +141,7 @@ async def grade_rps_3(incoming: rps.RpsAnswer):
     result_db["rps"].insert_one(document.dict())
 
     # 채점 완료, 저장 후 분석 서버로 채점완료 요청 보내기
-    # send_request.flag(incoming.game_id, incoming.game_type, False)
+    send_request.flag(incoming.game_id, incoming.game_type, False)
 
     content = {
         "msg": "RPS game result saved to DB.",
@@ -185,7 +185,7 @@ async def grade_cat(incoming: cat.CatAnswer):
     result_db["cat"].insert_one(document.dict())
 
     # 채점 완료, 저장 후 분석 서버로 채점완료 요청 보내기
-    # send_request.flag(incoming.game_id, incoming.game_type, False)
+    send_request.flag(incoming.game_id, incoming.game_type, False)
 
     content = {
         "msg": "Cat game result saved to DB.",
@@ -241,7 +241,7 @@ async def grade_rotate(incoming: rotate.RotateAnswer):
     result_db["rotate"].insert_one(document.dict())
 
     # 채점 완료, 저장 후 분석 서버로 채점완료 요청 보내기
-    # send_request.flag(incoming.game_id, incoming.game_type, False)
+    send_request.flag(incoming.game_id, incoming.game_type, False)
 
     content = {
         "msg": "Rotation game result saved to DB.",
