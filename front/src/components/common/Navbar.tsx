@@ -11,11 +11,12 @@ import {
 import { LOGO } from "assets/images";
 
 import { useNavigate } from "react-router-dom";
+import { auth } from "service";
 
 function Navbar() {
   const pages = ["역검센터", "결과보기", "힐링센터", "마이프로필"];
   const navigate = useNavigate();
-
+  // console.log(auth.currentUser);
   const handleClick = (page: string, e: any) => {
     if (page === "역검센터") {
       navigate("/test/prepare");
@@ -25,12 +26,15 @@ function Navbar() {
       navigate("/statistics");
     } else return;
   };
+  const goMainPage = () => {
+    navigate("/main");
+  };
   return (
     <Nav>
       <Container sx={{ marginLeft: "1rem", marginRight: "1rem" }}>
         <Toolbar disableGutters>
-          <Typo1 variant="h5" noWrap>
-            LOGO
+          <Typo1 onClick={goMainPage} variant="h5" noWrap>
+            동방역검
           </Typo1>
           <Box1>
             {pages.map((page) => (
@@ -52,6 +56,7 @@ function Navbar() {
 
 const Nav = styled(AppBar)({
   position: "fixed",
+  top: 0,
   backgroundColor: "white",
   color: "black",
   height: "5rem",
@@ -67,6 +72,9 @@ const Typo1 = styled(Typography)({
   letterSpacing: ".3rem",
   color: "inherit",
   textDecoration: "none",
+  cursor: "pointer",
+  background: "-webkit-linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
+  borderRadius: "1rem",
 });
 
 const Box1 = styled(Box)({

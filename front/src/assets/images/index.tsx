@@ -19,6 +19,7 @@ import question from "./rps/question.png";
 import rpsDescript from "./rps/rpsDescript.png";
 
 import LOGO from "./LOGO.png";
+import GG from "./GG.png";
 
 export {
   janban,
@@ -38,4 +39,5 @@ export {
   question,
   rpsDescript,
   LOGO,
+  GG,
 };
