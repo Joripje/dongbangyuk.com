@@ -23,7 +23,7 @@ const GameTemplate = (props: GameTemplateProps) => {
 
   return (
     <TemplateBox>
-      <VoiceImage setIsEnough={setIsEnough} />
+      <VoiceImage />
       {isEnough ? (
         <BoardBox>{children}</BoardBox>
       ) : (

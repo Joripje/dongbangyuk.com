@@ -1,43 +1,56 @@
-import { ComponentType, ReactNode } from "react";
-import { useNavigate } from "react-router";
+import { ComponentType, ReactNode, MouseEvent } from "react";
+import { useDispatch } from "react-redux";
 
 import styled from "styled-components";
 import { Card, Grid } from "@mui/material";
+import { setGame } from "store/testControlSlice";
 
 type StyledCardProps = {
   key: number;
   children: ReactNode;
   onClick: () => void;
 };
+type GameValue = undefined | "rps" | "road" | "rotate" | "cat";
+
+type GameOption = {
+  name: string;
+  ability: string;
+  time: number;
+  value: GameValue;
+};
 
 function GameSelect() {
-  const navigate = useNavigate();
-  const gameOptions = [
+  const dispatch = useDispatch();
+  const gameOptions: GameOption[] = [
     {
       name: "길 찾기",
       ability: "계획 능력",
       time: 3,
-      url: "/test/find-road/prepare",
+      value: "road",
     },
     {
       name: "가위 바위 보",
       ability: "인지 능력",
       time: 3,
-      url: "/test/rps/prepare",
+      value: "rps",
     },
     {
       name: "도형 회전하기",
       ability: "인지 능력",
       time: 4,
-      url: "/test/turn/prepare",
+      value: "rotate",
     },
     {
       name: "고양이 술래잡기",
       ability: "인지 능력",
       time: 4,
-      url: "/test/cat/prepare",
+      value: "cat",
     },
   ];
+
+  const onClickHandler = (value: GameValue) => {
+    dispatch(setGame(value));
+  };
 
   return (
     <Grid container style={{ height: "100%" }}>
@@ -46,9 +59,9 @@ function GameSelect() {
         <h1>게임 목록</h1>
         <RowFlexBox>
           {gameOptions.map((item, index) => {
-            const { name, ability, time, url } = item;
+            const { name, ability, time, value } = item;
             return (
-              <StyledCard key={index} onClick={() => navigate(url)}>
+              <StyledCard key={index} onClick={() => onClickHandler(value)}>
                 <TypoForGameName>{name}</TypoForGameName>
                 <TypoForAbility>
                   {ability} | 약 {time}분
@@ -61,8 +74,6 @@ function GameSelect() {
     </Grid>
   );
 }
-
-const TempForShowOff = styled.div({});
 
 const UserInfoGrid = styled(Grid)({
   display: "flex",

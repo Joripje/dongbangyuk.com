@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, current, PayloadAction } from "@reduxjs/toolkit";
 
 type GameProps = undefined | "road" | "rps" | "rotate" | "cat";
 
@@ -22,6 +22,7 @@ const testControlSlice = createSlice({
   reducers: {
     setGame: (state, action: PayloadAction<GameProps>) => {
       state.game = action.payload;
+      console.log(current(state));
     },
     setBoolState: (
       state,

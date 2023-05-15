@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 
 import Error404Page from "./Error404Page";
 import FindRoadPage from "./FindRoadPage";
-import FindRoadPreparePage from "./FindRoadPreparePage";
+// import FindRoadPreparePage from "./FindRoadPreparePage";
 import RpsGamePage from "./RpsGamePage";
 import RpsPreparePage from "./RpsPreparePage";
 import CatchCatGamePage from "./CatchCatGamePage";

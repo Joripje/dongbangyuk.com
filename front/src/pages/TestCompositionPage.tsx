@@ -17,18 +17,18 @@ function TestCompositionPage() {
     const { game, isEnough, isGaming, isPreparing } = gameState;
 
     if (!isEnough) {
-      setThisComponent(<div>1920 1080 이상 하라구~</div>);
-      return;
-    }
-
-    switch (game) {
-      case undefined:
-        setThisComponent(<GameSelect />);
-        break;
-      case "road":
-        if (isGaming) setThisComponent(<FindRoadPage />);
-        else
-          setThisComponent(<FindRoadPreparePage isPreparing={isPreparing} />);
+      setThisComponent(<div>1920 1080 ^^7</div>);
+    } else {
+      console.log("wow");
+      switch (game) {
+        case undefined:
+          setThisComponent(<GameSelect />);
+          break;
+        case "road":
+          if (isGaming) setThisComponent(<FindRoadPage />);
+          else
+            setThisComponent(<FindRoadPreparePage isPreparing={isPreparing} />);
+      }
     }
   }, [gameState]);
 

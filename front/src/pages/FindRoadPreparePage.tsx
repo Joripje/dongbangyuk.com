@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import { PrepareTemplate, StatusBar } from "components/game";
 import {
   rmt,
