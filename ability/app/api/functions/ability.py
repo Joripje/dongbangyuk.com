@@ -1,6 +1,6 @@
 from pymongo import MongoClient
 from datetime import datetime, timedelta
-from api.functions.load_data import get_result, get_video
+from api.functions.load_data import get_result, get_video, create_notification
 from dotenv import load_dotenv
 import os
 
@@ -19,6 +19,7 @@ collection = db['ability']
 
 
 def ability(game_id, game_type):
+
     result = get_result(game_id, game_type)
     video = get_video(game_id)
 
@@ -57,6 +58,8 @@ def ability(game_id, game_type):
 
         if not collection.find_one({'game_id': game_id}):
             collection.insert_one(data)
+
+            create_notification(game_id, game_type)
             print('저장완료')
 
 
