@@ -17,8 +17,9 @@ import {
 } from "assets/images/findRoad";
 import PrepareExam from "components/game/PrepareExam";
 
-function FindRoadPreparePage() {
-  const [isPreparing, setIsPreparing] = useState(true);
+function FindRoadPreparePage(props: { isPreparing: boolean }) {
+  // const [isPreparing, setIsPreparing] = useState(true);
+  const { isPreparing } = props;
 
   const imagesList: string[] = [
     findRoad,
@@ -62,19 +63,13 @@ function FindRoadPreparePage() {
 
   return (
     <>
-      <StatusBar
-        gameType={gameType}
-        status='explain'
-        problemNum='길 찾기'
-        setIsPreparing={setIsPreparing}
-      />
+      <StatusBar gameType={gameType} status='explain' problemNum='길 찾기' />
       {isPreparing ? (
         <PrepareTemplate
           imagesList={imagesList}
           overviewProps={overviewProps}
           goal={goal}
           descriptions={descriptions}
-          setIsPreparing={setIsPreparing}
         />
       ) : (
         <PrepareExam

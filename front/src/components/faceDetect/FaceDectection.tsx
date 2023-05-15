@@ -75,7 +75,6 @@ function App() {
 
   return (
     <FaceDectectionWrapper ref={wrapRef}>
-      <VoiceImage setIsEnough={() => {}} />
       <video
         ref={videoRef}
         autoPlay

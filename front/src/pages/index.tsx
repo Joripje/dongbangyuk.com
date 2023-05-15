@@ -17,6 +17,8 @@ import StatisticsListPage from "./StatisticsListPage";
 import StatisticsTotalPage from "./StatisticsTotalPage";
 import TurnPicGamePage from "./TurnPicGamePage";
 
+import TestCompositionPage from "./TestCompositionPage";
+
 // firebase chat
 import { Chat } from "components/firebase_chat";
 import { SelectAnswer } from "components/catchCat";
@@ -39,10 +41,10 @@ const routes = [
     path: "/test/find-road",
     element: <FindRoadPage />,
   },
-  {
-    path: "/test/find-road/prepare",
-    element: <FindRoadPreparePage />,
-  },
+  // {
+  //   path: "/test/find-road/prepare",
+  //   element: <FindRoadPreparePage />,
+  // },
   {
     path: "/test/rps",
     element: <RpsGamePage />,
@@ -105,6 +107,10 @@ const routes = [
   {
     path: "/test/showOff",
     element: <ShowOffPage />,
+  },
+  {
+    path: "/test/HOC",
+    element: <TestCompositionPage />,
   },
 ];
 

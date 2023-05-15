@@ -1,21 +1,23 @@
 import { useRef, useState, useEffect } from "react";
 import Slider, { Settings } from "react-slick";
+import { useDispatch } from "react-redux";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Button } from "@mui/material";
 import styled from "@emotion/styled";
+import { setBoolState } from "store/testControlSlice";
 
 interface DescriptionCarouselProps {
   images: string[];
   selectedTypo: number;
   setSelectedTypo: (selectedTypo: number) => void;
-  setIsPreparing: (isPreparing: boolean) => void;
 }
 
 const DescriptionCarousel = (props: DescriptionCarouselProps) => {
-  const { images, selectedTypo, setIsPreparing, setSelectedTypo } = props;
+  const { images, selectedTypo, setSelectedTypo } = props;
   const sliderRef = useRef<Slider>(null);
+  const dispatch = useDispatch();
   const [currentSlideIndex, setCurrentSlideIndex] = useState<number>(0);
 
   const settings: Settings = {
@@ -29,6 +31,10 @@ const DescriptionCarousel = (props: DescriptionCarouselProps) => {
     afterChange: setCurrentSlideIndex,
   };
 
+  const setIsPreparing = (isPreparing: boolean) => {
+    dispatch(setBoolState({ property: "isPreparing", value: isPreparing }));
+  };
+
   useEffect(() => {
     const goTo = (target: number) => {
       if (sliderRef.current) {
@@ -37,14 +43,6 @@ const DescriptionCarousel = (props: DescriptionCarouselProps) => {
     };
     goTo(selectedTypo);
   }, [selectedTypo]);
-
-  // const pageMoveHandler = () => {
-  //   if (location.pathname === '/prepare/rpsPage') {
-  //     navigate('/rpsPage')
-  //   } else if (location.pathname === '/test/prepare/find-road') {
-  //     navigate('/test/find-road')
-  //   }
-  // }
 
   return (
     <CarouselWrapper>

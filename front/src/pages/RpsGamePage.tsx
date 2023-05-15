@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Rps from "components/rps/Rps";
 import { Timer } from "components/common";
@@ -8,7 +8,7 @@ import styled from "styled-components";
 import { Box } from "@mui/material";
 
 import { postRpsResults } from "api/rps";
-import { GameTemplate, StatusBar } from "components/game";
+import { StatusBar } from "components/game";
 
 type RpsGamePageProps = {};
 

@@ -21,13 +21,12 @@ type PreapareTemplateProps = {
   };
   goal: string[];
   descriptions: string[];
-  setIsPreparing: (isPreparing: boolean) => void;
+  // setIsPreparing: (isPreparing: boolean) => void;
 };
 
 const PreapareTemplate = (props: PreapareTemplateProps) => {
   const [selectedTypo, setSelectedTypo] = useState<number>(0);
-  const { imagesList, overviewProps, goal, descriptions, setIsPreparing } =
-    props;
+  const { imagesList, overviewProps, goal, descriptions } = props;
 
   return (
     <Grid container sx={{ height: `calc(100vh - 13rem)` }}>
@@ -37,7 +36,6 @@ const PreapareTemplate = (props: PreapareTemplateProps) => {
             images={imagesList}
             selectedTypo={selectedTypo}
             setSelectedTypo={setSelectedTypo}
-            setIsPreparing={setIsPreparing}
           />
         </ColFlexBox>
       </Grid>

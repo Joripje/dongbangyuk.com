@@ -1,14 +1,40 @@
-import { createSlice, PayloadAction, current } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-const initialState = {
-  answer: {},
+type GameProps = undefined | "road" | "rps" | "rotate" | "cat";
+
+type StateType = {
+  game: GameProps;
+  isGaming: boolean;
+  isPreparing: boolean;
+  isEnough: boolean;
 };
 
-const testSlice = createSlice({
+const initialState: StateType = {
+  game: undefined,
+  isGaming: true,
+  isPreparing: true,
+  isEnough: true,
+};
+
+const testControlSlice = createSlice({
   name: "test",
   initialState,
-  reducers: {},
+  reducers: {
+    setGame: (state, action: PayloadAction<GameProps>) => {
+      state.game = action.payload;
+    },
+    setBoolState: (
+      state,
+      action: PayloadAction<{
+        property: "isGaming" | "isPreparing" | "isEnough";
+        value: boolean;
+      }>
+    ) => {
+      const { property, value } = action.payload;
+      state[property] = value;
+    },
+  },
 });
 
-export const {} = testSlice.actions;
-export default testSlice.reducer;
+export const { setGame, setBoolState } = testControlSlice.actions;
+export default testControlSlice.reducer;

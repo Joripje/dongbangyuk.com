@@ -53,7 +53,6 @@ function RpsPreparePage() {
           overviewProps={overviewProps}
           goal={goal}
           descriptions={descriptions}
-          setIsPreparing={setIsPreparing}
         />
       ) : (
         <PrepareExam
