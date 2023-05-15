@@ -5,6 +5,7 @@ const headers = {
 // const baseUrl = "http://localhost:8000/";
 // const baseUrl = "http://70.12.246.183:8000";
 const baseUrl = "https://k8a305.p.ssafy.io";
+// const baseUrl = "http://k8a305.p.ssafy.io:8040";
 
 interface RequestProps {
   method: string;
@@ -42,7 +43,6 @@ const request = async (props: RequestProps) => {
 
 const requestGet = async (props: RequestProps) => {
   const { method, data, url } = props;
-  console.log(data);
   const options = {
     method,
     headers,
@@ -57,7 +57,6 @@ const requestGet = async (props: RequestProps) => {
       }
     }
     requestUrl += "?" + searchParams.toString();
-    console.log(requestUrl);
   }
 
   try {
