@@ -31,7 +31,7 @@ public class UserController {
 	private final CustomUserService userService;
 
 	@ApiOperation(value = "토큰 추출해서 사용자 등록")
-	@PostMapping
+	@PostMapping("/register")
 	public UserInfo register(@RequestHeader("Authorization") String authorization,
 		@RequestBody RegisterInfo registerInfo) {
 		FirebaseToken decodedToken;
