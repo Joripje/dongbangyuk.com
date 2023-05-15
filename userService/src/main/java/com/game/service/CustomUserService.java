@@ -49,7 +49,7 @@ public class CustomUserService implements UserDetailsService {
 
 	private String sendProfileImageRequest(String birthDate) {
 		System.out.println("============= sendProfileImageRequest 호출 =============");
-		String url = "https://k8a305.p.ssafy.io/profile?birth=" + birthDate;
+		String url = "https://k8a305.p.ssafy.io/profile/?birth=" + birthDate;
 
 		System.out.println("url: " + url);
 		RestTemplate restTemplate = new RestTemplate();
