@@ -33,7 +33,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configure(HttpSecurity http) throws Exception {
 		http.cors().and()
 			.authorizeRequests()
-				.anyRequest().authenticated().and()
+				.antMatchers(HttpMethod.POST, "/users").permitAll()
+				.antMatchers("/users/profile-update").authenticated()
+				.anyRequest().authenticated()
+				.and()
 			.addFilterBefore(new FirebaseTokenFilter(userService, firebaseAuth),
 				UsernamePasswordAuthenticationFilter.class)
 			.exceptionHandling()
