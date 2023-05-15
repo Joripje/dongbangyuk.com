@@ -7,6 +7,7 @@ import RpsGamePage from "./RpsGamePage";
 import RpsPreparePage from "./RpsPreparePage";
 import CatchCatGamePage from "./CatchCatGamePage";
 import MyProfile from "./MyProfile";
+import MainPage from "./MainPage";
 
 import FirebaseTestPage from "./FirebaseTestPage";
 import MemberPage from "./MemberPage";
@@ -85,12 +86,12 @@ const routes = [
     element: <StatisticsTotalPage />,
   },
   {
-    path: "/chat",
-    element: <Chat />,
-  },
-  {
     path: "/profile",
     element: <MyProfile />,
+  },
+  {
+    path: "/main",
+    element: <MainPage />,
   },
   //TEST PAGES
   {

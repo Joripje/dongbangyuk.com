@@ -39,7 +39,7 @@ function UserInfo() {
   return (
     <Box1>
       <UserBox>
-        <ImgBox src={hackjoo} alt='계묘계묘노' />
+        <ImgBox src={hackjoo} alt="계묘계묘노" />
         <h1>username</h1>
       </UserBox>
       <AuthBox>
