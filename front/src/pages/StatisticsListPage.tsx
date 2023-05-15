@@ -37,9 +37,7 @@ const StatisticsListPage = () => {
           userId: parsed.userid,
         });
         setCardList(response.gameScoreList);
-        console.log(cardList);
         setGameCounts(response.gameCounts);
-        console.log(gameCounts);
       } catch (err) {
         console.error(err);
       }
