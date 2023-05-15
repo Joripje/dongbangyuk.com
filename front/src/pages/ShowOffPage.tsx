@@ -30,7 +30,7 @@ function ShowOffPage() {
 
   return (
     <>
-      {showOffComponent > 5 || showOffComponent < 1 ? (
+      {showOffComponent > 5 || showOffComponent === 0 ? (
         components[showOffComponent]
       ) : (
         <GameTemplate>{components[showOffComponent]}</GameTemplate>

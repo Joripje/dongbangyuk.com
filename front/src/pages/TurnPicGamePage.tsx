@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { GameBoard } from "../components/turnFigure";
-import { StatusBar, GameTemplate } from "components/game";
+import { StatusBar } from "components/game";
 
 function TurnPicGamePage() {
   const [status] = useState("explain");
