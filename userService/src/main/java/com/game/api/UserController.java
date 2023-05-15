@@ -56,18 +56,35 @@ public class UserController {
 		return new UserInfo(customUser);
 	}
 
+	// @ApiOperation(value = "생년월일을 기준으로 DALI에 프로필 사진 요청")
+	// @PostMapping("/profile-update")
+	// public String updateProfileImage(Authentication authentication) {
+	// 	System.out.println("================ profile-update 실행 ================");
+	// 	System.out.println("Authentication : " + authentication);
+	//
+	// 	Object principal = authentication.getPrincipal();
+	// 	System.out.println("principal: " + principal.toString());
+	// 	System.out.println("id: " + ((CustomUser)principal).getId());
+	// 	Long id = ((CustomUser)authentication.getPrincipal()).getId();
+	//
+	// 	return userService.updateProfileImage(id);
+	// }
+
 	@ApiOperation(value = "생년월일을 기준으로 DALI에 프로필 사진 요청")
 	@PostMapping("/profile-update")
-	public String updateProfileImage(Authentication authentication) {
+	public String updateProfileImage(@RequestHeader("Authorization") String authorization) {
 		System.out.println("================ profile-update 실행 ================");
-		System.out.println("Authentication : " + authentication);
-
-		Object principal = authentication.getPrincipal();
-		System.out.println("principal: " + principal.toString());
-		System.out.println("id: " + ((CustomUser)principal).getId());
-		Long id = ((CustomUser)authentication.getPrincipal()).getId();
-
-		return userService.updateProfileImage(id);
+		FirebaseToken decodedToken;
+		try {
+			// Token 추출
+			String token = RequestUtil.getAuthorizationToken(authorization);
+			decodedToken = firebaseAuth.verifyIdToken(token);
+			System.out.println("token 추출: " + userService.findByUid(decodedToken.getUid()).toString());
+			Long userId = userService.findByUid(decodedToken.getUid()).getId();
+			return userService.updateProfileImage(userId);
+		} catch (IllegalArgumentException | FirebaseAuthException e) {
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
+				"{\"code\":\"INVALID_TOKEN\", \"message\":\"" + e.getMessage() + "\"}");
+		}
 	}
-
 }

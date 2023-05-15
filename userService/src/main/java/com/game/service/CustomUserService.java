@@ -25,6 +25,11 @@ public class CustomUserService implements UserDetailsService {
 		return customUserRepository.findByUid(uid).get();
 	}
 
+
+	public CustomUser findByUid(String uid) throws UsernameNotFoundException {
+		return customUserRepository.findByUid(uid).get();
+	}
+
 	@Transactional
 	public CustomUser createUser(String uid, String birthDate) {
 		CustomUser customUser = new CustomUser(uid, birthDate);
