@@ -4,6 +4,7 @@ import TotalAbilityChart from "./TotalAbilityChart";
 import ResultsTable from "./ResultsTable";
 import StatisticsListCircles from "./StatisticsListCircles";
 import StatisticListCards from "./StatisticListCards";
+import VideoResult from "./VideoResult";
 
 export {
   AbilityChart,
@@ -12,4 +13,5 @@ export {
   ResultsTable,
   StatisticsListCircles,
   StatisticListCards,
+  VideoResult,
 };

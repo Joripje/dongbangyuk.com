@@ -1,4 +1,9 @@
-import { VideoChart, AbilityChart, ResultsTable } from "components/statistics";
+import {
+  VideoChart,
+  AbilityChart,
+  ResultsTable,
+  VideoResult,
+} from "components/statistics";
 import styled from "styled-components";
 
 const StatisticsPage = () => {
@@ -15,6 +20,8 @@ const StatisticsPage = () => {
         &nbsp;당신은 사랑받기 위<br />해 태어난사람
       </TitleContainer>
       <AbilityChart />
+      <TitleContainer>표정 인식 데이터</TitleContainer>
+      <VideoResult />
       <TitleContainer>나의 영상 확인</TitleContainer>
       <VideoChart />
     </TemplateBox>
