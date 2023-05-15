@@ -89,7 +89,7 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
     switch (jsonMessage.get("id").getAsString()) {
       case "start":
         // 파일 이름 지정
-        RECORDER_FILE_NAME = ++sequence + jsonMessage.get("userEmail").getAsString() + ".webm";
+        RECORDER_FILE_NAME = ++sequence + "_" + jsonMessage.get("userEmail").getAsString() + ".webm";
         start(session, jsonMessage);
         break;
       case "stop":
