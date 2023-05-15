@@ -46,7 +46,7 @@ public class CustomUserService implements UserDetailsService {
 		String birthDate = customUser.getBirthDate();
 		String profilePath = sendProfileImageRequest(birthDate);
 
-		customUser.updateProfileImage(profilePath);
+		customUser.updateProfileImage(profilePath.replace("\"", ""));
 		System.out.println("customUser: " + customUser.toString());
 
 		return customUser.toString();
