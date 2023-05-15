@@ -55,6 +55,7 @@ import com.google.gson.JsonObject;
 public class HelloWorldRecHandler extends TextWebSocketHandler {
 
   private static String RECORDER_FILE_NAME;
+  private static Long sequence = 0L;
 
   private final Logger log = LoggerFactory.getLogger(HelloWorldRecHandler.class);
   private static final Gson gson = new GsonBuilder().create();
@@ -88,7 +89,7 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
     switch (jsonMessage.get("id").getAsString()) {
       case "start":
         // 파일 이름 지정
-        RECORDER_FILE_NAME = jsonMessage.get("userEmail").getAsString() + ".webm";
+        RECORDER_FILE_NAME = ++sequence + jsonMessage.get("userEmail").getAsString() + ".webm";
         start(session, jsonMessage);
         break;
       case "stop":
@@ -149,7 +150,6 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
       MediaProfileSpecType profile = getMediaProfileFromMessage(jsonMessage);
 
       String filePath = "file:///tmp/" + RECORDER_FILE_NAME;
-
 
       System.out.println("**************************************************");
       System.out.println("**************************************************");
@@ -340,6 +340,7 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
             System.out.println("recording.addRecordingListener 진입" + event);
             JsonObject response = new JsonObject();
             response.addProperty("id", "recording");
+            response.addProperty("fileName", RECORDER_FILE_NAME);
             try {
               System.out.println("record try");
               synchronized (session) {
