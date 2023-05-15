@@ -38,8 +38,6 @@ function RpsGamePage(props: RpsGamePageProps) {
     },
   });
 
-  const navigate = useNavigate();
-
   // 게임 스타트를 누르면 타이머 세팅
   const handleStart = () => {
     setIsGaming(false);
@@ -47,7 +45,7 @@ function RpsGamePage(props: RpsGamePageProps) {
       setTimeout(() => {
         setRound(round + 1);
         setStartTime(new Date().getTime());
-        setSettingTime(20);
+        setSettingTime(30);
         setIsGaming(true);
       }, 4000);
     }
@@ -60,9 +58,9 @@ function RpsGamePage(props: RpsGamePageProps) {
       setRound(round + 1);
       setStartTime(new Date().getTime());
       if (round === 1) {
-        setSettingTime(10);
+        setSettingTime(30);
       } else if (round === 2) {
-        setSettingTime(10);
+        setSettingTime(100);
       }
       setIsGaming(true);
     }, 4000);
@@ -72,7 +70,7 @@ function RpsGamePage(props: RpsGamePageProps) {
     setIsGaming(false);
     // console.log('하윙', answer)
     postRpsResults(answer);
-    navigate("/");
+    // navigate("/");
   };
 
   const handleTimerExit = () => {
@@ -100,7 +98,7 @@ function RpsGamePage(props: RpsGamePageProps) {
 
   return (
     <>
-      <StatusBar status='rps' gameType='rps' problemNum={round} />
+      <StatusBar status="rps" gameType="rps" problemNum={round} />
       <Timer
         onExitHandler={handleTimerExit}
         startTime={startTime}

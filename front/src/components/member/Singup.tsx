@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  setPersistence,
+  browserSessionPersistence,
 } from "firebase/auth";
 
 import { auth } from "service";
@@ -78,12 +80,11 @@ function SignUp(props: SignUpProps) {
     const authFunction = isLogin
       ? signInWithEmailAndPassword
       : createUserWithEmailAndPassword;
-
     authFunction(auth, inputEmail, inputPassword)
       .then((userInfo) => {
+        // 창이 닫히면 자동 로그아웃 됨
+        setPersistence(auth, browserSessionPersistence);
         navigate("/");
-        if (userInfo.user.email)
-          localStorage.setItem("userEmail", userInfo.user.email);
       })
       .catch((error) => {
         console.log(error);
@@ -91,7 +92,7 @@ function SignUp(props: SignUpProps) {
   };
 
   return (
-    <Box component='form'>
+    <Box component="form">
       <Grid
         container
         spacing={2}
@@ -115,8 +116,8 @@ function SignUp(props: SignUpProps) {
         <Grid item xs={9}>
           <Button
             onClick={onClickHandler}
-            variant='contained'
-            className='submit'
+            variant="contained"
+            className="submit"
             style={{ height: "3rem", background: "#B8DDFF" }}
             fullWidth
           >
