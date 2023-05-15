@@ -18,12 +18,6 @@ function MyProfile() {
   //   return unsubscribe;
   // }, []);
 
-  useEffect(() => {
-    if (auth.currentUser === null) {
-      navigate("/member");
-    }
-  }, []);
-
   return (
     <div>
       <Navbar />

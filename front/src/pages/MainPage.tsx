@@ -20,7 +20,16 @@ function MainPage() {
       <Navbar />
       <Wrapper>
         <MainBox>
-          <Button>userinfo</Button>
+          <UserBox>
+            <ImageBox>
+              <img
+                style={{ width: "20vw", height: "20vh" }}
+                src={janban}
+                alt=""
+              />
+            </ImageBox>
+            <h1>잔반이</h1>
+          </UserBox>
           <Button value="test" onClick={handlePage}>
             <h1>실전 응시</h1>
           </Button>
@@ -31,23 +40,28 @@ function MainPage() {
       </Wrapper>
       <Wrap>
         <Chat />
-        <ImageBox>
-          <img style={{ width: "30vw", height: "30vh" }} src={janban} alt="" />
-        </ImageBox>
       </Wrap>
     </>
   );
 }
 const ImageBox = styled.div({
-  marginTop: "10vh",
-  marginLeft: "7vh",
+  display: "flex",
+  justifyContent: "center",
+  marginTop: "1rem",
 });
 
 const Wrap = styled.div({
   display: "flex",
   justifyContent: "center",
 });
-
+const UserBox = styled.div({
+  backgroundColor: "#F4F4F5",
+  width: "30%",
+  height: "90%",
+  borderRadius: "1rem",
+  marginTop: "2rem",
+  textAlign: "center",
+});
 const Button = styled.button({
   backgroundColor: "#F4F4F5",
   width: "30%",

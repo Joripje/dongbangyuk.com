@@ -9,21 +9,22 @@ import {
   Button,
 } from "@mui/material";
 import { LOGO } from "assets/images";
+import { NotificationButton } from "components/notification";
 
 import { useNavigate } from "react-router-dom";
 import { auth } from "service";
 
 function Navbar() {
-  const pages = ["역검센터", "결과보기", "힐링센터", "마이프로필"];
+  const pages = ["역검센터", "결과보기", "프로필"];
   const navigate = useNavigate();
   // console.log(auth.currentUser);
   const handleClick = (page: string, e: any) => {
     if (page === "역검센터") {
       navigate("/test/prepare");
-    } else if (page === "마이프로필") {
+    } else if (page === "프로필") {
       navigate("/profile");
     } else if (page === "결과보기") {
-      navigate("/statistics");
+      navigate("/statistics/list");
     } else return;
   };
   const goMainPage = () => {
@@ -48,6 +49,7 @@ function Navbar() {
               </Button1>
             ))}
           </Box1>
+          <NotificationButton />
         </Toolbar>
       </Container>
     </Nav>
