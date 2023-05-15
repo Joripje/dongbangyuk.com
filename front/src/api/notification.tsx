@@ -7,7 +7,6 @@ const getNotificationData = async (props: object) => {
     data: props,
   };
   const res = await requestGet(requestProps);
-  console.log(res);
   return res;
 };
 
@@ -18,7 +17,6 @@ const getNewNotificationCount = async (props: object) => {
     data: props,
   };
   const res = await requestGet(requestProps);
-  console.log(res);
   return res;
 };
 

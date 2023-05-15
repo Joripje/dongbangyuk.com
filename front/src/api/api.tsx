@@ -39,7 +39,6 @@ const request = async (props: RequestProps) => {
 
 const requestGet = async (props: RequestProps) => {
   const { method, data, url } = props;
-  console.log(data);
   const options = {
     method,
     headers,
@@ -54,7 +53,6 @@ const requestGet = async (props: RequestProps) => {
       }
     }
     requestUrl += "?" + searchParams.toString();
-    console.log(requestUrl);
   }
 
   try {

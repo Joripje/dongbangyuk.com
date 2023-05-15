@@ -7,7 +7,6 @@ const getAbilityData = async (props: object) => {
     data: props,
   };
   const res = await requestGet(requestProps);
-  console.log(res);
   return res;
 };
 
@@ -18,7 +17,6 @@ const getVideoData = async (props: object) => {
     data: props,
   };
   const res = await requestGet(requestProps);
-  console.log(res);
   return res;
 };
 
@@ -29,7 +27,6 @@ const getGamesData = async (props: object) => {
     data: props,
   };
   const res = await requestGet(requestProps);
-  console.log(res);
   return res;
 };
 
@@ -40,7 +37,6 @@ const getEmotionData = async (props: object) => {
     data: props,
   };
   const res = await requestGet(requestProps);
-  console.log(res);
   return res;
 };
 
@@ -51,7 +47,6 @@ const getStatisicsListData = async (props: object) => {
     data: props,
   };
   const res = await requestGet(requestProps);
-  console.log(res);
   return res;
 };
 

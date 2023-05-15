@@ -11,6 +11,7 @@ const NotificationButton = () => {
   const [newNotificationCount, setNewNotificationCount] = useState<number>(0);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [userId, setUserId] = useState(1);
+  const [noList, setNoList] = useState(false);
   const [notificationList, setNotificationList] = useState([]);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -47,8 +48,8 @@ const NotificationButton = () => {
         console.error(err);
       }
     };
-    setNotificationList([]);
     fetchData();
+    setNoList(true);
   };
 
   useEffect(() => {
@@ -87,6 +88,7 @@ const NotificationButton = () => {
         userId={userId}
         notificationList={notificationList}
         deleteHandle={deleteHandle}
+        noList={noList}
       />
     </div>
   );

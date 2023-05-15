@@ -14,6 +14,7 @@ interface Props {
   anchorEl: any;
   userId: number;
   notificationList: Notification[];
+  noList: boolean;
 }
 
 const NotificationList = ({
@@ -22,6 +23,7 @@ const NotificationList = ({
   onClose,
   notificationList,
   deleteHandle,
+  noList,
 }: Props) => {
   const navigate = useNavigate();
   const moveStatistics = (gameid: any) => {
@@ -37,7 +39,7 @@ const NotificationList = ({
         </TitleContainer>
 
         <Divider />
-        {notificationList.length === 0 ? (
+        {notificationList.length === 0 || noList ? (
           <MenuItem disabled>
             <BoardBox>알림이 없어요</BoardBox>
           </MenuItem>
