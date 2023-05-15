@@ -38,8 +38,6 @@ function RpsGamePage(props: RpsGamePageProps) {
     },
   });
 
-  const navigate = useNavigate();
-
   // 게임 스타트를 누르면 타이머 세팅
   const handleStart = () => {
     setIsGaming(false);
