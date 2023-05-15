@@ -16,7 +16,7 @@ type GameBoardProps = {
 type Problem = {
   problem_id: number;
   problem: number[][];
-  correct?: number;
+  correct: number;
 };
 
 type TempProblem = {
@@ -71,6 +71,7 @@ const GameBoard = (props: GameBoardProps) => {
   };
 
   const saveAnswer = () => {
+    const correct = boardState.correct;
     const newBoardState: TempProblem = {
       ...boardState,
       problemId: boardState.problem_id,
@@ -89,8 +90,11 @@ const GameBoard = (props: GameBoardProps) => {
 
     const newAnswerList: Array<Answer> = [...answerList, newAnswer];
     ascProblemNum();
-    if (newBoardState.correct && 20 === clickCount + newBoardState.correct)
+
+    // console.log(clickCount + correct);
+    if (20 === clickCount + correct) {
       setDiffuculty("hard");
+    }
     setTimestamp(new Date().toISOString());
     setAnswerList(newAnswerList);
   };

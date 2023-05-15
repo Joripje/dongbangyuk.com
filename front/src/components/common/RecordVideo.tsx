@@ -114,12 +114,12 @@ ws.onmessage = function (message) {
 };
 
 function start() {
-  console.log("Starting video call ...");
+  // console.log("Starting video call ...");
 
   // Disable start button
   setState(DISABLED);
   // showSpinner(videoInput, videoOutput);
-  console.log("Creating WebRtcPeer and generating local sdp offer ...");
+  // console.log("Creating WebRtcPeer and generating local sdp offer ...");
 
   var options = {
     localVideo: videoInput,

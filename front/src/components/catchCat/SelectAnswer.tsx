@@ -28,13 +28,14 @@ function SelectAnswer(props: { correct: boolean[] }) {
 
   const [isSelected, setIsSelected] = useState<boolean>(false);
   const [catColor, setCatColor] = useState<number>(0); // 0: red, 1: blue
-  const [timestamp, setTimestamp] = useState<string>(new Date().toISOString());
+  const [startTime, setStartTime] = useState<string>("");
 
   useEffect(() => {
     dispatch(setTempAnswerProperty({ property: "correct", value: correct[0] }));
+    setStartTime(new Date().toISOString());
 
     const intervalId = setInterval(() => {
-      const thisTime = new Date().toDateString();
+      const thisTime = new Date().toISOString();
       dispatch(addCatAnswer());
       setCatColor((prevCatColor) => prevCatColor + 1);
       dispatch(
@@ -43,15 +44,16 @@ function SelectAnswer(props: { correct: boolean[] }) {
       dispatch(
         setTempAnswerProperty({
           property: "timestamp",
-          value: [timestamp, thisTime],
+          value: [startTime, thisTime],
         })
       );
-      setTimestamp(thisTime);
+      console.log("SAVED");
+      setStartTime(thisTime);
       setIsSelected(false);
-    }, 4000);
+    }, 3950);
 
     return () => clearInterval(intervalId);
-  }, [correct, dispatch, timestamp]);
+  }, [correct, dispatch, startTime]);
 
   function renderSelectCircles(
     circles: number[],

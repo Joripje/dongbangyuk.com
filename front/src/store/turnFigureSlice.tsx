@@ -1,4 +1,5 @@
 import { createSlice, current } from "@reduxjs/toolkit";
+import { postRoateAnswers } from "api/test";
 import {
   button_a,
   button_b,
@@ -7,10 +8,13 @@ import {
 } from "assets/images/turnFigure";
 
 type Answer = {
-  gameType: "turn";
+  gameType: "rotate";
   problem: { flip: number; degree: number };
   correct: { flip: number; degree: number };
   choices: number[];
+  clicks: number;
+  rounds: number;
+  timestamp: [string, string];
 };
 
 type State = {
@@ -25,10 +29,13 @@ const initialState: State = {
   target: 0,
   clicks: 20,
   tempAnswer: {
-    gameType: "turn",
+    gameType: "rotate",
     problem: { flip: 0, degree: 0 },
     correct: { flip: 0, degree: 0 },
     choices: Array(8).fill(-1),
+    clicks: -1,
+    rounds: -1,
+    timestamp: ["2023-05-10T01:08:49.694Z", "2023-05-10T01:08:49.694Z"],
   },
   answerList: [],
   images: [button_a, button_b, button_c, button_d],
@@ -45,6 +52,7 @@ const turnFigureSlice = createSlice({
         num1 = Math.floor(Math.random() * 8);
         num2 = Math.floor(Math.random() * 8);
       }
+
       state.tempAnswer.correct = {
         flip: num1 % 2,
         degree: num2,
@@ -53,9 +61,13 @@ const turnFigureSlice = createSlice({
         flip: num2 % 2,
         degree: num1,
       };
+      state.tempAnswer.timestamp[0] = new Date().toISOString();
     },
 
     addTurnAnswer: (state) => {
+      state.tempAnswer.timestamp[1] = new Date().toISOString();
+      state.tempAnswer.clicks = state.clicks;
+
       state.answerList.push(state.tempAnswer);
       state.clicks = 20;
     },
@@ -85,6 +97,17 @@ const turnFigureSlice = createSlice({
     checkAnswer: (state) => {
       console.log(current(state.answerList));
     },
+    submitAnswers: (state) => {
+      const testData = {
+        gameId: 0,
+        userId: 0,
+        date: new Date().toISOString(),
+        gameType: "rotate",
+        problems: current(state.answerList),
+      };
+      console.log(testData);
+      postRoateAnswers(testData);
+    },
   },
 });
 
@@ -95,5 +118,6 @@ export const {
   popChoice,
   clearChoice,
   checkAnswer,
+  submitAnswers,
 } = turnFigureSlice.actions;
 export default turnFigureSlice.reducer;

@@ -20,4 +20,29 @@ const putFindRoadProblems = (props: object) => {
   return res;
 };
 
-export { getFindRoadProblems, putFindRoadProblems };
+const postRoateAnswers = (props: object) => {
+  const requestProps = {
+    method: "POST",
+    url: "/assessment-centre/rotate",
+    data: props,
+  };
+  const res = request(requestProps);
+  return res;
+};
+
+const postCatAnswers = (props: object) => {
+  const requestProps = {
+    method: "POST",
+    url: "/assessment-centre/cat",
+    data: props,
+  };
+  const res = request(requestProps);
+  return res;
+};
+
+export {
+  getFindRoadProblems,
+  putFindRoadProblems,
+  postRoateAnswers,
+  postCatAnswers,
+};

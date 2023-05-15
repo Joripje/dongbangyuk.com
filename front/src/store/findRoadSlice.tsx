@@ -1,12 +1,11 @@
 import { createSlice, PayloadAction, current } from "@reduxjs/toolkit";
-import { postCatAnswers } from "api/test";
 
 type Answer = {
   gameType: "cat";
   correct: boolean;
   answer: boolean;
   asure: number;
-  timestamp: [string, string];
+  timestamp: string;
 };
 
 type AnswerState = {
@@ -22,19 +21,18 @@ const initialState: AnswerState = {
     correct: true,
     answer: true,
     asure: -1,
-    timestamp: ["2023-05-11T05:00:47.557Z", "2023-05-11T05:00:47.557Z"],
+    timestamp: "2023-05-11T05:00:47.557Z",
   },
   answerList: [],
 };
 
-const catchCatSlice = createSlice({
-  name: "answer",
+const findRoadSlice = createSlice({
+  name: "findRoad",
   initialState,
   reducers: {
     addCatAnswer: (state) => {
       /*현재 tempAnswer를 answerList에 추가합니다.*/
-      // console.log(current(state.tempAnswer));
-      console.log(current(state.answerList));
+      console.log(current(state.tempAnswer));
       state.answerList.push(state.tempAnswer);
     },
     setTempAnswerProperty: (
@@ -47,26 +45,12 @@ const catchCatSlice = createSlice({
       const { property, value } = action.payload;
       state.tempAnswer[property] = value as never;
     },
-    checkCatAnswer: (state) => {
+    checkAnswer: (state) => {
       console.log(current(state.answerList));
-    },
-    submitCatAnswer: (state) => {
-      const testData = {
-        gameId: 0,
-        userId: 0,
-        date: new Date().toISOString(),
-        gameType: "cat",
-        problems: current(state.answerList),
-      };
-      postCatAnswers(testData);
     },
   },
 });
 
-export const {
-  addCatAnswer,
-  setTempAnswerProperty,
-  checkCatAnswer,
-  submitCatAnswer,
-} = catchCatSlice.actions;
-export default catchCatSlice.reducer;
+export const { addCatAnswer, setTempAnswerProperty, checkAnswer } =
+  findRoadSlice.actions;
+export default findRoadSlice.reducer;
