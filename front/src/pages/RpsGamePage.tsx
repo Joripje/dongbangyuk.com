@@ -14,7 +14,7 @@ type RpsGamePageProps = {};
 
 function RpsGamePage(props: RpsGamePageProps) {
   const [startTime, setStartTime] = useState<number>(new Date().getTime());
-  const [settingTime, setSettingTime] = useState<number>(10);
+  const [settingTime, setSettingTime] = useState<number>(40);
   const [isGaming, setIsGaming] = useState<boolean>(true);
   const [round, setRound] = useState<number>(1);
 
@@ -47,7 +47,7 @@ function RpsGamePage(props: RpsGamePageProps) {
       setTimeout(() => {
         setRound(round + 1);
         setStartTime(new Date().getTime());
-        setSettingTime(30);
+        setSettingTime(40);
         setIsGaming(true);
       }, 4000);
     }
@@ -60,7 +60,7 @@ function RpsGamePage(props: RpsGamePageProps) {
       setRound(round + 1);
       setStartTime(new Date().getTime());
       if (round === 1) {
-        setSettingTime(30);
+        setSettingTime(40);
       } else if (round === 2) {
         setSettingTime(100);
       }
@@ -72,7 +72,7 @@ function RpsGamePage(props: RpsGamePageProps) {
     setIsGaming(false);
     // console.log('하윙', answer)
     postRpsResults(answer);
-    navigate("/");
+    // navigate("/");
   };
 
   const handleTimerExit = () => {
@@ -100,7 +100,7 @@ function RpsGamePage(props: RpsGamePageProps) {
 
   return (
     <>
-      <StatusBar status='rps' gameType='rps' problemNum={round} />
+      <StatusBar status="rps" gameType="rps" problemNum={round} />
       <Timer
         onExitHandler={handleTimerExit}
         startTime={startTime}
