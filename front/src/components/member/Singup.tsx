@@ -86,7 +86,7 @@ function SignUp(props: SignUpProps) {
 
     authFunction(auth, inputEmail, inputPassword)
       .then((userInfo) => {
-        navigate("/");
+        // navigate("/");
         if (userInfo.user.email)
           localStorage.setItem("userEmail", userInfo.user.email);
       })
