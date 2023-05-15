@@ -33,6 +33,7 @@ const request = async (props: RequestProps) => {
       throw new Error(`HTTP error!: ${response}`);
     }
     const json = await response.json();
+    console.log(json?.score);
     return json;
   } catch (error) {
     console.error(error);
