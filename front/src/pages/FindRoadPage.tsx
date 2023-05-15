@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import { Timer } from "components/common";
 import { GameBoard } from "../components/findRoad";
@@ -20,8 +20,10 @@ import {
   tenth,
 } from "assets/images/findRoad";
 import { RootState } from "store";
+import { submitRoadAnswer } from "store/findRoadSlice";
 
 function FindRoadPage() {
+  const dispatch = useDispatch();
   const [startTime, setStartTime] = useState(new Date());
   const [thisComponent, setThisComponent] = useState<JSX.Element>();
   const [problemNum, setProblemNum] = useState(1);
@@ -109,7 +111,11 @@ function FindRoadPage() {
         {!isPreparing ? (
           <></>
         ) : (
-          <Timer startTime={startTime.getTime()} settingTime={300} />
+          <Timer
+            startTime={startTime.getTime()}
+            settingTime={20}
+            onExitHandler={() => dispatch(submitRoadAnswer())}
+          />
         )}
       </StatusBar>
       {thisComponent}

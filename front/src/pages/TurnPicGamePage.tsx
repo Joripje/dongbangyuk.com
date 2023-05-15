@@ -103,8 +103,9 @@ function TurnPicGamePage() {
     }
   }, [isPreparing, isGaming, problemNum]);
 
-  const onTimeOver = () => {
+  const onTimeOver = async () => {
     dispatch(addTurnAnswer());
+
     if (problemNum >= 20) {
       alert("end");
       dispatch(submitAnswers());
@@ -112,7 +113,6 @@ function TurnPicGamePage() {
     }
 
     setProblemNum((prevProblemNum) => prevProblemNum + 1);
-
     setStartTime(new Date());
   };
 

@@ -22,35 +22,28 @@ const Timer = (props: TimerProps) => {
     const intervalId = setInterval(() => {
       setSpendTime(Math.floor((new Date().getTime() - startTime) / 1000));
       setRemainTime(settingTime - spendTime);
+      if (remainTime === 0) {
+        if (onExitHandler) {
+          onExitHandler();
+        }
+      }
     }, 1000);
-    if (remainTime === 0) {
-      if (onExitHandler) onExitHandler();
-      return () => clearInterval(intervalId);
-    }
     return () => clearInterval(intervalId);
-  }, [
-    // realTime,
-    spendTime,
-    remainTime,
-    startTime,
-    settingTime,
-    navigate,
-    onExitHandler,
-  ]);
+  }, [spendTime, remainTime, startTime, settingTime, navigate, onExitHandler]);
 
   // 5초 남으면 남은시간 빨간색으로 바꿔주는 함수
   useEffect(() => {
     if (remainTime < settingTime / 4) {
       setHurry(true);
-    } else if (remainTime === 0) {
+    } else if (remainTime > 4) {
       setHurry(false);
     }
-  }, [remainTime]);
+  }, [remainTime, settingTime]);
 
   return (
     <TimeBox style={hurry ? { color: "red" } : { color: "black" }}>
       {remainTime < 0
-        ? "종료"
+        ? "0 : 00"
         : `${Math.floor(remainTime / 60)} : 
           ${
             remainTime % 60 < 10

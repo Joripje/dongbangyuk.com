@@ -1,56 +1,42 @@
-import { createSlice, PayloadAction, current } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { putFindRoadProblems } from "api/test";
 
 type Answer = {
-  gameType: "cat";
-  correct: boolean;
-  answer: boolean;
-  asure: number;
-  timestamp: string;
+  gameType: string;
+  problemId: number;
+  answer: number[][];
+  timestamp: string[];
+  clicks: number;
 };
 
-type AnswerState = {
-  tempAnswer: Answer;
-  answerList: Answer[];
+type State = {
+  userId: number;
+  gameId: number;
+  date: string;
+  gameType: "road";
+  problems: Answer[];
 };
 
-type AnswerProperty = keyof Answer;
-
-const initialState: AnswerState = {
-  tempAnswer: {
-    gameType: "cat",
-    correct: true,
-    answer: true,
-    asure: -1,
-    timestamp: "2023-05-11T05:00:47.557Z",
-  },
-  answerList: [],
+const initialState: State = {
+  userId: 0,
+  gameId: 0,
+  date: new Date().toISOString(),
+  gameType: "road",
+  problems: [],
 };
 
 const findRoadSlice = createSlice({
   name: "findRoad",
   initialState,
   reducers: {
-    addCatAnswer: (state) => {
-      /*현재 tempAnswer를 answerList에 추가합니다.*/
-      console.log(current(state.tempAnswer));
-      state.answerList.push(state.tempAnswer);
+    saveRoadAnswer: (state, action: PayloadAction<Answer>) => {
+      state.problems.push(action.payload);
     },
-    setTempAnswerProperty: (
-      state,
-      action: PayloadAction<{
-        property: AnswerProperty;
-        value: number | boolean | "cat" | string[];
-      }>
-    ) => {
-      const { property, value } = action.payload;
-      state.tempAnswer[property] = value as never;
-    },
-    checkAnswer: (state) => {
-      console.log(current(state.answerList));
+    submitRoadAnswer: (state) => {
+      putFindRoadProblems(state);
     },
   },
 });
 
-export const { addCatAnswer, setTempAnswerProperty, checkAnswer } =
-  findRoadSlice.actions;
+export const { saveRoadAnswer, submitRoadAnswer } = findRoadSlice.actions;
 export default findRoadSlice.reducer;
