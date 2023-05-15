@@ -33,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configure(HttpSecurity http) throws Exception {
 		http.cors().and()
 			.authorizeRequests()
-				.antMatchers(HttpMethod.POST, "/users").permitAll()
+				.antMatchers(HttpMethod.POST, "/users", "/users/").permitAll()
 				.antMatchers("/users/profile-update").authenticated()
 				.anyRequest().authenticated()
 				.and()
