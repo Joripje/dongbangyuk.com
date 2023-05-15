@@ -29,14 +29,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	/**
 	 * HttpRequest를 받는 부분에 filter 적용 (addFilterBefore)
 	 */
+	// @Override
+	// public void configure(HttpSecurity http) throws Exception {
+	// 	http.cors().and()
+	// 		.authorizeRequests()
+	// 			.antMatchers(HttpMethod.POST, "/users/register", "/users/register/").permitAll()
+	// 			.antMatchers(HttpMethod.POST, "/users/profile-update").authenticated()
+	// 			.anyRequest().authenticated()
+	// 			.and()
+	// 		.addFilterBefore(new FirebaseTokenFilter(userService, firebaseAuth),
+	// 			UsernamePasswordAuthenticationFilter.class)
+	// 		.exceptionHandling()
+	// 		.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
+	// }
+
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.cors().and()
-			.authorizeRequests()
-				.antMatchers(HttpMethod.POST, "/users/register", "/users/register/").permitAll()
-				.antMatchers(HttpMethod.POST, "/users/profile-update").authenticated()
-				.anyRequest().authenticated()
-				.and()
+		http.authorizeRequests()
+			.anyRequest().authenticated().and()
 			.addFilterBefore(new FirebaseTokenFilter(userService, firebaseAuth),
 				UsernamePasswordAuthenticationFilter.class)
 			.exceptionHandling()
