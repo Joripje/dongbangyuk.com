@@ -24,7 +24,7 @@ function Navbar() {
     } else if (page === "프로필") {
       navigate("/profile");
     } else if (page === "결과보기") {
-      navigate("/statistics");
+      navigate("/statistics/list");
     } else return;
   };
   const goMainPage = () => {
