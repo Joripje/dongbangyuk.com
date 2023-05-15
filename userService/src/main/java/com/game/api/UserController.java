@@ -14,6 +14,7 @@ import com.game.domain.user.CustomUser;
 import com.game.message.RegisterInfo;
 import com.game.message.UserInfo;
 import com.game.service.CustomUserService;
+import com.game.utils.DateUtil;
 import com.game.utils.RequestUtil;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
@@ -44,7 +45,7 @@ public class UserController {
 				"{\"code\":\"INVALID_TOKEN\", \"message\":\"" + e.getMessage() + "\"}");
 		}
 		CustomUser registeredUser = userService.createUser(
-			decodedToken.getUid(), registerInfo.getBirthDate()
+			decodedToken.getUid(), DateUtil.convertDateFormat(registerInfo.getBirthDate())
 		);
 		return new UserInfo(registeredUser);
 	}
