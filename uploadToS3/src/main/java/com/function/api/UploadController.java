@@ -1,12 +1,16 @@
 package com.function.api;
 
+import java.io.IOException;
+
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,14 +35,13 @@ public class UploadController {
 	private final PlayService playService;
 	private final GameEventProducer gameEventProducer;
 
-	// @ApiOperation(value = "S3에 영상 업로드")
-	// @PostMapping("/upload")
-	// public ResponseEntity<?> uploadVideo(@RequestParam("file") MultipartFile file) throws IOException {
-	// 	// TODO: Upload to S3 코드 구현
-	// 	String filePath = uploadService.uploadVideo(file);
-	// 	return ResponseEntity.ok("Video upload successful!");
-	// }
-
+	@ApiOperation(value = "S3에 영상 업로드")
+	@PostMapping("/upload")
+	public ResponseEntity<?> uploadVideo(@RequestParam("file") MultipartFile file) throws IOException {
+		// TODO: Upload to S3 코드 구현
+		String filePath = uploadService.uploadVideo(file);
+		return ResponseEntity.ok("Video upload successful!");
+	}
 	@ApiOperation(value = "게임 기록 저장")
 	@PostMapping(value = "/recordPlay")
 	public ResponseEntity<PlaySaveRequestDto> saveGameHistory(@Valid @RequestBody PlaySaveRequestDto requestDto) {
