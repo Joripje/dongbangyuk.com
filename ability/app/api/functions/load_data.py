@@ -10,8 +10,8 @@ mongo_username = os.environ.get('MONGO_USERNAME')
 mongo_password = os.environ.get('MONGO_PASSWORD')
 
 # 몽고디비에 저장하는 코드
-# client = MongoClient(f"mongodb://{mongo_username}:{mongo_password}@k8a305.p.ssafy.io:27017/")
-client = MongoClient(f"mongodb://{mongo_username}:{mongo_password}@mongodb_server:27017/")
+client = MongoClient(f"mongodb://{mongo_username}:{mongo_password}@k8a305.p.ssafy.io:27017/")
+# client = MongoClient(f"mongodb://{mongo_username}:{mongo_password}@mongodb_server:27017/")
 # client = MongoClient('localhost', 27017)
 
 db_result = client['game_result']
@@ -147,5 +147,5 @@ def drop_all_notification_in_mongo(user_id):
 
     result = collection_notification.update_one(query, update)
 
-    return result
+    return 1
 
