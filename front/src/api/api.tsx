@@ -33,7 +33,10 @@ const request = async (props: RequestProps) => {
       throw new Error(`HTTP error!: ${response}`);
     }
     const json = await response.json();
-    console.log(json?.score);
+    if (json.msg) {
+      console.log(json.msg);
+      console.log("제 점수는요? " + json.score + "점 입니다~");
+    }
     return json;
   } catch (error) {
     console.error(error);

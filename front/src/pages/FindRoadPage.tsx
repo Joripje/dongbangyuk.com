@@ -70,6 +70,7 @@ function FindRoadPage() {
     };
 
     if (isGaming) {
+      setStartTime(new Date());
       setThisComponent(
         <GameBoard
           ascProblemNum={() =>
@@ -79,7 +80,6 @@ function FindRoadPage() {
       );
     } else {
       if (isPreparing) {
-        setStartTime(new Date());
         setThisComponent(
           <PrepareTemplate
             imagesList={imagesList}
@@ -113,7 +113,7 @@ function FindRoadPage() {
         ) : (
           <Timer
             startTime={startTime.getTime()}
-            settingTime={20}
+            settingTime={300}
             onExitHandler={() => dispatch(submitRoadAnswer())}
           />
         )}

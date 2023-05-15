@@ -1,14 +1,14 @@
+import { useDispatch } from "react-redux";
 import { useState, useMemo, MouseEvent } from "react";
 
 import RoadSingleBox from "./RoadSingleBox";
 import ProblemInfo from "./ProblemInfo";
-import { getFindRoadProblems, putFindRoadProblems } from "api/test";
+import { getFindRoadProblems } from "api/test";
 
 import styled from "styled-components";
 import { Button } from "@mui/material";
 import { stop } from "components/common";
 import { saveRoadAnswer, submitRoadAnswer } from "store/findRoadSlice";
-import { useDispatch } from "react-redux";
 // import { closeWebSocket } from "components/common/RecordVideo";
 
 type GameBoardProps = {
@@ -138,7 +138,7 @@ const GameBoard = (props: GameBoardProps) => {
     setClickCount(20);
   };
 
-  const onSubmitHandler = (event: MouseEvent<HTMLElement>): void => {
+  const onSubmitHandler = (event: MouseEvent) => {
     event.preventDefault();
     // const roadProps = {
     //   userId: 0,
@@ -148,7 +148,7 @@ const GameBoard = (props: GameBoardProps) => {
     //   problems: answerList,
     // };
     // putFindRoadProblems(roadProps);
-    submitRoadAnswer();
+    dispatch(submitRoadAnswer());
     stop();
   };
 
