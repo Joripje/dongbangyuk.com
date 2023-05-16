@@ -16,13 +16,10 @@ import lombok.RequiredArgsConstructor;
 public class GameService {
 
 	private final GameRepository gameRepository;
-	private final UserServiceClient userServiceClient;
 
 	// 게임 기록 저장
 	@Transactional
-	public Long save(String userEmail) {
-		Long userId = userServiceClient.findByUserId(userEmail);
-		Game game = new Game(userId, null);
+	public Long save(Game game) {
 		return gameRepository.save(game).getId();
 	}
 

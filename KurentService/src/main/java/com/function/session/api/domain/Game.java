@@ -41,4 +41,8 @@ public class Game {
 		this.filePath = filePath;
 	}
 
+	public void updateFilePath(String filePath) {
+		this.filePath = filePath;
+	}
+
 }

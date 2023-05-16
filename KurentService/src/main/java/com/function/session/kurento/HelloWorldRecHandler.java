@@ -42,6 +42,7 @@ import com.amazonaws.util.IOUtils;
 import com.function.session.api.domain.Game;
 import com.function.session.api.service.GameService;
 import com.function.session.api.service.UploadService;
+import com.function.session.client.user.UserServiceClient;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -67,6 +68,9 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 
 	@Autowired
 	private UploadService uploadService;
+
+	@Autowired
+	private UserServiceClient userServiceClient;
 
 	@Override
 	public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
@@ -94,7 +98,8 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 				String userEmail = "PqeD5zOWLXauO1AAt81Fn3YoFbI3";
 				// start 요청이 오면 파일 이름 지정
 				RECORDER_FILE_NAME = ++sequence + "_" + userEmail + ".webm";
-				gameId = gameService.save(userEmail);    //userEmail 로 gameId 생성함
+				Long userId = userServiceClient.findByUserId(userEmail);
+				gameId = gameService.save(new Game(userId, null));    //userEmail 로 gameId 생성함
 				start(session, jsonMessage);
 
 				break;
@@ -399,6 +404,7 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 			Game game = gameService.findById(gameId);
 			System.out.println("game: " + game.toString());
 			game.setFilePath(filePath);
+			gameService.save(game);
 			System.out.println("After game: " + game.toString());
 			log.info("file upload 성공: " + filePath);
 		} catch (IOException e) {
@@ -422,9 +428,7 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 			IOUtils.copy(is, os);
 			System.out.println("flag 5");
 		} catch (IOException e) {
-			System.out.println("[convertFileToMultipartFile] error: " + e.getMessage());
 			log.error("[convertFileToMultipartFile] error {}", e.getMessage());
-
 			throw new IOException(e);
 		}
 		System.out.println("flag 6");
