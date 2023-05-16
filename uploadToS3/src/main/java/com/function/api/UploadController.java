@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/images")
 @RequiredArgsConstructor
 public class UploadController {
@@ -38,10 +40,10 @@ public class UploadController {
 	@ApiOperation(value = "S3에 영상 업로드")
 	@PostMapping("/upload")
 	public ResponseEntity<?> uploadVideo(@RequestParam("file") MultipartFile file) throws IOException {
-		// TODO: Upload to S3 코드 구현
 		String filePath = uploadService.uploadVideo(file);
 		return ResponseEntity.ok("Video upload successful!");
 	}
+
 	@ApiOperation(value = "게임 기록 저장")
 	@PostMapping(value = "/recordPlay")
 	public ResponseEntity<PlaySaveRequestDto> saveGameHistory(@Valid @RequestBody PlaySaveRequestDto requestDto) {
