@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
@@ -11,7 +11,7 @@ interface TimerProps {
   onExitHandler?: () => void;
 }
 
-const Timer: React.FC<TimerProps> = (props: TimerProps) => {
+const Timer = (props: TimerProps) => {
   const navigate = useNavigate();
   const { startTime, settingTime, onExitHandler } = props;
   const [spendTime, setSpendTime] = useState(0);
@@ -20,39 +20,30 @@ const Timer: React.FC<TimerProps> = (props: TimerProps) => {
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      // setRealTime(new Date().getTime());
       setSpendTime(Math.floor((new Date().getTime() - startTime) / 1000));
       setRemainTime(settingTime - spendTime);
+      if (remainTime === 0) {
+        if (onExitHandler) {
+          onExitHandler();
+        }
+      }
     }, 1000);
-    if (remainTime === 0) {
-      if (onExitHandler) onExitHandler();
-      // navigate("/", { replace: true });
-      return () => clearInterval(intervalId);
-    }
     return () => clearInterval(intervalId);
-  }, [
-    // realTime,
-    spendTime,
-    remainTime,
-    startTime,
-    settingTime,
-    navigate,
-    onExitHandler,
-  ]);
+  }, [spendTime, remainTime, startTime, settingTime, navigate, onExitHandler]);
 
   // 5초 남으면 남은시간 빨간색으로 바꿔주는 함수
   useEffect(() => {
-    if (remainTime === 5) {
+    if (remainTime < settingTime / 4) {
       setHurry(true);
-    } else if (remainTime === 0) {
+    } else if (remainTime > 4) {
       setHurry(false);
     }
-  }, [remainTime]);
+  }, [remainTime, settingTime]);
 
   return (
     <TimeBox style={hurry ? { color: "red" } : { color: "black" }}>
       {remainTime < 0
-        ? "종료"
+        ? "0 : 00"
         : `${Math.floor(remainTime / 60)} : 
           ${
             remainTime % 60 < 10
@@ -64,10 +55,6 @@ const Timer: React.FC<TimerProps> = (props: TimerProps) => {
 };
 
 const TimeBox = styled.div({
-  position: "absolute",
-  right: 15,
-  top: "1.5rem",
-
   width: "6rem",
   height: "1.5rem",
   textAlign: "center",

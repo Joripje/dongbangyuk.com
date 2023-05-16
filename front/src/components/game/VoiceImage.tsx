@@ -1,20 +1,19 @@
-import styled from "styled-components";
-import { janban } from "assets/images";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
-type VoiceImageProps = {
-  setIsEnough: (enough: boolean) => void;
-};
+import { janban } from "assets/images";
+import styled from "styled-components";
+import { setBoolState } from "store/testControlSlice";
 
-function VoiceImage(props: VoiceImageProps) {
-  const { setIsEnough } = props;
+function VoiceImage() {
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 1920 || window.innerHeight < 1080) {
-        setIsEnough(false);
+        dispatch(setBoolState({ property: "isEnough", value: false }));
       } else {
-        setIsEnough(true);
+        dispatch(setBoolState({ property: "isEnough", value: true }));
       }
     };
 
@@ -22,7 +21,7 @@ function VoiceImage(props: VoiceImageProps) {
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, [setIsEnough]);
+  }, [dispatch]);
 
   return <VoiceCheckImg />;
 }

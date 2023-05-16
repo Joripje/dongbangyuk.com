@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Rps from "components/rps/Rps";
 import { Timer } from "components/common";
@@ -8,25 +8,23 @@ import styled from "styled-components";
 import { Box } from "@mui/material";
 
 import { postRpsResults } from "api/rps";
-import { GameTemplate, StatusBar } from "components/game";
+import { StatusBar } from "components/game";
 
-type RpsGamePageProps = {};
+type Answer = {
+  gameId: number;
+  userId: number;
+  date: string;
+  gameType: string;
+  rounds: {};
+};
 
-function RpsGamePage(props: RpsGamePageProps) {
+function RpsGamePage() {
   const [startTime, setStartTime] = useState<number>(new Date().getTime());
   const [settingTime, setSettingTime] = useState<number>(40);
   const [isGaming, setIsGaming] = useState<boolean>(true);
   const [round, setRound] = useState<number>(1);
 
-  const [answer, setAnswer] = useState<{
-    gameId: number;
-    userId: number;
-    date: string;
-    gameType: string;
-    rounds: {
-      [key: string]: object[];
-    };
-  }>({
+  const [answer, setAnswer] = useState<Answer>({
     gameId: 1,
     userId: 1,
     date: new Date().toISOString(),

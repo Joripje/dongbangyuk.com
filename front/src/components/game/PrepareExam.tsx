@@ -1,8 +1,10 @@
-import { start } from "components/common";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+
+import { start } from "components/common";
 
 import styled from "styled-components";
+import { setBoolState } from "store/testControlSlice";
 
 type PrepareExamProps = {
   image: string;
@@ -11,8 +13,8 @@ type PrepareExamProps = {
 };
 
 function PrepareExam(props: PrepareExamProps) {
-  const navigate = useNavigate();
-  const { image, descriptions, gameType } = props;
+  const { image, descriptions } = props;
+  const dispatch = useDispatch();
   const [countDown, setCountDown] = useState(10);
 
   useEffect(() => {
@@ -25,58 +27,41 @@ function PrepareExam(props: PrepareExamProps) {
     }, 1000);
 
     if (countDown !== 0) return;
-    switch (gameType) {
-      case "road":
-        navigate("/test/find-road");
-        break;
-      case "rps":
-        navigate("/test/rps");
-        break;
+    else {
+      dispatch(setBoolState({ property: "isGaming", value: true }));
+      dispatch(setBoolState({ property: "isPreparing", value: true }));
     }
 
-    // if (gameType === "road" && countDown === 0) ;
-
-    // if (gameType === "rps" && countDown === 0) navigate("/test/rps");
-
     return () => clearInterval(intervalId);
-  }, [countDown, navigate]);
+  }, [countDown, dispatch]);
 
   return (
-    <BOXBOX>
+    <>
+      <TimerType>{countDown}초 후 시험이 시작됩니다.</TimerType>
       <Wrapper>
         <OverviewImg src={image} />
         <DescriptionBox>
           {descriptions.map((item, index) => {
             return (
               <NormalTypo key={index}>
-                {index + 1} {item}
+                {index + 1}. {item}
               </NormalTypo>
             );
           })}
         </DescriptionBox>
       </Wrapper>
-      <TimerType>{countDown}초 후 시험이 시작됩니다.</TimerType>
-    </BOXBOX>
+    </>
   );
 }
 
 const Wrapper = styled.div({
   display: "flex",
 
-  height: "60%",
+  height: "80%",
   padding: "0 5rem",
 
   flexDirection: "row",
-  alignItems: "center",
-  justifyContent: "center",
-});
-
-const BOXBOX = styled.div({
-  height: "100%",
-
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
+  alignItems: "start",
   justifyContent: "center",
 });
 
@@ -103,6 +88,7 @@ const NormalTypo = styled.div({
 
 const TimerType = styled.div({
   color: "blue",
+  padding: "2% 0",
 
   fontSize: "3rem",
 });

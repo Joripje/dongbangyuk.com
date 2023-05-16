@@ -20,6 +20,16 @@ const putFindRoadProblems = (props: object) => {
   return res;
 };
 
+const postAnswers = (props: object) => {
+  const requestProps = {
+    method: "POST",
+    url: "/images/recordPlay",
+    data: props,
+  };
+  const res = request(requestProps);
+  return res;
+};
+
 const postRoateAnswers = (props: object) => {
   const requestProps = {
     method: "POST",
@@ -42,6 +52,7 @@ const postCatAnswers = (props: object) => {
 
 export {
   getFindRoadProblems,
+  postAnswers,
   putFindRoadProblems,
   postRoateAnswers,
   postCatAnswers,

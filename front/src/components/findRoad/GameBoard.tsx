@@ -1,16 +1,19 @@
-import { useState, useMemo, MouseEvent, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useState, useMemo, MouseEvent } from "react";
 
 import RoadSingleBox from "./RoadSingleBox";
 import ProblemInfo from "./ProblemInfo";
-import { getFindRoadProblems, putFindRoadProblems } from "api/test";
+import { getFindRoadProblems } from "api/test";
 
 import styled from "styled-components";
 import { Button } from "@mui/material";
 import { stop } from "components/common";
-import { closeWebSocket } from "components/common/RecordVideo";
+import { saveRoadAnswer, submitRoadAnswer } from "store/findRoadSlice";
+import { resetGameState } from "store/testControlSlice";
+// import { closeWebSocket } from "components/common/RecordVideo";
 
 type GameBoardProps = {
-  ascProblemNum: () => void; // ProblemNum을 어센드하여 StatusBar에서 올바른 값이 나오도록 수정
+  ascProblemNum: () => void;
 };
 
 type Problem = {
@@ -49,12 +52,12 @@ const GameBoard = (props: GameBoardProps) => {
     ],
     correct: 0,
   };
+  const dispatch = useDispatch();
   const [difficulty, setDiffuculty] = useState("easy");
   const [clickCount, setClickCount] = useState(20);
   const [easyProblems, setEasyProblems] = useState<Array<Problem>>([]);
   const [hardProblems, setHardProblems] = useState<Array<Problem>>([]);
   const [boardState, setBoardState] = useState(initialProblem); // 사용자가 보고 있는 문제지
-  const [answerList, setAnswerList] = useState<Array<Answer>>([]); // 채점서버에 제출한 답변
   const [timestamp, setTimestamp] = useState<string>(new Date().toISOString());
 
   const cleanBoard = (): void => {
@@ -88,15 +91,16 @@ const GameBoard = (props: GameBoardProps) => {
       clicks: 20 - clickCount,
     };
 
-    const newAnswerList: Array<Answer> = [...answerList, newAnswer];
+    dispatch(saveRoadAnswer(newAnswer));
+
+    // const newAnswerList: Array<Answer> = [...answerList, newAnswer];
     ascProblemNum();
 
-    // console.log(clickCount + correct);
     if (20 === clickCount + correct) {
       setDiffuculty("hard");
     }
     setTimestamp(new Date().toISOString());
-    setAnswerList(newAnswerList);
+    // setAnswerList(newAnswerList);
   };
 
   const onBoxClickHandler = (
@@ -135,16 +139,11 @@ const GameBoard = (props: GameBoardProps) => {
     setClickCount(20);
   };
 
-  const onSubmitHandler = (event: MouseEvent<HTMLElement>): void => {
+  const onSubmitHandler = (event: MouseEvent) => {
     event.preventDefault();
-    const roadProps = {
-      userId: 0,
-      gameId: 0,
-      date: new Date().toISOString(),
-      gameType: "road",
-      problems: answerList,
-    };
-    putFindRoadProblems(roadProps);
+    dispatch(submitRoadAnswer());
+    alert("제출이 완료됐습니다.");
+    dispatch(resetGameState());
     stop();
   };
 
@@ -159,10 +158,6 @@ const GameBoard = (props: GameBoardProps) => {
     };
 
     fetchProblems();
-  }, []);
-
-  useEffect(() => {
-    closeWebSocket();
   }, []);
 
   return (
@@ -191,7 +186,6 @@ const GameBoard = (props: GameBoardProps) => {
         </SubmitButton>
       </ColFlexBox>
       <ColFlexBox style={{ position: "absolute", right: 0, bottom: 0 }}>
-        {/* 빌드할 때 주석처리할 것 */}
         <button style={{ height: "3rem" }} onClick={onSubmitHandler}>
           테스트용 최종 제출 버튼
         </button>

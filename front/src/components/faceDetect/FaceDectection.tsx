@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import * as faceapi from "face-api.js";
 import styled from "styled-components";
-import VoiceImage from "components/game/VoiceImage";
 
 const MODEL_URL = "/models";
 
@@ -38,6 +37,7 @@ function App() {
 
   // 영상 권한 요청
   const startVideo = () => {
+    if (!modelsLoaded) return;
     setIsStartDetect(true);
 
     navigator.mediaDevices
@@ -71,11 +71,10 @@ function App() {
     return () => {
       clearInterval(interval!);
     };
-  }, [isStartDetect, isDetected, videoRef]);
+  }, [isStartDetect, isDetected, videoRef, startVideo]);
 
   return (
     <FaceDectectionWrapper ref={wrapRef}>
-      <VoiceImage setIsEnough={() => {}} />
       <video
         ref={videoRef}
         autoPlay

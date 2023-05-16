@@ -1,14 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
+
 import styled from "styled-components";
-import { Button, Box, Grid } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import { Button, Box } from "@mui/material";
+import { ArrowBack, ArrowForward, ArrowDownward } from "@mui/icons-material";
+import { paper, scissors, rock, raccoon, beaver } from "assets/images";
+import { TimeBar } from "components/common";
 
-import { myPaper, myScissors, myRock, raccoon, beaver } from "assets/images";
-
-// type Choice = string;
 type RpsType = { value: string; label: any; image: string; cmd: string };
 
 type Props = {
@@ -19,22 +16,14 @@ type Props = {
 };
 
 const choices: RpsType[] = [
-  {
-    value: "sci",
-    label: <ArrowBackIcon />,
-    image: myScissors,
-    cmd: "가위",
-  },
-  { value: "roc", label: <ArrowDownwardIcon />, image: myRock, cmd: "바위" },
-  { value: "pap", label: <ArrowForwardIcon />, image: myPaper, cmd: "보" },
+  { value: "sci", label: <ArrowBack />, image: scissors, cmd: "가위" },
+  { value: "roc", label: <ArrowDownward />, image: rock, cmd: "바위" },
+  { value: "pap", label: <ArrowForward />, image: paper, cmd: "보" },
 ];
 
 const Rps: React.FC<Props> = (props: Props) => {
-  const { onGameStart, settingTime, round, onRoundChange } = props;
-  // const [userChoice, setUserChoice] = useState<string>('');
+  const { settingTime, round, onRoundChange } = props;
   const [userChoice, setUserChoice] = useState<RpsType | null>(Object);
-
-  // const [computerChoice, setComputerChoice] = useState<string>('');
   const [computerChoice, setComputerChoice] = useState<RpsType | null>(Object);
 
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
@@ -45,6 +34,30 @@ const Rps: React.FC<Props> = (props: Props) => {
   const [who, setWho] = useState<number>(1);
 
   const wrapbox: any = useRef(null);
+
+  const handleReset = () => {
+    // clearTimeout(timer)
+    setUserChoice(null);
+    setComputerChoice(null);
+    setIsSubmit(false);
+    setWho(who + 1);
+  };
+
+  // 기본 타이머
+  useEffect(() => {
+    let intervalId: NodeJS.Timeout;
+    if (timer > 0) {
+      intervalId = setInterval(() => {
+        setTimer((timer) => timer - 1);
+      }, 1000);
+    }
+    return () => clearInterval(intervalId);
+  }, [timer]);
+
+  const getComputerChoice = () => {
+    const randomIndex = Math.floor(Math.random() * choices.length);
+    return choices[randomIndex];
+  };
 
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
@@ -62,25 +75,6 @@ const Rps: React.FC<Props> = (props: Props) => {
     return () => clearInterval(intervalId);
   }, [round, upperTimer]);
 
-  // 나중에 사용 클릭으로 하는거는 RPS-15에서 사용
-  const handleClick = (choice: RpsType) => {
-    if (!isSubmit) {
-      const computer = computerChoice;
-      const endTime = new Date().toISOString();
-      const newData = {
-        gameType: "rps",
-        answer: [choice.value, computer?.value],
-        timestamp: [startTime, endTime],
-      };
-      setUserChoice(choice);
-      setGameHistory([...gameHistory, newData]);
-      setIsSubmit(true);
-      setTimeout(handleReset, 1000);
-      setTimer(4);
-    }
-  };
-
-  // 타이머가 끝나면 빈배열을 제출하고 게임세팅하는 코드
   useEffect(() => {
     if (round === 0 || round === 1) {
       if (timer === 0) {
@@ -143,59 +137,6 @@ const Rps: React.FC<Props> = (props: Props) => {
     }
   }, [timer]);
 
-  const handleReset = () => {
-    // clearTimeout(timer)
-    setUserChoice(null);
-    setComputerChoice(null);
-    setIsSubmit(false);
-    setWho(who + 1);
-  };
-
-  // 타이머 시작
-  const handleStart = () => {
-    // setIsStart(true);
-    setUserChoice(Object);
-    setIsSubmit(false);
-    setGameHistory([]);
-    if (round === 1 || round === 0) {
-      setComputerChoice(getComputerChoice());
-    } else if (round === 2) {
-      setUserChoice(getComputerChoice());
-    } else if (round === 3) {
-      if (who % 2 === 0) {
-        setComputerChoice(getComputerChoice());
-      } else if (who % 2 === 1) {
-        setUserChoice(getComputerChoice());
-      }
-    }
-    setTimer(4);
-    onGameStart();
-  };
-
-  useEffect(() => {
-    let intervalId: NodeJS.Timeout;
-    // settimeout으로 함수 한번만 발동하게
-    if (timer > 0) {
-      intervalId = setInterval(() => {
-        setTimer((timer) => timer - 1);
-        // console.log(timer);
-      }, 1000);
-    }
-    return () => clearInterval(intervalId);
-  }, [timer]);
-
-  const getComputerChoice = () => {
-    const randomIndex = Math.floor(Math.random() * choices.length);
-    return choices[randomIndex];
-  };
-
-  // const userOrComputer = () => {
-  //     const isSelected = Math.floor(Math.random() * 2)
-  //     return isSelected
-  // }
-
-  // 게임이 리셋된뒤에 가위바위보 세팅인데 지금 빈배열 제출했을때 다시 발동되는거같음 조건을 추가해서 빈배열 제출과
-  // 정상적으로 게임이 작동될때 세팅을 다르게 해야하나
   useEffect(() => {
     if (round === 1 || round === 0) {
       if (userChoice === null || Object.keys(userChoice).length === 0) {
@@ -249,6 +190,12 @@ const Rps: React.FC<Props> = (props: Props) => {
   }, [computerChoice]);
 
   // 제출
+
+  // 키보드로 가위바위보 할 수 잇게 렌더링 시에 포커스를 이동하는 역할
+  useEffect(() => {
+    wrapbox.current?.focus();
+  }, [round]);
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     switch (e.keyCode) {
       case 37:
@@ -435,45 +382,30 @@ const Rps: React.FC<Props> = (props: Props) => {
     }
   };
 
-  // 키보드로 가위바위보 할 수 잇게 렌더링 시에 포커스를 이동하는 역할
-  useEffect(() => {
-    wrapbox.current?.focus();
-  }, [round]);
-
   return (
     <WrapBox ref={wrapbox} autoFocus tabIndex={0} onKeyDown={handleKeyDown}>
-      <h1>가위 바위 보!</h1>
-      <Grid container sx={{ display: "flex", justifyContent: "space-between" }}>
-        <LeftBox item xs={3}>
-          <Character style={{ backgroundImage: `url(${raccoon})` }}></Character>
-          <div>나</div>
-        </LeftBox>
-        <LeftBox item xs={3}>
-          <img src={userChoice?.image} alt="" />
-        </LeftBox>
-        <RightBox item xs={3}>
-          <img src={computerChoice?.image} alt="" />
-        </RightBox>
-        <RightBox item xs={3}>
-          <Character style={{ backgroundImage: `url(${beaver})` }}></Character>
-          <div>상대</div>
-        </RightBox>
-      </Grid>
-      <Grid container sx={{ display: "flex", justifyContent: "center" }}>
+      <Typo>가위 바위 보!</Typo>
+      <RowFlexBox>
+        <CharacterBox>
+          <Racoon />
+          <Typo>나</Typo>
+        </CharacterBox>
+        <RpsImg src={userChoice?.image} alt='' />
+        <RpsImg src={computerChoice?.image} alt='' />
+        <CharacterBox>
+          <Beaver />
+          <Typo>상대</Typo>
+        </CharacterBox>
+      </RowFlexBox>
+      <RowFlexBox style={{ display: "flex", justifyContent: "center" }}>
         {choices.map((choice) => (
-          <Grid key={choice.value} item xs={2}>
-            <ChoiceButton disabled onClick={() => handleClick(choice)}>
-              {choice.label}
-            </ChoiceButton>
-            <p>{choice.cmd}</p>
-          </Grid>
+          <div key={choice.value}>
+            <ChoiceButton disabled>{choice.label}</ChoiceButton>
+            <Typo>{choice.cmd}</Typo>
+          </div>
         ))}
-      </Grid>
-      {round === 0 ? (
-        <StartButton onClick={handleStart}>start</StartButton>
-      ) : (
-        ""
-      )}
+      </RowFlexBox>
+      <TimeBar totalTime={4000} />
     </WrapBox>
   );
 };
@@ -481,56 +413,65 @@ const Rps: React.FC<Props> = (props: Props) => {
 
 const WrapBox = styled(Box)({
   textAlign: "center",
-  marginTop: "10vh",
   width: "65vw",
 });
 
-const Character = styled(Box)({
+const RowFlexBox = styled.div({
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "space-around",
+});
+
+const styleForCharacter = {
   width: "10vw",
   height: "10vw",
   backgroundColor: "#CFD0D4",
   borderRadius: "50%",
-  backgroundSize: "cover",
+  backgroundRepeat: "no-repeat",
+  backgroundPosition: "170% -100%",
   display: "flex",
   justifyContent: "center",
+};
+
+const Racoon = styled(Box)({
+  ...styleForCharacter,
+  backgroundImage: `url(${raccoon})`,
+  backgroundPosition: "20% 90%",
 });
 
-const LeftBox = styled(Grid)({
+const Beaver = styled(Box)({
+  ...styleForCharacter,
+  backgroundImage: `url(${beaver})`,
+  backgroundPosition: "90% 90%",
+});
+
+const CharacterBox = styled.div({
   display: "flex",
+  flexDirection: "column",
   justifyContent: "center",
+  alignItems: "center",
   padding: "0, 0, 0, 0",
-});
-
-const RightBox = styled(Grid)({
-  display: "flex",
-  justifyContent: "center",
 });
 
 const ChoiceButton = styled(Button)({
   fontSize: "2rem",
   padding: "0.5rem",
   color: "grey",
-  margin: "1rem",
+  margin: "0 1rem",
   // backgroundColor: 'grey'
   border: "3px solid gray",
   width: "8rem",
 });
 
-const StartButton = styled(Button)`
-  display: flex;
-  justify-content: center;
-  font-size: 2rem;
-  padding: 0.5rem;
-  border-radius: 1rem;
-  background-color: white;
-  background-color: white;
-  cursor: pointer;
-  margin: 1rem;
-  bottom: 1rem;
-  &:hover {
-    background-color: skyblue;
-    color: white;
-  }
-`;
+const Typo = styled.div({
+  fontSize: "2rem",
+  fontWeight: 1000,
+  margin: "1rem 0",
+});
+
+const RpsImg = styled.img({
+  width: "8rem",
+});
 
 export default Rps;

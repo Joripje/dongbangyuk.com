@@ -1,27 +1,24 @@
 import { createBrowserRouter } from "react-router-dom";
 
 import Error404Page from "./Error404Page";
-import FindRoadPage from "./FindRoadPage";
-import FindRoadPreparePage from "./FindRoadPreparePage";
-import RpsGamePage from "./RpsGamePage";
-import RpsPreparePage from "./RpsPreparePage";
-import CatchCatGamePage from "./CatchCatGamePage";
 import MyProfile from "./MyProfile";
 import MainPage from "./MainPage";
 
 import FirebaseTestPage from "./FirebaseTestPage";
 import MemberPage from "./MemberPage";
-import GameSelectPage from "./GameSelectPage";
 import RecordTestPage from "./RecordTestPage";
 import StatisticsPage from "./StatisticsPage";
 import StatisticsListPage from "./StatisticsListPage";
 import StatisticsTotalPage from "./StatisticsTotalPage";
-import TurnPicGamePage from "./TurnPicGamePage";
+
+import TestCompositionPage from "./TestCompositionPage";
 
 // firebase chat
 import { Chat } from "components/firebase_chat";
-import { SelectAnswer } from "components/catchCat";
+// import { SelectAnswer } from "components/catchCat";
 import ShowOffPage from "./ShowOffPage";
+// import { NotEnough } from "components/game";
+import RpsBoard from "components/rps/RpsBoard";
 
 // testpage
 import TestPage from "./TestPage";
@@ -37,40 +34,7 @@ const routes = [
   },
   {
     path: "/test",
-    element: <GameSelectPage />,
-  },
-  {
-    path: "/test/find-road",
-    element: <FindRoadPage />,
-  },
-  {
-    path: "/test/find-road/prepare",
-    element: <FindRoadPreparePage />,
-  },
-  {
-    path: "/test/rps",
-    element: <RpsGamePage />,
-  },
-  {
-    path: "/test/rps/prepare",
-    element: <RpsPreparePage />,
-  },
-
-  {
-    path: "/test/cat",
-    element: <CatchCatGamePage />,
-  },
-  {
-    path: "/test/cat/prepare",
-    element: <CatchCatGamePage />,
-  },
-  {
-    path: "/test/turn",
-    element: <TurnPicGamePage />,
-  },
-  {
-    path: "/test/turn/prepare",
-    element: <TurnPicGamePage />,
+    element: <TestCompositionPage />,
   },
 
   {
@@ -100,7 +64,7 @@ const routes = [
   },
   {
     path: "/componentTest",
-    element: <SelectAnswer correct={[true]} />,
+    element: <RpsBoard />,
   },
   {
     path: "/recordtest",
