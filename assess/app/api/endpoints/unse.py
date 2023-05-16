@@ -8,8 +8,8 @@ router = APIRouter()
 url = 'https://shinhanlife.sinbiun.com/unse/good_luck.php'
 
 
-@router.post("/unse/luckyday", description='생년월일과 타겟날짜를 8자리 숫자로 입력, 성별 입력(M/F)')
-async def send_message_to_topic(birth: str, target: str, gender: str):
+@router.post("/unse/luckyday", description='길일 생성기. 생년월일과 타겟날짜를 8자리 숫자로 입력, 성별 입력(M/F)')
+async def unse_luckyday(birth: str, target: str, gender: str):
     birth_year, birth_month, birth_day = birth[:4], birth[4:6], birth[6:8]
     target_year, target_month, target_day = target[:4], target[4:6], target[6:8]
     params = {
@@ -61,3 +61,41 @@ async def send_message_to_topic(birth: str, target: str, gender: str):
     ]
 
     return JSONResponse(content=lucky_dates, status_code=200)
+
+
+@router.post("/unse/today", description='오늘의 운세 보기. 생년월일과 오늘날짜를 8자리 숫자로 입력, 성별 입력(M/F)')
+async def unse_today(birth: str, target: str, gender: str):
+    birth_year, birth_month, birth_day = birth[:4], birth[4:6], birth[6:8]
+    target_year, target_month, target_day = target[:4], target[4:6], target[6:8]
+    params = {
+        'unse_code':'A027',
+        'name':'고객',
+        'specific_year': target_year,
+        'specific_month': target_month,
+        'specific_day': target_day,
+        'user_gender': gender,
+        'user_birth_year': birth_year,
+        'gender': gender,
+        'sl_cal':'S',
+        'birth_year': birth_year,
+        'birth_month': birth_month,
+        'birth_day': birth_day,
+        'birth_hour':'02',
+        'sp_num': f'{target_year}-{target_month}={target_day}'
+    }
+    
+    response = requests.post(url, params=params)
+    if response.status_code == 200:
+        response_content = response.content
+    else:
+        response.raise_for_status()
+    
+    soup = BeautifulSoup(response_content, 'html.parser')
+
+    lucky_day_div = soup.find('div', {'data-acc-view': 'acc_con12'})
+    content_div = lucky_day_div.find('div', class_='content')
+    content_text = content_div.get_text(strip=True)
+
+    content = { 'data': content_text }
+
+    return JSONResponse(content=content, status_code=200)
