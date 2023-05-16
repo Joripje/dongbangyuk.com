@@ -107,8 +107,6 @@ const turnFigureSlice = createSlice({
       state.tempAnswer.clicks = state.clicks;
 
       state.answerList.push(state.tempAnswer);
-      generateProblem();
-      clearChoice();
 
       state.clicks = 20;
     },
