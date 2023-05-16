@@ -1,4 +1,4 @@
-import { getAbilityData } from "api/statistics";
+import { getTotalAbilityData } from "api/statistics";
 import { useState, useEffect } from "react";
 import {
   Radar,
@@ -9,26 +9,26 @@ import {
 } from "recharts";
 
 const TotalAbilityChart = () => {
-  const [judgment, setJudgment] = useState<number>(0);
-  const [accuracy, setaccuracy] = useState<number>(0);
-  const [stability, setStability] = useState<number>(0);
-  const [endurance, setEndurance] = useState<number>(0);
-  const [resilience, setResilience] = useState<number>(0);
-  const [gameAbility, setGameAbility] = useState<number>(0);
+  const [rpsScore, setRpsScore] = useState<number>(0);
+  const [roadScore, setRoadScore] = useState<number>(0);
+  const [rotateScore, setRotateScore] = useState<number>(0);
+  const [catScore, setCatScore] = useState<number>(0);
+  const [resilienceAvg, setResilienceAvg] = useState<number>(0);
+  const [enduranceAvg, setEnduranceAvg] = useState<number>(0);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getAbilityData({
-          gameid: 1,
+        const response = await getTotalAbilityData({
+          userId: 1,
         });
 
-        setJudgment(response.judgment);
-        setaccuracy(response.accuracy);
-        setStability(response.stability);
-        setEndurance(response.endurance);
-        setResilience(response.resilience);
-        setGameAbility(response.gameAbility);
+        setRpsScore(response.rpsScore);
+        setRoadScore(response.roadScore);
+        setRotateScore(response.rotateScore);
+        setCatScore(response.catScore);
+        setResilienceAvg(response.resilienceAvg);
+        setEnduranceAvg(response.enduranceAvg);
       } catch (err) {
         console.error(err);
       }
@@ -39,20 +39,28 @@ const TotalAbilityChart = () => {
 
   const abilityData = [
     {
-      ability: "판단력",
-      level: judgment,
+      ability: "인지능력",
+      level: rpsScore,
     },
     {
-      ability: "정확도",
-      level: accuracy,
+      ability: "계획능력",
+      level: roadScore,
     },
     {
-      ability: "지구력",
-      level: endurance,
+      ability: "공간능력",
+      level: rotateScore,
+    },
+    {
+      ability: "작업기억",
+      level: catScore,
     },
     {
       ability: "회복탄력성",
-      level: resilience,
+      level: resilienceAvg,
+    },
+    {
+      ability: "지구력",
+      level: enduranceAvg,
     },
   ];
 

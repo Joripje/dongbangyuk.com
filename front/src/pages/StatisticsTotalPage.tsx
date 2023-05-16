@@ -1,4 +1,4 @@
-import { TotalAbilityChart } from "components/statistics";
+import { TotalAbilityChart, GameRank } from "components/statistics";
 import styled from "styled-components";
 
 const StatisticsTotalPage = () => {
@@ -11,11 +11,9 @@ const StatisticsTotalPage = () => {
         <TotalAbilityChart />
       </BoardBox>
       <Divider />
-      <TitleContainer>
-        &nbsp;당신은 사랑받기 위<br />해 태어난사람
-      </TitleContainer>
+      <TitleContainer>나의 위치</TitleContainer>
       <BoardBox>
-        <TotalAbilityChart />
+        <GameRank />
       </BoardBox>
     </TemplateBox>
   );

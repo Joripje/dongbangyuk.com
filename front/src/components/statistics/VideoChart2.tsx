@@ -38,7 +38,7 @@ const VideoChart = () => {
     const fetchData = async () => {
       try {
         const response = await getVideoData({
-          gameid: 1,
+          gameid: 11111,
         });
 
         setAngry(response.angry);

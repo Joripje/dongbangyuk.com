@@ -20,9 +20,10 @@ const StatisticsPage = () => {
         &nbsp;당신은 사랑받기 위<br />해 태어난사람
       </TitleContainer>
       <AbilityChart />
-      <TitleContainer>표정 인식 데이터</TitleContainer>
+      <Divider />
+      <TitleContainer>영상 분석 결과</TitleContainer>
       <VideoResult />
-      <TitleContainer>나의 영상 확인</TitleContainer>
+      {/* <TitleContainer>나의 영상 확인</TitleContainer> */}
       <VideoChart />
     </TemplateBox>
   );
@@ -53,6 +54,23 @@ const BoardBox = styled.div({
   height: "70%",
   background: "white",
   borderRadius: 10,
+  boxShadow: "5px 5px 5px rgba(0, 0, 0, 0.2)",
+});
+
+const TableBox = styled.div({
+  position: "relative",
+  margin: "1rem auto",
+  display: "inline-flex",
+  flexDirection: "row",
+  padding: "1rem 0",
+
+  justifyContent: "center",
+  alignItems: "flex-start",
+
+  // width: "90%",
+  // height: "70%",
+  background: "white",
+  // borderRadius: 10,
   boxShadow: "5px 5px 5px rgba(0, 0, 0, 0.2)",
 });
 

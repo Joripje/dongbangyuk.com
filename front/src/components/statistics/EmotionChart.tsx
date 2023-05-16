@@ -5,6 +5,7 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
+  LabelList,
   Legend,
 } from "recharts";
 
@@ -50,7 +51,7 @@ const EmotionChart = (props: EmotionChartProps) => {
     <>
       <BarChart
         width={500}
-        height={300}
+        height={250}
         data={EmotionData}
         margin={{
           top: 5,
@@ -59,12 +60,18 @@ const EmotionChart = (props: EmotionChartProps) => {
           bottom: 5,
         }}
       >
-        {/* <CartesianGrid strokeDasharray="1 1" /> */}
+        {/* <CartesianGrid vertical={false} /> */}
         <XAxis dataKey="name" />
-        <YAxis tick={false} />
-        <Tooltip />
+        <YAxis tick={false} hide={true} />
+        {/* <Tooltip /> */}
         {/* <Legend /> */}
-        <Bar dataKey="value" fill="#8884d8" />
+        <Bar dataKey="value" fill="#8884d8">
+          <LabelList
+            dataKey="value"
+            position="top"
+            formatter={(value: number) => `${value}%`}
+          />
+        </Bar>
       </BarChart>
     </>
   );

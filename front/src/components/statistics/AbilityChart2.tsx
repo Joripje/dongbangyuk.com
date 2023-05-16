@@ -2,24 +2,25 @@ import { getAbilityData, getEmotionData } from "api/statistics";
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import AbilityBlock from "./AbilityBlock";
-import EmotionChart from "./EmotionChart";
+import StandardGameRank from "./StandardGameRank";
+// import EmotionChart from "./EmotionChart";
 
 const AbilityChart = () => {
   const [judgment, setJudgment] = useState<number>(0);
   const [accuracy, setaccuracy] = useState<number>(0);
-  const [stability, setStability] = useState<number>(0);
+  // const [stability, setStability] = useState<number>(0);
   const [endurance, setEndurance] = useState<number>(0);
   const [resilience, setResilience] = useState<number>(0);
-  const [emotions, setEmotions] = useState<{ [key: string]: number }>({
-    angry: 0,
-    disgust: 0,
-    scared: 0,
-    happy: 0,
-    sad: 0,
-    surprised: 0,
-    neutral: 0,
-  });
-  // const [gameAbility, setGameAbility] = useState<number>(0);
+  // const [emotions, setEmotions] = useState<{ [key: string]: number }>({
+  //   angry: 0,
+  //   disgust: 0,
+  //   scared: 0,
+  //   happy: 0,
+  //   sad: 0,
+  //   surprised: 0,
+  //   neutral: 0,
+  // });
+  const [gameAbility, setGameAbility] = useState<number>(0);
 
   useEffect(() => {
     const fetchAbilityData = async () => {
@@ -30,30 +31,30 @@ const AbilityChart = () => {
 
         setJudgment(response.judgment);
         setaccuracy(response.accuracy);
-        setStability(response.stability);
+        // setStability(response.stability);
         setEndurance(response.endurance);
         setResilience(response.resilience);
-        // setGameAbility(response.gameAbility);
+        setGameAbility(response.game_ability);
       } catch (err) {
         console.error(err);
       }
     };
 
-    const fetchEmotionData = async () => {
-      try {
-        const response = await getEmotionData({
-          gameid: 1,
-        });
+    // const fetchEmotionData = async () => {
+    //   try {
+    //     const response = await getEmotionData({
+    //       gameid: 1,
+    //     });
 
-        setEmotions(response);
-        console.log(response);
-      } catch (err) {
-        console.error(err);
-      }
-    };
+    //     setEmotions(response);
+    //     console.log(response);
+    //   } catch (err) {
+    //     console.error(err);
+    //   }
+    // };
 
     fetchAbilityData();
-    fetchEmotionData();
+    // fetchEmotionData();
   }, []);
 
   const abilityData = [
@@ -82,6 +83,10 @@ const AbilityChart = () => {
   return (
     <BoardBox>
       <ContainerBox>
+        {/* <EmotionChart emotions={emotions} /> */}
+        <StandardGameRank GameAbility={gameAbility} />
+      </ContainerBox>
+      <ContainerBox>
         {abilityData.map((data) => (
           <AbilityBlock
             key={data.ability}
@@ -90,9 +95,6 @@ const AbilityChart = () => {
             color={data.color}
           />
         ))}
-      </ContainerBox>
-      <ContainerBox>
-        <EmotionChart emotions={emotions} />
       </ContainerBox>
     </BoardBox>
   );

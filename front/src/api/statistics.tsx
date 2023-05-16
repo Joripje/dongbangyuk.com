@@ -50,10 +50,31 @@ const getStatisicsListData = async (props: object) => {
   return res;
 };
 
+const getScoreDistribution = async () => {
+  const requestProps = {
+    method: "GET",
+    url: "/stat/score-distribution",
+  };
+  const res = await requestGet(requestProps);
+  return res;
+};
+
+const getTotalAbilityData = async (props: object) => {
+  const requestProps = {
+    method: "GET",
+    url: "/stat/ability",
+    data: props,
+  };
+  const res = await requestGet(requestProps);
+  return res;
+};
+
 export {
   getAbilityData,
   getVideoData,
   getGamesData,
   getEmotionData,
   getStatisicsListData,
+  getScoreDistribution,
+  getTotalAbilityData,
 };
