@@ -58,6 +58,8 @@ dependencies {
     // FeignClient
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:3.1.5'
 
+    // File
+    implementation 'commons-fileupload:commons-fileupload:1.4'
 }
 
 tasks.named('test') {
