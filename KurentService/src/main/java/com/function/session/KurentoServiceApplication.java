@@ -1,6 +1,7 @@
 package com.function.session;
 
 import org.kurento.client.KurentoClient;
+import org.kurento.client.KurentoClientBuilder;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
@@ -25,7 +26,9 @@ public class KurentoServiceApplication implements WebSocketConfigurer {
 
 	@Bean
 	public KurentoClient kurentoClient() {
-		return KurentoClient.create();
+		return new KurentoClientBuilder()
+			.setConnectionTimeout(480000L)
+			.connect();
 	}
 
 	@Bean
