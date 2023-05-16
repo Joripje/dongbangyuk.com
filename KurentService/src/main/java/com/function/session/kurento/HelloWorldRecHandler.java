@@ -403,7 +403,7 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 			System.out.println("flag 33333333");
 			Game game = gameService.findById(gameId);
 			System.out.println("game: " + game.toString());
-			game.setFilePath(filePath);
+			game.setFilePath(RECORDER_FILE_NAME);
 			gameService.save(game);
 			System.out.println("After game: " + game.toString());
 			log.info("file upload 성공: " + filePath);
