@@ -5,10 +5,11 @@ import { Navbar } from "components/common";
 import { Unse } from "components/unse";
 
 import { Chat } from "components/firebase_chat";
-import { GG, janban } from "assets/images";
 import { useNavigate } from "react-router-dom";
+import { auth } from "service";
 
 function MainPage() {
+  console.log(auth.currentUser);
   const navigate = useNavigate();
   const handlePage = (e: any) => {
     if (e.target.value === "test") {

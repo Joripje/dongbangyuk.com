@@ -43,8 +43,10 @@ function UserInfo() {
         <h1>username</h1>
       </UserBox>
       <AuthBox>
-        {buttons.map((cmd) => (
-          <Button onClick={(e) => handleUserInfo(cmd, e)}>{cmd}</Button>
+        {buttons.map((cmd, idx) => (
+          <Button key={idx} onClick={(e) => handleUserInfo(cmd, e)}>
+            {cmd}
+          </Button>
         ))}
         {/* <Button onClick={handleLogout}>logout</Button> */}
       </AuthBox>

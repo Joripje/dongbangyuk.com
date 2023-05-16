@@ -5,6 +5,7 @@ import {
   signInWithEmailAndPassword,
   setPersistence,
   browserSessionPersistence,
+  updateProfile,
 } from "firebase/auth";
 
 import { auth } from "service";
@@ -75,7 +76,7 @@ function SignUp(props: SignUpProps) {
       }
     }
   };
-
+  // phonenumbersms updateprofile에서 처리가 안댐 폰번호 인증 필요
   const onClickHandler = () => {
     const authFunction = isLogin
       ? signInWithEmailAndPassword
@@ -83,13 +84,34 @@ function SignUp(props: SignUpProps) {
     authFunction(auth, inputEmail, inputPassword)
       .then((userInfo) => {
         // 창이 닫히면 자동 로그아웃 됨
-        setPersistence(auth, browserSessionPersistence);
-        navigate("/");
+        const user = auth.currentUser;
+        if (user) {
+          updateProfile(user, {
+            displayName: inputDisplayName,
+          });
+          setPersistence(auth, browserSessionPersistence);
+          navigate("/main");
+        }
       })
       .catch((error) => {
         console.log(error);
       });
   };
+
+  // const onClickHandler = () => {
+  //   const authFunction = isLogin
+  //     ? signInWithEmailAndPassword
+  //     : createUserWithEmailAndPassword;
+  //   authFunction(auth, inputEmail, inputPassword)
+  //     .then((userInfo) => {
+  //       // 창이 닫히면 자동 로그아웃 됨
+  //       setPersistence(auth, browserSessionPersistence);
+  //       navigate("/main");
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
 
   return (
     <Box component="form">
