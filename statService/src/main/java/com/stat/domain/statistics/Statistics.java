@@ -49,16 +49,19 @@ public class Statistics {
 		levelCounts.put("level2", 0);
 		levelCounts.put("level3", 0);
 		levelCounts.put("level4", 0);
+		levelCounts.put("level5", 0);
 
 		for (Integer score : scores) {
-			if (score >= 0 && score <= 2) {
+			if (score == 1) {
 				levelCounts.put("level1", levelCounts.get("level1") + 1);
-			} else if (score >= 3 && score <= 5) {
+			} else if (score == 2) {
 				levelCounts.put("level2", levelCounts.get("level2") + 1);
-			} else if (score >= 6 && score <= 8) {
+			} else if (score == 3) {
 				levelCounts.put("level3", levelCounts.get("level3") + 1);
-			} else if (score >= 9 && score <= 10) {
+			} else if (score == 4) {
 				levelCounts.put("level4", levelCounts.get("level4") + 1);
+			} else if (score == 5) {
+				levelCounts.put("level5", levelCounts.get("level5") + 1);
 			}
 		}
 		return levelCounts;
