@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package com.function.session.kurentservice.kurento;
+package com.function.session.kurento;
 
 import java.util.concurrent.ConcurrentHashMap;
 

@@ -54,6 +54,10 @@ dependencies {
 
     // S3
     implementation 'com.amazonaws:aws-java-sdk-s3:1.11.1000'
+
+    // FeignClient
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:3.1.5'
+
 }
 
 tasks.named('test') {

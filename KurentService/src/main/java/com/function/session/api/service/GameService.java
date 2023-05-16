@@ -1,13 +1,13 @@
-package com.function.session.kurentservice.api.service;
+package com.function.session.api.service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.function.session.kurentservice.api.data.Game;
-import com.function.session.kurentservice.api.data.GameRepository;
+import com.function.session.api.domain.Game;
+import com.function.session.api.domain.GameRepository;
+import com.function.session.client.user.UserServiceClient;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,10 +16,13 @@ import lombok.RequiredArgsConstructor;
 public class GameService {
 
 	private final GameRepository gameRepository;
+	private final UserServiceClient userServiceClient;
 
 	// 게임 기록 저장
 	@Transactional
-	public Long save(Game game) {
+	public Long save(String userEmail) {
+		Long userId = userServiceClient.findByUserId(userEmail);
+		Game game = new Game(userId, null);
 		return gameRepository.save(game).getId();
 	}
 
@@ -32,8 +35,8 @@ public class GameService {
 
 	// userId로 조회
 	@Transactional(readOnly = true)
-	public List<Game> findByUserEmail(String userEmail) {
-		return gameRepository.findByUserEmail(userEmail);
+	public List<Game> findByUserId(Long userId) {
+		return gameRepository.findByUserId(userId);
 	}
 
 }

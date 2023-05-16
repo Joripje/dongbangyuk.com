@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.function.session.kurentservice.kurento;
+package com.function.session.kurento;
 
 import java.util.Date;
 import java.util.concurrent.CountDownLatch;

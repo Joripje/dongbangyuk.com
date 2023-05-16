@@ -1,5 +1,6 @@
-package com.function.session.kurentservice.kurento;
+package com.function.session.kurento;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -8,7 +9,6 @@ import java.nio.file.Paths;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.kurento.client.Continuation;
-import org.kurento.client.EndOfStreamEvent;
 import org.kurento.client.ErrorEvent;
 import org.kurento.client.EventListener;
 import org.kurento.client.IceCandidate;
@@ -18,7 +18,6 @@ import org.kurento.client.MediaPipeline;
 import org.kurento.client.MediaProfileSpecType;
 import org.kurento.client.MediaType;
 import org.kurento.client.PausedEvent;
-import org.kurento.client.PlayerEndpoint;
 import org.kurento.client.RecorderEndpoint;
 import org.kurento.client.RecordingEvent;
 import org.kurento.client.StoppedEvent;
@@ -27,20 +26,15 @@ import org.kurento.jsonrpc.JsonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import com.function.session.kurentservice.api.data.Game;
-import com.function.session.kurentservice.api.service.GameService;
+import com.function.session.api.domain.Game;
+import com.function.session.api.service.GameService;
+import com.function.session.api.service.UploadService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -49,6 +43,8 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 
 	private static String RECORDER_FILE_NAME;
 	private static Long sequence = 0L;
+
+	private static Long gameId = 0L;
 
 	private final Logger log = LoggerFactory.getLogger(HelloWorldRecHandler.class);
 	private static final Gson gson = new GsonBuilder().create();
@@ -61,6 +57,9 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 
 	@Autowired
 	private GameService gameService;
+
+	@Autowired
+	private UploadService uploadService;
 
 	@Override
 	public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
@@ -84,15 +83,17 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 		// RECORDER_FILE_NAME = jsonMessage.get("userEmail").getAsString() + ".webm";
 		switch (jsonMessage.get("id").getAsString()) {
 			case "start":
-				String userEmail = jsonMessage.get("userEmail").getAsString();
-				// 파일 이름 지정
+				// String userEmail = jsonMessage.get("userEmail").getAsString();
+				String userEmail = "PqeD5zOWLXauO1AAt81Fn3YoFbI3";
+				// start 요청이 오면 파일 이름 지정
 				RECORDER_FILE_NAME = ++sequence + "_" + userEmail + ".webm";
-				Long gameId = gameService.save(new Game(userEmail, null));//userEmail 로 gameId 생성함
-				start(session, jsonMessage, gameId);
+				gameId = gameService.save(userEmail);    //userEmail 로 gameId 생성함
+				start(session, jsonMessage);
+
 				break;
 			case "stop":
 				if (user != null) {
-					// stop();
+					stop();
 					user.stop();
 				}
 			case "stopPlay":
@@ -131,7 +132,7 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 		registry.removeBySession(session);
 	}
 
-	private void start(final WebSocketSession session, JsonObject jsonMessage, Long gameId) {
+	private void start(final WebSocketSession session, JsonObject jsonMessage) {
 
 		try {
 			long startTime = System.currentTimeMillis();
@@ -191,23 +192,6 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 					sendError(session, "[RecorderEndpoint] " + ev.getDescription());
 				}
 			});
-
-			// recorder.addRecordingListener(new EventListener<RecordingEvent>() {
-			//   @Override
-			//   public void onEvent(RecordingEvent event) {
-			//     System.out.println("recording.addRecordingListener 진입");
-			//     JsonObject response = new JsonObject();
-			//     response.addProperty("id", "recording");
-			//     try {
-			//       System.out.println("record try");
-			//       synchronized (session) {
-			//         session.sendMessage(new TextMessage(response.toString()));
-			//       }
-			//     } catch (IOException e) {
-			//       log.error(e.getMessage());
-			//     }
-			//   }
-			// });
 
 			recorder.addStoppedListener(new EventListener<StoppedEvent>() {
 
@@ -334,8 +318,11 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 						JsonObject response = new JsonObject();
 						response.addProperty("id", "recording");
 						response.addProperty("fileName", RECORDER_FILE_NAME);
-						Game game = gameService.findById(gameId);
-						game.setFilePath(RECORDER_FILE_NAME);
+
+						// // gameId로 검색해서 fileUpload 하기
+						// Game game = gameService.findById(gameId);
+						// game.setFilePath(RECORDER_FILE_NAME);
+
 						try {
 							System.out.println("record try");
 							synchronized (session) {
@@ -398,22 +385,11 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 				throw new FileNotFoundException("없어!" + videoFilePath);
 			}
 			System.out.println("flag 2");
-			LinkedMultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("file", new FileSystemResource(videoFilePath.toFile()));
-
-			HttpHeaders headers = new HttpHeaders();
-			headers.setContentType(org.springframework.http.MediaType.MULTIPART_FORM_DATA);
-
-			HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = new HttpEntity<>(map, headers);
-			System.out.println("flag 3");
-			// String serverUrl = "http://localhost:8080/images/upload";
-			// String serverUrl = "http://13.125.6.24:8081/images/upload";
-			// String serverUrl = "http://k8a305.p.ssafy.io:8081/images/upload";
-			String serverUrl = "https://k8a305.p.ssafy.io/images/upload";
-			RestTemplate restTemplate = new RestTemplate();
-			ResponseEntity<String> responseEntity = restTemplate.exchange(serverUrl, HttpMethod.POST, requestEntity,
-				String.class);
-			log.info("Response from server: {}", responseEntity.getBody());
+			File file = videoFilePath.toFile();
+			String filePath = uploadService.uploadVideo((MultipartFile)file);
+			Game game = gameService.findById(gameId);
+			game.setFilePath(filePath);
+			log.info("file upload 성공: " + filePath);
 		} catch (IOException e) {
 			log.error("Failed to send video to Spring: {}", e.getMessage());
 		}

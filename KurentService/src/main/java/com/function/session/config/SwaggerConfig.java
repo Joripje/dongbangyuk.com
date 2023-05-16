@@ -1,4 +1,4 @@
-package com.function.session.kurentservice.config;
+package com.function.session.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

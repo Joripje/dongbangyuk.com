@@ -1,4 +1,4 @@
-package com.function.session.kurentservice.api.data;
+package com.function.session.api.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,19 +25,19 @@ public class Game {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "user_email")
-	private String userEmail;
+	@Column(name = "user_id")
+	private Long userId;
 
 	@Column(name = "file_path")
 	private String filePath;
 
-	public Game(String userEmail) {
-		this.userEmail = userEmail;
+	public Game(Long userId) {
+		this.userId = userId;
 		this.filePath = null;
 	}
 
-	public Game(String userEmail, String filePath) {
-		this.userEmail = userEmail;
+	public Game(Long userId, String filePath) {
+		this.userId = userId;
 		this.filePath = filePath;
 	}
 
