@@ -33,7 +33,7 @@ async def consume():
 
             value = json.loads(msg.value.decode('utf-8'))
             video = VideoBase(**value)
-            response = video_analysis(video=video)
+            response = await video_analysis(video=video)
 
     finally:
         await consumer.stop()
