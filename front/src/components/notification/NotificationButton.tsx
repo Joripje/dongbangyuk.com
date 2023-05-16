@@ -75,10 +75,12 @@ const NotificationButton = () => {
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
-        disableRipple={true}
+        // disableRipple={true}
+        size="large"
+        color="inherit"
       >
         <Badge badgeContent={newNotificationCount} color="warning">
-          <NotificationsNoneIcon />
+          <NotificationsNoneIcon fontSize="inherit" />
         </Badge>
       </IconButton>
       <NotificationList
