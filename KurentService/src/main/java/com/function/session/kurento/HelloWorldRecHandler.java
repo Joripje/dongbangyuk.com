@@ -378,7 +378,7 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 	}
 
 	private void stop() {
-		System.out.println("진입");
+		System.out.println("======================= stop 진입 ===================== ");
 		try {
 			System.out.println("flag 1");
 
@@ -393,9 +393,13 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 			}
 			System.out.println("flag 2");
 			File file = videoFilePath.toFile();
+			System.out.println("file: " + file.getName());
 			String filePath = uploadService.uploadVideo(convertFileToMultipartFile(file));
+			System.out.println("flag 33333333");
 			Game game = gameService.findById(gameId);
+			System.out.println("game: " + game.toString());
 			game.setFilePath(filePath);
+			System.out.println("After game: " + game.toString());
 			log.info("file upload 성공: " + filePath);
 		} catch (IOException e) {
 			log.error("Failed to send video to Spring: {}", e.getMessage());
