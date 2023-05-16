@@ -2,6 +2,7 @@ import { MouseEvent, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import {
   addTurnAnswer,
+  clearChoice,
   generateProblem,
   submitAnswers,
 } from "store/turnFigureSlice";
@@ -31,6 +32,8 @@ const GameBoard = (props: GameBoardProps) => {
       dispatch(resetGameState());
       return;
     }
+    dispatch(generateProblem());
+    dispatch(clearChoice());
 
     ascProblemNum();
     setStartTime();
