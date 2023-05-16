@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -22,7 +23,9 @@ import com.google.firebase.auth.FirebaseToken;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
@@ -87,5 +90,12 @@ public class UserController {
 			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
 				"{\"code\":\"INVALID_TOKEN\", \"message\":\"" + e.getMessage() + "\"}");
 		}
+	}
+
+	@ApiOperation(value = "uid 입력 시 userId(pk) 반환")
+	@GetMapping
+	public Long findByUserId(@RequestParam String uid) {
+		log.info("====== findByUserId 호출 (uid: " + uid + ")");
+		return userService.findByUid(uid).getId();
 	}
 }
