@@ -21,6 +21,7 @@ import {
 } from "assets/images/findRoad";
 import { RootState } from "store";
 import { submitRoadAnswer } from "store/findRoadSlice";
+import { resetGameState } from "store/testControlSlice";
 
 function FindRoadPage() {
   const dispatch = useDispatch();
@@ -100,6 +101,12 @@ function FindRoadPage() {
     }
   }, [isPreparing, isGaming]);
 
+  const onExitHandler = () => {
+    dispatch(submitRoadAnswer());
+    alert("제출이 완료됐습니다.");
+    dispatch(resetGameState());
+  };
+
   return (
     <>
       <StatusBar
@@ -114,7 +121,7 @@ function FindRoadPage() {
           <Timer
             startTime={startTime.getTime()}
             settingTime={300}
-            onExitHandler={() => dispatch(submitRoadAnswer())}
+            onExitHandler={onExitHandler}
           />
         )}
       </StatusBar>

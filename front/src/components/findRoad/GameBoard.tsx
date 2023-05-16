@@ -9,6 +9,7 @@ import styled from "styled-components";
 import { Button } from "@mui/material";
 import { stop } from "components/common";
 import { saveRoadAnswer, submitRoadAnswer } from "store/findRoadSlice";
+import { resetGameState } from "store/testControlSlice";
 // import { closeWebSocket } from "components/common/RecordVideo";
 
 type GameBoardProps = {
@@ -140,15 +141,9 @@ const GameBoard = (props: GameBoardProps) => {
 
   const onSubmitHandler = (event: MouseEvent) => {
     event.preventDefault();
-    // const roadProps = {
-    //   userId: 0,
-    //   gameId: 0,
-    //   date: new Date().toISOString(),
-    //   gameType: "road",
-    //   problems: answerList,
-    // };
-    // putFindRoadProblems(roadProps);
     dispatch(submitRoadAnswer());
+    alert("제출이 완료됐습니다.");
+    dispatch(resetGameState());
     stop();
   };
 
