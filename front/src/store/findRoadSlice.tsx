@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { putFindRoadProblems } from "api/test";
+import { postAnswers, putFindRoadProblems } from "api/test";
 // import { resetGameState } from "./testControlSlice";
 
 type Answer = {
@@ -19,7 +19,7 @@ type State = {
 };
 
 const initialState: State = {
-  userId: 0,
+  userId: 19,
   gameId: 0,
   date: new Date().toISOString(),
   gameType: "road",
@@ -34,7 +34,7 @@ const findRoadSlice = createSlice({
       state.problems.push(action.payload);
     },
     submitRoadAnswer: (state) => {
-      putFindRoadProblems(state);
+      postAnswers(state);
     },
   },
 });

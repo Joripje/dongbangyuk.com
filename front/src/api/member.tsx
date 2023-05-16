@@ -1,4 +1,8 @@
-import { request } from "./api";
+import { request, requestGet } from "./api";
+
+type DataType = {
+  [key: string]: undefined | string | number;
+};
 
 const getUserInfo = (props: object) => {
   const requestProps = {
@@ -20,4 +24,29 @@ const makeUser = (props: object) => {
   return res;
 };
 
-export { getUserInfo, makeUser };
+const getGameData = async (props: DataType) => {
+  const requestProps = {
+    method: "GET",
+    url: `/plays/${props.param}`,
+  };
+  requestGet(requestProps);
+};
+
+const getUserId = async (props: DataType) => {
+  const requestProps = {
+    method: "GET",
+    url: `/plays/userInfo`,
+    data: { gameId: props.param },
+  };
+  requestGet(requestProps);
+};
+
+const getGameIds = async (props: DataType) => {
+  const requestProps = {
+    method: "GET",
+    url: `/plays/users/${props.param}`,
+  };
+  requestGet(requestProps);
+};
+
+export { getUserInfo, makeUser, getGameData, getUserId, getGameIds };

@@ -13,7 +13,8 @@ function NotEnough() {
   const apiHandler = async () => {
     const props = {
       method: "GET",
-      url: `/plays/20`,
+      url: `/plays/userInfo`,
+      data: { gameId: "20" },
     };
     requestGet(props);
   };
