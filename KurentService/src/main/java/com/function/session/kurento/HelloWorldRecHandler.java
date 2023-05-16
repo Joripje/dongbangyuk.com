@@ -406,21 +406,27 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 		}
 	}
 	private MultipartFile convertFileToMultipartFile(File file) throws IOException {
+		System.out.println("================= convertFileToMultipartFile 호출 =================");
 		FileItem fileItem = new DiskFileItem("file"
 			, Files.probeContentType(file.toPath())
 			, false, file.getName()
 			, (int) file.length(),
 			file.getParentFile());
-
+		System.out.println("flag 1");
 		try {
+			System.out.println("flag 2");
 			InputStream is = new FileInputStream(file);
+			System.out.println("flag 3");
 			OutputStream os = fileItem.getOutputStream();
+			System.out.println("flag 4");
 			IOUtils.copy(is, os);
+			System.out.println("flag 5");
 		} catch (IOException e) {
 			log.error("[convertFileToMultipartFile] error {}", e.getMessage());
 
 			throw new IOException(e);
 		}
+		System.out.println("flag 6");
 
 		return new CommonsMultipartFile(fileItem);
 	}
