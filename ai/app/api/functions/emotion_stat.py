@@ -7,7 +7,7 @@ def get_emotion_stat(data):
     surprised = sum(data['surprised'])
     neutral = sum(data['neutral'])
 
-    non_face = data['non_face']
+    none_face = data['none_face']
 
     total = sum([angry, disgust, scared, happy, sad, surprised, neutral])
 
@@ -20,7 +20,7 @@ def get_emotion_stat(data):
         'sad': round(sad / total * 100, 1),
         'surprised': round(surprised / total * 100, 1),
         'neutral': round(neutral / total * 100, 1),
-        'recognition': round((1 - non_face) * 100, 1),
+        'recognition': round((1 - none_face) * 100, 1),
     }
 
     return result
