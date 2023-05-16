@@ -422,6 +422,7 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 			IOUtils.copy(is, os);
 			System.out.println("flag 5");
 		} catch (IOException e) {
+			System.out.println("[convertFileToMultipartFile] error: " + e.getMessage());
 			log.error("[convertFileToMultipartFile] error {}", e.getMessage());
 
 			throw new IOException(e);

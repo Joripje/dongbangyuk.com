@@ -16,6 +16,7 @@ public class UploadService {
 	private final S3Service s3Service;
 
 	public String uploadVideo(MultipartFile file) throws IOException {
+		System.out.println("----------- uploadVideo 호출 -------");
 		return s3Service.uploadFileToS3(file);
 	}
 
