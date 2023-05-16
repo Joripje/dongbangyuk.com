@@ -23,7 +23,7 @@ const ObjectFigure = () => {
   );
 
   useEffect(() => {
-    const availableAlph = ["R", "K", "Q", "P", "F", "L"];
+    const availableAlph = ["R", "G", "Q", "P", "F", "L"];
     const randNum = Math.floor(Math.random() * 5);
     setObject(availableAlph[randNum]);
   }, [answerList]);
