@@ -1,9 +1,9 @@
 package com.stat.domain.statistics;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.persistence.Id;
 
@@ -28,7 +28,6 @@ public class Statistics {
 	private ObjectId id;
 	private String type;
 
-
 	// 게임별 모든 사람들의 점수 저장
 	private List<Integer> scores = new ArrayList<>();
 
@@ -44,7 +43,7 @@ public class Statistics {
 
 	// TODO: 구간 기준 적용 및 변수명 수정
 	public Map<String, Integer> calculateScoreLevels() {
-		Map<String, Integer> levelCounts = new HashMap<>();
+		Map<String, Integer> levelCounts = new TreeMap<>();
 		levelCounts.put("level1", 0);
 		levelCounts.put("level2", 0);
 		levelCounts.put("level3", 0);
