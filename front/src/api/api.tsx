@@ -60,7 +60,6 @@ const requestGet = async (props: RequestProps) => {
       }
     }
     requestUrl += "?" + searchParams.toString();
-    console.log(requestUrl);
   }
 
   try {
@@ -69,6 +68,7 @@ const requestGet = async (props: RequestProps) => {
       throw new Error(`HTTP error!: ${response}`);
     }
     const json = await response.json();
+    console.log(json);
     return json;
   } catch (error) {
     console.error(error);

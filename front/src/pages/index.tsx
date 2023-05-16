@@ -14,8 +14,10 @@ import TestCompositionPage from "./TestCompositionPage";
 
 // firebase chat
 import { Chat } from "components/firebase_chat";
-import { SelectAnswer } from "components/catchCat";
+// import { SelectAnswer } from "components/catchCat";
 import ShowOffPage from "./ShowOffPage";
+// import { NotEnough } from "components/game";
+import RpsBoard from "components/rps/RpsBoard";
 
 const routes = [
   {
@@ -58,7 +60,7 @@ const routes = [
   },
   {
     path: "/componentTest",
-    element: <SelectAnswer correct={[true]} />,
+    element: <RpsBoard />,
   },
   {
     path: "/recordtest",
