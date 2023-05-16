@@ -1,13 +1,18 @@
 package com.function.session.kurento;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.kurento.client.Continuation;
 import org.kurento.client.ErrorEvent;
 import org.kurento.client.EventListener;
@@ -27,11 +32,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import com.amazonaws.util.IOUtils;
 import com.function.session.api.domain.Game;
 import com.function.session.api.service.GameService;
 import com.function.session.api.service.UploadService;
@@ -386,13 +393,32 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 			}
 			System.out.println("flag 2");
 			File file = videoFilePath.toFile();
-			String filePath = uploadService.uploadVideo((MultipartFile)file);
+			String filePath = uploadService.uploadVideo(convertFileToMultipartFile(file));
 			Game game = gameService.findById(gameId);
 			game.setFilePath(filePath);
 			log.info("file upload 성공: " + filePath);
 		} catch (IOException e) {
 			log.error("Failed to send video to Spring: {}", e.getMessage());
 		}
+	}
+	private MultipartFile convertFileToMultipartFile(File file) throws IOException {
+		FileItem fileItem = new DiskFileItem("file"
+			, Files.probeContentType(file.toPath())
+			, false, file.getName()
+			, (int) file.length(),
+			file.getParentFile());
+
+		try {
+			InputStream is = new FileInputStream(file);
+			OutputStream os = fileItem.getOutputStream();
+			IOUtils.copy(is, os);
+		} catch (IOException e) {
+			log.error("[convertFileToMultipartFile] error {}", e.getMessage());
+
+			throw new IOException(e);
+		}
+
+		return new CommonsMultipartFile(fileItem);
 	}
 
 	public void sendPlayEnd(WebSocketSession session, MediaPipeline pipeline) {
