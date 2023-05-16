@@ -35,6 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 				.antMatchers(HttpMethod.POST, "/users/register", "/users/register/").permitAll()
 				.antMatchers(HttpMethod.POST, "/users/profile-update").permitAll()
+				.antMatchers(HttpMethod.GET, "/users", "/users").permitAll()
 				.anyRequest().authenticated()
 				.and()
 			.addFilterBefore(new FirebaseTokenFilter(userService, firebaseAuth),
