@@ -1,0 +1,17 @@
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/test3db?serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: 1234
+
+server:
+  port: 8070
+  ssl:
+    key-store: file:/etc/letsencrypt/live/k8a305.p.ssafy.io/keystore.p12
+    key-store-password: a305
+    server.ssl.key-store-type: PKCS12
+    server.ssl.key-alias: sendtospring
