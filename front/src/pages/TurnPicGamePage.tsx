@@ -20,7 +20,7 @@ import {
   tenth,
 } from "assets/images/findRoad";
 import { RootState } from "store";
-import { setBoolState } from "store/testControlSlice";
+import { resetGameState, setBoolState } from "store/testControlSlice";
 import { addTurnAnswer, submitAnswers } from "store/turnFigureSlice";
 
 function TurnPicGamePage() {
@@ -109,6 +109,7 @@ function TurnPicGamePage() {
     if (problemNum >= 20) {
       alert("end");
       dispatch(submitAnswers());
+      dispatch(resetGameState());
       return;
     }
 

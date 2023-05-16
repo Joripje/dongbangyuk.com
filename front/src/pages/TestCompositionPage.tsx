@@ -11,10 +11,11 @@ import { Button } from "@mui/material";
 import CatchCatGamePage from "./CatchCatGamePage";
 import TurnPicGamePage from "./TurnPicGamePage";
 import RpsGamePage from "./RpsGamePage";
+import RpsPreparePage from "./RpsPreparePage";
 
 function TestCompositionPage() {
   const dispatch = useDispatch();
-  const { game, isEnough } = useSelector(
+  const { game, isEnough, isGaming } = useSelector(
     (state: RootState) => state.testControl
   );
   const [thisComponent, setThisComponent] = useState(<GameSelect />);
@@ -32,7 +33,11 @@ function TestCompositionPage() {
           setThisComponent(<FindRoadPage />);
           break;
         case "rps":
-          setThisComponent(<RpsGamePage />);
+          if (isGaming) {
+            setThisComponent(<RpsGamePage />);
+          } else {
+            setThisComponent(<RpsPreparePage />);
+          }
           break;
         case "rotate":
           setThisComponent(<TurnPicGamePage />);
@@ -42,7 +47,7 @@ function TestCompositionPage() {
           break;
       }
     }
-  }, [game, isEnough]);
+  }, [game, isEnough, isGaming]);
 
   const onResetForDev = () => {
     dispatch(resetGameState());
@@ -53,7 +58,7 @@ function TestCompositionPage() {
       <TempControlButton variant='contained' onClick={onResetForDev}>
         선택 페이지로 가쉴?
       </TempControlButton>
-      <GameTemplate>{thisComponent}</GameTemplate>;
+      <GameTemplate>{thisComponent}</GameTemplate>
     </>
   );
 }

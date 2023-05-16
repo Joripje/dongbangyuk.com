@@ -10,6 +10,7 @@ import { ObjectFigure, FigureControl, TurnHistory } from "./";
 
 import styled from "styled-components";
 import { Button, Grid } from "@mui/material";
+import { resetGameState } from "store/testControlSlice";
 
 type GameBoardProps = {
   problemNum: number;
@@ -27,6 +28,7 @@ const GameBoard = (props: GameBoardProps) => {
     if (problemNum >= 20) {
       alert("end");
       dispatch(submitAnswers());
+      dispatch(resetGameState());
       return;
     }
 

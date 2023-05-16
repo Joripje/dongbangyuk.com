@@ -13,7 +13,7 @@ type PrepareExamProps = {
 };
 
 function PrepareExam(props: PrepareExamProps) {
-  const { image, descriptions, gameType } = props;
+  const { image, descriptions } = props;
   const dispatch = useDispatch();
   const [countDown, setCountDown] = useState(10);
 
@@ -33,44 +33,35 @@ function PrepareExam(props: PrepareExamProps) {
     }
 
     return () => clearInterval(intervalId);
-  }, [countDown]);
+  }, [countDown, dispatch]);
 
   return (
-    <BOXBOX>
+    <>
+      <TimerType>{countDown}초 후 시험이 시작됩니다.</TimerType>
       <Wrapper>
         <OverviewImg src={image} />
         <DescriptionBox>
           {descriptions.map((item, index) => {
             return (
               <NormalTypo key={index}>
-                {index + 1} {item}
+                {index + 1}. {item}
               </NormalTypo>
             );
           })}
         </DescriptionBox>
       </Wrapper>
-      <TimerType>{countDown}초 후 시험이 시작됩니다.</TimerType>
-    </BOXBOX>
+    </>
   );
 }
 
 const Wrapper = styled.div({
   display: "flex",
 
-  height: "60%",
+  height: "80%",
   padding: "0 5rem",
 
   flexDirection: "row",
-  alignItems: "center",
-  justifyContent: "center",
-});
-
-const BOXBOX = styled.div({
-  height: "100%",
-
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
+  alignItems: "start",
   justifyContent: "center",
 });
 
@@ -97,6 +88,7 @@ const NormalTypo = styled.div({
 
 const TimerType = styled.div({
   color: "blue",
+  padding: "2% 0",
 
   fontSize: "3rem",
 });

@@ -25,9 +25,10 @@ import { resetGameState } from "store/testControlSlice";
 
 function FindRoadPage() {
   const dispatch = useDispatch();
+  const gameType = "road";
+  const [problemNum, setProblemNum] = useState(1);
   const [startTime, setStartTime] = useState(new Date());
   const [thisComponent, setThisComponent] = useState<JSX.Element>();
-  const [problemNum, setProblemNum] = useState(1);
 
   const { isPreparing, isGaming } = useSelector(
     (state: RootState) => state.testControl
@@ -111,7 +112,7 @@ function FindRoadPage() {
     <>
       <StatusBar
         status={isGaming}
-        gameType='road'
+        gameType={gameType}
         problemNum={problemNum}
         isPreparing={isPreparing}
       >

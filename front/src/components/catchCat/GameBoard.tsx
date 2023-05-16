@@ -1,11 +1,12 @@
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
-import { useState, useEffect, useMemo, MouseEvent } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { submitCatAnswer } from "store/catchCatSlice";
 
 import { SingleCatBox, SelectAnswer } from ".";
 
 import styled from "styled-components";
+import { resetGameState } from "store/testControlSlice";
 type GameBoardProps = {
   problemNum: number;
   ascProblemNum: () => void; // ProblemNum을 어센드하여 StatusBar에서 올바른 값이 나오도록 수정
@@ -36,16 +37,14 @@ const GameBoard = (props: GameBoardProps) => {
   const [boardState, setBoardState] = useState<number[][]>([]); // 사용자가 보고 있는 문제지
   const [correct, setCorrect] = useState<boolean[]>([false, false]);
 
-  const onSubmitHandler = (event: MouseEvent<HTMLElement>): void => {
-    event.preventDefault();
-    // console.log(timestamp, new Date().toISOString());
-    // 술래잡기와 관련된 API가 완성되면 http 통신이 추가되어야 함
-    dispatch(submitCatAnswer());
-  };
-
   useEffect(() => {
+    const onSubmitHandler = () => {
+      // event.preventDefault();
+      dispatch(submitCatAnswer());
+      dispatch(resetGameState());
+    };
     // 결과 페이지로 안내해야함
-    if (problemNum === 20 && gameState % 4 === 1) navigate("/wow");
+    if (problemNum === 21 && gameState % 4 === 0) onSubmitHandler();
 
     const randomNumbers = (n: number, numbers: number[]) => {
       // const numbers = Array.from(arr, (_, index) => index); // 0부터 35까지의 숫자를 가진 배열 생성
@@ -119,6 +118,7 @@ const GameBoard = (props: GameBoardProps) => {
     initialProblem,
     problemNum,
     navigate,
+    dispatch,
     ascProblemNum,
   ]);
 
@@ -130,12 +130,12 @@ const GameBoard = (props: GameBoardProps) => {
         <SingleCatBox boardState={boardState} />
       )}
 
-      <button
+      {/* <button
         style={{ height: "3rem", position: "absolute", right: 0, bottom: 0 }}
         onClick={onSubmitHandler}
       >
         테스트용 최종 제출 버튼
-      </button>
+      </button> */}
     </RowFlexBox>
   );
 };
