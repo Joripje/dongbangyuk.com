@@ -1,22 +1,38 @@
 import $ from "jquery";
 import { WebRtcPeer } from "kurento-utils";
+import { auth } from "service";
 
 // function RecordVideo() {
 // var ws = new WebSocket(`wss://k8a305.p.ssafy.io:8443/recording`);
 // 그럼 이게 spring으로 연결되어야 한다는 건가요??
-var ws = new WebSocket(`wss://k8a305.p.ssafy.io/recording`);
-ws.onerror = function (error) {
-  console.log("WebSocket error: ", error);
-};
 
-ws.onclose = function (event) {
-  console.log("WebSocket closed: ", event);
-};
+function openWebSocket(): WebSocket {
+  var ws = new WebSocket(`wss://k8a305.p.ssafy.io/recording`);
+  
+  // session연결을 위한 타이머 설정
+  // var timer = setInterval(() => {
+  //   ws.send("ping");
+  //   console.log("웹소켓 연결 연장")
+  // }, 50000)
+    
+  ws.onerror = function (error) {
+    console.log("WebSocket error: ", error);
+  };
+  
+  ws.onclose = function (event) {
+    console.log("WebSocket closed: ", event);
+    // 타이머 연결 종료
+    // clearInterval(timer);
+  };
+  
+  ws.onopen = function (event) {
+    console.log("WebSocket opened: ", event);
+  };
 
-ws.onopen = function (event) {
-  console.log("WebSocket opened: ", event);
-};
+  return ws;
+}
 
+var ws: WebSocket = openWebSocket();
 var videoInput: HTMLElement | null;
 var videoOutput: HTMLElement | null;
 var myWebRtcPeer: any;
@@ -141,14 +157,21 @@ function start() {
 function onOffer(error: string, offerSdp: {}) {
   if (error) return console.error("Error generating the offer");
   console.log("Invoking SDP offer callback function");
-  const userEmail = localStorage.getItem("userEmail");
-  const startDate = new Date().toISOString;
+  const userEmail = sessionStorage.getItem("userEmail");
+  const uid = sessionStorage.getItem("uid");
+  const startDate = new Date().toISOString();
   var message = {
     id: "start",
     sdpOffer: offerSdp,
     mode: $('input[name="mode"]:checked').val(),
     userEmail: userEmail ? userEmail + "_" + startDate : "",
+    uid: uid ? uid : "",
   };
+  console.log("============보내는데이터===============")
+  console.log(uid)
+  console.log(userEmail)
+  console.log(startDate)
+  console.log(auth.currentUser?.uid) 
   sendMessage(message);
 }
 
