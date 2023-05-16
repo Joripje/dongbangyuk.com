@@ -60,8 +60,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		// 회원가입, 메인페이지
-		web.ignoring().antMatchers(HttpMethod.POST, "/users/register", "/users/profile-update")
-				.antMatchers("/");
+		web.ignoring()
+			.antMatchers(HttpMethod.POST, "/users/register", "/users/profile-update")
+			.antMatchers(HttpMethod.GET, "/users")
+			.antMatchers("/");
 	}
 
 }
