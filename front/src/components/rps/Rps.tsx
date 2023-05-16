@@ -190,6 +190,12 @@ const Rps: React.FC<Props> = (props: Props) => {
   }, [computerChoice]);
 
   // 제출
+
+  // 키보드로 가위바위보 할 수 잇게 렌더링 시에 포커스를 이동하는 역할
+  useEffect(() => {
+    wrapbox.current?.focus();
+  }, [round]);
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     switch (e.keyCode) {
       case 37:
@@ -375,11 +381,6 @@ const Rps: React.FC<Props> = (props: Props) => {
         break;
     }
   };
-
-  // 키보드로 가위바위보 할 수 잇게 렌더링 시에 포커스를 이동하는 역할
-  useEffect(() => {
-    wrapbox.current?.focus();
-  }, [round]);
 
   return (
     <WrapBox ref={wrapbox} autoFocus tabIndex={0} onKeyDown={handleKeyDown}>

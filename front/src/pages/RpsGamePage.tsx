@@ -10,19 +10,21 @@ import { Box } from "@mui/material";
 import { postRpsResults } from "api/rps";
 import { StatusBar } from "components/game";
 
+type Answer = {
+  gameId: number;
+  userId: number;
+  date: string;
+  gameType: string;
+  rounds: {};
+};
+
 function RpsGamePage() {
   const [startTime, setStartTime] = useState<number>(new Date().getTime());
   const [settingTime, setSettingTime] = useState<number>(10);
   const [isGaming, setIsGaming] = useState<boolean>(true);
   const [round, setRound] = useState<number>(1);
 
-  const [answer, setAnswer] = useState<{
-    gameId: number;
-    userId: number;
-    date: string;
-    gameType: string;
-    rounds: {};
-  }>({
+  const [answer, setAnswer] = useState<Answer>({
     gameId: 1,
     userId: 1,
     date: new Date().toISOString(),
