@@ -1,16 +1,20 @@
 import { useState, useRef, useEffect } from "react";
 import * as faceapi from "face-api.js";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import { setFace } from "store/testControlSlice";
 
 const MODEL_URL = "/models";
 
-function App() {
+function FaceDectection() {
   const wrapRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const videoWidth = 640;
-  const videoHeight = 480;
+  const dispatch = useDispatch();
+
+  const videoWidth = 960;
+  const videoHeight = 720;
   const constraints = {
     video: {
       width: videoWidth,
@@ -19,10 +23,19 @@ function App() {
     audio: false,
   };
 
-  const [isStartDetect, setIsStartDetect] = useState<boolean>(false);
-  const [isDetected, setIsDetected] = useState<boolean>(false);
+  const [videoOpacity, setVideoOpacity] = useState(1);
+
   const [modelsLoaded, setModelsLoaded] = useState<boolean>(false);
 
+  const startVideo = () => {
+    if (!modelsLoaded) return;
+    navigator.mediaDevices
+      .getUserMedia(constraints)
+      .then((stream) => ((videoRef.current as any).srcObject = stream))
+      .catch((err) => console.error(err));
+  };
+
+  // 모델 호출
   useEffect(() => {
     Promise.all([
       faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL),
@@ -33,21 +46,9 @@ function App() {
       setModelsLoaded(true);
     });
     startVideo();
-  }, []);
-
-  // 영상 권한 요청
-  const startVideo = () => {
-    if (!modelsLoaded) return;
-    setIsStartDetect(true);
-
-    navigator.mediaDevices
-      .getUserMedia(constraints)
-      .then((stream) => ((videoRef.current as any).srcObject = stream))
-      .catch((err) => console.error(err));
-  };
+  }, [startVideo]);
 
   useEffect(() => {
-    let interval: NodeJS.Timeout | null = null;
     const detectFace = async (): Promise<void> => {
       const detections = await faceapi
         .detectAllFaces(
@@ -58,32 +59,33 @@ function App() {
         .withFaceExpressions();
 
       if (detections.length === 1) {
-        setIsDetected(true);
-        console.log("dhkdkddkk");
         clearInterval(interval!);
+        setVideoOpacity(0);
+        console.log("DETECTED");
+      } else if (detections.length === 2) {
+        alert("2명 이상의 얼굴이 인식됩니다. 시험은 혼자서 진행해 주세요.");
+        dispatch(setFace(false));
       }
     };
 
-    if (isStartDetect && !isDetected) {
-      interval = setInterval(detectFace, 100);
-    }
+    let interval: NodeJS.Timeout | null = null;
+    interval = setInterval(detectFace, 1000);
 
     return () => {
       clearInterval(interval!);
     };
-  }, [isStartDetect, isDetected, videoRef, startVideo]);
+  }, []);
 
   return (
     <FaceDectectionWrapper ref={wrapRef}>
-      <video
+      <StyledVideo
         ref={videoRef}
         autoPlay
         muted
-        // onPlay={onPlay}
-        width={640}
-        height={480}
+        style={{ opacity: videoOpacity }}
       />
       <canvas ref={canvasRef} style={{ position: "absolute" }} />
+      <button onClick={() => setVideoOpacity(1)}>함 눌러?</button>
     </FaceDectectionWrapper>
   );
 }
@@ -91,7 +93,6 @@ function App() {
 const FaceDectectionWrapper = styled.div({
   display: "flex",
   flexDirection: "column",
-  justifyContent: "center",
   alignItems: "center",
 
   width: "100%",
@@ -99,4 +100,13 @@ const FaceDectectionWrapper = styled.div({
   background: "rgba(237, 252, 242, 1)",
 });
 
-export default App;
+const StyledVideo = styled.video({
+  width: 960,
+  height: 720,
+  borderRadius: "2rem",
+  transition: "opacity 1s ease 1s",
+});
+
+const CustomAlert = styled.div({});
+
+export default FaceDectection;
