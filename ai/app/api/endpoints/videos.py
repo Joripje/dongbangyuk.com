@@ -11,7 +11,7 @@ router = APIRouter()
 
 
 @router.post("/")
-def video_analysis(video: VideoBase):
+async def video_analysis(video: VideoBase):
 
     data = video_detection(video.gameid, video.videopath, video.start_time, video.end_time, video.game_type)
     result = mongodb_create(data)
