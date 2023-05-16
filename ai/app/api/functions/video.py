@@ -5,7 +5,7 @@ from tensorflow.keras.models import load_model
 from datetime import datetime, timedelta
 
 
-def video_detection(game_id, video_path, start_time, end_time, game_type):
+async def video_detection(game_id, video_path, start_time, end_time, game_type):
     # 얼굴 검출기와 랜드마크 검출기 초기화
     detector = dlib.get_frontal_face_detector()
     # predictor = dlib.shape_predictor("C:/Users/SSAFY/Documents/GitHub/S08P31A305/ai/app/api/functions/data/shape_predictor_68_face_landmarks.dat")
