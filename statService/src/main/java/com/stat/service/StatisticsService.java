@@ -228,4 +228,37 @@ public class StatisticsService {
 		return dtoList;
 	}
 
+	public void updateAllStatistics() {
+		List<ScoreArchive> scoreArchives = scoreArchiveRepository.findAll();
+
+		for (ScoreArchive scoreArchive : scoreArchives) {
+			List<GameScore> gameList = scoreArchive.getGameList();
+			for (GameScore gameScore : gameList) {
+				String type = gameScore.getType();
+				System.out.println("type: " + type);
+				int score = gameScore.getScoreList().get(0).get(1); // scoreList의 두 번째 값만 추출
+				System.out.println("score: " + score);
+				updateStatistics(type, score);
+			}
+		}
+	}
+
+	public void updateStatistics(String type, int score) {
+
+		Optional<Statistics> optionalStatistics = statisticsRepository.findByType(type);
+		Statistics statistics;
+
+		// 해당 유형의 통계가 없는 경우 새로운 통계 생성
+		statistics = optionalStatistics.orElseGet(() -> Statistics.builder()
+			.type(type)
+			.scores(new ArrayList<>())
+			.build());
+
+		// 기존 통계에 점수 추가
+		statistics.getScores().add(score);
+
+		// 통계 저장
+		statisticsRepository.save(statistics);
+	}
+
 }

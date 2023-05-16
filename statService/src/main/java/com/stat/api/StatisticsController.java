@@ -80,11 +80,10 @@ public class StatisticsController {
 		return ResponseEntity.ok(statisticsService.getAllScoresByType(type));
 	}
 
-	// @ApiOperation(value = "통계 업데이트")
-	// @PostMapping("/update")
-	// public ResponseEntity<String> updateStatistics() {
-	// 	statisticsService.updateStatistics();
-	// 	return ResponseEntity.ok("gameId에 대한 통계 업데이트");
-	// }
-
+	@ApiOperation("통계 업데이트")
+	@GetMapping("/all-update")
+	public ResponseEntity<String> processScoreArchive(){
+		statisticsService.updateAllStatistics();
+		return ResponseEntity.ok("성공");
+	}
 }
