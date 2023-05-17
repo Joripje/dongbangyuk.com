@@ -22,6 +22,7 @@ const NotificationButton = () => {
           userid: userId,
         });
         setNotificationList(response);
+        setNewNotificationCount(0);
       } catch (err) {
         console.error(err);
       }
