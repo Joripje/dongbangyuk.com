@@ -4,6 +4,8 @@ import TotalAbilityChart from "./TotalAbilityChart";
 import ResultsTable from "./ResultsTable";
 import StatisticsListCircles from "./StatisticsListCircles";
 import StatisticListCards from "./StatisticListCards";
+import VideoResult from "./VideoResult";
+import GameRank from "./GameRank";
 
 export {
   AbilityChart,
@@ -12,4 +14,6 @@ export {
   ResultsTable,
   StatisticsListCircles,
   StatisticListCards,
+  VideoResult,
+  GameRank,
 };

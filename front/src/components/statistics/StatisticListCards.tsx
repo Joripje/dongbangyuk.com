@@ -62,7 +62,9 @@ const StatisticListCards = (props: CardDataProps) => {
               <Grid key={dataIndex} item xs={4}>
                 <Card sx={{ width: "100%", height: "100%" }}>
                   <CardActionArea
-                    onClick={() => navigate("/statistics/?gameid=1")}
+                    onClick={() =>
+                      navigate(`/statistics/?gameid=${data.gameId}`)
+                    }
                   >
                     <CardContent>
                       <DongBang>동방역검</DongBang>

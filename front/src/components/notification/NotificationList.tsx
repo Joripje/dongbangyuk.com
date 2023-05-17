@@ -28,7 +28,7 @@ const NotificationList = ({
   const navigate = useNavigate();
   const moveStatistics = (gameid: any) => {
     onClose();
-    navigate("/statistics/?gameid=1");
+    navigate(`/statistics/?gameid=${gameid}`);
   };
   return (
     <>

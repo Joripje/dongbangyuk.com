@@ -1,4 +1,4 @@
-import { getVideoData } from "api/statistics";
+import { getVideoData, getGameData } from "api/statistics";
 import { useState, useEffect } from "react";
 import VideoPlayer from "./VideoPlayer";
 import {
@@ -6,8 +6,8 @@ import {
   Line,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
+  // CartesianGrid,
+  // Tooltip,
   Legend,
   ReferenceArea,
   ReferenceLine,
@@ -15,7 +15,11 @@ import {
 } from "recharts";
 import styled from "styled-components";
 
-const VideoChart = () => {
+interface VideoChartProps {
+  gameId: string | undefined;
+}
+
+const VideoChart = (props: VideoChartProps) => {
   const [angry, setAngry] = useState<Array<number>>([]);
   const [disgust, setDisgust] = useState<Array<number>>([]);
   const [scared, setScared] = useState<Array<number>>([]);
@@ -26,19 +30,21 @@ const VideoChart = () => {
   const [videoPath, setVideoPath] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [autoPlay, setAutoPlay] = useState(false);
+  const [result, setResult] = useState([0]);
+  const [timeData, setTimeData] = useState([[0, 0]]);
 
-  const result = [0, 1, 0];
-  const timeData = [
-    [0, 20],
-    [20, 40],
-    [40, 73],
-  ];
+  // const result = [0, 1, 0];
+  // const timeData = [
+  //   [0, 20],
+  //   [20, 40],
+  //   [40, 73],
+  // ];
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await getVideoData({
-          gameid: 1,
+          gameid: props.gameId,
         });
 
         setAngry(response.angry);
@@ -48,20 +54,33 @@ const VideoChart = () => {
         setSad(response.sad);
         setSurprised(response.surprised);
         setNeutral(response.neutral);
-        setVideoPath(response.video_path);
+        // setVideoPath(response.video_path);
         setIsLoading(false);
-        console.log(videoPath);
-        const angryData = angry.map((value, index) => ({ index, value }));
-        console.log("asdfasdf");
-        console.log(angryData);
-        console.log("asdfasdf");
+        // console.log(videoPath);
+        // const angryData = angry.map((value, index) => ({ index, value }));
+        // console.log("asdfasdf");
+        // console.log(angryData);
+        // console.log("asdfasdf");
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    const fetchGameData = async () => {
+      try {
+        const response = await getGameData({
+          game_id: props.gameId,
+        });
+
+        setResult(response.results);
+        setTimeData(response.timestamps);
       } catch (err) {
         console.error(err);
       }
     };
 
     fetchData();
-  }, []);
+    fetchGameData();
+  }, [props.gameId]);
 
   // const angryData = angry.map((value, index) => ({ index, value }));
   // const disgustData = disgust.map((value, index) => ({ index, value }));
@@ -132,48 +151,60 @@ const VideoChart = () => {
             >
               {/* <CartesianGrid strokeDasharray="3 3" /> */}
               <XAxis dataKey="index" tick={false} />
-              <YAxis tick={false} />
+              <YAxis tick={false} hide={true} />
               {/* <Tooltip /> */}
-              <Legend verticalAlign="bottom" align="center" />
+              {/* <Legend verticalAlign="bottom" align="center" /> */}
+              <Legend
+                verticalAlign="bottom"
+                align="center"
+                payload={[
+                  { value: "분노", type: "circle", color: "#E21818" },
+                  { value: "역겨움", type: "circle", color: "#9467BD" },
+                  { value: "두려움", type: "circle", color: "#49FF00" },
+                  { value: "기쁨", type: "circle", color: "#00FFAB" },
+                  { value: "슬픔", type: "circle", color: "#87A2FB" },
+                  { value: "긴장감", type: "circle", color: "#FFDE00" },
+                ]}
+              />
               <Line
                 type="monotone"
                 dataKey="angry"
-                stroke="#8884d8"
+                stroke="#E21818"
                 dot={false}
                 strokeWidth={3}
               />
               <Line
                 type="monotone"
                 dataKey="disgust"
-                stroke="#888418"
+                stroke="#9467BD"
                 dot={false}
                 strokeWidth={3}
               />
               <Line
                 type="monotone"
                 dataKey="scared"
-                stroke="#f884d8"
+                stroke="#49FF00"
                 dot={false}
                 strokeWidth={3}
               />
               <Line
                 type="monotone"
                 dataKey="happy"
-                stroke="#0884d8"
+                stroke="#00FFAB"
                 dot={false}
                 strokeWidth={3}
               />
               <Line
                 type="monotone"
                 dataKey="sad"
-                stroke="#2884d8"
+                stroke="#87A2FB"
                 dot={false}
                 strokeWidth={3}
               />
               <Line
                 type="monotone"
                 dataKey="surprised"
-                stroke="#4834d8"
+                stroke="#FFDE00"
                 dot={false}
                 strokeWidth={3}
               />
@@ -182,13 +213,13 @@ const VideoChart = () => {
                   key={`reference-${x1}-${x2}`}
                   x1={x1}
                   x2={x2}
-                  stroke="black"
+                  // stroke="black"
                   strokeOpacity={0.3}
                   fill={result[index] === 1 ? "green" : "red"}
                   fillOpacity={
                     isReferenceAreaHovered >= x1 && isReferenceAreaHovered < x2
-                      ? 0.15
-                      : 0.07
+                      ? 0.1
+                      : 0.06
                   }
                   onClick={() => handleClick(x1, x2)}
                 />
@@ -196,7 +227,6 @@ const VideoChart = () => {
               {isReferenceAreaHovered !== -1 && (
                 <ReferenceLine x={isReferenceAreaHovered} stroke="red" />
               )}
-
               {/* <ReferenceArea
           x1={0}
           x2={20}
@@ -241,6 +271,7 @@ const VideoChart = () => {
         </ContainerBox>
         <ContainerBox>
           <VideoPlayer
+            path={videoPath}
             start={startEndTime[0]}
             end={startEndTime[1]}
             autoPlay={autoPlay}

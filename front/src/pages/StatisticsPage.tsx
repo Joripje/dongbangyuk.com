@@ -1,22 +1,35 @@
-import { VideoChart, AbilityChart, ResultsTable } from "components/statistics";
+import queryString from "query-string";
+import { useLocation } from "react-router-dom";
+import {
+  VideoChart,
+  AbilityChart,
+  ResultsTable,
+  VideoResult,
+} from "components/statistics";
 import styled from "styled-components";
 
 const StatisticsPage = () => {
+  const location = useLocation();
+  const parsed = queryString.parse(location.search);
+
   return (
     <TemplateBox>
       <MainTitleContainer>나의 통계</MainTitleContainer>
       <Divider />
       <TitleContainer>결과보기</TitleContainer>
       <BoardBox>
-        <ResultsTable />
+        <ResultsTable gameId={parsed.gameid?.toString()} />
       </BoardBox>
       <Divider />
       <TitleContainer>
         &nbsp;당신은 사랑받기 위<br />해 태어난사람
       </TitleContainer>
-      <AbilityChart />
-      <TitleContainer>나의 영상 확인</TitleContainer>
-      <VideoChart />
+      <AbilityChart gameId={parsed.gameid?.toString()} />
+      <Divider />
+      <TitleContainer>영상 분석 결과</TitleContainer>
+      <VideoResult gameId={parsed.gameid?.toString()} />
+      {/* <TitleContainer>나의 영상 확인</TitleContainer> */}
+      <VideoChart gameId={parsed.gameid?.toString()} />
     </TemplateBox>
   );
 };
@@ -48,6 +61,23 @@ const BoardBox = styled.div({
   borderRadius: 10,
   boxShadow: "5px 5px 5px rgba(0, 0, 0, 0.2)",
 });
+
+// const TableBox = styled.div({
+//   position: "relative",
+//   margin: "1rem auto",
+//   display: "inline-flex",
+//   flexDirection: "row",
+//   padding: "1rem 0",
+
+//   justifyContent: "center",
+//   alignItems: "flex-start",
+
+//   // width: "90%",
+//   // height: "70%",
+//   background: "white",
+//   // borderRadius: 10,
+//   boxShadow: "5px 5px 5px rgba(0, 0, 0, 0.2)",
+// });
 
 const TitleContainer = styled.div({
   fontWeight: "bold",
