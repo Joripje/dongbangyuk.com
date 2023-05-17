@@ -512,11 +512,12 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 	}
 
 	private void sendToMessage(WebSocketSession session) {
-		String response = "ok";
+		JsonObject response = new JsonObject();
+		response.addProperty("connection", "ok");
 
 		try {
 			synchronized (session) {
-				session.sendMessage(new TextMessage(response));
+				session.sendMessage(new TextMessage(response.toString()));
 			}
 		} catch (IOException e) {
 			log.error("Exception sending message", e);
