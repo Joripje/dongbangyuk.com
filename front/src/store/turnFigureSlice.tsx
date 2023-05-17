@@ -62,13 +62,6 @@ const turnFigureSlice = createSlice({
         degree: num1,
       };
       state.tempAnswer.timestamp[0] = new Date().toISOString();
-    },
-
-    addTurnAnswer: (state) => {
-      state.tempAnswer.timestamp[1] = new Date().toISOString();
-      state.tempAnswer.clicks = state.clicks;
-
-      state.answerList.push(state.tempAnswer);
       state.clicks = 20;
     },
 
@@ -97,6 +90,7 @@ const turnFigureSlice = createSlice({
     checkAnswer: (state) => {
       console.log(current(state.answerList));
     },
+
     submitAnswers: (state) => {
       const testData = {
         gameId: 0,
@@ -107,6 +101,15 @@ const turnFigureSlice = createSlice({
       };
       console.log(testData);
       postRoateAnswers(testData);
+    },
+
+    addTurnAnswer: (state) => {
+      state.tempAnswer.timestamp[1] = new Date().toISOString();
+      state.tempAnswer.clicks = state.clicks;
+
+      state.answerList.push(state.tempAnswer);
+
+      state.clicks = 20;
     },
   },
 });

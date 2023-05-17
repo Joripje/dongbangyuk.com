@@ -23,13 +23,13 @@ const ObjectFigure = () => {
   );
 
   useEffect(() => {
-    const availableAlph = ["R", "K", "Q", "P", "F", "L"];
+    const availableAlph = ["R", "G", "Q", "P", "F", "L"];
     const randNum = Math.floor(Math.random() * 5);
     setObject(availableAlph[randNum]);
   }, [answerList]);
 
   return (
-    <ObjectWrapper item xs={4}>
+    <ObjectWrapper item xs={5}>
       <CharBox>
         <RoatateBox rotate={answer.problem}>{object}</RoatateBox>
       </CharBox>

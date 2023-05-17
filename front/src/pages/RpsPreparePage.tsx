@@ -1,14 +1,14 @@
-import { useState } from "react";
+// import { useState } from "react";
 import { rps, rpsDescript } from "assets/images";
-import {
-  GameTemplate,
-  PrepareTemplate,
-  StatusBar,
-  PrepareExam,
-} from "components/game";
+import { PrepareTemplate, StatusBar, PrepareExam } from "components/game";
+import { useSelector } from "react-redux";
+import { RootState } from "store";
 
 function RpsPreparePage() {
-  const [isPreparing, setIsPreparing] = useState(true);
+  const isPreparing = useSelector(
+    (state: RootState) => state.testControl.isPreparing
+  );
+  // const [isPreparing, setIsPreparing] = useState(true);
 
   const imagesList: string[] = [rpsDescript, rps];
 
@@ -40,20 +40,14 @@ function RpsPreparePage() {
   const gameType = "rps";
 
   return (
-    <GameTemplate>
-      <StatusBar
-        gameType={gameType}
-        status='rps'
-        problemNum={3}
-        setIsPreparing={setIsPreparing}
-      />
+    <>
+      <StatusBar gameType={gameType} status='rps' problemNum={3} />
       {isPreparing ? (
         <PrepareTemplate
           imagesList={imagesList}
           overviewProps={overviewProps}
           goal={goal}
           descriptions={descriptions}
-          setIsPreparing={setIsPreparing}
         />
       ) : (
         <PrepareExam
@@ -62,7 +56,7 @@ function RpsPreparePage() {
           descriptions={descriptions}
         />
       )}
-    </GameTemplate>
+    </>
   );
 }
 

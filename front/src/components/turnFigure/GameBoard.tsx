@@ -11,14 +11,16 @@ import { ObjectFigure, FigureControl, TurnHistory } from "./";
 
 import styled from "styled-components";
 import { Button, Grid } from "@mui/material";
+import { resetGameState } from "store/testControlSlice";
 
 type GameBoardProps = {
   problemNum: number;
+  setStartTime: () => void;
   ascProblemNum: () => void;
 };
 
 const GameBoard = (props: GameBoardProps) => {
-  const { problemNum, ascProblemNum } = props;
+  const { problemNum, ascProblemNum, setStartTime } = props;
   const dispatch = useDispatch();
 
   const onSubmitHandler = (event: MouseEvent) => {
@@ -27,13 +29,14 @@ const GameBoard = (props: GameBoardProps) => {
     if (problemNum >= 20) {
       alert("end");
       dispatch(submitAnswers());
+      dispatch(resetGameState());
       return;
     }
-
-    dispatch(generateProblem());
     dispatch(clearChoice());
+    dispatch(generateProblem());
 
     ascProblemNum();
+    setStartTime();
   };
 
   useEffect(() => {
@@ -44,7 +47,7 @@ const GameBoard = (props: GameBoardProps) => {
     <GridContainer container>
       <ObjectFigure />
       <Grid item xs={1} />
-      <Grid item xs={7} height={"100%"}>
+      <Grid item xs={6} height={"100%"}>
         <FigureControl />
         <TurnHistory />
       </Grid>

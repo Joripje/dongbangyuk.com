@@ -92,7 +92,7 @@ function SignUp(props: SignUpProps) {
   };
 
   return (
-    <Box component='form'>
+    <Box component="form">
       <Grid
         container
         spacing={2}
@@ -116,8 +116,8 @@ function SignUp(props: SignUpProps) {
         <Grid item xs={9}>
           <Button
             onClick={onClickHandler}
-            variant='contained'
-            className='submit'
+            variant="contained"
+            className="submit"
             style={{ height: "3rem", background: "#B8DDFF" }}
             fullWidth
           >

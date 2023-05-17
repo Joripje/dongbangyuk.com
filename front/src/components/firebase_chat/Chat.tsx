@@ -18,28 +18,28 @@ function Chat() {
   const [messages, setMessages] = useState<any[]>([]);
 
   const bottomRef = useRef<any>();
-  useEffect(() => {
-    const messagesRef = collection(db, "messages");
-    const queryMessages = query(
-      messagesRef,
-      orderBy("createdAt", "desc"),
-      limit(50)
-    );
-    const unsubscribe = onSnapshot(queryMessages, (snapshot) => {
-      let messages: any = [];
-      snapshot.forEach((doc) => {
-        messages.push({ ...doc.data(), id: doc.id });
-      });
-      setMessages(messages);
-      // console.log(messages.length);
-    });
-    return () => unsubscribe();
-  }, []);
+  // useEffect(() => {
+  //   const messagesRef = collection(db, "messages");
+  //   const queryMessages = query(
+  //     messagesRef,
+  //     orderBy("createdAt", "desc"),
+  //     limit(50)
+  //   );
+  //   const unsubscribe = onSnapshot(queryMessages, (snapshot) => {
+  //     let messages: any = [];
+  //     snapshot.forEach((doc) => {
+  //       messages.push({ ...doc.data(), id: doc.id });
+  //     });
+  //     setMessages(messages);
+  //     // console.log(messages.length);
+  //   });
+  //   return () => unsubscribe();
+  // }, []);
 
   // 최신댓글을 항상 보여줌
   useEffect(() => {
     if (bottomRef.current) {
-      console.log(bottomRef);
+      // console.log(bottomRef);
       bottomRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [bottomRef, messages]);
@@ -67,7 +67,7 @@ function Chat() {
   };
   return (
     <WrapBox>
-      <h1>open talk</h1>
+      <h1>채팅 채팅</h1>
       <ChatBox>
         {[...messages].reverse().map((message: any) =>
           message.uid === auth?.currentUser?.uid ? (
@@ -115,18 +115,18 @@ const Left = styled.div({
 
 const ChatBox = styled.div({
   width: "100%",
-  height: "75%",
+  height: "80%",
   padding: "2rem, 0",
   overflowY: "scroll",
 });
 
 const FormBox = styled.form({
   width: "100%",
-  padding: "1rem",
+  // padding: "1rem",
   display: "flex",
   height: "3rem",
-  marginLeft: "2rem",
-  marginTop: "2rem",
+  // marginLeft: ".5rem",
+  // marginTop: ".5rem",
 });
 
 const Message = styled.li({
@@ -169,18 +169,18 @@ const MessageBox2 = styled.ul({
 const WrapBox = styled.div({
   backgroundColor: "#DEF5E5",
   borderRadius: "1rem",
-  marginLeft: "15vw",
-  marginTop: "20vh",
-  width: "65vw",
-  height: "60vh",
+  marginLeft: "6vw",
+  // marginTop: "20vh",
+  width: "50vw",
+  height: "32vh",
   // overflowY: "scroll",
-  padding: "2rem",
+  paddingBottom: "4.5rem",
 });
 
 const MessageInput = styled.input({
   width: "100%",
   borderRadius: "1rem",
-  height: "4rem",
+  height: "3rem",
   backgroundColor: "#575757",
   color: "white",
   fontSize: "2rem",

@@ -1,21 +1,21 @@
 import { useState } from "react";
-import { GameTemplate } from "components/game";
 
+import { GameTemplate } from "components/game";
+import { FaceDectection } from "components/faceDetect";
 import FindRoadPage from "./FindRoadPage";
 import RpsGamePage from "./RpsGamePage";
 import CatchCatGamePage from "./CatchCatGamePage";
 import TurnPicGamePage from "./TurnPicGamePage";
-import FindRoadPreparePage from "./FindRoadPreparePage";
+// import FindRoadPreparePage from "./FindRoadPreparePage";
 import StatisticsPage from "./StatisticsPage";
 
 import styled from "styled-components";
 import { Button } from "@mui/material";
-import { FaceDectection } from "components/faceDetect";
 
 function ShowOffPage() {
   const components = [
     <FaceDectection />,
-    <FindRoadPreparePage />,
+    // <FindRoadPreparePage />,
     <FindRoadPage />,
     <RpsGamePage />,
     <CatchCatGamePage />,

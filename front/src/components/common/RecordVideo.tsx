@@ -1,21 +1,72 @@
 import $ from "jquery";
 import { WebRtcPeer } from "kurento-utils";
+import { auth } from "service";
 
-// function RecordVideo() {
-// var ws = new WebSocket(`wss://k8a305.p.ssafy.io:8443/recording`);
-// 그럼 이게 spring으로 연결되어야 한다는 건가요??
-var ws = new WebSocket(`wss://k8a305.p.ssafy.io/recording`);
-ws.onerror = function (error) {
-  console.log("WebSocket error: ", error);
-};
+function openWebSocket(): WebSocket {
+  ws = new WebSocket(`wss://k8a305.p.ssafy.io/recording`);
 
-ws.onclose = function (event) {
-  console.log("WebSocket closed: ", event);
-};
+  ws.onerror = function (error) {
+    console.log("WebSocket error: ", error);
+  };
 
-ws.onopen = function (event) {
-  console.log("WebSocket opened: ", event);
-};
+  ws.onclose = function (event) {
+    console.log("WebSocket closed: ", event);
+  };
+
+  ws.onopen = function (event) {
+    console.log("WebSocket opened: ", event);
+  };
+
+  ws.onmessage = function (message) {
+    var parsedMessage = JSON.parse(message.data);
+    if (parsedMessage.id !== "iceCandidate") {
+      console.log(parsedMessage.id);
+      console.info("Received message: " + message.data);
+      // 여기서 spring이 주는 gameId 받기 (게임 끝날때 gameId에 넣어서 보냄)
+    }
+
+    switch (parsedMessage.id) {
+      case "startResponse":
+        startResponse(parsedMessage);
+        break;
+      case "playResponse":
+        playResponse(parsedMessage);
+        break;
+      case "playEnd":
+        playEnd();
+        break;
+      case "error":
+        setState(NO_CALL);
+        onError("Error message from server: " + parsedMessage.message);
+        break;
+      case "iceCandidate":
+        myWebRtcPeer.addIceCandidate(parsedMessage.candidate, (error: JSON) => {
+          if (error) return console.error("Error adding candidate: " + error);
+        });
+        break;
+      case "stopped":
+        break;
+      case "paused":
+        break;
+      case "recording":
+        break;
+      default:
+        setState(NO_CALL);
+        onError("Unrecognized message" + parsedMessage);
+    }
+  };
+
+  window.onload = function () {
+    console.log("Page loaded ...");
+    videoInput = document.getElementById("videoInput");
+    videoOutput = document.getElementById("videoOutput");
+    setState(NO_CALL);
+  };
+
+  return ws;
+}
+
+var ws: WebSocket | undefined = openWebSocket();
 
 var videoInput: HTMLElement | null;
 var videoOutput: HTMLElement | null;
@@ -28,15 +79,10 @@ const POST_CALL = 2;
 const DISABLED = 3;
 const IN_PLAY = 4;
 
-window.onload = function () {
-  console.log("Page loaded ...");
-  videoInput = document.getElementById("videoInput");
-  videoOutput = document.getElementById("videoOutput");
-  setState(NO_CALL);
-};
-
 const closeWebSocket = () => {
-  ws.close();
+  setState(NO_CALL);
+  ws?.close();
+  ws = undefined;
 };
 
 window.onbeforeunload = closeWebSocket;
@@ -75,44 +121,6 @@ function setState(nextState: number) {
   state = nextState;
 }
 
-ws.onmessage = function (message) {
-  var parsedMessage = JSON.parse(message.data);
-  if (parsedMessage.id !== "iceCandidate") {
-    console.log(parsedMessage.id);
-    console.info("Received message: " + message.data);
-  }
-
-  switch (parsedMessage.id) {
-    case "startResponse":
-      startResponse(parsedMessage);
-      break;
-    case "playResponse":
-      playResponse(parsedMessage);
-      break;
-    case "playEnd":
-      playEnd();
-      break;
-    case "error":
-      setState(NO_CALL);
-      onError("Error message from server: " + parsedMessage.message);
-      break;
-    case "iceCandidate":
-      myWebRtcPeer.addIceCandidate(parsedMessage.candidate, (error: JSON) => {
-        if (error) return console.error("Error adding candidate: " + error);
-      });
-      break;
-    case "stopped":
-      break;
-    case "paused":
-      break;
-    case "recording":
-      break;
-    default:
-      setState(NO_CALL);
-      onError("Unrecognized message" + parsedMessage);
-  }
-};
-
 function start() {
   // console.log("Starting video call ...");
 
@@ -139,15 +147,22 @@ function start() {
 
 function onOffer(error: string, offerSdp: {}) {
   if (error) return console.error("Error generating the offer");
-  console.log("Invoking SDP offer callback function k8a305.p.ssafy.io:8030");
+  console.log("Invoking SDP offer callback function");
   const userEmail = localStorage.getItem("userEmail");
-  const startDate = new Date().toISOString;
+  const uid = auth.currentUser?.uid;
+  const startDate = new Date().toISOString();
   var message = {
     id: "start",
     sdpOffer: offerSdp,
     mode: $('input[name="mode"]:checked').val(),
     userEmail: userEmail ? userEmail + "_" + startDate : "",
+    uid: uid,
   };
+  console.log("============보내는데이터===============");
+  console.log(message);
+  console.log(uid);
+  console.log(userEmail);
+  console.log(startDate);
   sendMessage(message);
 }
 
@@ -215,27 +230,12 @@ function playResponse(message: { sdpAnswer: {} }) {
 
 function playEnd() {
   setState(POST_CALL);
-  //   // hideSpinner(videoInput, videoOutput);
 }
 
 function sendMessage(message: { id: string } | null) {
   if (message?.id === "start") console.log("Send Start Message Successfuly");
   var jsonMessage = JSON.stringify(message);
-  // console.log("Sending message: " + jsonMessage);
-  ws.send(jsonMessage);
+  ws?.send(jsonMessage);
 }
 
-// return (
-//   <div>
-//     <button id='start' onClick={start}>
-//       Start
-//     </button>
-//     <button id='stop' onClick={stop}>
-//       Stop
-//     </button>
-//   </div>
-// );
-// }
-
-export { start, stop, closeWebSocket };
-// export default RecordVideo;
+export { start, stop, closeWebSocket, openWebSocket };

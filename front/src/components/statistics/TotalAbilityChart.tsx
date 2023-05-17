@@ -70,7 +70,7 @@ const TotalAbilityChart = (props: TotalAbilityChartProps) => {
 
   return (
     <>
-      <RadarChart width={500} height={500} data={abilityData}>
+      <RadarChart width={400} height={400} data={abilityData}>
         <PolarGrid />
         <PolarAngleAxis dataKey="ability" />
         <PolarRadiusAxis domain={[0, 5]} tickCount={6} />

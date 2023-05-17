@@ -3,42 +3,31 @@ import styled from "styled-components";
 import { Navbar } from "components/common";
 import { UserInfo } from "components/profile";
 import { TotalAbilityChart } from "components/statistics";
-
+import { useNavigate } from "react-router-dom";
 import { auth } from "service";
 
 function MyProfile() {
   const [currentUser, setCurrentUser] = useState(auth.currentUser);
-
+  const navigate = useNavigate();
   // 현재로그인중인지 아닌지 확인하는 함수
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      setCurrentUser(user);
-    });
+  // useEffect(() => {
+  //   const unsubscribe = auth.onAuthStateChanged((user) => {
+  //     setCurrentUser(user);
+  //   });
 
-    return unsubscribe;
-  }, []);
+  //   return unsubscribe;
+  // }, []);
 
   return (
     <div>
       <Navbar />
-
-      {currentUser ? (
-        <>
-          <UserInfo />
-          <AbilityBox>
-            <TotalAbilityChart />
-          </AbilityBox>
-          <InfoBox>
-            <h1>user info</h1>
-          </InfoBox>
-        </>
-      ) : (
-        <>
-          <h1>로그인하세용</h1>
-          <h1>로그인하세용</h1>
-          <h1>로그인하세용</h1>
-        </>
-      )}
+      <UserInfo />
+      <AbilityBox>
+        <TotalAbilityChart />
+      </AbilityBox>
+      <InfoBox>
+        <h1>user info</h1>
+      </InfoBox>
     </div>
   );
 }
