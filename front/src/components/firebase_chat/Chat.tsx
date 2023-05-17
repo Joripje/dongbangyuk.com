@@ -172,9 +172,9 @@ const WrapBox = styled.div({
   marginLeft: "6vw",
   // marginTop: "20vh",
   width: "50vw",
-  height: "32vh",
+  height: "60vh",
   // overflowY: "scroll",
-  paddingBottom: "4.5rem",
+  paddingBottom: "1rem",
 });
 
 const MessageInput = styled.input({
