@@ -22,7 +22,7 @@ async def get_results(game_type: str):
     return JSONResponse(content=content, status_code=200)
 
 
-@router.get("/results", description='game_id로 조회하여 results 및 초기값 0으로 맞춰진 timestamps 반환')
+@router.get("/results/", description='game_id로 조회하여 results 및 초기값 0으로 맞춰진 timestamps 반환')
 async def find_game_id(game_id: int):
     query = {"game_id": game_id}
     result = None
