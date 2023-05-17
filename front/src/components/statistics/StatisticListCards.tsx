@@ -24,6 +24,7 @@
 
 // export default StatisticListCards;
 
+import { Height } from "@mui/icons-material";
 import { CardContent, Grid, CardActionArea } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -53,39 +54,49 @@ const StatisticListCards = (props: CardDataProps) => {
     return acc;
   }, [] as GameScore[][]);
 
-  return (
-    <BoardBox>
-      <Grid container spacing={2}>
-        {rows.map((row, rowIndex) => (
-          <Grid key={rowIndex} container item xs={12} spacing={4}>
-            {row.map((data, dataIndex) => (
-              <Grid key={dataIndex} item xs={4}>
-                <Card sx={{ width: "100%", height: "100%" }}>
-                  <CardActionArea
-                    onClick={() =>
-                      navigate(`/statistics/?gameid=${data.gameId}`)
-                    }
-                  >
-                    <CardContent>
-                      <DongBang>동방역검</DongBang>
-                      <TitleContainer>
-                        {/* {" "} */}
-                        {data.type === "cat" && "고양이 술래잡기"}
-                        {data.type === "rps" && "가위바위보"}
-                        {data.type === "road" && "길 만들기"}
-                        {data.type === "rotate" && "도형 회전하기"}
-                      </TitleContainer>
-                      <DateContainer>2023.05.11</DateContainer>
-                    </CardContent>
-                  </CardActionArea>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        ))}
-      </Grid>
-    </BoardBox>
-  );
+  if (cardList.length !== 0) {
+    return (
+      <BoardBox>
+        <Grid container spacing={2}>
+          {rows.map((row, rowIndex) => (
+            <Grid key={rowIndex} container item xs={12} spacing={4}>
+              {row.map((data, dataIndex) => (
+                <Grid key={dataIndex} item xs={4}>
+                  <Card sx={{ width: "100%", height: "100%" }}>
+                    <CardActionArea
+                      onClick={() =>
+                        navigate(`/statistics/?gameid=${data.gameId}`)
+                      }
+                    >
+                      <CardContent>
+                        <DongBang>동방역검</DongBang>
+                        <TitleContainer>
+                          {/* {" "} */}
+                          {data.type === "cat" && "고양이 술래잡기"}
+                          {data.type === "rps" && "가위바위보"}
+                          {data.type === "road" && "길 만들기"}
+                          {data.type === "rotate" && "도형 회전하기"}
+                        </TitleContainer>
+                        <DateContainer>2023.05.11</DateContainer>
+                      </CardContent>
+                    </CardActionArea>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+          ))}
+        </Grid>
+      </BoardBox>
+    );
+  } else {
+    return (
+      <>
+        <BoardBox>
+          <EmptyBox>응시 기록이 없습니다.</EmptyBox>
+        </BoardBox>
+      </>
+    );
+  }
 };
 
 const BoardBox = styled.div({
@@ -128,5 +139,19 @@ const DateContainer = styled.div`
   font-size: 0.9rem;
   font-weight: bold;
 `;
+
+const EmptyBox = styled.div({
+  position: "relative",
+  margin: "1rem auto",
+  display: "flex",
+  flexDirection: "row",
+
+  justifyContent: "center",
+
+  color: "#555",
+  fontSize: "2rem",
+  height: "5.5rem",
+  fontWeight: "bold",
+});
 
 export default StatisticListCards;
