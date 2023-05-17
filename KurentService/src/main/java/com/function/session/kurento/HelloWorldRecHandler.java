@@ -94,9 +94,9 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 		// RECORDER_FILE_NAME = jsonMessage.get("userEmail").getAsString() + ".webm";
 		switch (jsonMessage.get("id").getAsString()) {
 			case "start":
-				// String userEmail = jsonMessage.get("userEmail").getAsString();
 				// TODO: FE 에서 보내준 정보로 변경
-				String uid = "PqeD5zOWLXauO1AAt81Fn3YoFbI3";
+				String uid = jsonMessage.get("uid").getAsString();
+				// String uid = "PqeD5zOWLXauO1AAt81Fn3YoFbI3";
 				// start 요청이 오면 파일 이름 지정
 				RECORDER_FILE_NAME = ++sequence + "_" + uid + ".webm";
 				Long userId = userServiceClient.findByUserId(uid);
