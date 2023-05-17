@@ -21,11 +21,7 @@ import {
 } from "assets/images/findRoad";
 import { RootState } from "store";
 import { resetGameState, setBoolState } from "store/testControlSlice";
-import {
-  addTurnAnswer,
-  changeRound,
-  submitAnswers,
-} from "store/turnFigureSlice";
+import { changeRound, submitAnswers } from "store/turnFigureSlice";
 
 function TurnPicGamePage() {
   const dispatch = useDispatch();

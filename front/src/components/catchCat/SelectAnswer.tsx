@@ -33,7 +33,6 @@ function SelectAnswer(props: { correct: boolean[] }) {
   useEffect(() => {
     dispatch(setTempAnswerProperty({ property: "correct", value: correct[0] }));
     const startTimes = new Date().toISOString();
-    // setStartTime(new Date().toISOString());
 
     const intervalId = setInterval(() => {
       const thisTime = new Date().toISOString();
@@ -49,7 +48,6 @@ function SelectAnswer(props: { correct: boolean[] }) {
         })
       );
       console.log("SAVED");
-      // setStartTime(thisTime);
       setIsSelected(false);
     }, 3950);
 
