@@ -22,15 +22,14 @@ public class ScoreArchive {
 	@Id
 	private ObjectId id;
 	private int userId;
-	private List<GameScore> gameList = new ArrayList<>();
-	private List<Integer> gameIds = new ArrayList<>();
-
+	private String gameType;	// 게임 종류 (cat, road, rotate, rps)
+	private List<GameResult> resultList = new ArrayList<>();
 
 	@Builder
-	public ScoreArchive(int userId, List<GameScore> gameList) {
+	public ScoreArchive(int userId, String gameType, List<GameResult> resultList) {
 		this.userId = userId;
-		this.gameList = gameList != null ? gameList : new ArrayList<>();
-		this.gameIds = new ArrayList<>();
+		this.gameType = gameType;
+		this.resultList = resultList;
 	}
 
 }

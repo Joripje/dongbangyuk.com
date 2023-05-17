@@ -2,21 +2,14 @@ package com.stat.api;
 
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.stat.domain.score.GameScore;
-import com.stat.domain.statistics.Statistics;
 import com.stat.dto.AbilityResponseDto;
 import com.stat.dto.StatisticsListResponseDto;
-import com.stat.dto.StatisticsSaveRequestDto;
-import com.stat.dto.UserHistoryResponseDto;
 import com.stat.service.StatisticsService;
 
 import io.swagger.annotations.ApiOperation;
@@ -31,24 +24,11 @@ public class StatisticsController {
 
 	private final StatisticsService statisticsService;
 
-	@ApiOperation(value = "통계 기록 추가")
-	@PostMapping
-	public ResponseEntity<GameScore> addScore(@RequestBody StatisticsSaveRequestDto requestDto) {
-		log.info("============ addScore 호출 ===========");
-
-		Statistics statistics = statisticsService.addStatistics(requestDto);
-
-		log.info("return: " + statistics.toString());
-		return new ResponseEntity<>(HttpStatus.CREATED);
-	}
-
 	@ApiOperation(value = "유저 응시 게임 기록 가져오기")
 	@GetMapping("/history")
-	public ResponseEntity<?> getUserGameHistory(@RequestParam int userId, @RequestParam String type) {
+	public ResponseEntity<?> getUserGameHistory(@RequestParam int userId, @RequestParam String gameType) {
 		log.info("============ getUserGameHistory 호출 ===========");
-		UserHistoryResponseDto dto = statisticsService.getUserHistoryByGameType(userId, type);
-		log.info("return: " + dto.toString());
-		return ResponseEntity.ok(statisticsService.getUserHistoryByGameType(userId, type));
+		return ResponseEntity.ok(statisticsService.getUserHistoryByUserIdAndGameType(userId, gameType));
 	}
 
 	@ApiOperation(value = "유저 개인 역량 가져오기")
@@ -63,27 +43,13 @@ public class StatisticsController {
 	@ApiOperation(value = "게임 점수 분포 조회")
 	@GetMapping("/score-distribution")
 	public ResponseEntity<List<StatisticsListResponseDto>> getScoreLevelStatistics() {
-		log.info("============ getScoreLevelStatistics 호출 ===========");
 		return ResponseEntity.ok(statisticsService.getScoreLevelStatistics());
 	}
 
-	@ApiOperation(value = "[TEST] 더미 데이터 생성")
-	@PostMapping("/dummy")
-	public ResponseEntity<String> addDummyData() {
-		statisticsService.addDummy();
-		return ResponseEntity.ok("Dummy 완성");
-	}
-
-	@ApiOperation(value = "[TEST] 게임별 통계 조회 - 모든 점수 조회")
-	@GetMapping("/all-scores")
-	public ResponseEntity<List<Integer>> getAllScoresByType(@RequestParam String type) {
-		return ResponseEntity.ok(statisticsService.getAllScoresByType(type));
-	}
-
-	@ApiOperation("통계 업데이트")
+	@ApiOperation(value = "통계 업데이트")
 	@GetMapping("/all-update")
-	public ResponseEntity<String> processScoreArchive(){
-		statisticsService.updateAllStatistics();
+	public ResponseEntity<String> processScoreArchive() {
+		statisticsService.storeGameStatistics();
 		return ResponseEntity.ok("성공");
 	}
 }

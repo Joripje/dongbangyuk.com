@@ -10,17 +10,17 @@ import lombok.ToString;
 public class GameScoreResponseDto {
 
 	private final String type;
-	private final int gameId;	// 게임 아이디
+	private final Long gameId;	// 게임 아이디
 	private final int score;	// 게임 점수
 	private final int endurance;	// 지구력
 	private final int resilience;	// 회복 탄력성
 
-	public GameScoreResponseDto(String type, List<Integer> scoreList) {
+	public GameScoreResponseDto(String type, Long gameId, List<Integer> scoreList) {
 		this.type = type;
-		this.gameId = scoreList.get(0);
-		this.score = scoreList.get(1);
-		this.endurance = scoreList.get(2);
-		this.resilience = scoreList.get(3);
+		this.gameId = gameId;
+		this.score = scoreList.get(0);
+		this.endurance = scoreList.get(1);
+		this.resilience = scoreList.get(2);
 	}
 
 }
