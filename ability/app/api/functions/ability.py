@@ -1,7 +1,7 @@
 from pymongo import MongoClient
 from datetime import datetime, timedelta
 from api.functions.load_data import get_result, get_video, create_notification
-from api.functions.flag import select_user_id
+from api.functions import flag
 import requests
 from dotenv import load_dotenv
 import os
@@ -58,7 +58,7 @@ def ability(game_id, game_type):
             'game_ability': game_ability,
         }
 
-        user_id = select_user_id(game_id)
+        user_id = flag.select_user_id(game_id)
 
         request_data = {
             'game_id': game_id,
