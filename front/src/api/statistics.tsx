@@ -72,7 +72,7 @@ const getTotalAbilityData = async (props: object) => {
 const getGameData = async (props: object) => {
   const requestProps = {
     method: "GET",
-    url: "/ability/",
+    url: "/results/",
     data: props,
   };
   const res = await requestGet(requestProps);

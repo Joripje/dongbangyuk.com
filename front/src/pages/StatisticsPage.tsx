@@ -18,7 +18,7 @@ const StatisticsPage = () => {
       <Divider />
       <TitleContainer>결과보기</TitleContainer>
       <BoardBox>
-        <ResultsTable gameId={"1"} />
+        <ResultsTable gameId={parsed.gameid?.toString()} />
       </BoardBox>
       <Divider />
       <TitleContainer>
