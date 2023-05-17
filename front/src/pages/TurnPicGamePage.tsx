@@ -6,8 +6,8 @@ import { GameBoard } from "../components/turnFigure";
 import { PrepareTemplate, PrepareExam, StatusBar } from "components/game";
 
 import {
-  rmt,
-  findRoad,
+  mrt,
+  TurnPic,
   first,
   second,
   third,
@@ -16,9 +16,11 @@ import {
   sixth,
   seventh,
   eighth,
-  nineth,
+  ninth,
   tenth,
-} from "assets/images/findRoad";
+  eleventh,
+  twelfth
+} from "assets/images/turnFigure";
 import { RootState } from "store";
 import { resetGameState, setBoolState } from "store/testControlSlice";
 import { changeRound, submitAnswers } from "store/turnFigureSlice";
@@ -37,20 +39,26 @@ function TurnPicGamePage() {
 
   // gameStae의 변경에 따라 render할 component 지정
   useEffect(() => {
-    const gameType = "road";
+    const gameType = "rotate";
     const goal = [
-      "매트릭스에 정답 수 만큼의 울타리를 설치하여 모든 교통수단을 정해진 손님에게 보내기",
+      "주어진 글자나 도형을 보고 최소한의 클릭으로 회전 과정 만들기",
     ];
     const descriptions = [
-      "각 교통수단의 위치와 대응하는 손님의 위치를 확인하기",
-      "각 교통수단이 정해진 손님에게 도착하도록 매트릭스에 울타리를 설치하기",
-      "교통 수단은 울타리가 없으면 직진하고 울타리를 만나면 90도 회전",
-      "잘못 설치된 울타리는 다시 클릭하여 제거하기",
-      "울타리 설치를 마친 뒤 정답 수에 맞는 울타리가 사용되었는지 확인하기",
-      "제출 버튼을 클릭하여 응답 제출하기",
+      "왼쪽에 있는 도형을 오른쪽에 있는 도형처럼 회전시키기",
+      "사용 가능한 버튼은 총 4개\n- 왼쪽 45도, 오른쪽 45도, 좌우반전, 상하반전",
+      "버튼을 눌러 회전 과정 만들기",
+      "클릭 가능 횟수는 총 20회",
+      "하나 지움과 전체 초기화 버튼으로 과정을 지울 수 있음",
+      "답 완성 후, 답안 제출 버튼 클릭",
+      "라운드 1 알파벳, 라운드 2 도형 제시",
+      "라운드 제한 시간(3분) 내 최대한 많은 문제를 빠르고 정확하게 풀기",
+      "버튼 개수와 클릭 횟수를 최소한으로 사용하요 완성하기",
+      "왼쪽, 오른쪽 회전 버튼은 45도 각도로 회전",
+      "최대 8개 칸까지만 채울 수 있음",
+      "클릭 가능 횟수는 최대 20회"
     ];
     const imagesList: string[] = [
-      findRoad,
+      TurnPic,
       first,
       second,
       third,
@@ -59,18 +67,20 @@ function TurnPicGamePage() {
       sixth,
       seventh,
       eighth,
-      nineth,
+      ninth,
       tenth,
+      eleventh,
+      twelfth
     ];
     const overviewProps = {
-      image: rmt,
-      name: "길 만들기",
+      image: mrt,
+      name: "도형 회전하기",
       descript:
-        "매트릭스 위에 울타리를 설치하여 교통수단을 정해진 손님에게 보내주세요.",
-      minutes: 3,
-      rounds: 1,
+        "주어지는 글자나 도형의 전과 후의 모양을 확인하고 후의 모양으로 회전시켜 주세요.",
+      minutes: 6,
+      rounds: 2,
       problems: 0,
-      ability: "계획능력",
+      ability: "공간능력",
     };
 
     if (isGaming) {

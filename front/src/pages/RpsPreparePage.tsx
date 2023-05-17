@@ -1,8 +1,25 @@
 // import { useState } from "react";
-import { rps, rpsDescript } from "assets/images";
+import {  rpsDescript } from "assets/images";
 import { PrepareTemplate, StatusBar, PrepareExam } from "components/game";
 import { useSelector } from "react-redux";
 import { RootState } from "store";
+
+import {  
+  rps,
+  RPS,
+  first,
+  second,
+  third,
+  fourth,
+  fifth,
+  sixth,
+  seventh,
+  eighth,
+  nineth,
+  tenth,
+  eleventh,
+}
+from "assets/images/rps"
 
 function RpsPreparePage() {
   const isPreparing = useSelector(
@@ -10,7 +27,19 @@ function RpsPreparePage() {
   );
   // const [isPreparing, setIsPreparing] = useState(true);
 
-  const imagesList: string[] = [rpsDescript, rps];
+  const imagesList: string[] = [  
+    RPS,
+    first,
+    second,
+    third,
+    fourth,
+    fifth,
+    sixth,
+    seventh,
+    eighth,
+    nineth,
+    tenth,
+    eleventh,];
 
   const overviewProps = {
     image: rps,
