@@ -63,3 +63,10 @@ def put_flag(flag_data: FlagBase):
     flag.update_flag(flag_data.gameid, flag_data.video)
 
     return 1
+
+
+@router.get("/asdfasdfasdf")
+def get_user_id(gameid: int):
+    flag.select_user_id(gameid)
+
+    return 1

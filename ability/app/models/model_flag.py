@@ -12,3 +12,10 @@ class Flag(Base):
     video = Column(Boolean, default=False)
     is_deleted = Column(Boolean, default=False)
     type = Column(String(10))
+
+
+class UserGame(Base):
+    __tablename__ = 'user_game'
+    game_id = Column(Integer, primary_key=True)
+    user_id = Column(Integer)
+    type = Column(String(10))

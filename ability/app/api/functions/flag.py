@@ -54,7 +54,7 @@
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from models.model_flag import Flag
+from models.model_flag import Flag, UserGame
 from api.functions.ability import ability
 from dotenv import load_dotenv
 import os
@@ -127,3 +127,13 @@ def check_flags():
             flag.is_deleted = True
             session.add(flag)
     session.commit()
+
+
+def select_user_id(gameid):
+    user_game = session.query(UserGame).filter_by(game_id=gameid).first()
+
+    if user_game:
+        print(user_game)
+
+    else:
+        print('없음')
