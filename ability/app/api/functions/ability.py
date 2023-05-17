@@ -80,53 +80,53 @@ def ability(game_id, game_type):
 
 
 def ability_rps(score):
-    if score < 30:
+    if score < 75:
         return 1
-    elif 30 <= score < 60:
+    elif 75 <= score < 100:
         return 2
-    elif 60 <= score < 90:
+    elif 100 <= score < 120:
         return 3
-    elif 90 <= score < 140:
+    elif 120 <= score < 140:
         return 4
     elif score >= 140:
         return 5
 
 def ability_road(score):
-    if score < 30:
+    if score < 35:
         return 1
-    elif 30 <= score < 60:
+    elif 35 <= score < 40:
         return 2
-    elif 60 <= score < 90:
+    elif 40 <= score < 50:
         return 3
-    elif 90 <= score < 140:
+    elif 50 <= score < 60:
         return 4
-    elif score >= 140:
+    elif score >= 60:
         return 5
 
 
 def ability_rotate(score):
     if score < 30:
         return 1
-    elif 30 <= score < 60:
+    elif 30 <= score < 40:
         return 2
-    elif 60 <= score < 90:
+    elif 40 <= score < 50:
         return 3
-    elif 90 <= score < 140:
+    elif 50 <= score < 70:
         return 4
-    elif score >= 140:
+    elif score >= 70:
         return 5
 
 
 def ability_cat(score):
-    if score < 30:
+    if score < 20:
         return 1
-    elif 30 <= score < 60:
+    elif 20 <= score < 30:
         return 2
-    elif 60 <= score < 90:
+    elif 30 <= score < 70:
         return 3
-    elif 90 <= score < 140:
+    elif 70 <= score < 100:
         return 4
-    elif score >= 140:
+    elif score >= 100:
         return 5
 
 
