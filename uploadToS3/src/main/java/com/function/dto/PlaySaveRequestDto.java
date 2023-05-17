@@ -17,18 +17,14 @@ public class PlaySaveRequestDto {
 	@NotNull(message = "UserID must not be null")
 	private final Long userId;
 
-	@NotNull(message = "Date must not be null")
-	private final String date;
-
 	@NotNull(message = "GameType must not be null")
 	private final String gameType;
 
 	private final List<JsonNode> problems;
 
 	@Builder
-	public PlaySaveRequestDto(Long userId, String date, String gameType, List<JsonNode> problems) {
+	public PlaySaveRequestDto(Long userId, String gameType, List<JsonNode> problems) {
 		this.userId = userId;
-		this.date = date;
 		this.gameType = gameType;
 		this.problems = problems;
 	}

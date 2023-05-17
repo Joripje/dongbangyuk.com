@@ -31,14 +31,10 @@ public class Play {
 	@Column(name = "type")
 	private String type;
 
-	@Column(name = "date")
-	private String date;
-
 	@Builder
 	public Play(GameSaveRequestDto requestDto) {
 		this.userId = requestDto.getUserId();
 		this.type = requestDto.getGameType();
-		this.date = requestDto.getDate();
 	}
 
 }

@@ -50,9 +50,8 @@ public class UploadController {
 		// 필요한 정보 추출
 		Long userId = requestDto.getUserId();
 		String gameType = requestDto.getGameType();
-		String date = requestDto.getDate();
 
-		GameSaveRequestDto gameHistory = createGameHistory(userId, gameType, date);
+		GameSaveRequestDto gameHistory = createGameHistory(userId, gameType);
 		Long newGameId = playService.save(gameHistory);
 
 		// 채점 kafka 로 보낼 데이터
@@ -64,11 +63,10 @@ public class UploadController {
 		return ResponseEntity.ok(requestDto);
 	}
 
-	private GameSaveRequestDto createGameHistory(Long userId, String gameType, String date) {
+	private GameSaveRequestDto createGameHistory(Long userId, String gameType) {
 		return GameSaveRequestDto.builder()
 			.userId(userId)
 			.gameType(gameType)
-			.date(date)
 			.build();
 	}
 

@@ -13,7 +13,6 @@ import lombok.Getter;
 public class GradingRequestDto {
 
 	private final Long gameId;
-	private final String date;
 	private final Long userId;
 	private final String gameType;
 	private final List<JsonNode> problems;
@@ -21,7 +20,6 @@ public class GradingRequestDto {
 	@Builder
 	public GradingRequestDto(Long gameId, PlaySaveRequestDto requestDto) {
 		this.gameId = gameId;
-		this.date = requestDto.getDate();
 		this.userId = requestDto.getUserId();
 		this.gameType = requestDto.getGameType();
 		this.problems = requestDto.getProblems();

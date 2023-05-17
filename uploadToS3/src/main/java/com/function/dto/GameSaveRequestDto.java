@@ -8,7 +8,6 @@ import lombok.Getter;
 public class GameSaveRequestDto {
 
 	private Long userId;
-	private String date;
 	private String gameType;
 
 }
