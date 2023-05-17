@@ -13,7 +13,7 @@ router = APIRouter()
 @router.post("/")
 async def video_analysis(video: VideoBase):
 
-    data = await video_detection(video.gameid, video.videopath, video.start_time, video.end_time, video.game_type)
+    data = video_detection(video.gameid, video.videopath, video.start_time, video.end_time, video.game_type)
     result = mongodb_create(data)
     if result:
         url = 'http://k8a305.p.ssafy.io:8040/flag'
