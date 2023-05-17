@@ -22,14 +22,14 @@ public class S3Service {
 	private String bucketName;
 
 	private final Function<MultipartFile, String> generateFileName =
-		file -> "https://bossponge.s3.ap-northeast-2.amazonaws.com/videos/" + file.getOriginalFilename();
+		file -> "videos/" + file.getOriginalFilename();
 
 	public String uploadFileToS3(MultipartFile file) throws IOException {
 		String fileName = generateFileName.apply(file);
 		ObjectMetadata objectMetadata = new ObjectMetadata();
 		objectMetadata.setContentType("video/webm");
 		s3Client.putObject(bucketName, fileName, file.getInputStream(), objectMetadata);
-		return fileName;
+		return "https://bossponge.s3.ap-northeast-2.amazonaws.com/" + fileName;
 	}
 
 }
