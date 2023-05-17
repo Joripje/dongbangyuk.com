@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, current } from "@reduxjs/toolkit";
-import { postCatAnswers } from "api/test";
+import { postAnswers } from "api/test";
 
 type Answer = {
   gameType: "cat";
@@ -59,7 +59,7 @@ const catchCatSlice = createSlice({
         gameType: "cat",
         problems: current(state.answerList),
       };
-      postCatAnswers(testData);
+      postAnswers(testData);
     },
   },
 });

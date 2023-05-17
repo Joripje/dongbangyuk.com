@@ -7,7 +7,7 @@ import { Loading } from "components/rps";
 import styled from "styled-components";
 import { Box } from "@mui/material";
 
-import { postRpsResults } from "api/rps";
+import { postAnswers } from "api/test";
 import { StatusBar } from "components/game";
 
 type Answer = {
@@ -67,7 +67,7 @@ function RpsGamePage() {
   const handleGameEnd = () => {
     setIsGaming(false);
     // console.log('하윙', answer)
-    postRpsResults(answer);
+    postAnswers(answer);
     // navigate("/");
   };
 

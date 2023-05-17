@@ -12,7 +12,6 @@ import styled from "styled-components";
 import { Button, Grid } from "@mui/material";
 
 type GameBoardProps = {
-  setStartTime: () => void;
   ascProblemNum: () => void;
 };
 

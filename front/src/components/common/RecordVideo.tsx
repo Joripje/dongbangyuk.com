@@ -17,11 +17,20 @@ function openWebSocket(): WebSocket {
     console.log("WebSocket opened: ", event);
   };
 
+  setInterval(() => {
+    sendMessage({ id: "connect" });
+    console.log("웹소켓 연결 연장");
+  }, 50000);
+
   ws.onmessage = function (message) {
     var parsedMessage = JSON.parse(message.data);
     if (parsedMessage.id !== "iceCandidate") {
       console.log(parsedMessage.id);
       console.info("Received message: " + message.data);
+      if (parsedMessage.id === "recording") {
+        console.log("HII");
+        localStorage.setItem("gameId", parsedMessage.gameId);
+      }
       // 여기서 spring이 주는 gameId 받기 (게임 끝날때 gameId에 넣어서 보냄)
     }
 
@@ -199,6 +208,7 @@ function stop() {
 
     var message = {
       id: "stop",
+      gameResult: localStorage.getItem("gameResult"),
     };
     sendMessage(message);
   }
