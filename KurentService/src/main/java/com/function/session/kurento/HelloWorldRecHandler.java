@@ -39,10 +39,14 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.amazonaws.util.IOUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.function.session.api.domain.Game;
+import com.function.session.api.dto.VideoRequestDto;
 import com.function.session.api.service.GameService;
 import com.function.session.api.service.UploadService;
 import com.function.session.client.user.UserServiceClient;
+import com.function.session.kafka.GameEventProducer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -71,6 +75,9 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 
 	@Autowired
 	private UserServiceClient userServiceClient;
+
+	@Autowired
+	private GameEventProducer gameEventProducer;
 
 	@Override
 	public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
@@ -402,14 +409,18 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 			System.out.println("flag 33333333");
 			Game game = gameService.findById(gameId);
 			System.out.println("game: " + game.toString());
-			game.setFilePath(RECORDER_FILE_NAME);
+			game.setFilePath(filePath);
 			gameService.save(game);
 			System.out.println("After game: " + game.toString());
+			VideoRequestDto requestDto = new VideoRequestDto(gameId, filePath, "cat");
+			System.out.println(requestDto.toString());
+			gameEventProducer.publish("kafka.assess.result.json", convertDtoToJsonString(requestDto));
 			log.info("file upload 성공: " + filePath);
 		} catch (IOException e) {
 			log.error("Failed to send video to Spring: {}", e.getMessage());
 		}
 	}
+
 	private MultipartFile convertFileToMultipartFile(File file) throws IOException {
 		System.out.println("================= convertFileToMultipartFile 호출 =================");
 		FileItem fileItem = new DiskFileItem("file"
@@ -433,6 +444,14 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 		System.out.println("flag 6");
 
 		return new CommonsMultipartFile(fileItem);
+	}
+
+	private String convertDtoToJsonString(Object dto) {
+		try {
+			return new ObjectMapper().writeValueAsString(dto);
+		} catch (JsonProcessingException e) {
+			throw new RuntimeException("Failed to convert Dto to JSON string", e);
+		}
 	}
 
 	public void sendPlayEnd(WebSocketSession session, MediaPipeline pipeline) {

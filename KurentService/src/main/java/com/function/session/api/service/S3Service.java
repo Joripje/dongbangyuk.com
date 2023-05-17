@@ -22,7 +22,7 @@ public class S3Service {
 	private String bucketName;
 
 	private final Function<MultipartFile, String> generateFileName =
-		file -> "videos/" + file.getOriginalFilename();
+		file -> "https://bossponge.s3.ap-northeast-2.amazonaws.com/videos/" + file.getOriginalFilename();
 
 	public String uploadFileToS3(MultipartFile file) throws IOException {
 		String fileName = generateFileName.apply(file);
