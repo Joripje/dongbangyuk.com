@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.commons.fileupload.FileItem;
@@ -40,8 +41,10 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.amazonaws.util.IOUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.function.session.api.domain.Game;
+import com.function.session.api.dto.PlaySaveRequestDto;
 import com.function.session.api.dto.VideoRequestDto;
 import com.function.session.api.service.GameService;
 import com.function.session.api.service.UploadService;
@@ -50,6 +53,7 @@ import com.function.session.kafka.GameEventProducer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 public class HelloWorldRecHandler extends TextWebSocketHandler {
 
@@ -108,7 +112,7 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 				// start 요청이 오면 파일 이름 지정
 				Long userId = userServiceClient.findByUserId(uid);
 				System.out.println("====================== userId: " + userId + "====================");
-				gameId = gameService.save(new Game(userId, null));
+				gameId = gameService.save(new Game(userId));
 
 				RECORDER_FILE_NAME = gameId + "_" + uid + ".webm";
 				start(session, jsonMessage);
@@ -116,7 +120,9 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 				break;
 			case "stop":
 				if (user != null) {
-					stop();
+					String gameResults = jsonMessage.get("gameResult").getAsString();
+					System.out.println("=========== gameResults: " + gameResults.toString() + " ===========");
+					stop(gameResults);
 					user.stop();
 				}
 			case "stopPlay":
@@ -393,7 +399,7 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 		}
 	}
 
-	private void stop() {
+	private void stop(String gameResults) {
 		System.out.println("======================= stop 진입 ===================== ");
 		try {
 			System.out.println("flag 1");
@@ -407,16 +413,36 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 			if (!Files.exists(videoFilePath)) {
 				throw new FileNotFoundException("없어!" + videoFilePath);
 			}
+			
+			// 게임 데이터를 가공해서 kafka 에 넣어주기
+			ObjectMapper objectMapper = new ObjectMapper();
+			PlaySaveRequestDto dto = objectMapper.readValue(gameResults, PlaySaveRequestDto.class);
+
+			System.out.println("============= dto: " + convertDtoToJsonString(dto));
+
+			// Long userId = dto.getUserId();
+			String gameType = dto.getGameType();
+			// Long gameId = dto.getGameId();
+			// List<JsonNode> problems = dto.getProblems();
+
+			gameEventProducer.publish("kafka.assess.answer.json", convertDtoToJsonString(dto));
+
+			Game game = gameService.findById(gameId);
+
+
+			// 게임을 가져와서 S3 업로드하는 과정
 			System.out.println("flag 2");
 			File file = videoFilePath.toFile();
 			System.out.println("file: " + file.getName());
 			String filePath = uploadService.uploadVideo(convertFileToMultipartFile(file));
-			System.out.println("flag 33333333");
-			Game game = gameService.findById(gameId);
+
 			System.out.println("game: " + game.toString());
-			game.setFilePath(filePath);
+			
+			// game 내용 업데이트
+			game.update(filePath, gameType);
 			gameService.save(game);
 			System.out.println("After game: " + game.toString());
+
 			VideoRequestDto requestDto = new VideoRequestDto(gameId, filePath, "cat");
 			System.out.println(requestDto.toString());
 			gameEventProducer.publish("kafka.ai.video.json", convertDtoToJsonString(requestDto));

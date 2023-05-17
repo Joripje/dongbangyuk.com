@@ -31,18 +31,24 @@ public class Game {
 	@Column(name = "file_path")
 	private String filePath;
 
+	@Column(name = "type")
+	private String type;
+
 	public Game(Long userId) {
 		this.userId = userId;
 		this.filePath = null;
+		this.type = null;
 	}
 
-	public Game(Long userId, String filePath) {
+	public Game(Long userId, String filePath, String type) {
 		this.userId = userId;
 		this.filePath = filePath;
+		this.type = null;
 	}
 
-	public void updateFilePath(String filePath) {
+	public void update(String filePath, String type) {
 		this.filePath = filePath;
+		this.type = type;
 	}
 
 }
