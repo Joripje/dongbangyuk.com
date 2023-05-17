@@ -50,6 +50,9 @@ public class UserController {
 		CustomUser registeredUser = userService.createUser(
 			decodedToken.getUid(), DateUtil.convertDateFormat(registerInfo.getBirthDate())
 		);
+
+		Long userId = registeredUser.getId();
+		userService.updateProfileImage(userId);
 		return new UserInfo(registeredUser);
 	}
 
