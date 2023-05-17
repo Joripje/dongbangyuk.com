@@ -1,29 +1,44 @@
 import { useState, useRef, useEffect } from "react";
+
 import * as faceapi from "face-api.js";
+
+import { useDispatch, useSelector } from "react-redux";
+import { setFace } from "store/testControlSlice";
+import { loading } from "assets/images";
+
 import styled from "styled-components";
+import { RootState } from "store";
 
 const MODEL_URL = "/models";
 
-function App() {
+function FaceDectection() {
   const wrapRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const opacityRef = useRef<number>(1);
 
-  const videoWidth = 640;
-  const videoHeight = 480;
-  const constraints = {
-    video: {
-      width: videoWidth,
-      height: videoHeight,
-    },
-    audio: false,
-  };
+  const dispatch = useDispatch();
+  const faceState = useSelector((state: RootState) => state.testControl.face);
 
-  const [isStartDetect, setIsStartDetect] = useState<boolean>(false);
-  const [isDetected, setIsDetected] = useState<boolean>(false);
   const [modelsLoaded, setModelsLoaded] = useState<boolean>(false);
 
+  // 모델 호출 및 호출 완료 시 안면 인식 시작
   useEffect(() => {
+    const videoWidth = 960;
+    const videoHeight = 720;
+    const constraints = {
+      video: {
+        width: videoWidth,
+        height: videoHeight,
+      },
+      audio: false,
+    };
+    const startVideo = () => {
+      if (!modelsLoaded) return;
+      navigator.mediaDevices
+        .getUserMedia(constraints)
+        .then((stream) => ((videoRef.current as any).srcObject = stream))
+        .catch((err) => console.error(err));
+    };
     Promise.all([
       faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL),
       faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
@@ -33,21 +48,9 @@ function App() {
       setModelsLoaded(true);
     });
     startVideo();
-  }, []);
-
-  // 영상 권한 요청
-  const startVideo = () => {
-    if (!modelsLoaded) return;
-    setIsStartDetect(true);
-
-    navigator.mediaDevices
-      .getUserMedia(constraints)
-      .then((stream) => ((videoRef.current as any).srcObject = stream))
-      .catch((err) => console.error(err));
-  };
+  }, [modelsLoaded]);
 
   useEffect(() => {
-    let interval: NodeJS.Timeout | null = null;
     const detectFace = async (): Promise<void> => {
       const detections = await faceapi
         .detectAllFaces(
@@ -58,32 +61,35 @@ function App() {
         .withFaceExpressions();
 
       if (detections.length === 1) {
-        setIsDetected(true);
-        console.log("dhkdkddkk");
-        clearInterval(interval!);
+        dispatch(setFace(1));
+        if (faceState === 0) setTimeout(() => dispatch(setFace(3)), 4000);
+      } else if (detections.length === 2) {
+        alert("2명 이상의 얼굴이 인식됩니다. 시험은 혼자서 진행해 주세요.");
+        dispatch(setFace(0));
       }
     };
 
-    if (isStartDetect && !isDetected) {
-      interval = setInterval(detectFace, 100);
-    }
+    const interval = setInterval(detectFace, 1000);
 
     return () => {
-      clearInterval(interval!);
+      clearInterval(interval);
     };
-  }, [isStartDetect, isDetected, videoRef, startVideo]);
+  }, [opacityRef, dispatch]);
 
   return (
     <FaceDectectionWrapper ref={wrapRef}>
-      <video
-        ref={videoRef}
-        autoPlay
-        muted
-        // onPlay={onPlay}
-        width={640}
-        height={480}
+      <Typo>
+        {faceState
+          ? "얼굴이 인식되었습니다. 3초 후 시험 페이지로 이동합니다."
+          : "응시자님의 얼굴이 네모칸안에 들어가게 세팅해주세요."}
+      </Typo>
+      <StyledVideo ref={videoRef} autoPlay muted />
+      <FaceArea
+        style={{
+          backgroundImage: faceState ? `url(${loading})` : "",
+          border: faceState ? "" : "1rem solid black",
+        }}
       />
-      <canvas ref={canvasRef} style={{ position: "absolute" }} />
     </FaceDectectionWrapper>
   );
 }
@@ -91,7 +97,6 @@ function App() {
 const FaceDectectionWrapper = styled.div({
   display: "flex",
   flexDirection: "column",
-  justifyContent: "center",
   alignItems: "center",
 
   width: "100%",
@@ -99,4 +104,27 @@ const FaceDectectionWrapper = styled.div({
   background: "rgba(237, 252, 242, 1)",
 });
 
-export default App;
+const Typo = styled.div({
+  fontSize: "2rem",
+  margin: "1rem 0",
+});
+
+const StyledVideo = styled.video({
+  width: 960,
+  borderRadius: "2rem",
+  // transition: "opacity 1s ease 1s",
+  transform: "rotateY(180deg)",
+});
+
+const FaceArea = styled.div({
+  width: 720,
+  height: 405,
+  position: "absolute",
+  top: 180,
+  opacity: 0.8,
+
+  backgroundRepeat: "no-repeat",
+  backgroundSize: "contain",
+});
+
+export default FaceDectection;

@@ -15,11 +15,13 @@ import rps from "./rps/rps.png";
 import rpsLogo from "./rps/rpsLogo.png";
 import question from "./rps/question.png";
 import rpsDescript from "./rps/rpsDescript.png";
+import loading from "./loading.gif";
 
 import LOGO from "./LOGO.png";
 import GG from "./GG.png";
 
 export {
+  loading,
   janban,
   paper,
   rock,

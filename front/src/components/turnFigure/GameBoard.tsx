@@ -32,8 +32,8 @@ const GameBoard = (props: GameBoardProps) => {
       dispatch(resetGameState());
       return;
     }
-    dispatch(generateProblem());
     dispatch(clearChoice());
+    dispatch(generateProblem());
 
     ascProblemNum();
     setStartTime();
@@ -47,7 +47,7 @@ const GameBoard = (props: GameBoardProps) => {
     <GridContainer container>
       <ObjectFigure />
       <Grid item xs={1} />
-      <Grid item xs={7} height={"100%"}>
+      <Grid item xs={6} height={"100%"}>
         <FigureControl />
         <TurnHistory />
       </Grid>

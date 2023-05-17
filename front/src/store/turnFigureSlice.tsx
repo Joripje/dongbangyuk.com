@@ -62,6 +62,7 @@ const turnFigureSlice = createSlice({
         degree: num1,
       };
       state.tempAnswer.timestamp[0] = new Date().toISOString();
+      state.clicks = 20;
     },
 
     pushChoice: (state, action) => {

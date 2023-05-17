@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+
 import Rps from "components/rps/Rps";
 import { Timer } from "components/common";
 import { Loading } from "components/rps";
@@ -96,7 +96,7 @@ function RpsGamePage() {
 
   return (
     <>
-      <StatusBar status="rps" gameType="rps" problemNum={round} />
+      <StatusBar status='rps' gameType='rps' problemNum={round} />
       <Timer
         onExitHandler={handleTimerExit}
         startTime={startTime}

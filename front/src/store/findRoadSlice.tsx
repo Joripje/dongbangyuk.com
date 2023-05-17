@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { postAnswers, putFindRoadProblems } from "api/test";
+import { postAnswers } from "api/test";
 // import { resetGameState } from "./testControlSlice";
 
 type Answer = {

@@ -4,6 +4,7 @@ type GameProps = undefined | "road" | "rps" | "rotate" | "cat";
 
 type StateType = {
   game: GameProps;
+  face: number;
   isGaming: boolean;
   isPreparing: boolean;
   isEnough: boolean;
@@ -11,6 +12,7 @@ type StateType = {
 
 const initialState: StateType = {
   game: undefined,
+  face: 0,
   isGaming: false,
   isPreparing: true,
   isEnough: true,
@@ -39,9 +41,12 @@ const testControlSlice = createSlice({
       state.isPreparing = true;
       state.isEnough = true;
     },
+    setFace: (state, action) => {
+      state.face = action.payload;
+    },
   },
 });
 
-export const { setGame, setBoolState, resetGameState } =
+export const { setGame, setBoolState, resetGameState, setFace } =
   testControlSlice.actions;
 export default testControlSlice.reducer;
