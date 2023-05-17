@@ -29,7 +29,7 @@ const ObjectFigure = () => {
   }, [answerList]);
 
   return (
-    <ObjectWrapper item xs={4}>
+    <ObjectWrapper item xs={5}>
       <CharBox>
         <RoatateBox rotate={answer.problem}>{object}</RoatateBox>
       </CharBox>

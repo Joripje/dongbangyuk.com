@@ -28,7 +28,7 @@ const FigureControl = () => {
             key={index}
             onClick={(event) => onClickHandler(event, index)}
           >
-            <ButtonImg src={image} alt={"버튼"} />;
+            <ButtonImg src={image} alt={"버튼"} />
             <ButtonTypo>{buttonName[index]}</ButtonTypo>
           </ButtonBox>
         );
@@ -77,7 +77,7 @@ const ButtonImg = styled.img({
 
 const ButtonTypo = styled.div({
   color: "#52C564",
-  fontSize: "1.5rem",
+  fontSize: "1.3rem",
   fontWeight: "1000",
 });
 

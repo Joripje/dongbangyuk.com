@@ -28,7 +28,7 @@ function TestCompositionPage() {
     } else if (!isEnough) {
       setThisComponent(<NotEnough />);
     } else {
-      console.log("Game State is just changed");
+      // console.log("Game State is just changed");
       switch (game) {
         case undefined:
           setThisComponent(<GameSelect />);
@@ -60,7 +60,7 @@ function TestCompositionPage() {
   return (
     <>
       <TempControlButton variant='contained' onClick={onResetForDev}>
-        선택 페이지로 가쉴?
+        선택페이지로 돌아가기
       </TempControlButton>
       <GameTemplate>{thisComponent}</GameTemplate>
     </>
@@ -69,6 +69,8 @@ function TestCompositionPage() {
 
 const TempControlButton = styled(Button)({
   position: "absolute",
+  top: "2rem",
+  left: "5%",
 });
 
 export default TestCompositionPage;
