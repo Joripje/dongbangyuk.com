@@ -22,6 +22,22 @@ async def get_results(game_type: str):
     return JSONResponse(content=content, status_code=200)
 
 
+@router.get("/results/{game_type}/{game_id}")
+async def get_results(game_type: str, game_id: int):
+    collection = result_db[game_type]
+    result = []
+    for document in collection.find({'game_id': game_id}):
+        document.pop('_id', None)
+        document['date'] = document['date'].isoformat()
+        document.pop('timestamps', None)
+        result.append(document)
+    content = {
+        "msg": f"{len(result)} {game_type} game result(s) found from DB.",
+        "result": result
+    }
+    return JSONResponse(content=content, status_code=200)
+
+
 @router.delete("/results/{game_type}/delete")
 async def delete_all_results(game_type: str):
     collection = result_db[game_type]
