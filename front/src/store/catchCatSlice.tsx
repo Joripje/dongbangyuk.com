@@ -36,6 +36,7 @@ const catchCatSlice = createSlice({
       // console.log(current(state.tempAnswer));
       console.log(current(state.answerList));
       state.answerList.push(state.tempAnswer);
+      state.tempAnswer.asure = -1;
     },
     setTempAnswerProperty: (
       state,

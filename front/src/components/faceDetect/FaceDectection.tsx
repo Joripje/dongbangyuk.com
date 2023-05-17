@@ -74,7 +74,7 @@ function FaceDectection() {
     return () => {
       clearInterval(interval);
     };
-  }, [opacityRef, dispatch]);
+  }, [opacityRef, dispatch, faceState]);
 
   return (
     <FaceDectectionWrapper ref={wrapRef}>

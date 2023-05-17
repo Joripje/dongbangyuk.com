@@ -111,6 +111,10 @@ const turnFigureSlice = createSlice({
 
       state.clicks = 20;
     },
+
+    changeRound: (state, action) => {
+      state.tempAnswer.rounds = action.payload;
+    },
   },
 });
 
@@ -122,5 +126,6 @@ export const {
   clearChoice,
   checkAnswer,
   submitAnswers,
+  changeRound,
 } = turnFigureSlice.actions;
 export default turnFigureSlice.reducer;

@@ -1,6 +1,7 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { setTempAnswerProperty } from "store/catchCatSlice";
+import { RootState } from "store";
 
 type SelectCircleProps = {
   index: number;
@@ -10,6 +11,12 @@ type SelectCircleProps = {
   setIsSelected: (isIt: boolean) => void;
 };
 
+type CircleWrapperProps = {
+  tempAnswer: { answer: boolean; asure: number };
+  index: number;
+  answer: boolean;
+};
+
 type SelectionCircleProps = {
   radius: number;
 };
@@ -17,6 +24,9 @@ type SelectionCircleProps = {
 function SelectCircle(props: SelectCircleProps) {
   const { index, radius, message, answer, setIsSelected } = props;
   const dispatch = useDispatch();
+  const tempAnswer = useSelector(
+    (state: RootState) => state.catchCat.tempAnswer
+  );
 
   const onSelectHandler = () => {
     dispatch(setTempAnswerProperty({ property: "answer", value: answer }));
@@ -26,8 +36,16 @@ function SelectCircle(props: SelectCircleProps) {
 
   return (
     <ColFlexBox onClick={onSelectHandler}>
-      <CircleWrapper>
-        <SelectionCircle radius={radius} />
+      <CircleWrapper tempAnswer={tempAnswer} index={index} answer={answer}>
+        <SelectionCircle
+          radius={radius}
+          style={{
+            background:
+              tempAnswer.answer === answer && tempAnswer.asure === index
+                ? "rgb(238, 253, 243)"
+                : "white",
+          }}
+        />
       </CircleWrapper>
       <CircleDes>
         {message.split("\n").map((word, index) => {
@@ -45,22 +63,27 @@ const ColFlexBox = styled.div({
   justifyContent: "center",
 });
 
-const CircleWrapper = styled.div({
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  justifyContent: "center",
-  width: "5vw",
-  height: "5vw",
-  borderRadius: "50%",
-  margin: "1rem 0",
+const CircleWrapper = styled.div<CircleWrapperProps>`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 5vw;
+  height: 5vw;
+  border-radius: 50%;
+  margin: 1rem 0;
+  background: ${({ tempAnswer, answer, index }) =>
+    tempAnswer.answer === answer && tempAnswer.asure === index
+      ? "rgb(91, 236, 138)"
+      : "#e5e5e5"};
 
-  background: "#e5e5e5",
-
-  "&:hover": {
-    background: "rgb(238, 253, 243)",
-  },
-});
+  &:hover {
+    background: ${({ tempAnswer, answer, index }) =>
+      tempAnswer.answer === answer && tempAnswer.asure === index
+        ? "rgb(91, 236, 138)"
+        : "rgb(238, 253, 243)"};
+  }
+`;
 
 const SelectionCircle = styled.div<SelectionCircleProps>`
   width: ${(props) => props.radius}%;
