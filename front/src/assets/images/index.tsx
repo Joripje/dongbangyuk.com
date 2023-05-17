@@ -17,11 +17,13 @@ import question from "./rps/question.png";
 import rpsDescript from "./rps/rpsDescript.png";
 import loading from "./loading.gif";
 import bingle from "./binglegif.gif";
+import voiceImg from "./voiceImg.png";
 
 import LOGO from "./LOGO.png";
 import GG from "./GG.png";
 
 export {
+  voiceImg,
   bingle,
   loading,
   janban,
