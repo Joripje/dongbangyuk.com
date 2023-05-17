@@ -136,4 +136,4 @@ def select_user_id(gameid):
         return user_game.user_id
 
     else:
-        return x
+        return "x"

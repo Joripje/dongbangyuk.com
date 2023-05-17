@@ -1,6 +1,8 @@
 from pymongo import MongoClient
 from datetime import datetime, timedelta
 from api.functions.load_data import get_result, get_video, create_notification
+from api.functions.flag import select_user_id
+import requests
 from dotenv import load_dotenv
 import os
 
@@ -26,17 +28,17 @@ def ability(game_id, game_type):
     if result and video:
 
         if result['type'] == 'rps':
-            game_ability = ability_rps()
+            game_ability = ability_rps(result['score'])
 
         elif result['type'] == 'road':
-            game_ability = ability_road()
+            game_ability = ability_road(result['score'])
 
         elif result['type'] == 'rotate':
-            game_ability = ability_rotate()
+            game_ability = ability_rotate(result['score'])
 
         # elif result['type'] == 'cat':
         else:
-            game_ability = ability_cat()
+            game_ability = ability_cat(result['score'])
 
         judgment = ability_judgement(result)
         accuracy = ability_accuracy(result['results'])
@@ -56,26 +58,40 @@ def ability(game_id, game_type):
             'game_ability': game_ability,
         }
 
+        user_id = select_user_id(game_id)
+
+        request_data = {
+            'game_id': game_id,
+            'type': result['type'],
+            'endurance': endurance,
+            'resilience': resilience,
+            'game_ability': game_ability,
+            'user_id': user_id,
+            'date': result['date']
+        }
         if not collection.find_one({'game_id': game_id}):
             collection.insert_one(data)
 
             create_notification(game_id, game_type)
+
+            save_ability(request_data)
+
             print('저장완료')
 
 
-def ability_rps():
+def ability_rps(score):
     return 1
 
 
-def ability_road():
+def ability_road(score):
     return 1
 
 
-def ability_rotate():
+def ability_rotate(score):
     return 1
 
 
-def ability_cat():
+def ability_cat(score):
     return 1
 
 
@@ -263,14 +279,15 @@ def ability_resilience(result, video):
     # surprised = video['surprised']
     # neutral = video['neutral']
     # emotion_state = video['emotion_state']
+    # timestamps = result['timestamps']
 
-    # start = datetime.fromisoformat(str(video['start_time']))
+    # start = datetime.fromisoformat(str(timestamps[0][0]))
 
     # emotions = [angry, disgust, scared, happy, sad, surprised, neutral]
 
     tf = result['results']
 
-    # timestamps = result['timestamps']
+
 
     false_problem = []
 
@@ -375,3 +392,25 @@ def select_ability(game_id):
     data['_id'] = str(data['_id'])
 
     return data
+
+
+def save_ability(data):
+    url = 'https://k8a305.p.ssafy.io/game_history'
+
+    requests_data = {
+        'gameId': data['game_id'],
+        'userId': data['user_id'],
+        'type': data['type'],
+        'score': data['game_ability'],
+        'endurance': data['endurance'],
+        'resilience': data['resilience'],
+        # 'date': data['date'],
+    }
+
+    response = requests.post(url, json=requests_data)
+
+    if response.status_code == 200:
+        print('요청이 성공적으로 전송되었습니다.')
+
+    else:
+        print('요청 전송에 실패하였습니다. 상태 코드:', response.status_code)
