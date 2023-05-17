@@ -95,11 +95,12 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 		switch (jsonMessage.get("id").getAsString()) {
 			case "start":
 				// String userEmail = jsonMessage.get("userEmail").getAsString();
-				String userEmail = "PqeD5zOWLXauO1AAt81Fn3YoFbI3";
+				// TODO: FE 에서 보내준 정보로 변경
+				String uid = "PqeD5zOWLXauO1AAt81Fn3YoFbI3";
 				// start 요청이 오면 파일 이름 지정
-				RECORDER_FILE_NAME = ++sequence + "_" + userEmail + ".webm";
-				Long userId = userServiceClient.findByUserId(userEmail);
-				gameId = gameService.save(new Game(userId, null));    //userEmail 로 gameId 생성함
+				RECORDER_FILE_NAME = ++sequence + "_" + uid + ".webm";
+				Long userId = userServiceClient.findByUserId(uid);
+				gameId = gameService.save(new Game(userId, null));
 				start(session, jsonMessage);
 
 				break;
@@ -329,11 +330,7 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 						System.out.println("recording.addRecordingListener 진입" + event);
 						JsonObject response = new JsonObject();
 						response.addProperty("id", "recording");
-						response.addProperty("fileName", RECORDER_FILE_NAME);
-
-						// // gameId로 검색해서 fileUpload 하기
-						// Game game = gameService.findById(gameId);
-						// game.setFilePath(RECORDER_FILE_NAME);
+						response.addProperty("gameId", gameId);
 
 						try {
 							System.out.println("record try");
