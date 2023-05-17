@@ -1,3 +1,4 @@
+import { stop } from "components/common";
 import { request } from "./api";
 
 const getFindRoadProblems = () => {
@@ -10,50 +11,15 @@ const getFindRoadProblems = () => {
   return res;
 };
 
-const putFindRoadProblems = (props: object) => {
-  const requestProps = {
-    method: "POST",
-    url: "/assessment-centre/road",
-    data: props,
-  };
-  const res = request(requestProps);
-  return res;
-};
-
 const postAnswers = (props: object) => {
-  const requestProps = {
-    method: "POST",
-    url: "/images/recordPlay",
-    data: props,
-  };
-  const res = request(requestProps);
-  return res;
+  const requestProps = JSON.stringify({
+    ...props,
+    gameId: localStorage.getItem("gameId"),
+  });
+
+  // const res = request(requestProps);
+  localStorage.setItem("gameResult", requestProps);
+  stop();
 };
 
-const postRoateAnswers = (props: object) => {
-  const requestProps = {
-    method: "POST",
-    url: "/assessment-centre/rotate",
-    data: props,
-  };
-  const res = request(requestProps);
-  return res;
-};
-
-const postCatAnswers = (props: object) => {
-  const requestProps = {
-    method: "POST",
-    url: "/assessment-centre/cat",
-    data: props,
-  };
-  const res = request(requestProps);
-  return res;
-};
-
-export {
-  getFindRoadProblems,
-  postAnswers,
-  putFindRoadProblems,
-  postRoateAnswers,
-  postCatAnswers,
-};
+export { getFindRoadProblems, postAnswers };

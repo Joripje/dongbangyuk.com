@@ -1,15 +1,10 @@
-import { ComponentType, ReactNode } from "react";
 import { useDispatch } from "react-redux";
 
 import styled from "styled-components";
 import { Card, Grid } from "@mui/material";
 import { setGame } from "store/testControlSlice";
+import { rmt } from "assets/images/findRoad";
 
-type StyledCardProps = {
-  key: number;
-  children: ReactNode;
-  onClick: () => void;
-};
 type GameValue = undefined | "rps" | "road" | "rotate" | "cat";
 
 type GameOption = {
@@ -53,52 +48,34 @@ function GameSelect() {
   };
 
   return (
-    <Grid container style={{ height: "100%" }}>
-      <UserInfoGrid item xs={3}></UserInfoGrid>
-      <GameSelectGrid item xs={9}>
-        <h1>게임 목록</h1>
-        <RowFlexBox>
-          {gameOptions.map((item, index) => {
-            const { name, ability, time, value } = item;
-            return (
-              <StyledCard key={index} onClick={() => onClickHandler(value)}>
+    <>
+      <RowFlexBox style={{ justifyContent: "center", height: "100%" }}>
+        {gameOptions.map((item, index) => {
+          const { name, ability, time, value } = item;
+          return (
+            <StyledCard key={index} onClick={() => onClickHandler(value)}>
+              <GameImg src={rmt} alt='' />
+              <RowFlexBox>
                 <TypoForGameName>{name}</TypoForGameName>
                 <TypoForAbility>
                   {ability} | 약 {time}분
                 </TypoForAbility>
-              </StyledCard>
-            );
-          })}
-        </RowFlexBox>
-      </GameSelectGrid>
-    </Grid>
+              </RowFlexBox>
+            </StyledCard>
+          );
+        })}
+      </RowFlexBox>
+    </>
   );
 }
 
-const UserInfoGrid = styled(Grid)({
-  display: "flex",
-  flexDirection: "column",
-
-  height: "100%",
-
-  background: "#e5e5e5",
-  borderRadius: "20px 0px 0px 20px",
-});
-
-const GameSelectGrid = styled(Grid)({
-  paddingLeft: "1%",
-});
-
-const StyledCard: ComponentType<StyledCardProps> = styled(
-  Card
-)<StyledCardProps>((props) => ({
+const StyledCard = styled(Card)({
   display: "flex",
   flexDirection: "column",
   justifyContent: "space-between",
-  width: "24%",
-  height: "10rem",
-  margin: "1%",
-  padding: "2rem",
+  width: "40%",
+  margin: "2%",
+  padding: "2rem 2rem 0rem 2rem",
 
   border: "2px solid gray",
   borderRadius: "20px",
@@ -109,18 +86,24 @@ const StyledCard: ComponentType<StyledCardProps> = styled(
   "&:hover": {
     background: "#97E3E1",
   },
-}));
+});
+
+const GameImg = styled.img({
+  borderRadius: "2rem",
+});
 
 const RowFlexBox = styled.div({
   display: "flex",
   flexDirection: "row",
   flexWrap: "wrap",
-  paddingLeft: "1%",
+  justifyContent: "space-between",
+  alignItems: "center",
 });
 
 const TypoForGameName = styled.div({
   width: "auto",
   height: "3rem",
+  padding: "1rem 0",
 
   fontSize: "2rem",
   fontWeight: "800",
@@ -130,8 +113,8 @@ const TypoForAbility = styled.div({
   width: "auto",
 
   borderRadius: "100%",
+  padding: "1rem 0 ",
 
-  color: "gray",
   fontSize: "1.5rem",
   fontWeight: "800",
 });

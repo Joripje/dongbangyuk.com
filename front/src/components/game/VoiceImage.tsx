@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-import { janban } from "assets/images";
+import { voiceImg } from "assets/images";
 import styled from "styled-components";
 import { setBoolState } from "store/testControlSlice";
 
@@ -30,7 +30,7 @@ const VoiceCheckImg = styled.div({
   width: "5rem",
   height: "5rem",
   margin: "1rem",
-  backgroundImage: `url(${janban})`,
+  backgroundImage: `url(${voiceImg})`,
   backgroundSize: "cover",
 });
 

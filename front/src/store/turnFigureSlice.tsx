@@ -1,5 +1,5 @@
 import { createSlice, current } from "@reduxjs/toolkit";
-import { postRoateAnswers } from "api/test";
+import { postAnswers } from "api/test";
 import {
   button_a,
   button_b,
@@ -100,7 +100,7 @@ const turnFigureSlice = createSlice({
         problems: current(state.answerList),
       };
       console.log(testData);
-      postRoateAnswers(testData);
+      postAnswers(testData);
     },
 
     addTurnAnswer: (state) => {

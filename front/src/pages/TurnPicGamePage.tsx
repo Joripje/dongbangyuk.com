@@ -75,10 +75,8 @@ function TurnPicGamePage() {
 
     if (isGaming) {
       dispatch(changeRound(1));
-      setStartTime(new Date());
       setThisComponent(
         <GameBoard
-          setStartTime={() => setStartTime(new Date())}
           ascProblemNum={() =>
             setProblemNum((prevProblemNum) => prevProblemNum + 1)
           }
@@ -104,7 +102,7 @@ function TurnPicGamePage() {
         );
       }
     }
-  }, [isPreparing, isGaming, problemNum, dispatch]);
+  }, [isPreparing, isGaming, dispatch]);
 
   const onTimeOver = async () => {
     // 라운드가 2라면 제출
