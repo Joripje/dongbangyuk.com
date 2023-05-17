@@ -1,19 +1,25 @@
+import queryString from "query-string";
+import { useLocation } from "react-router-dom";
 import { TotalAbilityChart, GameRank } from "components/statistics";
 import styled from "styled-components";
 
 const StatisticsTotalPage = () => {
+  const location = useLocation();
+  const parsed = queryString.parse(location.search);
+  console.log(parsed);
+
   return (
     <TemplateBox>
       <MainTitleContainer>나의 통계</MainTitleContainer>
       <Divider />
       <TitleContainer>나의 역량</TitleContainer>
       <BoardBox>
-        <TotalAbilityChart />
+        <TotalAbilityChart userId={parsed.userid?.toString()} />
       </BoardBox>
       <Divider />
       <TitleContainer>나의 위치</TitleContainer>
       <BoardBox>
-        <GameRank />
+        <GameRank userId={parsed.userid?.toString()} />
       </BoardBox>
     </TemplateBox>
   );

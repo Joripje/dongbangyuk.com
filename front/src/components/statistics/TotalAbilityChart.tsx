@@ -8,7 +8,11 @@ import {
   PolarRadiusAxis,
 } from "recharts";
 
-const TotalAbilityChart = () => {
+interface TotalAbilityChartProps {
+  userId: string | undefined;
+}
+
+const TotalAbilityChart = (props: TotalAbilityChartProps) => {
   const [rpsScore, setRpsScore] = useState<number>(0);
   const [roadScore, setRoadScore] = useState<number>(0);
   const [rotateScore, setRotateScore] = useState<number>(0);
@@ -20,7 +24,7 @@ const TotalAbilityChart = () => {
     const fetchData = async () => {
       try {
         const response = await getTotalAbilityData({
-          userId: 1,
+          userId: props.userId,
         });
 
         setRpsScore(response.rpsScore);

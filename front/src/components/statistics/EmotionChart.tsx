@@ -47,6 +47,9 @@ const EmotionChart = (props: EmotionChartProps) => {
     },
   ];
 
+  const position = (value: number) => {
+    return value > 3.3 ? "insideTop" : "top";
+  };
   return (
     <>
       <BarChart
@@ -62,13 +65,14 @@ const EmotionChart = (props: EmotionChartProps) => {
       >
         {/* <CartesianGrid vertical={false} /> */}
         <XAxis dataKey="name" />
-        <YAxis tick={false} hide={true} />
+        <YAxis tick={false} hide={true} padding={{ top: 10 }} />
         {/* <Tooltip /> */}
         {/* <Legend /> */}
         <Bar dataKey="value" fill="#8884d8">
           <LabelList
             dataKey="value"
             position="top"
+            // style={{ fill: "white" }}
             formatter={(value: number) => `${value}%`}
           />
         </Bar>

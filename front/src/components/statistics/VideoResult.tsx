@@ -3,7 +3,12 @@ import { getEmotionData } from "api/statistics";
 import { useState, useEffect } from "react";
 import EmotionChart from "./EmotionChart";
 import RecognitionChart from "./RecognitionChart";
-const VideoResult = () => {
+
+interface VideoResultProps {
+  gameId: string | undefined;
+}
+
+const VideoResult = (props: VideoResultProps) => {
   const [emotions, setEmotions] = useState<{ [key: string]: number }>({
     angry: 0,
     disgust: 0,
@@ -19,7 +24,7 @@ const VideoResult = () => {
     const fetchEmotionData = async () => {
       try {
         const response = await getEmotionData({
-          gameid: 11111,
+          gameid: props.gameId,
         });
 
         setEmotions(response);
@@ -30,7 +35,7 @@ const VideoResult = () => {
     };
 
     fetchEmotionData();
-  }, []);
+  }, [props.gameId]);
   return (
     <>
       <Container>

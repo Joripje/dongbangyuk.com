@@ -13,7 +13,6 @@ type GameCounts = {
 };
 
 const StatisticsListPage = () => {
-  const location = useLocation();
   const [gameType, setGameType] = useState<String>("all");
   const [cardList, setCardList] = useState([]);
   const [gameCounts, setGameCounts] = useState<GameCounts>({
@@ -23,7 +22,9 @@ const StatisticsListPage = () => {
     rps: 0,
     total: 0,
   });
+  const location = useLocation();
   const parsed = queryString.parse(location.search);
+  // console.log(parsed);
 
   const TypeChangeHandler = (gameType: string) => {
     setGameType(gameType);
@@ -43,7 +44,7 @@ const StatisticsListPage = () => {
       }
     };
     fetchData();
-  }, [gameType]);
+  }, [gameType, parsed.userid]);
 
   return (
     <>

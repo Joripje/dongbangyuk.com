@@ -123,7 +123,11 @@ const chunkArray = (arr: any[], size: number) =>
     arr.slice(i * size, i * size + size)
   );
 
-const ResultsTable = () => {
+interface ResultsTableProps {
+  gameId: string | undefined;
+}
+
+const ResultsTable = (props: ResultsTableProps) => {
   const chunkedRows = chunkArray(rows, 4);
 
   return (

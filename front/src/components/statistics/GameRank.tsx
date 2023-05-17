@@ -9,7 +9,12 @@ import {
   Legend,
   ReferenceLine,
 } from "recharts";
-const GameRank = () => {
+
+interface GameRankProps {
+  userId: string | undefined;
+}
+
+const GameRank = (props: GameRankProps) => {
   const [rpsScore, setRpsScore] = useState<number>(0);
   const [roadScore, setRoadScore] = useState<number>(0);
   const [rotateScore, setRotateScore] = useState<number>(0);
@@ -65,7 +70,7 @@ const GameRank = () => {
     const fetchAbilityData = async () => {
       try {
         const response = await getTotalAbilityData({
-          userId: 1,
+          userId: props.userId,
         });
 
         setRpsScore(response.rpsScore);
@@ -106,8 +111,13 @@ const GameRank = () => {
   }, []);
 
   return (
-    <LineChart width={700} height={600}>
-      <XAxis dataKey="level" allowDuplicatedCategory={false} tick={false} />
+    <LineChart width={800} height={600}>
+      <XAxis
+        dataKey="level"
+        allowDuplicatedCategory={false}
+        tick={false}
+        padding={{ left: 75, right: 75 }}
+      />
       <YAxis dataKey="value" hide={true} />
       {/* <Tooltip /> */}
       <Legend />

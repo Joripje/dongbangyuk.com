@@ -5,7 +5,11 @@ import AbilityBlock from "./AbilityBlock";
 import StandardGameRank from "./StandardGameRank";
 // import EmotionChart from "./EmotionChart";
 
-const AbilityChart = () => {
+interface AbilityChartProps {
+  gameId: string | undefined;
+}
+
+const AbilityChart = (props: AbilityChartProps) => {
   const [judgment, setJudgment] = useState<number>(0);
   const [accuracy, setaccuracy] = useState<number>(0);
   // const [stability, setStability] = useState<number>(0);
@@ -26,7 +30,7 @@ const AbilityChart = () => {
     const fetchAbilityData = async () => {
       try {
         const response = await getAbilityData({
-          gameid: 1,
+          gameid: props.gameId,
         });
 
         setJudgment(response.judgment);

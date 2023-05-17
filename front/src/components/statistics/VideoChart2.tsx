@@ -6,8 +6,8 @@ import {
   Line,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
+  // CartesianGrid,
+  // Tooltip,
   Legend,
   ReferenceArea,
   ReferenceLine,
@@ -15,7 +15,11 @@ import {
 } from "recharts";
 import styled from "styled-components";
 
-const VideoChart = () => {
+interface VideoChartProps {
+  gameId: string | undefined;
+}
+
+const VideoChart = (props: VideoChartProps) => {
   const [angry, setAngry] = useState<Array<number>>([]);
   const [disgust, setDisgust] = useState<Array<number>>([]);
   const [scared, setScared] = useState<Array<number>>([]);
@@ -26,19 +30,21 @@ const VideoChart = () => {
   const [videoPath, setVideoPath] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [autoPlay, setAutoPlay] = useState(false);
+  const [result, setResult] = useState([0]);
+  const [timeData, setTimeData] = useState([[0, 0]]);
 
-  const result = [0, 1, 0];
-  const timeData = [
-    [0, 20],
-    [20, 40],
-    [40, 73],
-  ];
+  // const result = [0, 1, 0];
+  // const timeData = [
+  //   [0, 20],
+  //   [20, 40],
+  //   [40, 73],
+  // ];
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await getVideoData({
-          gameid: 11111,
+          gameid: props.gameId,
         });
 
         setAngry(response.angry);
@@ -48,20 +54,20 @@ const VideoChart = () => {
         setSad(response.sad);
         setSurprised(response.surprised);
         setNeutral(response.neutral);
-        setVideoPath(response.video_path);
+        // setVideoPath(response.video_path);
         setIsLoading(false);
-        console.log(videoPath);
-        const angryData = angry.map((value, index) => ({ index, value }));
-        console.log("asdfasdf");
-        console.log(angryData);
-        console.log("asdfasdf");
+        // console.log(videoPath);
+        // const angryData = angry.map((value, index) => ({ index, value }));
+        // console.log("asdfasdf");
+        // console.log(angryData);
+        // console.log("asdfasdf");
       } catch (err) {
         console.error(err);
       }
     };
 
     fetchData();
-  }, []);
+  }, [props.gameId]);
 
   // const angryData = angry.map((value, index) => ({ index, value }));
   // const disgustData = disgust.map((value, index) => ({ index, value }));
@@ -241,6 +247,7 @@ const VideoChart = () => {
         </ContainerBox>
         <ContainerBox>
           <VideoPlayer
+            path={videoPath}
             start={startEndTime[0]}
             end={startEndTime[1]}
             autoPlay={autoPlay}
