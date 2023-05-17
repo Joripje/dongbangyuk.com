@@ -80,7 +80,7 @@ function FaceDectection() {
     <FaceDectectionWrapper ref={wrapRef}>
       <Typo>
         {faceState
-          ? "얼굴이 인식되었습니다. 3초 후 시험 페이지로 이동합니다."
+          ? "얼굴이 인식되었습니다. 잠시 후 시험 페이지로 이동합니다."
           : "응시자님의 얼굴이 네모칸안에 들어가게 세팅해주세요."}
       </Typo>
       <StyledVideo ref={videoRef} autoPlay muted />

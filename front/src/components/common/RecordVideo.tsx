@@ -148,21 +148,21 @@ function start() {
 function onOffer(error: string, offerSdp: {}) {
   if (error) return console.error("Error generating the offer");
   console.log("Invoking SDP offer callback function");
-  const userEmail = sessionStorage.getItem("userEmail");
-  const uid = sessionStorage.getItem("uid");
+  const userEmail = localStorage.getItem("userEmail");
+  const uid = auth.currentUser?.uid;
   const startDate = new Date().toISOString();
   var message = {
     id: "start",
     sdpOffer: offerSdp,
     mode: $('input[name="mode"]:checked').val(),
     userEmail: userEmail ? userEmail + "_" + startDate : "",
-    uid: uid ? uid : "",
+    uid: uid,
   };
   console.log("============보내는데이터===============");
+  console.log(message);
   console.log(uid);
   console.log(userEmail);
   console.log(startDate);
-  console.log(auth.currentUser?.uid);
   sendMessage(message);
 }
 
