@@ -40,11 +40,12 @@ const GameBoard = (props: GameBoardProps) => {
   useEffect(() => {
     const onSubmitHandler = () => {
       // event.preventDefault();
+      alert("검사가 종료됐습니다.");
       dispatch(submitCatAnswer());
       dispatch(resetGameState());
     };
     // 결과 페이지로 안내해야함
-    if (problemNum === 21 && gameState % 4 === 0) onSubmitHandler();
+    if (problemNum === 21 && gameState % 4 === 1) onSubmitHandler();
 
     const randomNumbers = (n: number, numbers: number[]) => {
       // const numbers = Array.from(arr, (_, index) => index); // 0부터 35까지의 숫자를 가진 배열 생성
@@ -129,13 +130,6 @@ const GameBoard = (props: GameBoardProps) => {
       ) : (
         <SingleCatBox boardState={boardState} />
       )}
-
-      {/* <button
-        style={{ height: "3rem", position: "absolute", right: 0, bottom: 0 }}
-        onClick={onSubmitHandler}
-      >
-        테스트용 최종 제출 버튼
-      </button> */}
     </RowFlexBox>
   );
 };

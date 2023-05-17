@@ -22,11 +22,11 @@ function TestCompositionPage() {
   const [thisComponent, setThisComponent] = useState(<FaceDectection />);
 
   useEffect(() => {
-    if (face < 2) {
+    if (!isEnough) {
       console.log(face);
-      setThisComponent(<FaceDectection />);
-    } else if (!isEnough) {
       setThisComponent(<NotEnough />);
+    } else if (face < 2) {
+      setThisComponent(<FaceDectection />);
     } else {
       // console.log("Game State is just changed");
       switch (game) {
