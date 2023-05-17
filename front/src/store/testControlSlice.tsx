@@ -4,7 +4,7 @@ type GameProps = undefined | "road" | "rps" | "rotate" | "cat";
 
 type StateType = {
   game: GameProps;
-  face: boolean;
+  face: number;
   isGaming: boolean;
   isPreparing: boolean;
   isEnough: boolean;
@@ -12,7 +12,7 @@ type StateType = {
 
 const initialState: StateType = {
   game: undefined,
-  face: false,
+  face: 0,
   isGaming: false,
   isPreparing: true,
   isEnough: true,

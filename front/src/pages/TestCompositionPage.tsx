@@ -22,7 +22,8 @@ function TestCompositionPage() {
   const [thisComponent, setThisComponent] = useState(<FaceDectection />);
 
   useEffect(() => {
-    if (!face) {
+    if (face < 2) {
+      console.log(face);
       setThisComponent(<FaceDectection />);
     } else if (!isEnough) {
       setThisComponent(<NotEnough />);
