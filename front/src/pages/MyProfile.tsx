@@ -18,7 +18,7 @@ function MyProfile() {
       <UserInfo />
       <AbilityBox onClick={handlePage}>
         <h1>click click</h1>
-        <TotalAbilityChart />
+        <TotalAbilityChart userId={"19"} />
       </AbilityBox>
       <InfoBox>
         <h1>알림 사항</h1>
