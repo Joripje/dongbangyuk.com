@@ -414,7 +414,7 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 			System.out.println("After game: " + game.toString());
 			VideoRequestDto requestDto = new VideoRequestDto(gameId, filePath, "cat");
 			System.out.println(requestDto.toString());
-			gameEventProducer.publish("kafka.assess.result.json", convertDtoToJsonString(requestDto));
+			gameEventProducer.publish("kafka.ai.video.json", convertDtoToJsonString(requestDto));
 			log.info("file upload 성공: " + filePath);
 		} catch (IOException e) {
 			log.error("Failed to send video to Spring: {}", e.getMessage());
