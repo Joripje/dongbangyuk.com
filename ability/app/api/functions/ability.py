@@ -395,7 +395,7 @@ def select_ability(game_id):
 
 
 def save_ability(data):
-    url = 'https://k8a305.p.ssafy.io/game_history'
+    url = 'http://k8a305.p.ssafy.io:8060/game_history'
 
     requests_data = {
         'gameId': data['game_id'],
