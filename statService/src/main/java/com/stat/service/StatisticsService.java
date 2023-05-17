@@ -2,12 +2,7 @@ package com.stat.service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -41,7 +36,6 @@ public class StatisticsService {
 	 */
 	public UserHistoryResponseDto getUserHistoryByUserIdAndGameType(int userId, String type) {
 		List<ScoreArchive> scoreArchives = scoreArchiveRepository.findByUserId(userId);
-		System.out.println(scoreArchives.toString());
 
 		if (scoreArchives.isEmpty()) {
 			throw new UserNotFoundException(String.format("%s 님의 게임 응시 내역이 없어요.", userId));
@@ -57,43 +51,64 @@ public class StatisticsService {
 				.collect(Collectors.toList());
 		}
 
-		System.out.println(filteredScoreArchives.toString());
 		// Sort the filtered score archives based on the game result date in descending order
 		filteredScoreArchives.sort((s1, s2) -> {
-			LocalDate date1 = LocalDate.parse(s1.getResultList().get(0).getDate(),
-				DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-			LocalDate date2 = LocalDate.parse(s2.getResultList().get(0).getDate(),
-				DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+			int gameId1 = s1.getResultList().get(0).getGameId();
+			int gameId2 = s2.getResultList().get(0).getGameId();
 
-			return date2.compareTo(date1);
+			return gameId2 - gameId1;
 		});
 
-		// Retrieve the latest 6 game scores
-		List<GameScoreResponseDto> gameScoreList = new ArrayList<>();
-		int count = 0;
-		for (ScoreArchive scoreArchive : filteredScoreArchives) {
-			if (count >= 6) {
-				break;
-			}
-			GameResult gameResult = scoreArchive.getResultList().get(0);
-			GameScoreResponseDto gameScoreInfo = new GameScoreResponseDto(
-				scoreArchive.getGameType(),
-				gameResult.getGameId(),
-				gameResult.getScoreList()
-			);
-			gameScoreList.add(gameScoreInfo);
-			count++;
-		}
 
+//		// Retrieve the latest 6 game scores
+//		List<GameScoreResponseDto> gameScoreList = new ArrayList<>();
+//		int count = 0;
+//		for (ScoreArchive scoreArchive : filteredScoreArchives) {
+//			if (count >= 6) {
+//				break;
+//			}
+//			GameResult gameResult = scoreArchive.getResultList().get(0);
+//			GameScoreResponseDto gameScoreInfo = new GameScoreResponseDto(
+//				scoreArchive.getGameType(),
+//				gameResult.getGameId(),
+//				gameResult.getScoreList()
+//			);
+//			gameScoreList.add(gameScoreInfo);
+//			count++;
+//		}
+
+//		List<GameResult> allGameResults = filteredScoreArchives.stream()
+//				.flatMap(scoreArchive -> scoreArchive.getResultList().stream())
+//				.collect(Collectors.toList());
+//
+//		allGameResults.sort(Comparator.comparingInt(GameResult::getGameId).reversed());
+//
+//		System.out.println(allGameResults.toString());
+
+		List<GameScoreResponseDto> gameScoreList = filteredScoreArchives.stream()
+				.flatMap(scoreArchive -> scoreArchive.getResultList().stream()
+						.map(gameResult -> new GameScoreResponseDto(
+								scoreArchive.getGameType(),
+								gameResult.getGameId(),
+								gameResult.getScoreList()
+						))
+				)
+				.limit(6)
+				.collect(Collectors.toList());
+
+
+		int total = 0;
 		// Game counts calculation
 		Map<String, Integer> gameCounts = new TreeMap<>();
 		for (ScoreArchive scoreArchive : scoreArchives) {
-			for (GameResult gameResult : scoreArchive.getResultList()) {
-				String gameType = scoreArchive.getGameType();
-				gameCounts.put(gameType, gameCounts.getOrDefault(gameType, 0) + 1);
-			}
+
+			String gameType = scoreArchive.getGameType();
+			int gameCount = scoreArchive.getResultList().size();
+			gameCounts.put(gameType, gameCount);
+
+			total += gameCount;
 		}
-		gameCounts.put("total", gameScoreList.size());
+		gameCounts.put("total", total);
 
 		return new UserHistoryResponseDto(gameCounts, gameScoreList);
 	}
