@@ -69,6 +69,16 @@ const getTotalAbilityData = async (props: object) => {
   return res;
 };
 
+const getGameData = async (props: object) => {
+  const requestProps = {
+    method: "GET",
+    url: "/ability/",
+    data: props,
+  };
+  const res = await requestGet(requestProps);
+  return res;
+};
+
 export {
   getAbilityData,
   getVideoData,
@@ -77,4 +87,5 @@ export {
   getStatisicsListData,
   getScoreDistribution,
   getTotalAbilityData,
+  getGameData,
 };
