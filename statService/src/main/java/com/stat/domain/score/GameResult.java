@@ -14,14 +14,14 @@ import lombok.ToString;
 @ToString
 public class GameResult {
 
-	private Long gameId;
+	private int gameId;
 	private String date;
 
 	// 게임 아이디를 기준으로 [게임 아이디, 점수, 지구력, 회탄성]
 	private List<Integer> scoreList;
 
 	@Builder
-	public GameResult(Long gameId, String date, List<Integer> scoreList) {
+	public GameResult(int gameId, String date, List<Integer> scoreList) {
 		this.gameId = gameId;
 		this.date = date;
 		this.scoreList = scoreList;
