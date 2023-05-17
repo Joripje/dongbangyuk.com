@@ -15,7 +15,7 @@ const StatisticsListCircles = (props: CircleProps) => {
             onClick={() => props.TypeChangeHandler("all")}
           >
             <ContainerBox>
-              <NumberContainer>{props.gameCounts.total}</NumberContainer>
+              <NumberContainer>{props.gameCounts.total || 0}</NumberContainer>
               <CountContainer>회</CountContainer>
             </ContainerBox>
           </Circle>
@@ -28,7 +28,7 @@ const StatisticsListCircles = (props: CircleProps) => {
             onClick={() => props.TypeChangeHandler("rps")}
           >
             <ContainerBox>
-              <NumberContainer>{props.gameCounts.rps}</NumberContainer>
+              <NumberContainer>{props.gameCounts.rps || 0}</NumberContainer>
               <CountContainer>회</CountContainer>
             </ContainerBox>
           </Circle>
@@ -41,7 +41,7 @@ const StatisticsListCircles = (props: CircleProps) => {
             onClick={() => props.TypeChangeHandler("cat")}
           >
             <ContainerBox>
-              <NumberContainer>{props.gameCounts.cat}</NumberContainer>
+              <NumberContainer>{props.gameCounts.cat || 0}</NumberContainer>
               <CountContainer>회</CountContainer>
             </ContainerBox>
           </Circle>
@@ -54,7 +54,7 @@ const StatisticsListCircles = (props: CircleProps) => {
             onClick={() => props.TypeChangeHandler("road")}
           >
             <ContainerBox>
-              <NumberContainer>{props.gameCounts.road}</NumberContainer>
+              <NumberContainer>{props.gameCounts.road || 0}</NumberContainer>
               <CountContainer>회</CountContainer>
             </ContainerBox>
           </Circle>
@@ -67,7 +67,7 @@ const StatisticsListCircles = (props: CircleProps) => {
             onClick={() => props.TypeChangeHandler("rotate")}
           >
             <ContainerBox>
-              <NumberContainer>{props.gameCounts.rotate}</NumberContainer>
+              <NumberContainer>{props.gameCounts.rotate || 0}</NumberContainer>
               <CountContainer>회</CountContainer>
             </ContainerBox>
           </Circle>
