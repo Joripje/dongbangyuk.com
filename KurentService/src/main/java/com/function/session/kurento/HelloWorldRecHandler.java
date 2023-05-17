@@ -124,6 +124,9 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 					user.release();
 				}
 				break;
+			case "connect":
+				sendToMessage(session);
+				break;
 			// case "play":
 			// 	play(user, session, jsonMessage);
 			// 	break;
@@ -143,6 +146,7 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 				}
 				break;
 			}
+
 			default:
 				sendError(session, "Invalid message with id " + jsonMessage.get("id").getAsString());
 				break;
@@ -481,4 +485,16 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 		}
 	}
 
+	private void sendToMessage(WebSocketSession session) {
+		JsonObject response = new JsonObject();
+		response.addProperty("connection", "connection 유지");
+
+		try {
+			synchronized (session) {
+				session.sendMessage(new TextMessage(response.toString()));
+			}
+		} catch (IOException e) {
+			log.error("Exception sending message", e);
+		}
+	}
 }
