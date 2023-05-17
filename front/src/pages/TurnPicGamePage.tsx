@@ -21,18 +21,25 @@ import {
 } from "assets/images/findRoad";
 import { RootState } from "store";
 import { resetGameState, setBoolState } from "store/testControlSlice";
-import { addTurnAnswer, submitAnswers } from "store/turnFigureSlice";
+import {
+  addTurnAnswer,
+  changeRound,
+  submitAnswers,
+} from "store/turnFigureSlice";
 
 function TurnPicGamePage() {
   const dispatch = useDispatch();
   const [startTime, setStartTime] = useState(new Date());
   const [thisComponent, setThisComponent] = useState<JSX.Element>();
   const [problemNum, setProblemNum] = useState(1);
-
   const { isPreparing, isGaming } = useSelector(
     (state: RootState) => state.testControl
   );
+  const rounds = useSelector(
+    (state: RootState) => state.turnFigure.tempAnswer.rounds
+  );
 
+  // gameStae의 변경에 따라 render할 component 지정
   useEffect(() => {
     const gameType = "road";
     const goal = [
@@ -71,11 +78,11 @@ function TurnPicGamePage() {
     };
 
     if (isGaming) {
+      dispatch(changeRound(1));
       setStartTime(new Date());
       setThisComponent(
         <GameBoard
           setStartTime={() => setStartTime(new Date())}
-          problemNum={problemNum}
           ascProblemNum={() =>
             setProblemNum((prevProblemNum) => prevProblemNum + 1)
           }
@@ -101,19 +108,18 @@ function TurnPicGamePage() {
         );
       }
     }
-  }, [isPreparing, isGaming, problemNum]);
+  }, [isPreparing, isGaming, problemNum, dispatch]);
 
   const onTimeOver = async () => {
-    dispatch(addTurnAnswer());
-
-    if (problemNum >= 20) {
+    // 라운드가 2라면 제출
+    if (rounds === 2) {
       alert("end");
       dispatch(submitAnswers());
       dispatch(resetGameState());
-      return;
     }
 
-    setProblemNum((prevProblemNum) => prevProblemNum + 1);
+    // 라운드를 2라운드로 변경하고 TimerReset
+    dispatch(changeRound(2));
     setStartTime(new Date());
   };
 
@@ -130,7 +136,7 @@ function TurnPicGamePage() {
         ) : isGaming ? (
           <Timer
             startTime={startTime.getTime()}
-            settingTime={31}
+            settingTime={180}
             onExitHandler={onTimeOver}
           />
         ) : (

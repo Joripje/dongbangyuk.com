@@ -14,14 +14,11 @@ import StatisticsTotalPage from "./StatisticsTotalPage";
 import TestCompositionPage from "./TestCompositionPage";
 
 // firebase chat
-import { Chat } from "components/firebase_chat";
-// import { SelectAnswer } from "components/catchCat";
 import ShowOffPage from "./ShowOffPage";
-// import { NotEnough } from "components/game";
-import RpsBoard from "components/rps/RpsBoard";
 
 // testpage
 import TestPage from "./TestPage";
+import { ObjectFigure } from "components/turnFigure";
 
 const routes = [
   {
@@ -64,7 +61,7 @@ const routes = [
   },
   {
     path: "/componentTest",
-    element: <RpsBoard />,
+    element: <ObjectFigure />,
   },
   {
     path: "/recordtest",

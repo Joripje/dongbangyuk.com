@@ -6,6 +6,7 @@ import { RootState } from "store";
 import styled from "styled-components";
 import { Grid } from "@mui/material";
 import { KeyboardDoubleArrowRight } from "@mui/icons-material";
+import ObjectMap from "./ObjectMap";
 
 type RotateProps = {
   rotate: {
@@ -15,18 +16,20 @@ type RotateProps = {
 };
 
 const ObjectFigure = () => {
-  const [object, setObject] = useState<string>("");
+  const [object, setObject] = useState<string | JSX.Element>("");
 
   const answer = useSelector((state: RootState) => state.turnFigure.tempAnswer);
-  const answerList = useSelector(
-    (state: RootState) => state.turnFigure.answerList
+  const { answerList, tempAnswer } = useSelector(
+    (state: RootState) => state.turnFigure
   );
+  const { rounds } = tempAnswer;
 
   useEffect(() => {
     const availableAlph = ["R", "G", "Q", "P", "F", "L"];
     const randNum = Math.floor(Math.random() * 5);
-    setObject(availableAlph[randNum]);
-  }, [answerList]);
+    if (rounds === 1) setObject(availableAlph[randNum]);
+    else if (rounds === 2) setObject(<ObjectMap randNum={randNum} />);
+  }, [answerList, rounds]);
 
   return (
     <ObjectWrapper item xs={5}>

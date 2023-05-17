@@ -4,41 +4,32 @@ import {
   addTurnAnswer,
   clearChoice,
   generateProblem,
-  submitAnswers,
 } from "store/turnFigureSlice";
 
 import { ObjectFigure, FigureControl, TurnHistory } from "./";
 
 import styled from "styled-components";
 import { Button, Grid } from "@mui/material";
-import { resetGameState } from "store/testControlSlice";
 
 type GameBoardProps = {
-  problemNum: number;
   setStartTime: () => void;
   ascProblemNum: () => void;
 };
 
 const GameBoard = (props: GameBoardProps) => {
-  const { problemNum, ascProblemNum, setStartTime } = props;
+  const { ascProblemNum } = props;
   const dispatch = useDispatch();
 
   const onSubmitHandler = (event: MouseEvent) => {
     event.preventDefault();
     dispatch(addTurnAnswer());
-    if (problemNum >= 20) {
-      alert("end");
-      dispatch(submitAnswers());
-      dispatch(resetGameState());
-      return;
-    }
     dispatch(clearChoice());
     dispatch(generateProblem());
 
     ascProblemNum();
-    setStartTime();
   };
 
+  // 처음 렌더링 될 때 문제를 셋팅
   useEffect(() => {
     dispatch(generateProblem());
   }, [dispatch]);
@@ -55,9 +46,10 @@ const GameBoard = (props: GameBoardProps) => {
         <SubmitButton
           onClick={onSubmitHandler}
           variant='contained'
-          color={problemNum === 20 ? "warning" : "primary"}
+          color={"primary"}
         >
-          {problemNum === 20 ? "최종 제출" : "답안 제출"}
+          답안 제출
+          {/* {problemNum === 20 ? "최종 제출" : "답안 제출"} */}
         </SubmitButton>
       </StyledGrid>
     </GridContainer>
