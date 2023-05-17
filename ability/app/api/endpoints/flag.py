@@ -67,6 +67,6 @@ def put_flag(flag_data: FlagBase):
 
 @router.get("/asdfasdfasdf")
 def get_user_id(gameid: int):
-    flag.select_user_id(gameid)
+    user_id = flag.select_user_id(gameid)
 
-    return 1
+    return user_id

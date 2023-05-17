@@ -133,7 +133,7 @@ def select_user_id(gameid):
     user_game = session.query(UserGame).filter_by(game_id=gameid).first()
 
     if user_game:
-        print(user_game)
+        return user_game.user_id
 
     else:
-        print('없음')
+        return x
