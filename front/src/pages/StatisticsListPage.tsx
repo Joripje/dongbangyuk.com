@@ -34,7 +34,7 @@ const StatisticsListPage = () => {
     const fetchData = async () => {
       try {
         const response = await getStatisicsListData({
-          type: gameType,
+          gameType: gameType,
           userId: parsed.userid,
         });
         setCardList(response.gameScoreList);
