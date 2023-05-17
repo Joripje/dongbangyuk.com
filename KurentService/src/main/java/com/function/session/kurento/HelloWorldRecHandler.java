@@ -106,10 +106,11 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 				System.out.println("============== uid: " + uid + "=======================");
 				// String uid = "PqeD5zOWLXauO1AAt81Fn3YoFbI3";
 				// start 요청이 오면 파일 이름 지정
-				RECORDER_FILE_NAME = ++sequence + "_" + uid + ".webm";
 				Long userId = userServiceClient.findByUserId(uid);
 				System.out.println("====================== userId: " + userId + "====================");
 				gameId = gameService.save(new Game(userId, null));
+
+				RECORDER_FILE_NAME = gameId + "_" + uid + ".webm";
 				start(session, jsonMessage);
 
 				break;
