@@ -50,7 +50,7 @@ function FindRoadPage() {
       "교통수단들의 이동 거리와 경로의 중첩 여부는 정답에 영향을 주지 않음",
       "손님에게 도착하지 못한 교통수단이 하나라도 있으면 오답 처리",
       "설치 울타리 수가 정답 울타리 수와 같으면 최대 득점, 초과할수록 획득 점수 감소",
-      "클릭 가능 횟수는 최대 20회"
+      "클릭 가능 횟수는 최대 20회",
     ];
     const imagesList: string[] = [
       findRoad,
@@ -126,7 +126,7 @@ function FindRoadPage() {
         ) : (
           <Timer
             startTime={startTime.getTime()}
-            settingTime={300}
+            settingTime={150}
             onExitHandler={onExitHandler}
           />
         )}

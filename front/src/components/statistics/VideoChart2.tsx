@@ -54,9 +54,9 @@ const VideoChart = (props: VideoChartProps) => {
         setSad(response.sad);
         setSurprised(response.surprised);
         setNeutral(response.neutral);
-        // setVideoPath(response.video_path);
+        setVideoPath(response.video_path);
         setIsLoading(false);
-        // console.log(videoPath);
+        console.log(videoPath);
         // const angryData = angry.map((value, index) => ({ index, value }));
         // console.log("asdfasdf");
         // console.log(angryData);
@@ -150,13 +150,13 @@ const VideoChart = (props: VideoChartProps) => {
               onMouseLeave={handleReferenceAreaMouseLeave}
             >
               {/* <CartesianGrid strokeDasharray="3 3" /> */}
-              <XAxis dataKey="index" tick={false} />
+              <XAxis dataKey='index' tick={false} />
               <YAxis tick={false} hide={true} />
               {/* <Tooltip /> */}
               {/* <Legend verticalAlign="bottom" align="center" /> */}
               <Legend
-                verticalAlign="bottom"
-                align="center"
+                verticalAlign='bottom'
+                align='center'
                 payload={[
                   { value: "분노", type: "circle", color: "#E21818" },
                   { value: "역겨움", type: "circle", color: "#9467BD" },
@@ -167,44 +167,44 @@ const VideoChart = (props: VideoChartProps) => {
                 ]}
               />
               <Line
-                type="monotone"
-                dataKey="angry"
-                stroke="#E21818"
+                type='monotone'
+                dataKey='angry'
+                stroke='#E21818'
                 dot={false}
                 strokeWidth={3}
               />
               <Line
-                type="monotone"
-                dataKey="disgust"
-                stroke="#9467BD"
+                type='monotone'
+                dataKey='disgust'
+                stroke='#9467BD'
                 dot={false}
                 strokeWidth={3}
               />
               <Line
-                type="monotone"
-                dataKey="scared"
-                stroke="#49FF00"
+                type='monotone'
+                dataKey='scared'
+                stroke='#49FF00'
                 dot={false}
                 strokeWidth={3}
               />
               <Line
-                type="monotone"
-                dataKey="happy"
-                stroke="#00FFAB"
+                type='monotone'
+                dataKey='happy'
+                stroke='#00FFAB'
                 dot={false}
                 strokeWidth={3}
               />
               <Line
-                type="monotone"
-                dataKey="sad"
-                stroke="#87A2FB"
+                type='monotone'
+                dataKey='sad'
+                stroke='#87A2FB'
                 dot={false}
                 strokeWidth={3}
               />
               <Line
-                type="monotone"
-                dataKey="surprised"
-                stroke="#FFDE00"
+                type='monotone'
+                dataKey='surprised'
+                stroke='#FFDE00'
                 dot={false}
                 strokeWidth={3}
               />
@@ -225,7 +225,7 @@ const VideoChart = (props: VideoChartProps) => {
                 />
               ))}
               {isReferenceAreaHovered !== -1 && (
-                <ReferenceLine x={isReferenceAreaHovered} stroke="red" />
+                <ReferenceLine x={isReferenceAreaHovered} stroke='red' />
               )}
               {/* <ReferenceArea
           x1={0}

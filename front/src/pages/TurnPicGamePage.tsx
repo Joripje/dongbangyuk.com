@@ -140,7 +140,7 @@ function TurnPicGamePage() {
         ) : isGaming ? (
           <Timer
             startTime={startTime.getTime()}
-            settingTime={180}
+            settingTime={90}
             onExitHandler={onTimeOver}
           />
         ) : (

@@ -9,17 +9,16 @@ function Error404Page() {
 
   // 이제 강제로 가셔야합니다 오홍홍
   useEffect(() => {
-    const onClickHandler = () => {
-      navigate("/member");
+    const on404kHandler = () => {
+      navigate("/main");
     };
     // alert("로그인 완료");
-    onClickHandler();
+    on404kHandler();
   }, [navigate]);
 
   return (
     <React.Fragment>
       <div>hello, here is your 404</div>
-      {/* <button onClick={onClickHandler}>차린건 없지만 여긴 어떠신가요?</button> */}
     </React.Fragment>
   );
 }
