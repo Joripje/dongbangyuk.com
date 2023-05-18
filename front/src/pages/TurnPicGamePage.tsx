@@ -19,7 +19,7 @@ import {
   ninth,
   tenth,
   eleventh,
-  twelfth
+  twelfth,
 } from "assets/images/turnFigure";
 import { RootState } from "store";
 import { resetGameState, setBoolState } from "store/testControlSlice";
@@ -55,7 +55,7 @@ function TurnPicGamePage() {
       "버튼 개수와 클릭 횟수를 최소한으로 사용하요 완성하기",
       "왼쪽, 오른쪽 회전 버튼은 45도 각도로 회전",
       "최대 8개 칸까지만 채울 수 있음",
-      "클릭 가능 횟수는 최대 20회"
+      "클릭 가능 횟수는 최대 20회",
     ];
     const imagesList: string[] = [
       TurnPic,
@@ -70,7 +70,7 @@ function TurnPicGamePage() {
       ninth,
       tenth,
       eleventh,
-      twelfth
+      twelfth,
     ];
     const overviewProps = {
       image: mrt,
@@ -117,7 +117,7 @@ function TurnPicGamePage() {
   const onTimeOver = async () => {
     // 라운드가 2라면 제출
     if (rounds === 2) {
-      alert("end");
+      alert("제출이 완료됐습니다.");
       dispatch(submitAnswers());
       dispatch(resetGameState());
     }

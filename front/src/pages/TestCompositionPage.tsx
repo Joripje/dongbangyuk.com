@@ -4,15 +4,15 @@ import { useSelector, useDispatch } from "react-redux";
 import { resetGameState } from "store/testControlSlice";
 
 import FindRoadPage from "./FindRoadPage";
-import { GameSelect, GameTemplate, NotEnough } from "components/game";
-
-import styled from "styled-components";
-import { Button } from "@mui/material";
 import CatchCatGamePage from "./CatchCatGamePage";
 import TurnPicGamePage from "./TurnPicGamePage";
 import RpsGamePage from "./RpsGamePage";
 import RpsPreparePage from "./RpsPreparePage";
+import { GameSelect, GameTemplate, NotEnough } from "components/game";
 import { FaceDectection } from "components/faceDetect";
+
+import styled from "styled-components";
+import { Button } from "@mui/material";
 
 function TestCompositionPage() {
   const dispatch = useDispatch();
