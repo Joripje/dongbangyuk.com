@@ -9,7 +9,6 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.commons.fileupload.FileItem;
@@ -45,6 +44,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.function.session.api.domain.Game;
 import com.function.session.api.dto.PlaySaveRequestDto;
+import com.function.session.api.dto.RpsSaveRequestDto;
 import com.function.session.api.dto.VideoRequestDto;
 import com.function.session.api.service.GameService;
 import com.function.session.api.service.UploadService;
@@ -53,7 +53,6 @@ import com.function.session.kafka.GameEventProducer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 public class HelloWorldRecHandler extends TextWebSocketHandler {
 
@@ -413,22 +412,29 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 			if (!Files.exists(videoFilePath)) {
 				throw new FileNotFoundException("없어!" + videoFilePath);
 			}
-			
+
 			// 게임 데이터를 가공해서 kafka 에 넣어주기
+			System.out.println("*************** 게임 데이터 받아와서 작업 시작 ***************");
 			ObjectMapper objectMapper = new ObjectMapper();
-			PlaySaveRequestDto dto = objectMapper.readValue(gameResults, PlaySaveRequestDto.class);
 
-			System.out.println("============= dto: " + convertDtoToJsonString(dto));
+			JsonNode jsonNode = objectMapper.readTree(gameResults);
+			String gameType = jsonNode.get("gameType").asText();
 
-			// Long userId = dto.getUserId();
-			String gameType = dto.getGameType();
-			// Long gameId = dto.getGameId();
-			// List<JsonNode> problems = dto.getProblems();
+			System.out.println("gameType = " + gameType);
+			if (gameType.equals("rps")) {
+				System.out.println("[CASE 1] RPS 게임인 경우");
+				RpsSaveRequestDto dto = objectMapper.readValue(gameResults, RpsSaveRequestDto.class);
+				System.out.println("============= dto: " + convertDtoToJsonString(dto));
+				gameEventProducer.publish("kafka.assess.answer.json", convertDtoToJsonString(dto));
 
-			gameEventProducer.publish("kafka.assess.answer.json", convertDtoToJsonString(dto));
+			} else {
+				System.out.println("[CASE 2] NOT RPS 게임인 경우");
 
+				PlaySaveRequestDto dto = objectMapper.readValue(gameResults, PlaySaveRequestDto.class);
+				System.out.println("============= dto: " + convertDtoToJsonString(dto));
+				gameEventProducer.publish("kafka.assess.answer.json", convertDtoToJsonString(dto));
+			}
 			Game game = gameService.findById(gameId);
-
 
 			// 게임을 가져와서 S3 업로드하는 과정
 			System.out.println("flag 2");
@@ -437,7 +443,7 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 			String filePath = uploadService.uploadVideo(convertFileToMultipartFile(file));
 
 			System.out.println("game: " + game.toString());
-			
+
 			// game 내용 업데이트
 			game.update(filePath, gameType);
 			gameService.save(game);
@@ -457,7 +463,7 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 		FileItem fileItem = new DiskFileItem("file"
 			, Files.probeContentType(file.toPath())
 			, false, file.getName()
-			, (int) file.length(),
+			, (int)file.length(),
 			file.getParentFile());
 		System.out.println("flag 1");
 		try {
