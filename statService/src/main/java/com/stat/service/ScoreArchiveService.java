@@ -102,7 +102,7 @@ public class ScoreArchiveService {
 	}
 
 	public GameScoreResponseDto getGameInformationByUserIdAndGameId(int userId, int gameId) {
-		ScoreArchive scoreArchive = scoreArchiveRepository.findByUserIdAndGameId(userId, gameId);
+		ScoreArchive scoreArchive = scoreArchiveRepository.findByUserIdAndGameIds(userId, gameId);
 
 		if (scoreArchive != null) {
 			GameScoreResponseDto dto;

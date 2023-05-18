@@ -11,5 +11,5 @@ public interface ScoreArchiveRepository extends MongoRepository<ScoreArchive, Lo
 
 	Optional<ScoreArchive> findByUserIdAndGameType(int userId, String gameType);
 
-	ScoreArchive findByUserIdAndGameId(int userId, int gameId);
+	ScoreArchive findByUserIdAndGameIds(int userId, int gameId);
 }
