@@ -1,5 +1,8 @@
 import queryString from "query-string";
 import { useLocation } from "react-router-dom";
+
+import { Navbar } from "components/common";
+
 import {
   VideoChart,
   AbilityChart,
@@ -14,6 +17,7 @@ const StatisticsPage = () => {
 
   return (
     <TemplateBox>
+      {/* <Navbar/> */}
       <MainTitleContainer>나의 통계</MainTitleContainer>
       <Divider />
       <TitleContainer>결과보기</TitleContainer>

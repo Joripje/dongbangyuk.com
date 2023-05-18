@@ -1,5 +1,6 @@
 import queryString from "query-string";
 import { useLocation } from "react-router-dom";
+import { Navbar } from "components/common";
 import { TotalAbilityChart, GameRank } from "components/statistics";
 import styled from "styled-components";
 
@@ -10,6 +11,7 @@ const StatisticsTotalPage = () => {
 
   return (
     <TemplateBox>
+      <Navbar/>
       <MainTitleContainer>나의 통계</MainTitleContainer>
       <Divider />
       <TitleContainer>나의 역량</TitleContainer>
@@ -34,6 +36,7 @@ const TemplateBox = styled.div({
   width: "90%",
   // height: "100%",
   background: "#E0F6F4",
+  marginTop: "10vh",
 });
 
 const BoardBox = styled.div({

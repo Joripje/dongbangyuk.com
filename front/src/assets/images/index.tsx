@@ -21,6 +21,7 @@ import voiceImg from "./voiceImg.png";
 
 import LOGO from "./LOGO.png";
 import GG from "./GG.png";
+import DBYK from "./DBYK.png";
 
 export {
   voiceImg,
@@ -42,4 +43,5 @@ export {
   rpsDescript,
   LOGO,
   GG,
+  DBYK,
 };

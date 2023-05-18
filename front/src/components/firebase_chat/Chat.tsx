@@ -12,12 +12,13 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 import { db, auth } from "service/firebase";
+import { borderBottom } from "@mui/system";
 
 function Chat() {
+  const bottomRef = useRef<any>();
   const [newMessage, setNewMessage] = useState("");
   const [messages, setMessages] = useState<any[]>([]);
 
-  const bottomRef = useRef<any>();
   useEffect(() => {
     const messagesRef = collection(db, "messages");
     const queryMessages = query(
@@ -67,7 +68,7 @@ function Chat() {
   };
   return (
     <WrapBox>
-      <h1>채팅 채팅</h1>
+      <ChatTypo>채팅 채팅</ChatTypo>
       <ChatBox>
         {[...messages].reverse().map((message: any) =>
           message.uid === auth?.currentUser?.uid ? (
@@ -88,20 +89,33 @@ function Chat() {
         )}
         <div ref={bottomRef} />
       </ChatBox>
-      <FormBox
-        style={{ display: "flex", justifyContent: "space-between" }}
-        onSubmit={handleSubmit}
-      >
-        <MessageInput
-          value={newMessage}
-          onChange={handleChange}
-          placeholder="메시지를 입력하세요"
-        />
-        <SendButton type="submit">보내기</SendButton>
-      </FormBox>
+        <FormBox
+          onSubmit={handleSubmit}
+        >
+          <MessageInput
+            value={newMessage}
+            onChange={handleChange}
+            placeholder="메시지를 입력하세요"
+          />
+          {/* <SendButton type="submit">보내기</SendButton> */}
+        </FormBox>
     </WrapBox>
   );
 }
+
+const WrapBox = styled.div({
+  backgroundColor: "#DEF5E5",
+  borderRadius: "1rem",
+  marginLeft: "6vw",
+  width: "50vw",
+  height: "65vh",
+});
+
+const ChatTypo = styled.div({
+  padding: '2%',
+  fontSize: '2rem',
+  // borderBottom: 'solid'
+})
 
 const Right = styled.div({
   display: "flex",
@@ -113,26 +127,50 @@ const Left = styled.div({
   flexDirection: "row",
 });
 
-const ChatBox = styled.div({
-  width: "100%",
-  height: "80%",
-  padding: "2rem, 0",
-  overflowY: "scroll",
-});
+// const ChatBox = styled.div({
+//   width: "100%",
+//   height: "80%",
+//   padding: "2rem, 0",
+//   overflowY: "scroll",
+// });
+
+const ChatBox = styled.div`
+  position: relative;
+  height: 75%;
+  overflow-y: scroll;
+  margin: 0 2rem;
+
+  /* Customize the scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px; /* Width of the vertical scrollbar */
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: #f1f1f1; /* Color of the scrollbar track */
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #888; /* Color of the scrollbar thumb */
+    border-radius: 1rem;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #555; /* Color of the scrollbar thumb on hover */
+  }
+`;
 
 const FormBox = styled.form({
-  width: "100%",
-  // padding: "1rem",
-  display: "flex",
-  height: "3rem",
-  // marginLeft: ".5rem",
-  // marginTop: ".5rem",
+  width: "inherit",
+  height: "14%",
+  display: "flex", 
+  alignItems: 'center',
+  // borderTop: 'solid'
 });
 
 const Message = styled.li({
   left: "10rem",
   display: "flex",
-  fontSize: "2rem",
+  fontSize: "1.5rem",
   margin: "1rem",
 });
 const Date = styled.div({
@@ -152,7 +190,6 @@ const MessageBox = styled.ul({
   overflow: "auto",
   display: "flex",
   justifyContent: "space-between",
-  // flexDirection: "row-reverse",
 });
 const MessageBox2 = styled.ul({
   height: "10%",
@@ -166,30 +203,23 @@ const MessageBox2 = styled.ul({
   flexDirection: "row-reverse",
 });
 
-const WrapBox = styled.div({
-  backgroundColor: "#DEF5E5",
-  borderRadius: "1rem",
-  marginLeft: "6vw",
-  // marginTop: "20vh",
-  width: "50vw",
-  height: "60vh",
-  // overflowY: "scroll",
-  paddingBottom: "1rem",
-});
+
 
 const MessageInput = styled.input({
-  width: "100%",
+  width: "90%",
   borderRadius: "1rem",
   height: "3rem",
   backgroundColor: "#575757",
   color: "white",
   fontSize: "2rem",
+  bottom: '1.5rem',
+  marginLeft: '1rem',
+  paddingLeft: "1rem"
 });
 
-const SendButton = styled.button({
-  width: "10%",
-  height: "5rem",
-  visibility: "hidden",
-});
+// const SendButton = styled.button({
+//   width: "10%",
+//   height: "5rem",
+// });
 
 export default Chat;
