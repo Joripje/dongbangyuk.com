@@ -16,10 +16,10 @@ import lombok.Getter;
 public class RpsSaveRequestDto {
 
 	@NotNull(message = "gameId must not be null")
-	private final int gameId;
+	private final Long gameId;
 
 	@NotNull(message = "UserID must not be null")
-	private final int userId;
+	private Long userId;
 
 	@NotNull(message = "GameType must not be null")
 	private final String gameType;
@@ -29,13 +29,18 @@ public class RpsSaveRequestDto {
 	@JsonCreator
 	public RpsSaveRequestDto(
 		@JsonProperty("gameId") String gameId,
-		@JsonProperty("userId") int userId,
+		// @JsonProperty("userId") int userId,
 		@JsonProperty("gameType") String gameType,
 		@JsonProperty("rounds") List<JsonNode> rounds) {
-		this.gameId = Integer.parseInt(gameId);
-		this.userId = userId;
+		this.gameId = Long.parseLong(gameId);
+		// this.userId = userId;
 		this.gameType = gameType;
 		this.rounds = rounds;
 	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
 
 }

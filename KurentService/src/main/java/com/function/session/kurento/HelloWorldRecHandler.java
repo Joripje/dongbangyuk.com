@@ -413,6 +413,8 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 				throw new FileNotFoundException("없어!" + videoFilePath);
 			}
 
+			Game game = gameService.findById(gameId);
+
 			// 게임 데이터를 가공해서 kafka 에 넣어주기
 			System.out.println("*************** 게임 데이터 받아와서 작업 시작 ***************");
 			ObjectMapper objectMapper = new ObjectMapper();
@@ -421,9 +423,11 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 			String gameType = jsonNode.get("gameType").asText();
 
 			System.out.println("gameType = " + gameType);
+
 			if (gameType.equals("rps")) {
 				System.out.println("[CASE 1] RPS 게임인 경우");
 				RpsSaveRequestDto dto = objectMapper.readValue(gameResults, RpsSaveRequestDto.class);
+				dto.setUserId(game.getUserId());
 				System.out.println("============= dto: " + convertDtoToJsonString(dto));
 				gameEventProducer.publish("kafka.assess.answer.json", convertDtoToJsonString(dto));
 
@@ -434,7 +438,7 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 				System.out.println("============= dto: " + convertDtoToJsonString(dto));
 				gameEventProducer.publish("kafka.assess.answer.json", convertDtoToJsonString(dto));
 			}
-			Game game = gameService.findById(gameId);
+			// Game game = gameService.findById(gameId);
 
 			// 게임을 가져와서 S3 업로드하는 과정
 			System.out.println("flag 2");
