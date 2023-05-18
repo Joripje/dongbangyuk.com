@@ -71,13 +71,14 @@ public class StatisticsService {
 		Map<String, Integer> gameCounts = new TreeMap<>();
 		for (ScoreArchive scoreArchive : scoreArchives) {
 			String gameType = scoreArchive.getGameType();
-
-			if (gameCounts.containsKey(gameType)) {
-				int count = gameCounts.get(gameType);
-				gameCounts.put(gameType, count + 1);
-			} else {
-				gameCounts.put(gameType, 1);
-			}
+			// scoreArchive.getResultList().size();
+			// if (gameCounts.containsKey(gameType)) {
+			// 	int count = gameCounts.get(gameType);
+			// 	gameCounts.put(gameType, count + 1);
+			// } else {
+			// 	gameCounts.put(gameType, 1);
+			// }
+			gameCounts.put(gameType, scoreArchive.getResultList().size());
 			total++;
 		}
 		gameCounts.put("total", total);
