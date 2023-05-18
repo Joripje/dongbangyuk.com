@@ -11,7 +11,7 @@ import { getUserInfo } from "api/member";
 
 function UserInfo() {
   const navigate = useNavigate();
-  const [userInfo, setUserInfo] = useState([]);
+  const [userInfo, setUserInfo] = useState<any>([]);
 
   const buttons = ["로그아웃", "회원탈퇴", "회원정보수정"];
 
