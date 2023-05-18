@@ -19,7 +19,9 @@ function UserInfo() {
     getUserInfo().then((res) => {
       setUserInfo(res);
     });
-  }, []);
+  }, [userInfo]);
+
+  console.log(userInfo);
 
   const handleUserInfo = (cmd: string, e: any) => {
     // console.log(cmd);
