@@ -69,7 +69,7 @@ const Nav = styled(AppBar)({
 const Typo1 = styled(Typography)({
   mr: 2,
   display: "flex",
-  fontFamily: "monospace",
+  fontFamily: "Song Myung",
   fontWeight: 700,
   letterSpacing: ".3rem",
   color: "inherit",
