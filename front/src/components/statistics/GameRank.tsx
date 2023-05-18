@@ -122,7 +122,16 @@ const GameRank = (props: GameRankProps) => {
         />
         <YAxis dataKey="value" hide={true} />
         {/* <Tooltip /> */}
-        <Legend />
+        <Legend
+          verticalAlign="bottom"
+          align="center"
+          payload={[
+            { value: "길 만들기", type: "circle", color: "#5FF365" },
+            { value: "가위바위보", type: "circle", color: "#FFDF8C" },
+            { value: "도형 회전하기", type: "circle", color: "#FAC4FF" },
+            { value: "고양이 술래잡기", type: "circle", color: "#5C78C5" },
+          ]}
+        />
         {series.map((s) => (
           <Line
             dataKey="value"
