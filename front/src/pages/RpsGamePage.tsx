@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 
-import Rps from "components/rps/Rps";
 import { Timer } from "components/common";
-import { Loading } from "components/rps";
+import { Rps, Loading } from "components/rps";
 
 import styled from "styled-components";
 import { Box } from "@mui/material";
@@ -21,7 +20,7 @@ type Answer = {
 
 function RpsGamePage() {
   const [startTime, setStartTime] = useState<number>(new Date().getTime());
-  const [settingTime, setSettingTime] = useState<number>(40);
+  const [settingTime, setSettingTime] = useState<number>(20);
   const [isGaming, setIsGaming] = useState<boolean>(true);
   const [round, setRound] = useState<number>(1);
 
@@ -44,7 +43,6 @@ function RpsGamePage() {
       setTimeout(() => {
         setRound(round + 1);
         setStartTime(new Date().getTime());
-        setSettingTime(40);
         setIsGaming(true);
       }, 4000);
     }
@@ -57,9 +55,8 @@ function RpsGamePage() {
       setRound(round + 1);
       setStartTime(new Date().getTime());
       if (round === 1) {
-        setSettingTime(40);
       } else if (round === 2) {
-        setSettingTime(100);
+        setSettingTime(50);
       }
       setIsGaming(true);
     }, 4000);
