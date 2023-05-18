@@ -1,10 +1,9 @@
 // import { useState } from "react";
-import {  rpsDescript } from "assets/images";
 import { PrepareTemplate, StatusBar, PrepareExam } from "components/game";
 import { useSelector } from "react-redux";
 import { RootState } from "store";
 
-import {  
+import {
   rps,
   RPS,
   first,
@@ -18,8 +17,8 @@ import {
   nineth,
   tenth,
   eleventh,
-}
-from "assets/images/rps"
+} from "assets/images/rps";
+import { Timer } from "components/common";
 
 function RpsPreparePage() {
   const isPreparing = useSelector(
@@ -27,7 +26,7 @@ function RpsPreparePage() {
   );
   // const [isPreparing, setIsPreparing] = useState(true);
 
-  const imagesList: string[] = [  
+  const imagesList: string[] = [
     RPS,
     first,
     second,
@@ -39,7 +38,8 @@ function RpsPreparePage() {
     eighth,
     nineth,
     tenth,
-    eleventh,];
+    eleventh,
+  ];
 
   const overviewProps = {
     image: rps,
@@ -70,7 +70,10 @@ function RpsPreparePage() {
 
   return (
     <>
-      <StatusBar gameType={gameType} status='rps' problemNum={3} />
+      <StatusBar gameType={gameType} status='rps' problemNum={3}>
+        <Timer startTime={new Date().getTime()} settingTime={300} />
+      </StatusBar>
+
       {isPreparing ? (
         <PrepareTemplate
           imagesList={imagesList}

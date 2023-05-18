@@ -126,7 +126,7 @@ function FindRoadPage() {
         ) : (
           <Timer
             startTime={startTime.getTime()}
-            settingTime={150}
+            settingTime={300}
             onExitHandler={onExitHandler}
           />
         )}

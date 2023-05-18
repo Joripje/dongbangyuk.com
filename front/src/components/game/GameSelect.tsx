@@ -63,7 +63,7 @@ function GameSelect() {
 
   return (
     <>
-      <RowFlexBox style={{ justifyContent: "center", height: "100%" }}>
+      <RowFlexBox style={{ justifyContent: "space-around", height: "100%" }}>
         {gameOptions.map((item, index) => {
           const { name, ability, time, value, tasteImg } = item;
           return (
@@ -88,7 +88,6 @@ const StyledCard = styled(Card)({
   flexDirection: "column",
   justifyContent: "space-between",
   width: "40%",
-  margin: "2%",
   padding: "2rem 2rem 0rem 2rem",
 
   border: "2px solid gray",
