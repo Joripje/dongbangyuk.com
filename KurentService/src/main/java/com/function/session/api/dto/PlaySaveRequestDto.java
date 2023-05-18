@@ -16,13 +16,16 @@ import lombok.Getter;
 public class PlaySaveRequestDto {
 
 	@NotNull(message = "gameId must not be null")
-	private final int gameId;
+	private final Long gameId;
 
 	@NotNull(message = "UserID must not be null")
-	private final int userId;
+	private Long userId;
 
 	@NotNull(message = "GameType must not be null")
 	private final String gameType;
+
+	@NotNull(message = "Date must not be null")
+	private final String date;
 
 	private final List<JsonNode> problems;
 
@@ -30,12 +33,18 @@ public class PlaySaveRequestDto {
 	public PlaySaveRequestDto(
 		@JsonProperty("gameId") String gameId,
 		@JsonProperty("userId") int userId,
+		@JsonProperty("date") String date,
 		@JsonProperty("gameType") String gameType,
 		@JsonProperty("problems") List<JsonNode> problems) {
-		this.gameId = Integer.parseInt(gameId);
-		this.userId = userId;
+		this.gameId = Long.parseLong(gameId);
+		this.date = date;
+		// this.userId = userId;
 		this.gameType = gameType;
 		this.problems = problems;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 
 }

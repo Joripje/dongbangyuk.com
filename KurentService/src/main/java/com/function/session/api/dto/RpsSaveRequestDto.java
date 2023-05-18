@@ -24,15 +24,20 @@ public class RpsSaveRequestDto {
 	@NotNull(message = "GameType must not be null")
 	private final String gameType;
 
+	@NotNull(message = "Date must not be null")
+	private final String date;
+
 	private final List<JsonNode> rounds;
 
 	@JsonCreator
 	public RpsSaveRequestDto(
 		@JsonProperty("gameId") String gameId,
-		// @JsonProperty("userId") int userId,
+		@JsonProperty("userId") int userId,
+		@JsonProperty("date") String date,
 		@JsonProperty("gameType") String gameType,
 		@JsonProperty("rounds") List<JsonNode> rounds) {
 		this.gameId = Long.parseLong(gameId);
+		this.date = date;
 		// this.userId = userId;
 		this.gameType = gameType;
 		this.rounds = rounds;

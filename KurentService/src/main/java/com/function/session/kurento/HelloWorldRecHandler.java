@@ -435,6 +435,8 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 				System.out.println("[CASE 2] NOT RPS 게임인 경우");
 
 				PlaySaveRequestDto dto = objectMapper.readValue(gameResults, PlaySaveRequestDto.class);
+				dto.setUserId(game.getUserId());
+
 				System.out.println("============= dto: " + convertDtoToJsonString(dto));
 				gameEventProducer.publish("kafka.assess.answer.json", convertDtoToJsonString(dto));
 			}
