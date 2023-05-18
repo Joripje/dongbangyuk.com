@@ -1,7 +1,5 @@
 package com.function.session.api.dto;
 
-import java.util.List;
-
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -27,7 +25,7 @@ public class RpsSaveRequestDto {
 	@NotNull(message = "Date must not be null")
 	private final String date;
 
-	private final List<JsonNode> rounds;
+	private final JsonNode rounds;
 
 	@JsonCreator
 	public RpsSaveRequestDto(
@@ -35,7 +33,7 @@ public class RpsSaveRequestDto {
 		@JsonProperty("userId") String userId,
 		@JsonProperty("date") String date,
 		@JsonProperty("gameType") String gameType,
-		@JsonProperty("rounds") List<JsonNode> rounds) {
+		@JsonProperty("rounds") JsonNode rounds) {
 		this.gameId = Long.parseLong(gameId);
 		this.date = date;
 		// this.userId = userId;
@@ -46,6 +44,5 @@ public class RpsSaveRequestDto {
 	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
-
 
 }
