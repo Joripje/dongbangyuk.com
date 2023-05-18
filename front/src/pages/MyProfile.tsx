@@ -12,12 +12,13 @@ function MyProfile() {
   const handlePage = () => {
     navigate("/statistics/total");
   };
+
   return (
     <div>
       <Navbar />
       <UserInfo />
       <AbilityBox onClick={handlePage}>
-        <h1>click click</h1>
+        <h1>전체 통계 보기</h1>
         <TotalAbilityChart userId={"19"} />
       </AbilityBox>
       <InfoBox>
@@ -29,7 +30,6 @@ function MyProfile() {
 const AbilityBox = styled.button({
   backgroundColor: "#D9F7F3",
   width: "37vw",
-  height: "40%",
   display: "flex",
   marginTop: "4rem",
   marginLeft: "11vw",
@@ -47,7 +47,8 @@ const AbilityBox = styled.button({
 const InfoBox = styled.div({
   backgroundColor: "#D9F7F3",
   width: "37vw",
-  height: "40%",
+  height: "47%",
+  // border: "solid",
   display: "flex",
   marginTop: "4rem",
   marginLeft: "52vw",

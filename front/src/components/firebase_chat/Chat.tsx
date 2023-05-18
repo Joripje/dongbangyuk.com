@@ -18,23 +18,23 @@ function Chat() {
   const [messages, setMessages] = useState<any[]>([]);
 
   const bottomRef = useRef<any>();
-  // useEffect(() => {
-  //   const messagesRef = collection(db, "messages");
-  //   const queryMessages = query(
-  //     messagesRef,
-  //     orderBy("createdAt", "desc"),
-  //     limit(50)
-  //   );
-  //   const unsubscribe = onSnapshot(queryMessages, (snapshot) => {
-  //     let messages: any = [];
-  //     snapshot.forEach((doc) => {
-  //       messages.push({ ...doc.data(), id: doc.id });
-  //     });
-  //     setMessages(messages);
-  //     // console.log(messages.length);
-  //   });
-  //   return () => unsubscribe();
-  // }, []);
+  useEffect(() => {
+    const messagesRef = collection(db, "messages");
+    const queryMessages = query(
+      messagesRef,
+      orderBy("createdAt", "desc"),
+      limit(50)
+    );
+    const unsubscribe = onSnapshot(queryMessages, (snapshot) => {
+      let messages: any = [];
+      snapshot.forEach((doc) => {
+        messages.push({ ...doc.data(), id: doc.id });
+      });
+      setMessages(messages);
+      // console.log(messages.length);
+    });
+    return () => unsubscribe();
+  }, []);
 
   // 최신댓글을 항상 보여줌
   useEffect(() => {
