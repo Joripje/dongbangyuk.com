@@ -23,7 +23,8 @@ const StatisticsListPage = () => {
     total: 0,
   });
   const location = useLocation();
-  const parsed = queryString.parse(location.search);
+  // const parsed = queryString.parse(location.search);
+  const parsed = { userid: 20 };
   // console.log(parsed);
 
   const TypeChangeHandler = (gameType: string) => {
