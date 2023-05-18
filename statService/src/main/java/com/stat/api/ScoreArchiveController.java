@@ -45,6 +45,11 @@ public class ScoreArchiveController {
 		return ResponseEntity.ok(scoreArchiveService.findByUserId(userId));
 	}
 
+	// @ApiOperation(value = "userId 가 입력되었을 때 gameIds 반환")
+	// @GetMapping("/gameIds")
+	// public ResponseEntity<List<GameScoreResponseDto>> getGameIdsByUserId(@RequestParam int userId) {
+	// 	return ResponseEntity.ok(scoreArchiveService.findGameIdsByUserId(userId));
+	// }
 	// @ApiOperation(value = "[TEST] 유저별 게임 최신 기록 단건 조회 - gameType 지정 안하면 게임별 최신 데이터 하나씩 반환")
 	// @GetMapping("/{userId}")
 	// public ResponseEntity<?> searchByUserId(

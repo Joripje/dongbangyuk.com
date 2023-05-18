@@ -1,8 +1,11 @@
 package com.stat.service;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -41,60 +44,20 @@ public class StatisticsService {
 			throw new UserNotFoundException(String.format("%s 님의 게임 응시 내역이 없어요.", userId));
 		}
 
-		List<ScoreArchive> filteredScoreArchives;
+		List<GameScoreResponseDto> gameScoreList;
 
 		if (type.equals("all")) {
-			filteredScoreArchives = scoreArchives;
-		} else {
-			filteredScoreArchives = scoreArchives.stream()
-				.filter(scoreArchive -> scoreArchive.getGameType().equals(type))
-				.collect(Collectors.toList());
-		}
-
-		// Sort the filtered score archives based on the game result date in descending order
-		filteredScoreArchives.sort((s1, s2) -> {
-			int gameId1 = s1.getResultList().get(0).getGameId();
-			int gameId2 = s2.getResultList().get(0).getGameId();
-
-			return gameId2 - gameId1;
-		});
-
-
-//		// Retrieve the latest 6 game scores
-//		List<GameScoreResponseDto> gameScoreList = new ArrayList<>();
-//		int count = 0;
-//		for (ScoreArchive scoreArchive : filteredScoreArchives) {
-//			if (count >= 6) {
-//				break;
-//			}
-//			GameResult gameResult = scoreArchive.getResultList().get(0);
-//			GameScoreResponseDto gameScoreInfo = new GameScoreResponseDto(
-//				scoreArchive.getGameType(),
-//				gameResult.getGameId(),
-//				gameResult.getScoreList()
-//			);
-//			gameScoreList.add(gameScoreInfo);
-//			count++;
-//		}
-
-//		List<GameResult> allGameResults = filteredScoreArchives.stream()
-//				.flatMap(scoreArchive -> scoreArchive.getResultList().stream())
-//				.collect(Collectors.toList());
-//
-//		allGameResults.sort(Comparator.comparingInt(GameResult::getGameId).reversed());
-//
-//		System.out.println(allGameResults.toString());
-
-		List<GameScoreResponseDto> gameScoreList = filteredScoreArchives.stream()
-				.flatMap(scoreArchive -> scoreArchive.getResultList().stream()
-						.map(gameResult -> new GameScoreResponseDto(
-								scoreArchive.getGameType(),
-								gameResult.getGameId(),
-								gameResult.getScoreList()
-						))
-				)
+			gameScoreList = scoreArchiveService.findGameIdsByUserId(userId)
+				.stream()
 				.limit(6)
 				.collect(Collectors.toList());
+
+		} else {
+			gameScoreList = scoreArchiveService.findGameIdsByUserIdAndGameType(userId, type)
+				.stream()
+				.limit(6)
+				.collect(Collectors.toList());
+		}
 
 
 		int total = 0;
@@ -138,14 +101,19 @@ public class StatisticsService {
 				GameResult latestResult = resultList.get(resultList.size() - 1);
 				List<Integer> scoreList = latestResult.getScoreList();
 
-				if (gameType.equals("cat")) {
-					catScore = scoreList.get(0);
-				} else if (gameType.equals("road")) {
-					roadScore = scoreList.get(0);
-				} else if (gameType.equals("rotate")) {
-					rotateScore = scoreList.get(0);
-				} else if (gameType.equals("rps")) {
-					rpsScore = scoreList.get(0);
+				switch (gameType) {
+					case "cat":
+						catScore = scoreList.get(0);
+						break;
+					case "road":
+						roadScore = scoreList.get(0);
+						break;
+					case "rotate":
+						rotateScore = scoreList.get(0);
+						break;
+					case "rps":
+						rpsScore = scoreList.get(0);
+						break;
 				}
 
 				totalGames++;

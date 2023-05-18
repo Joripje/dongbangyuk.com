@@ -24,12 +24,14 @@ public class ScoreArchive {
 	private int userId;
 	private String gameType;	// 게임 종류 (cat, road, rotate, rps)
 	private List<GameResult> resultList = new ArrayList<>();
+	private List<Integer> gameIds = new ArrayList<>();
 
 	@Builder
-	public ScoreArchive(int userId, String gameType, List<GameResult> resultList) {
+	public ScoreArchive(int userId, String gameType, List<GameResult> resultList, List<Integer> gameIds) {
 		this.userId = userId;
 		this.gameType = gameType;
 		this.resultList = resultList;
+		this.gameIds = gameIds;
 	}
 
 }
