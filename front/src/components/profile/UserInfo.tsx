@@ -15,11 +15,11 @@ function UserInfo() {
 
   const buttons = ["로그아웃", "회원탈퇴", "회원정보수정"];
 
-  useEffect(() => {
-    getUserInfo().then((res) => {
-      setUserInfo(res);
-    });
-  }, [userInfo]);
+  // useEffect(() => {
+  //   getUserInfo().then((res) => {
+  //     setUserInfo(res);
+  //   });
+  // }, [userInfo]);
 
   console.log(userInfo);
 

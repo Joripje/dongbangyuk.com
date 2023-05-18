@@ -17,7 +17,6 @@ const StatisticsPage = () => {
 
   return (
     <TemplateBox>
-      {/* <Navbar/> */}
       <MainTitleContainer>나의 통계</MainTitleContainer>
       <Divider />
       <TitleContainer>결과보기</TitleContainer>

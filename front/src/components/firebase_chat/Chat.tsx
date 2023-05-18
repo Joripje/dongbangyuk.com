@@ -12,12 +12,11 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 import { db, auth } from "service/firebase";
-import { borderBottom } from "@mui/system";
 
 function Chat() {
   const bottomRef = useRef<any>();
   const [newMessage, setNewMessage] = useState("");
-  const [messages, setMessages] = useState<any[]>([]);
+  const [messages, setMessages] = useState<object[]>([]);
 
   useEffect(() => {
     const messagesRef = collection(db, "messages");

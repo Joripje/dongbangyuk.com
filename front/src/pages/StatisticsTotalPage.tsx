@@ -1,6 +1,6 @@
 import queryString from "query-string";
 import { useLocation } from "react-router-dom";
-import { Navbar } from "components/common";
+import { Navbar, FooterBar } from "components/common";
 import { TotalAbilityChart, GameRank } from "components/statistics";
 import styled from "styled-components";
 
@@ -10,20 +10,23 @@ const StatisticsTotalPage = () => {
   console.log(parsed);
 
   return (
-    <TemplateBox>
-      <Navbar/>
-      <MainTitleContainer>나의 통계</MainTitleContainer>
-      <Divider />
-      <TitleContainer>나의 역량</TitleContainer>
-      <BoardBox>
-        <TotalAbilityChart userId={parsed.userid?.toString()} />
-      </BoardBox>
-      <Divider />
-      <TitleContainer>나의 위치</TitleContainer>
-      <BoardBox>
-        <GameRank userId={parsed.userid?.toString()} />
-      </BoardBox>
-    </TemplateBox>
+    <>
+      <TemplateBox>
+        <Navbar />
+        <MainTitleContainer>나의 통계</MainTitleContainer>
+        <Divider />
+        <TitleContainer>나의 역량</TitleContainer>
+        <BoardBox>
+          <TotalAbilityChart userId={parsed.userid?.toString()} />
+        </BoardBox>
+        <Divider />
+        <TitleContainer>나의 위치</TitleContainer>
+        <BoardBox>
+          <GameRank userId={parsed.userid?.toString()} />
+        </BoardBox>
+      </TemplateBox>
+      {/* <FooterBar /> */}
+    </>
   );
 };
 const TemplateBox = styled.div({

@@ -10,9 +10,11 @@ import {
 } from "@mui/material";
 import { DBYK } from "assets/images";
 import { NotificationButton } from "components/notification";
+// import Footer from "./Footer"
 
 import { useNavigate } from "react-router-dom";
 import { auth } from "service";
+import { Padding } from "@mui/icons-material";
 function Navbar() {
   const navigate = useNavigate();
   const navOptions = ["역검센터", "결과보기", "프로필"];
@@ -34,6 +36,7 @@ function Navbar() {
     }
   };
   return (
+    <>
     <Nav>
       <HeaderStyle>
         <LogoStyle onClick={() => handleClick("동방역검")}>
@@ -56,8 +59,19 @@ function Navbar() {
         <NotificationButton />
       </HeaderStyle>
     </Nav>
+    {/* <Footer/> */}
+    {/* <StyledFooter>
+      <FooterTypo>
+        <p>© 2023 Copyright DBXQ</p>
+        <p>임소정 | 김민찬 | 김서정 | 배연주 | 조재경 | 지혁주</p>
+      </FooterTypo>
+    </StyledFooter> */}
+    </>
+
   );
 }
+
+
 
 const Nav = styled(AppBar)({
   display: "flex",

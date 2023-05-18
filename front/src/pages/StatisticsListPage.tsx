@@ -2,7 +2,7 @@ import queryString from "query-string";
 import { useLocation } from "react-router-dom";
 import { getStatisicsListData } from "api/statistics";
 import { useState, useEffect } from "react";
-import { Navbar } from "components/common";
+import { Navbar, FooterBar } from "components/common";
 import {
   StatisticsListCircles,
   StatisticListCards,
@@ -49,17 +49,20 @@ const StatisticsListPage = () => {
   }, [gameType, parsed.userid]);
 
   return (
-    <TemplateBox>
-      <Navbar />
-      <MainTitleContainer>나의 통계</MainTitleContainer>
-      <Divider />
-      <StatisticsListCircles
-        gameCounts={gameCounts}
-        TypeChangeHandler={TypeChangeHandler}
-      />
-      <Divider />
-      <StatisticListCards cardList={cardList} />
-    </TemplateBox>
+    <>
+      <TemplateBox>
+        <Navbar />
+        <MainTitleContainer>나의 통계</MainTitleContainer>
+        <Divider />
+        <StatisticsListCircles
+          gameCounts={gameCounts}
+          TypeChangeHandler={TypeChangeHandler}
+        />
+        <Divider />
+        <StatisticListCards cardList={cardList} />
+      </TemplateBox>
+      <FooterBar />
+    </>
   );
 };
 

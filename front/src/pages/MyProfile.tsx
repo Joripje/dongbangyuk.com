@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Navbar } from "components/common";
+import { Navbar, FooterBar } from "components/common";
 import { UserInfo } from "components/profile";
 import { TotalAbilityChart } from "components/statistics";
 import { useNavigate } from "react-router-dom";
@@ -19,6 +19,7 @@ function MyProfile() {
       <PrivateRoute />
       <Navbar />
       <UserInfo />
+      <div style={{display: "flex", flexDirection: "row", justifyContent: "center", marginTop: "2rem"}}>
       <AbilityBox onClick={handlePage}>
         <h1>전체 통계 보기</h1>
         <TotalAbilityChart userId={"19"} />
@@ -26,6 +27,8 @@ function MyProfile() {
       <InfoBox>
         <h1>알림 사항</h1>
       </InfoBox>
+      </div>
+      <FooterBar/>
     </div>
   );
 }
@@ -33,11 +36,12 @@ const AbilityBox = styled.button({
   backgroundColor: "#D9F7F3",
   width: "37vw",
   display: "flex",
-  marginTop: "4rem",
-  marginLeft: "11vw",
+  // marginTop: "4rem",
+  // marginLeft: "11vw",
+  marginRight: "1rem",
   borderRadius: "1rem",
   justifyContent: "center",
-  position: "fixed",
+  // position: "fixed",
   cursor: "pointer",
   transition: "all 0.8s, color 0.3",
   "&:hover": {
@@ -49,14 +53,15 @@ const AbilityBox = styled.button({
 const InfoBox = styled.div({
   backgroundColor: "#D9F7F3",
   width: "37vw",
-  height: "47%",
+  // height: "47%",
   // border: "solid",
   display: "flex",
-  marginTop: "4rem",
-  marginLeft: "52vw",
+  // marginTop: "4rem",
+  // marginLeft: "52vw",
+  marginLeft: "1rem",
   borderRadius: "1rem",
   justifyContent: "center",
-  position: "fixed",
+  // position: "fixed",
 });
 
 const Info = styled.div({
