@@ -1,0 +1,13 @@
+cloud:
+  aws:
+#    s3:
+#      bucket: bossponge
+#    region:
+#      static: ap-northeast-2
+    stack:
+      auto: false
+    credentials:
+      instance-profile: true
+
+REGION_STATIC: ap-northeast-2
+S3_BUCKET: bossponge

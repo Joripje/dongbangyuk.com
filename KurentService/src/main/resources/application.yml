@@ -1,0 +1,38 @@
+spring:
+  profiles:
+    include:
+      - aws
+      - credentials
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://mysql-container:3306/DBXQ?serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: a305
+  kafka:
+    bootstrap-servers: kafka:9092
+    key-serializer: org.apache.kafka.common.serialization.StringSerializer
+    value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+server:
+  port: 8070
+  ssl:
+    key-store: file:/etc/letsencrypt/live/k8a305.p.ssafy.io/keystore.p12
+    key-store-password: a305
+    server.ssl.key-store-type: PKCS12
+    server.ssl.key-alias: sendtospring
+
+cloud:
+  aws:
+    s3:
+      bucket: ${S3_BUCKET}
+    region:
+      static: ${REGION_STATIC}
+    stack:
+      auto: false
+    credentials:
+      instance-profile: true
+      accessKey: ${AWS_ACCESSKEY}
+      secretKey: ${AWS_SECRETKEY}
