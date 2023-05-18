@@ -110,9 +110,7 @@ function SignUp(props: SignUpProps) {
       })
       .then(async (info) => {
         const birth = inputBirth;
-        if (!isLogin) {
-          makeUser({ birthDate: birth });
-        }
+        makeUser({ birthDate: birth });
         navigate("/main");
       })
       .catch((error) => {
