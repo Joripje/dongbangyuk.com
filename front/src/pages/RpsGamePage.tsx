@@ -9,11 +9,11 @@ import { Box } from "@mui/material";
 
 import { postAnswers } from "api/test";
 import { StatusBar } from "components/game";
-
+import { auth } from "service";
 
 type Answer = {
   gameId: number;
-  userId: number;
+  userId: string | undefined;
   date: string;
   gameType: string;
   rounds: {};
@@ -27,7 +27,7 @@ function RpsGamePage() {
 
   const [answer, setAnswer] = useState<Answer>({
     gameId: 1,
-    userId: 1,
+    userId: auth.currentUser?.uid,
     date: new Date().toISOString(),
     gameType: "rps",
     rounds: {

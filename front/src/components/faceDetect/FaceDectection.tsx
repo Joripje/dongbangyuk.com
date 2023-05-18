@@ -8,6 +8,7 @@ import { loading } from "assets/images";
 
 import styled from "styled-components";
 import { RootState } from "store";
+import { closeWebSocket } from "components/common";
 
 const MODEL_URL = "/models";
 
@@ -48,6 +49,7 @@ function FaceDectection() {
       setModelsLoaded(true);
     });
     startVideo();
+    closeWebSocket();
   }, [modelsLoaded]);
 
   useEffect(() => {

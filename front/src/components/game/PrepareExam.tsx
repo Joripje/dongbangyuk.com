@@ -19,6 +19,7 @@ function PrepareExam(props: PrepareExamProps) {
 
   useEffect(() => {
     if (countDown === 10) {
+      start();
     }
 
     const intervalId = setInterval(() => {

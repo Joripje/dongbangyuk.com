@@ -1,9 +1,11 @@
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 import styled from "styled-components";
-import { Card, Grid } from "@mui/material";
+import { Card } from "@mui/material";
 import { setGame } from "store/testControlSlice";
 import { rmt } from "assets/images/findRoad";
+import { openWebSocket } from "components/common";
 
 type GameValue = undefined | "rps" | "road" | "rotate" | "cat";
 
@@ -46,6 +48,10 @@ function GameSelect() {
   const onClickHandler = (value: GameValue) => {
     dispatch(setGame(value));
   };
+
+  useEffect(() => {
+    openWebSocket();
+  }, []);
 
   return (
     <>
