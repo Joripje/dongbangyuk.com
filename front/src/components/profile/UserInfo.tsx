@@ -48,7 +48,7 @@ function UserInfo() {
   return (
     <Box1>
       <UserBox>
-        {/* <ImgBox src={userInfo.profilePath} alt="계묘계묘노" /> */}
+        <ImgBox src={userInfo.profilePath} alt="계묘계묘노" />
         <h1>{auth.currentUser?.displayName}</h1>
       </UserBox>
       <AuthBox>
