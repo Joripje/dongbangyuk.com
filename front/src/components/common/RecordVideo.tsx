@@ -19,16 +19,15 @@ function openWebSocket(): WebSocket {
 
   setInterval(() => {
     sendMessage({ id: "connect" });
-    console.log("웹소켓 연결 연장");
+    // console.log("웹소켓 연결 연장");
   }, 50000);
 
   ws.onmessage = function (message) {
     var parsedMessage = JSON.parse(message.data);
     if (parsedMessage.id !== "iceCandidate") {
-      console.log(parsedMessage.id);
+      // console.log(parsedMessage.id);
       console.info("Received message: " + message.data);
       if (parsedMessage.id === "recording") {
-        console.log("HII");
         localStorage.setItem("gameId", parsedMessage.gameId);
       }
       // 여기서 spring이 주는 gameId 받기 (게임 끝날때 gameId에 넣어서 보냄)
@@ -156,7 +155,7 @@ function start() {
 
 function onOffer(error: string, offerSdp: {}) {
   if (error) return console.error("Error generating the offer");
-  console.log("Invoking SDP offer callback function");
+  // console.log("Invoking SDP offer callback function");
   const userEmail = localStorage.getItem("userEmail");
   const uid = auth.currentUser?.uid;
   const startDate = new Date().toISOString();
@@ -167,11 +166,11 @@ function onOffer(error: string, offerSdp: {}) {
     userEmail: userEmail ? userEmail + "_" + startDate : "",
     uid: uid,
   };
-  console.log("============보내는데이터===============");
-  console.log(message);
-  console.log(uid);
-  console.log(userEmail);
-  console.log(startDate);
+  // console.log("============보내는데이터===============");
+  // console.log(message);
+  // console.log(uid);
+  // console.log(userEmail);
+  // console.log(startDate);
   sendMessage(message);
 }
 
@@ -191,7 +190,7 @@ function onIceCandidate(candidate: string) {
 
 function startResponse(message: { sdpAnswer: {} }) {
   setState(IN_CALL);
-  console.log("SDP answer received from server. Processing ...");
+  // console.log("SDP answer received from server. Processing ...");
 
   myWebRtcPeer.processAnswer(message.sdpAnswer, (error: string) => {
     if (error) return console.error(error);
@@ -200,7 +199,7 @@ function startResponse(message: { sdpAnswer: {} }) {
 
 function stop() {
   // var stopMessageId = state === IN_CALL ? "stop" : "stopPlay";
-  console.log("Stopping video while in " + state + "...");
+  // console.log("Stopping video while in " + state + "...");
   setState(POST_CALL);
   if (myWebRtcPeer) {
     myWebRtcPeer.dispose();

@@ -5,6 +5,7 @@ import { UserInfo } from "components/profile";
 import { TotalAbilityChart } from "components/statistics";
 import { useNavigate } from "react-router-dom";
 import { auth } from "service";
+import PrivateRoute from "components/common/PrivateRoute";
 
 function MyProfile() {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ function MyProfile() {
 
   return (
     <div>
+      <PrivateRoute />
       <Navbar />
       <UserInfo />
       <AbilityBox onClick={handlePage}>
