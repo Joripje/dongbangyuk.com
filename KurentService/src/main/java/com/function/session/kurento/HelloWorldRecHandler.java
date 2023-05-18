@@ -57,8 +57,6 @@ import com.google.gson.JsonObject;
 public class HelloWorldRecHandler extends TextWebSocketHandler {
 
 	private static String RECORDER_FILE_NAME;
-	private static Long sequence = 0L;
-
 	private static Long gameId = 0L;
 
 	private final Logger log = LoggerFactory.getLogger(HelloWorldRecHandler.class);
@@ -450,11 +448,11 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 			System.out.println("game: " + game.toString());
 
 			// game 내용 업데이트
-			game.update(filePath, gameType);
+			game.update(gameType);
 			gameService.save(game);
 			System.out.println("After game: " + game.toString());
 
-			VideoRequestDto requestDto = new VideoRequestDto(gameId, filePath, "cat");
+			VideoRequestDto requestDto = new VideoRequestDto(gameId, filePath, game.getType());
 			System.out.println(requestDto.toString());
 			gameEventProducer.publish("kafka.ai.video.json", convertDtoToJsonString(requestDto));
 			log.info("file upload 성공: " + filePath);
