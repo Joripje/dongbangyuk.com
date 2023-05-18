@@ -20,4 +20,9 @@ public class VideoRequestDto {
 	@JsonProperty("game_type")
 	private String gameType;
 
+	@JsonProperty("start_time")
+	private String startTime;
+
+	@JsonProperty("end_time")
+	private String endTime;
 }

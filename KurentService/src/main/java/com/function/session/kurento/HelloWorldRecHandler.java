@@ -452,7 +452,7 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 			gameService.save(game);
 			System.out.println("After game: " + game.toString());
 
-			VideoRequestDto requestDto = new VideoRequestDto(gameId, filePath, game.getType());
+			VideoRequestDto requestDto = new VideoRequestDto(gameId, filePath, game.getType(), "startTime", "endTime");
 			System.out.println(requestDto.toString());
 			gameEventProducer.publish("kafka.ai.video.json", convertDtoToJsonString(requestDto));
 			log.info("file upload 성공: " + filePath);
