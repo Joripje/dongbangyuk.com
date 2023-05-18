@@ -39,8 +39,7 @@ const GameBoard = (props: GameBoardProps) => {
 
   useEffect(() => {
     const onSubmitHandler = () => {
-      // event.preventDefault();
-      alert("검사가 종료됐습니다.");
+      alert("제출이 완료됐습니다.");
       dispatch(submitCatAnswer());
       dispatch(resetGameState());
     };

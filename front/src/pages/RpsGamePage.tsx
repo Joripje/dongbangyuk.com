@@ -66,6 +66,7 @@ function RpsGamePage() {
     setIsGaming(false);
     // console.log('하윙', answer)
     postAnswers(answer);
+    alert("제출이 완료됐습니다.");
     // navigate("/");
   };
 

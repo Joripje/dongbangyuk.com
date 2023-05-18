@@ -1,7 +1,9 @@
-import { ReactElement } from "react";
+import { useEffect, ReactElement } from "react";
+import { useDispatch } from "react-redux";
+
+import { resetGameState } from "store/testControlSlice";
 
 import VoiceImage from "./VoiceImage";
-
 import styled from "styled-components";
 
 type GameTemplateProps = {
@@ -10,6 +12,13 @@ type GameTemplateProps = {
 
 const GameTemplate = (props: GameTemplateProps) => {
   const { children } = props;
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetGameState());
+    };
+  }, []);
 
   return (
     <TemplateBox>

@@ -10,10 +10,11 @@ import NotificationList from "./NotificationList";
 const NotificationButton = () => {
   const [newNotificationCount, setNewNotificationCount] = useState<number>(0);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [userId, setUserId] = useState(1);
+  const [userId, setUserId] = useState(20);
   const [noList, setNoList] = useState(false);
   const [notificationList, setNotificationList] = useState([]);
   const open = Boolean(anchorEl);
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
     const fetchData = async () => {
@@ -30,6 +31,7 @@ const NotificationButton = () => {
 
     fetchData();
   };
+
   const handleClose = () => {
     setAnchorEl(null);
     setTimeout(() => {
@@ -42,7 +44,7 @@ const NotificationButton = () => {
       try {
         const response = await deleteAllNotification({
           userid: userId,
-          gameid: 1,
+          gameid: localStorage.getItem("gameId"),
         });
         setNotificationList(response);
       } catch (err) {
@@ -57,7 +59,7 @@ const NotificationButton = () => {
     const fetchData = async () => {
       try {
         const response = await getNewNotificationCount({
-          userid: 1,
+          userid: userId,
         });
         setNewNotificationCount(response);
       } catch (err) {
@@ -71,17 +73,17 @@ const NotificationButton = () => {
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
       <IconButton
-        id="basic-button"
+        id='basic-button'
         aria-controls={open ? "basic-menu" : undefined}
-        aria-haspopup="true"
+        aria-haspopup='true'
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
         // disableRipple={true}
-        size="large"
-        color="inherit"
+        size='large'
+        color='inherit'
       >
-        <Badge badgeContent={newNotificationCount} color="warning">
-          <NotificationsNoneIcon fontSize="inherit" />
+        <Badge badgeContent={newNotificationCount} color='warning'>
+          <NotificationsNoneIcon fontSize='inherit' />
         </Badge>
       </IconButton>
       <NotificationList
