@@ -4,7 +4,7 @@
 
 <img title="" src="README_assets/2023-05-18-10-35-04-양반이%20대타.png" alt="" width="180" data-align="center">
 
-**`링크:www.dongbanbyuk.com`**
+**`링크:www.dongbangyuk.com`**
 
 ---
 
