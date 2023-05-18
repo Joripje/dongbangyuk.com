@@ -2,6 +2,8 @@ package com.stat.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -69,66 +71,78 @@ public class ScoreArchiveService {
 
 	@Transactional(readOnly = true)
 	public List<GameScoreResponseDto> findGameIdsByUserId(int userId) {
+		System.out.println();
+		System.out.println("==================== findGameIdsByUserId 호출 ===================");
 		List<ScoreArchive> scoreArchiveList = findByUserId(userId);
 		List<Integer> gameIds = new ArrayList<>();
 		List<GameScoreResponseDto> answer = new ArrayList<>();
 
-		for (ScoreArchive scoreArchive : scoreArchiveList) {
-			gameIds.addAll(scoreArchive.getGameIds());
-		}
+		System.out.println("scoreArchiveList = " + scoreArchiveList.toString());
+		System.out.println("userId 에 대한 게임 결과 개수 = " + scoreArchiveList.size());
 
+		for (ScoreArchive scoreArchive : scoreArchiveList) {
+
+			List<GameResult> resultList = scoreArchive.getResultList();
+			System.out.println("resultList = " + resultList.toString());
+
+			for (GameResult gameResult : resultList) {
+				System.out.println("[resultList] " + gameResult.toString());
+				answer.add(getGameInformationByUserIdAndGameId(userId, gameResult.getGameId()));
+				System.out.println(getGameInformationByUserIdAndGameId(userId, gameResult.getGameId()));
+			}
+		}
+		System.out.println("answer.toString() = " + answer.toString());
 		System.out.println("gameIds = " + gameIds);
 
-		for (int gameId : gameIds) {
-			answer.add(getGameInformationByUserIdAndGameId(userId, gameId));
-		}
 		return answer;
 	}
 
 	@Transactional(readOnly = true)
 	public List<GameScoreResponseDto> findGameIdsByUserIdAndGameType(int userId, String type) {
+		System.out.println("findGameIdsByUserIdAndGameType 호출");
+		
 		ScoreArchive scoreArchive = scoreArchiveRepository.findByUserIdAndGameType(userId, type)
 			.orElseThrow(() -> new GameTypeNotFoundException("해당 게임에 대한 기록이 없어요."));
-		List<Integer> gameIds = scoreArchive.getGameIds();
+
+		List<GameResult> resultList = scoreArchive.getResultList();
 
 		List<GameScoreResponseDto> answer = new ArrayList<>();
-
-		System.out.println("gameIds = " + gameIds);
-
-		for (int gameId : gameIds) {
-			answer.add(getGameInformationByUserIdAndGameId(userId, gameId));
+		for (GameResult gameResult : resultList) {
+			answer.add(getGameInformationByUserIdAndGameId(userId, gameResult.getGameId()));
 		}
+
 		return answer;
 	}
 
+	@Transactional(readOnly = true)
 	public GameScoreResponseDto getGameInformationByUserIdAndGameId(int userId, int gameId) {
-		ScoreArchive scoreArchive = scoreArchiveRepository.findByUserIdAndGameIds(userId, gameId);
+		ScoreArchive scoreArchive = scoreArchiveRepository.findByUserIdAndResultListGameId(userId, gameId);
 
-		if (scoreArchive != null) {
-			GameScoreResponseDto dto;
+		if (scoreArchive == null) {
+			throw new GameTypeNotFoundException("해당하는 데이터가 없어요");
+		}
 
-			List<GameResult> resultList = scoreArchive.getResultList();
-			GameResult gameResult = resultList.stream()
-				.filter(result -> result.getGameId() == gameId)
-				.findFirst()
-				.orElse(null);
+		GameScoreResponseDto dto;
 
-			if (gameResult != null) {
-				String type = scoreArchive.getGameType();
-				List<Integer> scoreList = gameResult.getScoreList();
+		GameResult results = scoreArchive.getResultList().stream()
+			.filter(result -> result.getGameId() == gameId)
+			.findFirst()
+			.orElse(null);
 
-				dto = new GameScoreResponseDto(type, gameId, scoreList);
-				System.out.println("dto = " + dto);
-				return dto;
-			} else {
-				System.out.println("Game not found for the given userId and gameId.");
-				return null;
+		System.out.println("[3] resultList = " + results.toString());
+		// return results;
+		if (results != null) {
+			String type = scoreArchive.getGameType();
+			List<Integer> scoreList = results.getScoreList();
 
-			}
+			dto = new GameScoreResponseDto(type, gameId, scoreList);
+			System.out.println("dto = " + dto);
+			return dto;
 		} else {
-			System.out.println("No document found for the given userId and gameId.");
+			System.out.println("Game not found for the given userId and gameId.");
 			return null;
 
 		}
+
 	}
 }

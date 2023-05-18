@@ -38,6 +38,7 @@ public class StatisticsService {
 	 * 유저 응시 게임 기록 가져오기 : 게임별 최신 점수 + 지구력 평균 + 회복탄력성 평균
 	 */
 	public UserHistoryResponseDto getUserHistoryByUserIdAndGameType(int userId, String type) {
+		System.out.println("============== getUserHistoryByUserIdAndGameType (" + userId + ", " + type + ") 호출 ==============================");
 		List<ScoreArchive> scoreArchives = scoreArchiveRepository.findByUserId(userId);
 
 		if (scoreArchives.isEmpty()) {
@@ -47,31 +48,41 @@ public class StatisticsService {
 		List<GameScoreResponseDto> gameScoreList;
 
 		if (type.equals("all")) {
+			System.out.println("[CASE 1] type NO 지정");
+
 			gameScoreList = scoreArchiveService.findGameIdsByUserId(userId)
 				.stream()
 				.limit(6)
 				.collect(Collectors.toList());
 
 		} else {
+			System.out.println("[CASE 2] type 지정");
+
 			gameScoreList = scoreArchiveService.findGameIdsByUserIdAndGameType(userId, type)
 				.stream()
 				.limit(6)
 				.collect(Collectors.toList());
 		}
 
+		System.out.println("gameScoreList = " + gameScoreList.toString());
 
 		int total = 0;
 		// Game counts calculation
 		Map<String, Integer> gameCounts = new TreeMap<>();
 		for (ScoreArchive scoreArchive : scoreArchives) {
-
 			String gameType = scoreArchive.getGameType();
-			int gameCount = scoreArchive.getResultList().size();
-			gameCounts.put(gameType, gameCount);
 
-			total += gameCount;
+			if (gameCounts.containsKey(gameType)) {
+				int count = gameCounts.get(gameType);
+				gameCounts.put(gameType, count + 1);
+			} else {
+				gameCounts.put(gameType, 1);
+			}
+			total++;
 		}
 		gameCounts.put("total", total);
+
+		System.out.println("gameCounts = " + gameCounts);
 
 		return new UserHistoryResponseDto(gameCounts, gameScoreList);
 	}
