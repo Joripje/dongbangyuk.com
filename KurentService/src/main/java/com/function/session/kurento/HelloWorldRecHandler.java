@@ -414,6 +414,7 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 			}
 
 			Game game = gameService.findById(gameId);
+			System.out.println("************************* game = " + game + " ************************* ");
 
 			// 게임 데이터를 가공해서 kafka 에 넣어주기
 			System.out.println("*************** 게임 데이터 받아와서 작업 시작 ***************");
@@ -433,10 +434,8 @@ public class HelloWorldRecHandler extends TextWebSocketHandler {
 
 			} else {
 				System.out.println("[CASE 2] NOT RPS 게임인 경우");
-
 				PlaySaveRequestDto dto = objectMapper.readValue(gameResults, PlaySaveRequestDto.class);
 				dto.setUserId(game.getUserId());
-
 				System.out.println("============= dto: " + convertDtoToJsonString(dto));
 				gameEventProducer.publish("kafka.assess.answer.json", convertDtoToJsonString(dto));
 			}

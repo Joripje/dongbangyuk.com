@@ -32,7 +32,7 @@ public class RpsSaveRequestDto {
 	@JsonCreator
 	public RpsSaveRequestDto(
 		@JsonProperty("gameId") String gameId,
-		@JsonProperty("userId") int userId,
+		@JsonProperty("userId") String userId,
 		@JsonProperty("date") String date,
 		@JsonProperty("gameType") String gameType,
 		@JsonProperty("rounds") List<JsonNode> rounds) {

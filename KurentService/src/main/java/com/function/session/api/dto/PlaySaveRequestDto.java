@@ -32,7 +32,7 @@ public class PlaySaveRequestDto {
 	@JsonCreator
 	public PlaySaveRequestDto(
 		@JsonProperty("gameId") String gameId,
-		@JsonProperty("userId") int userId,
+		@JsonProperty("userId") String userId,
 		@JsonProperty("date") String date,
 		@JsonProperty("gameType") String gameType,
 		@JsonProperty("problems") List<JsonNode> problems) {
