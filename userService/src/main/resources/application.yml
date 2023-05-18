@@ -1,0 +1,16 @@
+server:
+  port: 8050
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://k8a305.p.ssafy.io:3306/DBXQ?serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: a305
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+firebase:
+  config:
+    path: "src/main/resources/serviceAccountKey.json"
