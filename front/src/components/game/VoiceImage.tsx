@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import { voiceImg } from "assets/images";
 import styled from "styled-components";
@@ -7,6 +8,7 @@ import { setBoolState } from "store/testControlSlice";
 
 function VoiceImage() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleResize = () => {
@@ -23,7 +25,11 @@ function VoiceImage() {
     return () => window.removeEventListener("resize", handleResize);
   }, [dispatch]);
 
-  return <VoiceCheckImg />;
+  const onClickHandler = () => {
+    navigate("/main");
+  };
+
+  return <VoiceCheckImg onClick={onClickHandler} />;
 }
 
 const VoiceCheckImg = styled.div({
@@ -32,6 +38,7 @@ const VoiceCheckImg = styled.div({
   margin: "1rem",
   backgroundImage: `url(${voiceImg})`,
   backgroundSize: "cover",
+  cursor: "pointer",
 });
 
 export default VoiceImage;
