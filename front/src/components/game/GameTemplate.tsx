@@ -5,6 +5,7 @@ import { resetGameState } from "store/testControlSlice";
 
 import VoiceImage from "./VoiceImage";
 import styled from "styled-components";
+import RecordingModal from "./RecordingModal";
 
 type GameTemplateProps = {
   children: ReactElement[] | ReactElement;
@@ -24,6 +25,7 @@ const GameTemplate = (props: GameTemplateProps) => {
     <TemplateBox>
       <VoiceImage />
       <BoardBox>{children}</BoardBox>
+      <RecordingModal />
     </TemplateBox>
   );
 };

@@ -47,9 +47,16 @@ function StatusBar(props: StatusBarProps) {
         <TypoForText>{shownText}</TypoForText>
       </RowFlex>
       <RowFlex style={{ padding: "0 2rem" }}>
-        <JumpButton onClick={onJumpHandler} disabled={!isPreparing || isGaming}>
-          {isPreparing && !isGaming ? "설명 건너뛰기" : ""}
-        </JumpButton>
+        {isPreparing && !isGaming ? (
+          <JumpButton
+            onClick={onJumpHandler}
+            disabled={!isPreparing || isGaming}
+          >
+            설명 건너뛰기
+          </JumpButton>
+        ) : (
+          <></>
+        )}
         {children}
       </RowFlex>
     </StatusBarBox>
@@ -109,9 +116,18 @@ const TypoForText = styled.div({
   marginLeft: "1rem",
 });
 
-const JumpButton = styled(Button)({
-  width: "10rem",
-  height: "80%",
+const JumpButton = styled.button({
+  width: "12rem",
+  height: "3.5rem",
+  marginRight: "3rem",
+
+  fontSize: "1.2rem",
+  fontWeight: 1000,
+
+  color: "white",
+  background: "green",
+  borderRadius: "2rem",
+  cursor: "pointer",
 });
 
 export default StatusBar;
