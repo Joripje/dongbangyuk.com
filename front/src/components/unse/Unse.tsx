@@ -71,12 +71,14 @@ function Unse() {
     </Box5>
   );
   return (
+    <div style={{display: 'flex'}}>
     <WrapBox>
       <Box1>
-        <h1>오늘의 운세</h1>
+        <TitleTypo>오늘의 운세</TitleTypo>
       </Box1>
       <Box3>
         <form onSubmit={handleLuck}>
+          <div style={{display: "flex", justifyContent: "space-around"}}>
           <FieldBox id="submit">
             <Box2>
               <label htmlFor="birth">생일</label>
@@ -109,14 +111,15 @@ function Unse() {
             </Box2>
           </FieldBox>
           <Button1 type="submit">제출</Button1>
+          </div>
         </form>
       </Box3>
       <Box4>
-        <div>{todayluck.data}</div>
+        <ContentTypo>{todayluck.data}</ContentTypo>
       </Box4>
       <div>
         <Box1>
-          <h1>길흉화복</h1>
+          <TitleTypo>2023 계묘년 5월의 길일</TitleTypo>
         </Box1>
         <Wrap1>
           {luckyday.map((info: any, idx: number) => (
@@ -130,6 +133,7 @@ function Unse() {
         <ModalBox>{arridx !== null && <Luckyday index={arridx} />}</ModalBox>
       </Modal>
     </WrapBox>
+    </div>
   );
 }
 
@@ -196,11 +200,11 @@ const Wrap1 = styled.div({
 });
 
 const Box1 = styled.div({
-  textAlign: "center",
-  background: "linear-gradient(#292931, #FF0000)",
-  backgroundClip: "text",
-  WebkitBackgroundClip: "text",
-  color: "transparent",
+  // textAlign: "center",
+  // background: "linear-gradient(#292931, #FF0000)",
+  // backgroundClip: "text",
+  // WebkitBackgroundClip: "text",
+  // color: "transparent",
 });
 
 const Box2 = styled.div({
@@ -208,19 +212,21 @@ const Box2 = styled.div({
 });
 
 const Box3 = styled.div({
-  border: "dashed",
+  // border: "dashed",
   padding: "1rem",
   borderRadius: "1rem",
-  borderColor: "#A0D8B3",
+  // borderColor: "#A0D8B3",
+  backgroundColor: "white",
+  margin: "1rem",
 });
 
 const Box4 = styled.div({
-  textAlign: "center",
-  background: "linear-gradient(#D21312, #FEA1A1)",
-  backgroundClip: "text",
-  WebkitBackgroundClip: "text",
-  color: "transparent",
-  fontFamily: " system-ui",
+  // textAlign: "center",
+  // background: "linear-gradient(#D21312, #FEA1A1)",
+  // backgroundClip: "text",
+  // WebkitBackgroundClip: "text",
+  // color: "transparent",
+  // fontFamily: " system-ui",
   padding: "1rem",
   fontSize: "1.5rem",
 });
@@ -231,12 +237,13 @@ const Button1 = styled.button({
   marginTop: "1rem",
   borderRadius: "1rem",
   backgroundColor: "white",
+  cursor: "pointer",
 });
 
 const FieldBox = styled.div({
   // backgroundColor: "#FEA1A1",
-  border: "solid",
-  borderColor: "#B799FF",
+  // border: "solid",
+  // borderColor: "#B799FF",
   borderRadius: "1rem",
   padding: ".5rem",
 });
@@ -254,14 +261,56 @@ const Radio = styled.input.attrs({ type: "radio" })({
   height: "1.5rem",
   width: "1.5rem",
   marginLeft: "1.5rem",
+  cursor: "pointer",
 });
 
-const WrapBox = styled.div({
-  width: "35vw",
-  // backgroundColor: "grey",
-  height: "62vh",
-  borderRadius: "1rem",
-  marginLeft: "2rem",
-  overflow: "scroll",
-});
+// const WrapBox = styled.div({
+//   width: "35vw",
+//   // backgroundColor: "grey",
+//   height: "62vh",
+//   borderRadius: "1rem",
+//   marginLeft: "2rem",
+//   overflowY: "scroll",
+// });
+
+const WrapBox = styled.div`
+  background-color: rgb(222, 245, 229);
+  width: 34vw;
+  height: 62vh;
+  border-radius: 1rem;
+  margin-left: 2rem;
+  padding: 1rem;
+  overflow-y: scroll;
+
+  /* Customize the scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px; /* Width of the vertical scrollbar */
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: #f1f1f1; /* Color of the scrollbar track */
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #888; /* Color of the scrollbar thumb */
+    border-radius: 1rem;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #555; /* Color of the scrollbar thumb on hover */
+  }
+`;
+
+
+
+const TitleTypo = styled.p`
+  font-size: 1.5rem;
+  font-weight: bold;
+`
+
+const ContentTypo = styled.p`
+  font-size: 1.2rem;
+  text-align: justify;
+`
+
 export default Unse;
