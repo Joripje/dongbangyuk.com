@@ -7,8 +7,8 @@ import { GameBoard } from "../components/catchCat";
 import { PrepareTemplate, PrepareExam, StatusBar } from "components/game";
 
 import {
-  rmt,
-  findRoad,
+  has,
+  catchCat,
   first,
   second,
   third,
@@ -16,10 +16,7 @@ import {
   fifth,
   sixth,
   seventh,
-  eighth,
-  nineth,
-  tenth,
-} from "assets/images/findRoad";
+} from "assets/images/catch";
 import { Timer } from "components/common";
 import { setBoolState } from "store/testControlSlice";
 
@@ -34,20 +31,21 @@ function CatchCatGamePage() {
   );
 
   useEffect(() => {
-    const gameType = "road";
+    const gameType = "cat";
     const goal = [
-      "매트릭스에 정답 수 만큼의 울타리를 설치하여 모든 교통수단을 정해진 손님에게 보내기",
+      "차례로 등장하는 생쥐 무리와 고양이 무리의 위치를 비교하여 특정 고양이가 생쥐를 찾았는지 판단하기"
     ];
     const descriptions = [
-      "각 교통수단의 위치와 대응하는 손님의 위치를 확인하기",
-      "각 교통수단이 정해진 손님에게 도착하도록 매트릭스에 울타리를 설치하기",
-      "교통 수단은 울타리가 없으면 직진하고 울타리를 만나면 90도 회전",
-      "잘못 설치된 울타리는 다시 클릭하여 제거하기",
-      "울타리 설치를 마친 뒤 정답 수에 맞는 울타리가 사용되었는지 확인하기",
-      "제출 버튼을 클릭하여 응답 제출하기",
+      "생쥐 무리가 등장하는 위치 기억하기",
+      "고양이 무리가 등장하면 생쥐 무리가 등장했던 위치와 비교하기",
+      "빨간 칸과 파란 칸으로 표시된 고양이들이 각각 생쥐를 찾았는지 판단하기",
+      "빨간 칸의 고양이가 생쥐를 찾았는지 판단하고 확신하는 정도 응답하기",
+      "파란 칸의 고양이가 생쥐를 찾았는지 판단하고 확인하는 정도 응답하기",
+      "한 문항에서 생쥐 무리와 고양이 무리 수는 동일함",
+      "제한 시간을 초과하지 않도록 하기"
     ];
     const imagesList: string[] = [
-      findRoad,
+      catchCat,
       first,
       second,
       third,
@@ -55,19 +53,16 @@ function CatchCatGamePage() {
       fifth,
       sixth,
       seventh,
-      eighth,
-      nineth,
-      tenth,
     ];
     const overviewProps = {
-      image: rmt,
-      name: "길 만들기",
+      image: has,
+      name: "고양이 술래잡기",
       descript:
-        "매트릭스 위에 울타리를 설치하여 교통수단을 정해진 손님에게 보내주세요.",
-      minutes: 3,
+        "생쥐 무리가 등장하는 위치를 기억하여 고양이가 생쥐를 찾았는지 판단해 주세요.",
+      minutes: 4,
       rounds: 1,
-      problems: 0,
-      ability: "계획능력",
+      problems: 5,
+      ability: "작업기억",
     };
 
     if (isGaming) {
