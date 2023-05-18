@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 
-import { Navbar } from "components/common";
+import { Navbar, FooterBar } from "components/common";
 import { Unse } from "components/unse";
 
 import { Chat } from "components/firebase_chat";
@@ -40,6 +40,7 @@ function MainPage() {
         <Chat />
         <Unse />
       </Wrap>
+      {/* <FooterBar/> */}
     </>
   );
 }
