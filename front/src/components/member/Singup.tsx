@@ -8,6 +8,9 @@ import {
   updateProfile,
 } from "firebase/auth";
 
+import { makeUser } from "api/member";
+import { request } from "api/api";
+
 import { auth } from "service";
 
 import { Box, Grid, Button, TextField } from "@mui/material";
@@ -32,6 +35,7 @@ function SignUp(props: SignUpProps) {
   const [inputPassword, setInputPassword] = useState("");
   const [inputDisplayName, setInputDisplayName] = useState("");
   const [inputPhoneNumber, setInputPhoneNumber] = useState("");
+  const [inputBirth, setInputBirth] = useState("");
 
   const textFieldOptions: Array<textFieldOption> = [
     {
@@ -66,6 +70,14 @@ function SignUp(props: SignUpProps) {
       focus: false,
       type: "phoneNumber",
     },
+    {
+      id: "birth",
+      target: inputPhoneNumber,
+      setTarget: (birthDay) => setInputBirth(birthDay),
+      label: "생일",
+      focus: false,
+      type: "date",
+    },
   ];
   const onTypingHandler = (event: ChangeEvent<HTMLInputElement>) => {
     for (const key in textFieldOptions) {
@@ -76,6 +88,7 @@ function SignUp(props: SignUpProps) {
       }
     }
   };
+
   // phonenumbersms updateprofile에서 처리가 안댐 폰번호 인증 필요
   const onClickHandler = () => {
     const authFunction = isLogin
@@ -84,34 +97,28 @@ function SignUp(props: SignUpProps) {
     authFunction(auth, inputEmail, inputPassword)
       .then((userInfo) => {
         // 창이 닫히면 자동 로그아웃 됨
+        // console.log(userInfo.user.uid);
         const user = auth.currentUser;
         if (user) {
           updateProfile(user, {
             displayName: inputDisplayName,
           });
           setPersistence(auth, browserSessionPersistence);
-          navigate("/main");
+          // navigate("/main");
         }
+        return userInfo;
+      })
+      .then(async (info) => {
+        const birth = inputBirth;
+        if (!isLogin) {
+          makeUser({ birthDate: birth });
+        }
+        navigate("/main");
       })
       .catch((error) => {
         console.log(error);
       });
   };
-
-  // const onClickHandler = () => {
-  //   const authFunction = isLogin
-  //     ? signInWithEmailAndPassword
-  //     : createUserWithEmailAndPassword;
-  //   authFunction(auth, inputEmail, inputPassword)
-  //     .then((userInfo) => {
-  //       // 창이 닫히면 자동 로그아웃 됨
-  //       setPersistence(auth, browserSessionPersistence);
-  //       navigate("/main");
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
 
   return (
     <Box component="form">
@@ -131,6 +138,9 @@ function SignUp(props: SignUpProps) {
                 label={item?.label}
                 type={item.type}
                 fullWidth
+                InputLabelProps={{
+                  shrink: true,
+                }}
               />
             </Grid>
           );

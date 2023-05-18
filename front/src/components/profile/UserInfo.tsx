@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Box } from "@mui/system";
 import { useNavigate } from "react-router-dom";
@@ -7,10 +7,19 @@ import { signOut, deleteUser } from "firebase/auth";
 
 import hackjoo from "../../assets/images/profile/hackjoo.png";
 
+import { getUserInfo } from "api/member";
+
 function UserInfo() {
   const navigate = useNavigate();
+  const [userInfo, setUserInfo] = useState([]);
 
   const buttons = ["로그아웃", "회원탈퇴", "회원정보수정"];
+
+  useEffect(() => {
+    getUserInfo().then((res) => {
+      setUserInfo(res);
+    });
+  }, []);
 
   const handleUserInfo = (cmd: string, e: any) => {
     // console.log(cmd);
@@ -39,8 +48,8 @@ function UserInfo() {
   return (
     <Box1>
       <UserBox>
-        <ImgBox src={hackjoo} alt="계묘계묘노" />
-        <h1>username</h1>
+        {/* <ImgBox src={userInfo.profilePath} alt="계묘계묘노" /> */}
+        <h1>{auth.currentUser?.displayName}</h1>
       </UserBox>
       <AuthBox>
         {buttons.map((cmd, idx) => (

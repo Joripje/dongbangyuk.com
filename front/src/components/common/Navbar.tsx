@@ -20,7 +20,7 @@ function Navbar() {
   // console.log(auth.currentUser);
   const handleClick = (page: string, e: any) => {
     if (page === "역검센터") {
-      navigate("/test/prepare");
+      navigate("/test");
     } else if (page === "프로필") {
       navigate("/profile");
     } else if (page === "결과보기") {
@@ -75,7 +75,7 @@ const Typo1 = styled(Typography)({
   color: "inherit",
   textDecoration: "none",
   cursor: "pointer",
-  background: "-webkit-linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
+  // background: "-webkit-linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
   borderRadius: "1rem",
 });
 

@@ -4,20 +4,20 @@ type DataType = {
   [key: string]: undefined | string | number;
 };
 
-const getUserInfo = (props: object) => {
+const getUserInfo = () => {
   const requestProps = {
     method: "GET",
     url: "/users/myInfo",
-    data: props,
+    // data: props,
   };
   const res = request(requestProps);
   return res;
 };
 
-const makeUser = (props: object) => {
+const makeUser = (props: any) => {
   const requestProps = {
     method: "POST",
-    url: "/users",
+    url: "/users/register",
     data: props,
   };
   const res = request(requestProps);

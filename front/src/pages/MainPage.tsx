@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 
 import { Navbar } from "components/common";
@@ -9,7 +9,6 @@ import { useNavigate } from "react-router-dom";
 import { auth } from "service";
 
 function MainPage() {
-  console.log(auth.currentUser);
   const navigate = useNavigate();
   const handlePage = (e: any) => {
     if (e.target.value === "test") {
@@ -20,19 +19,20 @@ function MainPage() {
       navigate("/statistics/list");
     }
   };
+
   return (
     <>
       <Navbar />
       <Wrapper>
         <MainBox>
           <Button value="test" onClick={handlePage}>
-            <h1>실전 응시</h1>
+            실전 응시
           </Button>
           <Button value="result-total" onClick={handlePage}>
-            <h1>전체 통계</h1>
+            전체 통계
           </Button>
           <Button value="result-detail" onClick={handlePage}>
-            <h1>결과 보기</h1>
+            결과 보기
           </Button>
         </MainBox>
       </Wrapper>
@@ -62,6 +62,7 @@ const UserBox = styled.div({
   textAlign: "center",
 });
 const Button = styled.button({
+  fontSize: "2rem",
   backgroundColor: "#F4F4F5",
   width: "30%",
   height: "90%",
