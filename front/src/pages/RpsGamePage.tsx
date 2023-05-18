@@ -1,18 +1,18 @@
 import { useState, useEffect } from "react";
 
-import Rps from "components/rps/Rps";
 import { Timer } from "components/common";
-import { Loading } from "components/rps";
+import { Rps, Loading } from "components/rps";
 
 import styled from "styled-components";
 import { Box } from "@mui/material";
 
 import { postAnswers } from "api/test";
 import { StatusBar } from "components/game";
+import { auth } from "service";
 
 type Answer = {
   gameId: number;
-  userId: number;
+  userId: string | undefined;
   date: string;
   gameType: string;
   rounds: {};
@@ -20,13 +20,13 @@ type Answer = {
 
 function RpsGamePage() {
   const [startTime, setStartTime] = useState<number>(new Date().getTime());
-  const [settingTime, setSettingTime] = useState<number>(40);
+  const [settingTime, setSettingTime] = useState<number>(20);
   const [isGaming, setIsGaming] = useState<boolean>(true);
   const [round, setRound] = useState<number>(1);
 
   const [answer, setAnswer] = useState<Answer>({
     gameId: 1,
-    userId: 1,
+    userId: auth.currentUser?.uid,
     date: new Date().toISOString(),
     gameType: "rps",
     rounds: {
@@ -43,7 +43,6 @@ function RpsGamePage() {
       setTimeout(() => {
         setRound(round + 1);
         setStartTime(new Date().getTime());
-        setSettingTime(40);
         setIsGaming(true);
       }, 4000);
     }
@@ -56,9 +55,8 @@ function RpsGamePage() {
       setRound(round + 1);
       setStartTime(new Date().getTime());
       if (round === 1) {
-        setSettingTime(40);
       } else if (round === 2) {
-        setSettingTime(100);
+        setSettingTime(50);
       }
       setIsGaming(true);
     }, 4000);
