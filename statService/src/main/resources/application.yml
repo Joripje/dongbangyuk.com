@@ -1,0 +1,28 @@
+server:
+  port: 8060
+
+spring:
+  profiles:
+    active: credentials
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://k8a305.p.ssafy.io:3306/DBXQ?serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: a305
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  data:
+    mongodb:
+      host: k8a305.p.ssafy.io
+      port: 27017
+      database: games
+      username: ${MONGODB_USERNAME}
+      password: ${MONGODB_PASSWORD}
+      authentication-database: admin
+      authentication-mechanism: SCRAM-SHA-1
+  cloud:
+    aws:
+      credentials:
+        accessKey: AWS_ACCESSKEY
+        secretKey: AWS_SECRETKEY
