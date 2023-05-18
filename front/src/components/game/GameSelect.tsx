@@ -5,6 +5,9 @@ import styled from "styled-components";
 import { Card } from "@mui/material";
 import { setGame } from "store/testControlSlice";
 import { rmt } from "assets/images/findRoad";
+import { has } from "assets/images/catch";
+import { mrt } from "assets/images/turnFigure";
+import { rps } from "assets/images/rps";
 import { openWebSocket } from "components/common";
 
 type GameValue = undefined | "rps" | "road" | "rotate" | "cat";
@@ -14,6 +17,7 @@ type GameOption = {
   ability: string;
   time: number;
   value: GameValue;
+  tasteImg: string;
 };
 
 function GameSelect() {
@@ -24,24 +28,28 @@ function GameSelect() {
       ability: "계획 능력",
       time: 3,
       value: "road",
+      tasteImg: rmt,
     },
     {
       name: "가위 바위 보",
       ability: "인지 능력",
       time: 3,
       value: "rps",
+      tasteImg: rps,
     },
     {
       name: "도형 회전하기",
       ability: "인지 능력",
       time: 4,
       value: "rotate",
+      tasteImg: mrt,
     },
     {
       name: "고양이 술래잡기",
       ability: "인지 능력",
       time: 4,
       value: "cat",
+      tasteImg: has,
     },
   ];
 
@@ -57,10 +65,10 @@ function GameSelect() {
     <>
       <RowFlexBox style={{ justifyContent: "center", height: "100%" }}>
         {gameOptions.map((item, index) => {
-          const { name, ability, time, value } = item;
+          const { name, ability, time, value, tasteImg } = item;
           return (
             <StyledCard key={index} onClick={() => onClickHandler(value)}>
-              <GameImg src={rmt} alt='' />
+              <GameImg src={tasteImg} alt='' />
               <RowFlexBox>
                 <TypoForGameName>{name}</TypoForGameName>
                 <TypoForAbility>

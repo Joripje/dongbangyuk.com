@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "store";
 import styled from "styled-components";
 
 type StatusCircleProps = {
@@ -6,30 +7,27 @@ type StatusCircleProps = {
 };
 
 function RecordingModal() {
-  const [isRecording, setIsRecording] = useState<boolean>(false);
+  const isGaming = useSelector(
+    (state: RootState) => state.testControl.isGaming
+  );
   return (
-    <div>
-      <ModalWrapper>
-        <StatusCircle isRecording={isRecording} />
-        {isRecording ? "지금은 촬영 중이랍니다." : "지금은 촬영 중이 아니에요."}
-      </ModalWrapper>
-      <button
-        onClick={() => {
-          setIsRecording(!isRecording);
-        }}
-      >
-        Hello Its tempButton
-      </button>
-    </div>
+    <ModalWrapper>
+      <StatusCircle isRecording={isGaming} />
+      {isGaming ? "지금은 촬영 중이랍니다." : "지금은 촬영 중이 아니에요."}
+    </ModalWrapper>
   );
 }
 
 const ModalWrapper = styled.div({
+  position: "absolute",
+  top: "5vh",
+  right: "5vw",
+
   display: "flex",
   justifyContent: "space-around",
   alignItems: "center",
 
-  width: "25vw",
+  width: "15vw",
   height: "3rem",
   color: "white",
   background: "#444444",
