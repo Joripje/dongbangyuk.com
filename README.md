@@ -163,7 +163,7 @@
 
 ## 3. 기술적 특징 & 아키텍쳐
 
-## <img src="C:\Users\SSAFY\Desktop\305\S08P31A305\README_assets\Untitled (1).png" alt="Untitled (1)" style="zoom:80%;" />
+<img src="README_assets/Untitled (1).png">
 
 ##### - HOC 패턴 렌더링
 
