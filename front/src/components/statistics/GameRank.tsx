@@ -71,7 +71,8 @@ const GameRank = (props: GameRankProps) => {
     const fetchAbilityData = async () => {
       try {
         const response = await getTotalAbilityData({
-          userId: props.userId,
+          userId: 20,
+          // userId: props.userId,
         });
 
         setRpsScore(response.rpsScore);
@@ -115,16 +116,16 @@ const GameRank = (props: GameRankProps) => {
     <>
       <LineChart width={800} height={600}>
         <XAxis
-          dataKey="level"
+          dataKey='level'
           allowDuplicatedCategory={false}
           tick={false}
           padding={{ left: 75, right: 75 }}
         />
-        <YAxis dataKey="value" hide={true} />
+        <YAxis dataKey='value' hide={true} />
         {/* <Tooltip /> */}
         <Legend
-          verticalAlign="bottom"
-          align="center"
+          verticalAlign='bottom'
+          align='center'
           payload={[
             { value: "길 만들기", type: "circle", color: "#5FF365" },
             { value: "가위바위보", type: "circle", color: "#FFDF8C" },
@@ -134,7 +135,7 @@ const GameRank = (props: GameRankProps) => {
         />
         {series.map((s) => (
           <Line
-            dataKey="value"
+            dataKey='value'
             data={s.data}
             name={s.name}
             key={s.name}
@@ -143,10 +144,10 @@ const GameRank = (props: GameRankProps) => {
             stroke={s.color}
           />
         ))}
-        <ReferenceLine x={rpsScore} stroke="red" strokeWidth={3} />
-        <ReferenceLine x={roadScore} stroke="red" strokeWidth={3} />
-        <ReferenceLine x={rotateScore} stroke="red" strokeWidth={3} />
-        <ReferenceLine x={catScore} stroke="red" strokeWidth={3} />
+        <ReferenceLine x={rpsScore} stroke='red' strokeWidth={3} />
+        <ReferenceLine x={roadScore} stroke='red' strokeWidth={3} />
+        <ReferenceLine x={rotateScore} stroke='red' strokeWidth={3} />
+        <ReferenceLine x={catScore} stroke='red' strokeWidth={3} />
       </LineChart>
       {isNoData === true && (
         <BoardBox>

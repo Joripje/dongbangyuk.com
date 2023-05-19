@@ -26,8 +26,13 @@ const TotalAbilityChart = (props: TotalAbilityChartProps) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const temp = sessionStorage.getItem(
+          "firebase:authUser:AIzaSyDHxDUzN2biYkuSKL8_HbSItWHEBq9SEig:[DEFAULT]"
+        );
+        console.log(JSON.parse(temp ? temp : "")?.uid);
         const response = await getTotalAbilityData({
-          userId: props.userId,
+          userId: 20,
+          // userId: JSON.parse(temp ? temp : "")?.uid,
         });
 
         setRpsScore(response.rpsScore);
@@ -76,12 +81,12 @@ const TotalAbilityChart = (props: TotalAbilityChartProps) => {
     <>
       <RadarChart width={400} height={400} data={abilityData}>
         <PolarGrid />
-        <PolarAngleAxis dataKey="ability" />
+        <PolarAngleAxis dataKey='ability' />
         <PolarRadiusAxis domain={[0, 5]} tickCount={6} />
         <Radar
-          dataKey="level"
-          stroke="#8884d8"
-          fill="#8884d8"
+          dataKey='level'
+          stroke='#8884d8'
+          fill='#8884d8'
           fillOpacity={0.6}
         />
       </RadarChart>
