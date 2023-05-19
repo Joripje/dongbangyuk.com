@@ -17,7 +17,7 @@ import { auth } from "service";
 import { Padding } from "@mui/icons-material";
 function Navbar() {
   const navigate = useNavigate();
-  const navOptions = ["역검센터", "결과보기", "마이페이지"];
+  const navOptions = ["역검센터", "결과보기", "프로필"];
 
   const handleClick = (page: string) => {
     switch (page) {

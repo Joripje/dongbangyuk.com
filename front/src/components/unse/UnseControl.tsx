@@ -79,7 +79,7 @@ function UnseControl(props: UnseControlProps) {
           >
             <FormControlLabel
               id='male'
-              control={<Radio id='/m' />}
+              control={<Radio id='M' />}
               label='남자'
               value={"/m"}
             />
@@ -93,7 +93,7 @@ function UnseControl(props: UnseControlProps) {
       </ColFlex>
 
       <SubmitButton type='submit' onClick={handleLuck}>
-        제출
+        운세 보기
       </SubmitButton>
     </ControlBox>
   );
