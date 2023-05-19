@@ -78,12 +78,13 @@ public class StatisticsService {
 			// } else {
 			// 	gameCounts.put(gameType, 1);
 			// }
-			gameCounts.put(gameType, scoreArchive.getResultList().size());
-			total++;
+			int gameCount =  scoreArchive.getResultList().size();
+			gameCounts.put(gameType, gameCount);
+			total += gameCount;
 		}
+		System.out.println("gameCounts = " + gameCounts);
 		gameCounts.put("total", total);
 
-		System.out.println("gameCounts = " + gameCounts);
 
 		return new UserHistoryResponseDto(gameCounts, gameScoreList);
 	}
