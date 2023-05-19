@@ -26,7 +26,7 @@ function MyProfile() {
       </AbilityBox>
       <InfoBox>
         <Typo>알림 사항</Typo>
-        <Typo>알림 사항</Typo>
+        {/* <Typo>알림 사항</Typo> */}
       </InfoBox>
       {/* </div> */}
       {/* <FooterBar/> */}

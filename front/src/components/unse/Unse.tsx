@@ -20,6 +20,8 @@ function Unse() {
     setOpenModal(true);
   };
 
+  const colors = ["red", "#DEC20B", "green", "blue", "grey", "red", "#DEC20B", "green", "blue", "grey"]
+
   // 버튼 컴포넌트
   const Luckyday = ({ index }: { index: number }) => (
     <LuckyDayBox>
@@ -27,7 +29,7 @@ function Unse() {
       {/* <h2>{`${luckyday[index].dates}일`}</h2> */}
       <LottoWrap>
         {luckyday[index].dates.map((day, index) => (
-          <LottoBall key={index}>{day}</LottoBall>
+          <LottoBall key={index} style={{backgroundColor: colors[index]}}>{day}</LottoBall>
         ))}
       </LottoWrap>
     </LuckyDayBox>
@@ -84,14 +86,15 @@ const WrapBox = styled.div`
 `;
 
 const TitleTypo = styled.p`
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-weight: bold;
 `;
 
 const ContentTypo = styled.p`
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   text-align: justify;
   padding: 1rem;
+  line-height: 1.5;
 `;
 
 const LuckWrapper = styled.div({
@@ -128,7 +131,7 @@ const ModalBox = styled.div({
   borderRadius: "1rem",
   padding: "1rem",
   border: "solid",
-  overflow: "scroll",
+  // overflow: "scroll",
 });
 
 const LuckyDayBox = styled.div({
@@ -136,13 +139,16 @@ const LuckyDayBox = styled.div({
 });
 
 const LottoBall = styled.div({
-  backgroundColor: "white",
-  border: "solid",
+  backgroundColor: "#B799FF",
+  // border: "solid",
   borderRadius: "50%",
-  width: "2.5vw",
+  // width: "2.5vw",
+  width: "4rem",
+  height: "4rem",
   display: "flex",
   justifyContent: "center",
-  color: "#B799FF",
+  alignItems: "center",
+  color: "white",
   // animation: `${fadeIn} 0.5s ease-in-out forwards`,
 });
 
