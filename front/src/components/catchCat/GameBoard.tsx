@@ -44,7 +44,7 @@ const GameBoard = (props: GameBoardProps) => {
       dispatch(resetGameState());
     };
     // 결과 페이지로 안내해야함
-    if (problemNum === 6 && gameState % 4 === 1) onSubmitHandler();
+    if (problemNum === 11 && gameState % 4 === 1) onSubmitHandler();
 
     const randomNumbers = (n: number, numbers: number[]) => {
       // const numbers = Array.from(arr, (_, index) => index); // 0부터 35까지의 숫자를 가진 배열 생성
