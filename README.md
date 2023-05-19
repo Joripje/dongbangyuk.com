@@ -2,7 +2,7 @@
 
 ---
 
-<img title="" src="README_assets/2023-05-18-10-35-04-양반이%20대타.png" alt="" width="180" data-align="center">
+<img title="" src="README_assets/2023-05-18-10-35-04-양반이%20대타.png" alt="" width="200" data-align="center">
 
 **`링크:www.dongbangyuk.com`**
 
@@ -42,7 +42,7 @@
 
 ##### 1. 가위바위보✌✊🖐
 
-<img title="" src="README_assets/2023-05-18-13-43-07-image.png" alt="" width="472" data-align="center">
+<img title="" src="README_assets/2023-05-18-13-43-07-image.png" alt="" width="500" data-align="center">
 
 - **'인지능력'** 평가를 위한 게임입니다. 
 
@@ -50,7 +50,7 @@
 
 ##### 2. 길 만들기🖇
 
-<img title="" src="README_assets/2023-05-18-13-44-28-image.png" alt="" width="488" data-align="center">
+<img title="" src="README_assets/2023-05-18-13-44-28-image.png" alt="" width="500" data-align="center">
 
 - **'계획능력'** 평가를 위한 게임입니다.
 
@@ -58,7 +58,7 @@
 
 ##### 3. 고양이 술래잡기😺 vs 🐭
 
-| <img title="" src="README_assets/2023-05-18-13-45-37-image.png" alt="" width="194"> | <img title="" src="README_assets/2023-05-18-13-46-03-image.png" alt="" width="191"> | <img title="" src="README_assets/2023-05-18-13-46-27-image.png" alt="" width="194"> |
+| <img title="" src="README_assets/2023-05-18-13-45-37-image.png" alt="" width="200"> | <img title="" src="README_assets/2023-05-18-13-46-03-image.png" alt="" width="200"> | <img title="" src="README_assets/2023-05-18-13-46-27-image.png" alt="" width="200"> |
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
 
 - **'작업기억'** 평가를 위한 게임입니다.
@@ -67,7 +67,7 @@
 
 ##### 4. 도형 회전하기📐
 
-<img title="" src="README_assets/2023-05-18-13-50-58-image.png" alt="" width="480" data-align="center">
+<img title="" src="README_assets/2023-05-18-13-50-58-image.png" alt="" width="500" data-align="center">
 
 - **'공간능력'** 평가를 위한 게임입니다.
 
@@ -81,11 +81,11 @@
 
 ###### 1. 채점결과
 
-<img title="" src="README_assets/2023-05-18-16-55-19-image.png" alt="" width="603" data-align="center"  >
+<img title="" src="README_assets/2023-05-18-16-55-19-image.png" alt="" width="500" data-align="center"  >
 
 - 연습한 게임의 푼 문제수, 각 문제별 정답여부를 확인할 수 있습니다.
   
-  <img src="README_assets/2023-05-18-16-55-34-image.png" title="" alt="" data-align="center" style="zoom: 67%;" >
+  <img src="README_assets/2023-05-18-16-55-34-image.png" title="" alt="" data-align="center" width="500" >
 
 - 연습한 게임의 전체 결과 대비 나의 점수와 위치를 확인할 수 있습니다.
 
@@ -93,7 +93,7 @@
   
   - 역량 판단 기준
     
-    | **판단력**  | 문제별 풀이시간으로 순간 판단력을 측정합니다. 미응답 문제수와 정답률도 함께 평가합니다. |
+    |   판단력    | **문제별 풀이시간으로 순간 판단력을 측정합니다. 미응답 문제수와 정답률도 함께 평가합니다.** |
     | :---------: | ------------------------------------------------------------ |
     |   정확도    | 풀이한 문제들의 정답률로 측정합니다.                         |
     |   안정성    | 게임 수행중 얼굴이 잘 인식되게 응시하였는지 판단합니다.      |
@@ -102,7 +102,7 @@
 
 ###### 2. AI 영상분석
 
-<img title="" src="README_assets/2023-05-18-16-56-44-image.png" alt="" data-align="center" width="536">
+<img title="" src="README_assets/2023-05-18-16-56-44-image.png" alt="" data-align="center" width="500">
 
 - 공식사이트에서 사용하는 OpenCV 라이브러리를 사용하여 응시중 사용자의 감정 변화를 그래프로 보여줍니다.
 
@@ -118,8 +118,8 @@
 
 - 종합역량
   
-  | ![](file://C:\Users\SSAFY\Desktop\산출물\S08P31A305\README_assets\2023-05-18-14-51-44-image.png?msec=1684395178745) | ![](file://C:\Users\SSAFY\Desktop\산출물\S08P31A305\README_assets\2023-05-18-14-51-54-image.png?msec=1684395178745) |
-  | ---------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+  | <img src="README_assets/sixability.png" alt="image-20230519103609331" title="" width="300" data-align="center"> | <img src="README_assets/graph.png" alt="image-20230519103609331" data-align="center" title="" width="300"> |
+  | :----------------------------------------------------------: | :----------------------------------------------------------: |
   
   - 분석에 사용된 각 게임별 최신 결과에 대한 나의 위치를 확인하여 어떤 역량을 보완해야하는지 확인할 수 있습니다.
   - 네가지 게임 결과를 기반으로 분석된 나의 종합 역량을 확인할 수 있습니다.
@@ -132,7 +132,7 @@
 
 ##### 1. 오늘의 운세
 
-| <img title="" src="file://C:\Users\SSAFY\Desktop\d.PNG?msec=1684395148038?msec=1684395217533" alt="loadingag415" width="322" data-align="center"> | <img src="README_assets/320a4dd010577b81e72424a0c5dfb140e6967e06.png" title="" alt="2023-05-18-16-42-31-image.png" width="347"> |
+| <img src="README_assets/guygyu.png" alt="image-20230519103609331" title="" width="300" /> | <img src="README_assets/320a4dd010577b81e72424a0c5dfb140e6967e06.png" title="" alt="2023-05-18-16-42-31-image.png" width="300"> |
 | :----------------------------------------------------------: | :----------------------------------------------------------: |
 
 - 타고난 나의 기질과 사주팔자를 기반으로 한 오늘의 운세와 길흉화복을 확인
@@ -147,13 +147,13 @@
 
 ###### 🔔분석완료 알림기능
 
-<img title="" src="README_assets/2023-05-18-16-58-07-image.png" alt="" width="596" data-align="inline">
+<img title="" src="README_assets/2023-05-18-16-58-07-image.png" alt="" width="500" data-align="inline">
 
 - 영상 분석 & 채점 완료시 알림 발송
 
 ###### 📢카카오톡 플러스친구
 
-<img src="README_assets/2023-05-18-16-59-49-image.png" title="" alt="" width="303">
+<img src="README_assets/2023-05-18-16-59-49-image.png" title="" alt="" width="400">
 
 - VOC 실시간 반영을 위한 카카오톡 플러스 친구 운영
 
@@ -163,7 +163,7 @@
 
 ## 3. 기술적 특징 & 아키텍쳐
 
-<img src="README_assets/Untitled (1).png">
+<img src="README_assets/Untitled (1).png" width="500">
 
 ##### - HOC 패턴 렌더링
 
